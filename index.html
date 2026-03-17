@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO: Primary -->
+  <title>FormattedAI — Skopiuj tekst z ChatGPT do Google Docs i Word z idealnym formatowaniem</title>
+  <meta name="description" content="Darmowe narzedzie online do konwersji tekstu Markdown z ChatGPT na sformatowany dokument. Wklej, sformatuj i skopiuj do Google Docs lub Microsoft Word jednym kliknieciem.">
+  <meta name="keywords" content="ChatGPT do Word, ChatGPT do Google Docs, markdown converter, formatowanie tekstu, kopiuj formatowanie, markdown to docs, paste formatting tool, ChatGPT formatting, AI text formatter, FormattedAI">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://adamszczotka.github.io/FormattedAI/">
+
+  <!-- SEO: Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FormattedAI — ChatGPT to Docs/Word Formatter">
+  <meta property="og:description" content="Free tool to convert ChatGPT markdown output into perfectly formatted text for Google Docs and Microsoft Word. One-click copy with preserved formatting.">
+  <meta property="og:url" content="https://adamszczotka.github.io/FormattedAI/">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <!-- SEO: Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FormattedAI — ChatGPT to Docs/Word Formatter">
+  <meta name="twitter:description" content="Paste markdown from ChatGPT, get perfectly formatted text for Google Docs & Word. Free, instant, no sign-up.">
+
+  <!-- SEO: Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FormattedAI",
+    "headline": "FormattedAI — Markdown to Google Docs & Word Formatter",
+    "description": "Free online tool that converts ChatGPT markdown output into perfectly formatted rich text for Google Docs and Microsoft Word.",
+    "url": "https://adamszczotka.github.io/FormattedAI/",
+    "applicationCategory": "Productivity",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/favicon.svg">
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#08080c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="bg-effects" aria-hidden="true">
+    <div class="bg-effects__orb bg-effects__orb--1"></div>
+    <div class="bg-effects__orb bg-effects__orb--2"></div>
+    <div class="bg-effects__orb bg-effects__orb--3"></div>
+    <div class="bg-effects__grid"></div>
+  </div>
+
+  <div class="app">
+    <header class="header" role="banner">
+      <div class="header__brand">
+        <div class="header__logo" aria-hidden="true">
+          <svg class="header__logo-svg" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
+            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="#a78bfa"/>
+                <stop offset="1" stop-color="#6c5ce7"/>
+              </linearGradient>
+              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="rgba(108,92,231,0.3)"/>
+                <stop offset="1" stop-color="rgba(167,139,250,0.1)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="header__text">
+          <h1 class="header__title">Formatted<span class="header__title-accent">AI</span></h1>
+          <p class="header__subtitle" data-i18n="subtitle">Wklej z ChatGPT &rarr; Kopiuj do Docs / Word</p>
+        </div>
+      </div>
+      <div class="header__actions">
+        <button class="lang-toggle" id="langToggle" type="button" title="Switch language" aria-label="Switch language">
+          <span class="lang-toggle__flag" id="langFlag">PL</span>
+        </button>
+        <button class="btn btn--ghost" id="clearBtn" type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4m2 0v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="clear">Wyczysc</span>
+        </button>
+        <button class="btn btn--primary" id="copyBtn" type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.33" y="5.33" width="9.33" height="9.33" rx="1.33" stroke="currentColor" stroke-width="1.3"/><path d="M3.33 10.67H2.67a1.33 1.33 0 01-1.34-1.34V2.67a1.33 1.33 0 011.34-1.34h6.66a1.33 1.33 0 011.34 1.34v.66" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <span data-i18n="copy">Kopiuj sformatowany</span>
+        </button>
+        <div class="dropdown" id="downloadDropdown">
+          <button class="btn btn--ghost btn--download" id="downloadBtn" type="button">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8.5M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-i18n="download">Pobierz</span>
+            <svg class="dropdown__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dropdown__menu" id="downloadMenu">
+            <button class="dropdown__item" id="dlHtml" type="button">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3l2.5 10h1L8 5l2.5 8h1L14 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="dropdown__item-text">
+                <span class="dropdown__item-title">HTML</span>
+                <span class="dropdown__item-desc" data-i18n="dlHtmlDesc">Otworz w przegladarce</span>
+              </div>
+            </button>
+            <button class="dropdown__item" id="dlDocx" type="button">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="1.5" width="12" height="13" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 6h6M5 8.5h6M5 11h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              <div class="dropdown__item-text">
+                <span class="dropdown__item-title">DOCX</span>
+                <span class="dropdown__item-desc" data-i18n="dlDocxDesc">Microsoft Word</span>
+              </div>
+            </button>
+            <button class="dropdown__item" id="dlMd" type="button">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 10V6l2 2.5L8 6v4M10.5 8.5L12 10l1.5-1.5M12 10V6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="dropdown__item-text">
+                <span class="dropdown__item-title">Markdown</span>
+                <span class="dropdown__item-desc" data-i18n="dlMdDesc">Plik .md</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace" role="main">
+      <section class="panel panel--input" aria-label="Markdown input">
+        <div class="panel__header">
+          <div class="panel__header-left">
+            <div class="panel__dot panel__dot--green" aria-hidden="true"></div>
+            <h2 class="panel__title">Markdown</h2>
+          </div>
+          <span class="panel__badge" id="charCount">0</span>
+        </div>
+        <label for="markdownInput" class="sr-only">Markdown input</label>
+        <textarea
+          class="editor"
+          id="markdownInput"
+          data-i18n-placeholder="placeholder"
+          placeholder="Wklej tutaj tekst z ChatGPT..."
+          spellcheck="false"
+          aria-label="Markdown text input"
+        ></textarea>
+      </section>
+
+      <div class="divider" aria-hidden="true">
+        <div class="divider__line"></div>
+        <div class="divider__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="divider__line"></div>
+      </div>
+
+      <section class="panel panel--output" aria-label="Formatted preview">
+        <div class="panel__header">
+          <div class="panel__header-left">
+            <div class="panel__dot panel__dot--blue" aria-hidden="true"></div>
+            <h2 class="panel__title" data-i18n="preview">Podglad</h2>
+          </div>
+          <div class="panel__controls" role="radiogroup" aria-label="Output format">
+            <button class="style-toggle active" data-style="docs" id="styleDocsBtn" type="button" role="radio" aria-checked="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M8.17 1.17H3.5A1.17 1.17 0 002.33 2.33v9.34A1.17 1.17 0 003.5 12.83h7a1.17 1.17 0 001.17-1.16V4.67L8.17 1.17z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Google Docs
+            </button>
+            <button class="style-toggle" data-style="word" id="styleWordBtn" type="button" role="radio" aria-checked="false">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><rect x="1.75" y="2.33" width="10.5" height="9.33" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4.67 5.25l1.16 3.5 1.17-3.5 1.17 3.5 1.16-3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Word
+            </button>
+          </div>
+        </div>
+        <div class="preview" id="preview" role="document" aria-live="polite">
+          <div class="preview__empty">
+            <div class="preview__empty-visual" aria-hidden="true">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <rect x="12" y="8" width="40" height="48" rx="4" stroke="#d0d0d8" stroke-width="2"/>
+                <line x1="20" y1="20" x2="44" y2="20" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
+                <line x1="20" y1="28" x2="38" y2="28" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
+                <line x1="20" y1="36" x2="42" y2="36" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
+                <line x1="20" y1="44" x2="34" y2="44" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <p class="preview__empty-text" data-i18n="emptyText">Tu pojawi sie sformatowany tekst</p>
+            <p class="preview__empty-hint">Ctrl + Shift + C &mdash; <span data-i18n="emptyHint">szybkie kopiowanie</span></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <p class="footer__text">
+        <span data-i18n="madeBy">Stworzone przez</span>
+        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
+          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Adam Szczotka
+        </a>
+      </p>
+    </footer>
+
+    <div class="toast" id="toast" role="alert" aria-live="assertive">
+      <div class="toast__icon" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="toast__text" data-i18n="toast">Skopiowano! Wklej do Docs / Word</span>
+    </div>
+  </div>
+
+  <!-- SEO: Hidden content for crawlers -->
+  <article class="sr-only" aria-hidden="true">
+    <h2>FormattedAI - Free Markdown to Google Docs & Word Converter</h2>
+    <p>FormattedAI is a free online tool that converts markdown text from ChatGPT, Claude, and other AI assistants into perfectly formatted rich text. Simply paste your AI-generated markdown, preview the formatting, and copy it to Google Docs or Microsoft Word with one click. No sign-up required.</p>
+    <h3>Features</h3>
+    <ul>
+      <li>Convert ChatGPT markdown to Google Docs format</li>
+      <li>Convert AI text to Microsoft Word format</li>
+      <li>Preserve headings, tables, lists, bold, italic formatting</li>
+      <li>One-click copy with Ctrl+Shift+C shortcut</li>
+      <li>Free, no registration, works in browser</li>
+      <li>Available in Polish and English</li>
+    </ul>
+    <h2>FormattedAI - Darmowy konwerter Markdown do Google Docs i Word</h2>
+    <p>FormattedAI to darmowe narzedzie online do konwersji tekstu markdown z ChatGPT, Claude i innych asystentow AI na idealnie sformatowany tekst. Wklej tekst wygenerowany przez AI, zobacz podglad formatowania i skopiuj do Google Docs lub Microsoft Word jednym kliknieciem.</p>
+  </article>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
