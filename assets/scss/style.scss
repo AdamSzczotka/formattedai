@@ -955,10 +955,32 @@ body {
 
     &__actions {
       width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+
+      .lang-toggle {
+        grid-column: 1;
+      }
+
+      #clearBtn {
+        grid-column: 2;
+      }
+
+      .dropdown {
+        grid-column: 3;
+      }
+
+      #copyBtn {
+        grid-column: 1 / -1;
+        order: 1;
+      }
 
       .btn {
-        flex: 1;
         justify-content: center;
+        padding: 10px 12px;
+        font-size: 12px;
+        white-space: nowrap;
       }
     }
   }
