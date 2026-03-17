@@ -823,10 +823,28 @@ body {
   }
   .header__actions {
     width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .header__actions .lang-toggle {
+    grid-column: 1;
+  }
+  .header__actions #clearBtn {
+    grid-column: 2;
+  }
+  .header__actions .dropdown {
+    grid-column: 3;
+  }
+  .header__actions #copyBtn {
+    grid-column: 1/-1;
+    order: 1;
   }
   .header__actions .btn {
-    flex: 1;
     justify-content: center;
+    padding: 10px 12px;
+    font-size: 12px;
+    white-space: nowrap;
   }
   .preview {
     padding: 20px 16px;
