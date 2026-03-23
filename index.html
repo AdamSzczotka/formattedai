@@ -25,7 +25,7 @@
   <meta name="twitter:title" content="FormattedAI — Darmowe narzędzia webdev">
   <meta name="twitter:description" content="Narzędzia webdev działające 100% w przeglądarce. Zero uploadu, pełna prywatność.">
 
-  <!-- Structured Data -->
+  <!-- Structured Data: WebSite -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -40,6 +40,25 @@
       "url": "https://github.com/AdamSzczotka"
     },
     "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <!-- Structured Data: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FormattedAI",
+    "url": "https://formattedai.pl/",
+    "description": "Free, privacy-focused web tools for developers and content creators. 100% client-side.",
+    "founder": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "sameAs": [
+      "https://github.com/AdamSzczotka/formattedai"
+    ]
   }
   </script>
 
@@ -91,6 +110,7 @@
       </a>
       <div class="navbar__nav">
         <a href="/" class="navbar__link navbar__link--active" data-i18n="navTools">Narz&#281;dzia</a>
+        <a href="/about/" class="navbar__link" data-i18n="navAbout">O nas</a>
         <button class="navbar__link" id="langToggle" type="button" style="cursor:pointer;border:none;font:inherit;">
           <span id="langFlag">PL</span>
         </button>
@@ -220,6 +240,10 @@
         <span class="footer__badge__dot"></span>
         <span data-i18n="footerBadge">100% client-side &mdash; zero danych na serwerze</span>
       </div>
+      <div class="footer__links">
+        <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
+        <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatno&#347;&#263;</a>
+      </div>
     </footer>
   </div>
 
@@ -253,6 +277,8 @@
         pageTitle: 'FormattedAI \u2014 Darmowe narz\u0119dzia webdev, 100% po stronie klienta',
         navSubtitle: 'Narz\u0119dzia webdev \u2022 100% client-side',
         navTools: 'Narz\u0119dzia',
+        navAbout: 'O nas',
+        navPrivacy: 'Prywatno\u015B\u0107',
         heroTitle: 'Twoje dane <span>nigdy</span> nie opuszczaj\u0105 urz\u0105dzenia',
         heroDesc: 'Darmowe narz\u0119dzia dla web developer\u00f3w. Wszystko dzia\u0142a w przegl\u0105darce \u2014 zero uploadu na serwer, pe\u0142na prywatno\u015b\u0107.',
         heroSecurity: 'Zero danych wysy\u0142anych na serwer',
@@ -273,6 +299,8 @@
         pageTitle: 'FormattedAI \u2014 Free webdev tools, 100% client-side',
         navSubtitle: 'Webdev tools \u2022 100% client-side',
         navTools: 'Tools',
+        navAbout: 'About',
+        navPrivacy: 'Privacy',
         heroTitle: 'Your data <span>never</span> leaves your device',
         heroDesc: 'Free tools for web developers. Everything runs in the browser \u2014 zero server uploads, full privacy.',
         heroSecurity: 'Zero data sent to any server',

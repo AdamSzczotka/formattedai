@@ -375,6 +375,20 @@ body {
   50% { opacity: 0.5; }
 }
 
+// Footer links row
+.footer__links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .footer__link {
+    font-size: 12px;
+    padding: 0;
+    background: none;
+    border: none;
+  }
+}
+
 // --- Buttons ---
 .btn {
   display: inline-flex;
