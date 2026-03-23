@@ -81,12 +81,8 @@
       <div class="avif-warning__icon" aria-hidden="true">
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 4L4 42h40L24 4z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 18v10M24 34h.02" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <h2 class="avif-warning__title" data-i18n="noSupportTitle">Twoja przegladarka nie obsuguje kodowania AVIF</h2>
-      <p class="avif-warning__text" data-i18n="noSupportText">Aby korzystac z konwertera AVIF, uzyj jednej z ponizszych przegladarek:</p>
-      <div class="avif-warning__browsers">
-        <span class="avif-warning__browser">Chrome 121+</span>
-        <span class="avif-warning__browser">Edge 121+</span>
-      </div>
+      <h2 class="avif-warning__title" data-i18n="noSupportTitle">Nie udalo sie zaladowac encodera AVIF</h2>
+      <p class="avif-warning__text" data-i18n="noSupportText">Sprawdz polaczenie z internetem i odswierz strone. Encoder AVIF wymaga pobrania modulu WASM (~1.5 MB).</p>
       <a href="/" class="btn btn--ghost avif-warning__back" data-i18n="backHome">Wroc do strony glownej</a>
     </div>
   </div>
@@ -293,7 +289,7 @@
     <p>FormattedAI AVIF Converter to darmowe narzedzie online do konwersji obrazow PNG, JPG i WebP na nowoczesny format AVIF. Cala konwersja odbywa sie bezposrednio w przegladarce — Twoje pliki nigdy nie opuszczaja urzadzenia. Obsluguje konwersje wielu plikow, kontrole jakosci i pobieranie ZIP.</p>
   </article>
 
-  <script src="../assets/vendor/jszip.min.js" defer></script>
-  <script src="../assets/js/avif.min.js" defer></script>
+  <script src="../assets/vendor/jszip.min.js"></script>
+  <script type="module" src="../assets/js/avif.min.js"></script>
 </body>
 </html>
