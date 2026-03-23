@@ -15,6 +15,9 @@ $color-avif-glow-strong: rgba(59, 130, 246, 0.35);
 body { overflow: hidden; }
 .app { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
+// Global: respect hidden attribute on elements with explicit display
+[hidden] { display: none !important; }
+
 // --- Checkerboard pattern for transparency ---
 .checkerboard {
   background-image:
@@ -300,6 +303,24 @@ body { overflow: hidden; }
   50% { transform: scale(1.2); opacity: 0; }
 }
 
+// Loading state: spinner replaces arrow
+.divider--loading .divider__icon {
+  svg { display: none; }
+
+  &::before {
+    content: '';
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: dividerSpin 0.8s linear infinite;
+  }
+}
+
+@keyframes dividerSpin {
+  to { transform: rotate(360deg); }
+}
+
 // --- Summary Bar ---
 .summary-bar {
   display: flex; align-items: center; justify-content: center; gap: 24px;
@@ -394,8 +415,6 @@ body { overflow: hidden; }
   display: flex; align-items: center; justify-content: center;
   background: var(--color-bg);
 
-  &[hidden] { display: none; }
-
   &__content {
     display: flex; flex-direction: column; align-items: center; gap: 16px;
     text-align: center; max-width: 480px; padding: 40px;
@@ -424,8 +443,6 @@ body { overflow: hidden; }
 .image-modal {
   position: fixed; inset: 0; z-index: 500;
   display: flex; align-items: center; justify-content: center;
-
-  &[hidden] { display: none; }
 
   &__backdrop {
     position: absolute; inset: 0;
