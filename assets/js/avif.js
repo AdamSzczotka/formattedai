@@ -342,7 +342,7 @@ async function convertAll() {
   summaryBar.hidden = true;
   resultsList.innerHTML = '';
   resultsProgress.hidden = false;
-  progressFill.style.width = '0%';
+  progressFill.style.setProperty('--progress', '0%');
   progressPercent.textContent = '0%';
   progressFile.textContent = '';
 
@@ -382,7 +382,7 @@ async function convertAll() {
 
     // Update progress bar (after conversion)
     const percent = Math.round(((i + 1) / inputFiles.length) * 100);
-    progressFill.style.width = `${percent}%`;
+    progressFill.style.setProperty('--progress', `${percent}%`);
     progressPercent.textContent = `${percent}%`;
   }
 
