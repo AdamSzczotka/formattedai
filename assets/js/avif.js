@@ -100,6 +100,7 @@ const langFlag = document.getElementById('langFlag');
 const clearBtn = document.getElementById('clearBtn');
 const convertAllBtn = document.getElementById('convertAllBtn');
 const downloadAllBtn = document.getElementById('downloadAllBtn');
+const divider = document.querySelector('.divider');
 const qualitySlider = document.getElementById('qualitySlider');
 const qualityValue = document.getElementById('qualityValue');
 const dropZone = document.getElementById('dropZone');
@@ -324,6 +325,9 @@ async function convertAll() {
   isConverting = true;
   updateUI();
 
+  // Show loading spinner on divider
+  if (divider) divider.classList.add('divider--loading');
+
   // Clear previous results
   results.forEach(r => { if (r.objectUrl) URL.revokeObjectURL(r.objectUrl); });
   results = [];
@@ -363,6 +367,7 @@ async function convertAll() {
   }
 
   isConverting = false;
+  if (divider) divider.classList.remove('divider--loading');
   convertAllBtn.querySelector('span').textContent = t('convertAll');
   renderResults();
   updateUI();
@@ -590,12 +595,9 @@ document.addEventListener('keydown', e => {
 if (mobileConvertBtn) mobileConvertBtn.addEventListener('click', convertAll);
 if (mobileDownloadBtn) mobileDownloadBtn.addEventListener('click', downloadAllZip);
 
-// Drag & drop on both zones
+// Drag & drop on both zones (NOT on inputArea — would cause duplicates via event bubbling)
 setupDragDrop(dropZone);
 setupDragDrop(dropZoneCompact);
-
-// Also allow drop on the entire input area
-setupDragDrop(inputArea);
 
 // --- Init ---
 syncTheme();
