@@ -5,12 +5,14 @@
   "scripts": {
     "build:home": "sass assets/scss/home.scss assets/css/home.css --style=compressed --no-source-map",
     "build:formatter": "sass assets/scss/formatter.scss assets/css/formatter.css --style=compressed --no-source-map",
-    "build:css": "npm run build:home && npm run build:formatter",
-    "build:js": "esbuild assets/js/app.js --outfile=assets/js/app.min.js --minify --target=es2020",
+    "build:avif": "sass assets/scss/avif.scss assets/css/avif.css --style=compressed --no-source-map",
+    "build:css": "npm run build:home && npm run build:formatter && npm run build:avif",
+    "build:js": "esbuild assets/js/app.js --outfile=assets/js/app.min.js --minify --target=es2020 && esbuild assets/js/avif.js --outfile=assets/js/avif.min.js --bundle --minify --target=es2020 --format=esm --external:https://*",
     "build": "npm run build:css && npm run build:js",
     "watch:home": "sass assets/scss/home.scss assets/css/home.css --watch --no-source-map",
     "watch:formatter": "sass assets/scss/formatter.scss assets/css/formatter.css --watch --no-source-map",
-    "dev": "npm run watch:home & npm run watch:formatter"
+    "watch:avif": "sass assets/scss/avif.scss assets/css/avif.css --watch --no-source-map",
+    "dev": "npm run watch:home & npm run watch:formatter & npm run watch:avif"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",
