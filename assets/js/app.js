@@ -21,6 +21,12 @@ const translations = {
     dlHtmlDesc: 'Otw\u00F3rz w przegl\u0105darce',
     dlDocxDesc: 'Microsoft Word',
     dlMdDesc: 'Plik .md',
+    aboutTitle: 'Jak to dzia\u0142a?',
+    aboutText1: '<strong>Markdown Formatter</strong> konwertuje tekst z ChatGPT, Claude i innych asystent\u00F3w AI na sformatowany dokument gotowy do wklejenia w Google Docs lub Microsoft Word.',
+    aboutItem1: 'Wklej tekst markdown w lewym panelu',
+    aboutItem2: 'Podgl\u0105d sformatowanego tekstu pojawi si\u0119 po prawej',
+    aboutItem3: 'Kliknij "Kopiuj sformatowany" lub u\u017Cyj Ctrl+Shift+C',
+    aboutItem4: 'Wklej do Google Docs lub Word \u2014 formatowanie zostanie zachowane',
   },
   en: {
     subtitle: 'Paste from ChatGPT \u2192 Copy to Docs / Word',
@@ -39,6 +45,12 @@ const translations = {
     dlHtmlDesc: 'Open in browser',
     dlDocxDesc: 'Microsoft Word',
     dlMdDesc: '.md file',
+    aboutTitle: 'How does it work?',
+    aboutText1: '<strong>Markdown Formatter</strong> converts text from ChatGPT, Claude and other AI assistants into a formatted document ready to paste into Google Docs or Microsoft Word.',
+    aboutItem1: 'Paste markdown text in the left panel',
+    aboutItem2: 'Formatted preview appears on the right',
+    aboutItem3: 'Click "Copy formatted" or use Ctrl+Shift+C',
+    aboutItem4: 'Paste into Google Docs or Word \u2014 formatting is preserved',
   },
 };
 
@@ -83,11 +95,8 @@ function applyLanguage() {
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (key === 'subtitle') {
-      el.innerHTML = t(key);
-    } else {
-      el.textContent = t(key);
-    }
+    const val = t(key);
+    if (val.includes('<') || key === 'subtitle') { el.innerHTML = val; } else { el.textContent = val; }
   });
 
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
@@ -413,5 +422,18 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// --- About Banner ---
+const aboutBanner = document.getElementById('aboutBanner');
+const aboutClose = document.getElementById('aboutClose');
+const ABOUT_KEY = 'formattedai-formatter-about-closed';
+
+if (aboutClose) {
+  aboutClose.addEventListener('click', () => {
+    aboutBanner.hidden = true;
+    localStorage.setItem(ABOUT_KEY, '1');
+  });
+}
+
 // --- Init ---
+if (localStorage.getItem(ABOUT_KEY) && aboutBanner) aboutBanner.hidden = true;
 applyLanguage();
