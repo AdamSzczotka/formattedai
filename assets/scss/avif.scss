@@ -391,7 +391,7 @@ body { overflow: hidden; }
 
   &__progress-fill {
     height: 100%;
-    width: var(--progress, 0%);
+    min-width: 0;
     background: linear-gradient(90deg, $color-avif, $color-avif-light);
     border-radius: 5px;
     transition: width 0.4s ease-out;
