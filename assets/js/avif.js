@@ -3,13 +3,27 @@
 // Uses @jsquash/avif WASM encoder (works in all browsers)
 // ============================================
 
-// --- jSquash AVIF encoder (loaded dynamically) ---
+// --- jSquash AVIF encoder (loaded via global from HTML module script) ---
 let avifEncode = null;
 
 async function loadAvifEncoder() {
   if (avifEncode) return;
-  const module = await import('https://esm.sh/@jsquash/avif@2.1.1/encode.js');
-  avifEncode = module.default;
+
+  // Check if already loaded
+  if (window.__avifEncode) {
+    avifEncode = window.__avifEncode;
+    return;
+  }
+
+  // Wait for the encoder module to load
+  await new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error('AVIF encoder load timeout')), 30000);
+    window.addEventListener('avif-encoder-ready', () => {
+      clearTimeout(timeout);
+      avifEncode = window.__avifEncode;
+      resolve();
+    }, { once: true });
+  });
 }
 
 // --- i18n Translations ---
