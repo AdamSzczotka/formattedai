@@ -1,0 +1,16 @@
+{
+  "name": "formattedai",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "sass assets/scss/style.scss assets/css/style.css --style=compressed --no-source-map",
+    "build:js": "esbuild assets/js/app.js --outfile=assets/js/app.min.js --minify --target=es2020",
+    "build": "npm run build:css && npm run build:js",
+    "watch:css": "sass assets/scss/style.scss assets/css/style.css --watch --no-source-map",
+    "dev": "npm run watch:css"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "sass": "^1.86.0"
+  }
+}
