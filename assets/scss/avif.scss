@@ -385,27 +385,29 @@ body { overflow: hidden; }
   }
 
   &__progress-bar {
-    width: 100%; max-width: 360px; height: 10px;
-    border: none; border-radius: 5px;
-    -webkit-appearance: none; appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    width: 100%;
+    max-width: 360px;
+    height: 10px;
+    display: block;
+  }
 
-    // Track (background)
-    &::-webkit-progress-bar {
-      background: var(--color-border); border-radius: 5px;
-    }
+  &__progress-bar::-webkit-progress-bar {
+    background-color: var(--color-border);
+    border-radius: 5px;
+  }
 
-    // Fill (value)
-    &::-webkit-progress-value {
-      background: linear-gradient(90deg, $color-avif, $color-avif-light);
-      border-radius: 5px;
-      transition: width 0.3s ease-out;
-    }
+  &__progress-bar::-webkit-progress-value {
+    background: linear-gradient(90deg, $color-avif, $color-avif-light);
+    border-radius: 5px;
+  }
 
-    // Firefox
-    &::-moz-progress-bar {
-      background: linear-gradient(90deg, $color-avif, $color-avif-light);
-      border-radius: 5px;
-    }
+  &__progress-bar::-moz-progress-bar {
+    background: linear-gradient(90deg, $color-avif, $color-avif-light);
+    border-radius: 5px;
   }
 
   &__progress-file {
