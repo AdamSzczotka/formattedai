@@ -11,12 +11,17 @@
   <meta name="author" content="Adam Szczotka">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://formattedai.pl/avif/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/avif/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/avif/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/avif/">
+  <meta http-equiv="content-language" content="pl, en">
 
   <!-- SEO: Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="AVIF Converter — PNG/JPG/WebP to AVIF | FormattedAI">
   <meta property="og:description" content="Free tool to convert PNG, JPG and WebP images to modern AVIF format. 100% client-side compression — your files never leave your device.">
   <meta property="og:url" content="https://formattedai.pl/avif/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_desktop_avif_1.png">
   <meta property="og:site_name" content="FormattedAI">
   <meta property="og:locale" content="pl_PL">
   <meta property="og:locale:alternate" content="en_US">
@@ -49,6 +54,25 @@
     },
     "inLanguage": ["pl", "en"]
   }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is AVIF format and why should I use it?", "acceptedAnswer": { "@type": "Answer", "text": "AVIF is a next-generation image format based on the AV1 video codec. It offers significantly better compression than JPEG, PNG, and even WebP — typically 50-70% smaller files with no visible quality loss." } },
+      { "@type": "Question", "name": "How do I convert PNG to AVIF?", "acceptedAnswer": { "@type": "Answer", "text": "Drag your PNG files into the converter, set quality (65 recommended), click Convert. Everything processes in your browser via WebAssembly. Download .avif files individually or as ZIP." } },
+      { "@type": "Question", "name": "Is AVIF better than WebP?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. AVIF typically achieves 20-30% smaller file sizes than WebP at the same visual quality, with better color gamut, HDR, and transparency support." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
+    { "@type": "ListItem", "position": 2, "name": "AVIF Converter", "item": "https://formattedai.pl/avif/" }
+  ] }
   </script>
 
   <!-- Favicon -->
@@ -310,13 +334,47 @@
     </button>
   </div>
 
-  <!-- SEO: Hidden content -->
-  <article class="sr-only" aria-hidden="true">
-    <h2>FormattedAI AVIF Converter - Free Online Image Converter</h2>
-    <p>FormattedAI AVIF Converter is a free online tool that converts PNG, JPG and WebP images to modern AVIF format. All conversion happens directly in your browser — your files never leave your device. Supports batch conversion, quality control, and ZIP download.</p>
-    <h2>FormattedAI AVIF Converter - Darmowy konwerter obrazow online</h2>
-    <p>FormattedAI AVIF Converter to darmowe narzedzie online do konwersji obrazow PNG, JPG i WebP na nowoczesny format AVIF. Cala konwersja odbywa sie bezposrednio w przegladarce — Twoje pliki nigdy nie opuszczaja urzadzenia. Obsluguje konwersje wielu plikow, kontrole jakosci i pobieranie ZIP.</p>
-  </article>
+  <!-- SEO Content Section -->
+  <section class="seo-content">
+    <div class="seo-content__inner">
+      <h1 data-i18n="seoH1">Free AVIF Image Converter — Convert PNG, JPG, WebP to AVIF Online</h1>
+      <p data-i18n="seoDesc">Convert your images to the modern AVIF format directly in your browser. AVIF (AV1 Image File Format) offers up to 50% better compression than JPEG and 20% better than WebP — same visual quality at significantly smaller file sizes. Perfect for web developers optimizing page load speed. All conversion happens client-side — your images never leave your device.</p>
+
+      <h2 data-i18n="seoHowTitle">How it works</h2>
+      <ol>
+        <li data-i18n="seoHow1">Drag and drop images (PNG, JPG, WebP) or click to browse — up to 20 files, max 50MB each</li>
+        <li data-i18n="seoHow2">Set quality using presets (Low 40, Medium 65, High 80, Lossless 100) or the slider</li>
+        <li data-i18n="seoHow3">Click Convert — watch the progress bar as each file is processed</li>
+        <li data-i18n="seoHow4">Download individual AVIF files or all at once as a ZIP archive</li>
+      </ol>
+
+      <h2 data-i18n="seoFeaturesTitle">Features</h2>
+      <ul>
+        <li data-i18n="seoFeat1">Batch conversion — convert up to 20 images at once</li>
+        <li data-i18n="seoFeat2">Quality presets: Low (40), Medium (65), High (80), Lossless (100)</li>
+        <li data-i18n="seoFeat3">Real-time progress bar with per-file status</li>
+        <li data-i18n="seoFeat4">Download individual files or batch as ZIP</li>
+        <li data-i18n="seoFeat5">Click-to-zoom image preview with transparency checkerboard</li>
+        <li data-i18n="seoFeat6">EXIF orientation auto-fix, metadata stripped for privacy</li>
+        <li data-i18n="seoFeat7">Works in all modern browsers via WebAssembly (no native AVIF encoding required)</li>
+        <li data-i18n="seoFeat8">100% client-side — your files never leave your device</li>
+      </ul>
+
+      <h2 data-i18n="seoFaqTitle">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq1q">What is AVIF format and why should I use it?</h3>
+        <p data-i18n="seoFaq1a">AVIF is a next-generation image format based on the AV1 video codec. It offers significantly better compression than JPEG, PNG, and even WebP. A typical JPEG image can be reduced by 50-70% when converted to AVIF with no visible quality loss. This means faster page loads and lower bandwidth costs.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq2q">How do I convert PNG to AVIF?</h3>
+        <p data-i18n="seoFaq2a">Simply drag your PNG files into the converter, set your desired quality (65 is recommended for web), and click Convert. The tool processes everything in your browser using WebAssembly — no upload needed. Download the resulting .avif files individually or as a ZIP.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq3q">Is AVIF better than WebP?</h3>
+        <p data-i18n="seoFaq3a">Yes, in most cases. AVIF typically achieves 20-30% smaller file sizes than WebP at the same visual quality. AVIF also supports wider color gamut, HDR, and better transparency handling. Browser support has reached over 95% in 2026.</p>
+      </div>
+    </div>
+  </section>
 
   <script src="../assets/vendor/jszip.min.js"></script>
   <script type="module" src="../assets/js/avif.min.js"></script>
