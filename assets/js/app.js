@@ -187,27 +187,61 @@ function buildInlineStyledHtml(html) {
 
   const lineHeight = currentStyle === 'docs' ? '1.5' : '1.15';
 
+  const styles = {
+    h1: 'font-size: 24pt; font-weight: 700; margin: 24px 0 8px; color: #1a1a1a;',
+    h2: 'font-size: 18pt; font-weight: 700; margin: 20px 0 6px; color: #1a1a1a;',
+    h3: 'font-size: 14pt; font-weight: 700; margin: 16px 0 4px; color: #333;',
+    h4: 'font-size: 12pt; font-weight: 700; margin: 14px 0 4px; color: #444;',
+    p: 'margin: 0 0 10px;',
+    strong: 'font-weight: 700;',
+    a: 'color: #1155cc; text-decoration: underline;',
+    ul: 'margin: 6px 0 10px 24px; padding: 0; list-style-type: disc;',
+    ol: 'margin: 6px 0 10px 24px; padding: 0;',
+    li: 'margin: 3px 0;',
+    table: 'width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt;',
+    thead: '',
+    tbody: '',
+    tr: '',
+    th: 'border: 1px solid #c0c0c0; padding: 6px 10px; text-align: left; background: #f3f3f3; font-weight: 700;',
+    td: 'border: 1px solid #c0c0c0; padding: 6px 10px; text-align: left;',
+    blockquote: 'border-left: 3px solid #c0c0c0; margin: 12px 0; padding: 8px 16px; color: #555; background: #f9f9f9;',
+    code: 'font-family: Courier New, monospace; background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: 10pt;',
+    pre: 'background: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 4px; padding: 12px 16px; margin: 10px 0; overflow-x: auto;',
+    hr: 'border: none; border-bottom: 1px solid #d0d0d0; margin: 16px 0; height: 0;',
+  };
+
+  const container = document.createElement('div');
+  container.innerHTML = html;
+
+  // Convert <pre><code> blocks to single-cell tables (Google Docs compatible)
+  container.querySelectorAll('pre').forEach(pre => {
+    const code = pre.querySelector('code');
+    const text = code ? code.textContent : pre.textContent;
+    const table = document.createElement('table');
+    table.setAttribute('style', 'width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #e0e0e0;');
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.setAttribute('style', 'background: #f5f5f5; padding: 12px 16px; font-family: Courier New, monospace; font-size: 10pt; line-height: 1.5; white-space: pre; color: #1a1a1a;');
+    td.textContent = text;
+    tr.appendChild(td);
+    table.appendChild(tr);
+    pre.replaceWith(table);
+  });
+
+  // Apply inline styles to all elements
+  for (const [tag, style] of Object.entries(styles)) {
+    if (!style) continue;
+    container.querySelectorAll(tag).forEach(el => {
+      // Skip code-block tables (already styled above)
+      if (tag === 'table' && el.querySelector('td[style*="white-space: pre"]')) return;
+      if (tag === 'td' && el.getAttribute('style')?.includes('white-space: pre')) return;
+      el.setAttribute('style', style);
+    });
+  }
+
   return `<html><head><meta charset="utf-8"></head><body>
     <div style="font-family: ${fontFamily}; font-size: 11pt; line-height: ${lineHeight}; color: #1a1a1a;">
-      ${html
-        .replace(/<h1>/g, '<h1 style="font-size: 24pt; font-weight: 700; margin: 24px 0 8px; color: #1a1a1a;">')
-        .replace(/<h2>/g, '<h2 style="font-size: 18pt; font-weight: 700; margin: 20px 0 6px; color: #1a1a1a;">')
-        .replace(/<h3>/g, '<h3 style="font-size: 14pt; font-weight: 700; margin: 16px 0 4px; color: #333;">')
-        .replace(/<h4>/g, '<h4 style="font-size: 12pt; font-weight: 700; margin: 14px 0 4px; color: #444;">')
-        .replace(/<p>/g, '<p style="margin: 0 0 10px;">')
-        .replace(/<strong>/g, '<strong style="font-weight: 700;">')
-        .replace(/<a /g, '<a style="color: #1155cc; text-decoration: underline;" ')
-        .replace(/<ul>/g, '<ul style="margin: 6px 0 10px 24px; padding: 0; list-style-type: disc;">')
-        .replace(/<ol>/g, '<ol style="margin: 6px 0 10px 24px; padding: 0;">')
-        .replace(/<li>/g, '<li style="margin: 3px 0;">')
-        .replace(/<table>/g, '<table style="width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt;">')
-        .replace(/<th>/g, '<th style="border: 1px solid #c0c0c0; padding: 6px 10px; text-align: left; background: #f3f3f3; font-weight: 700;">')
-        .replace(/<td>/g, '<td style="border: 1px solid #c0c0c0; padding: 6px 10px; text-align: left;">')
-        .replace(/<blockquote>/g, '<blockquote style="border-left: 3px solid #c0c0c0; margin: 12px 0; padding: 8px 16px; color: #555; background: #f9f9f9;">')
-        .replace(/<code>/g, '<code style="font-family: Courier New, monospace; background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: 10pt;">')
-        .replace(/<pre>/g, '<pre style="background: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 4px; padding: 12px 16px; margin: 10px 0; overflow-x: auto;">')
-        .replace(/<hr>/g, '<hr style="border: none; border-top: 1px solid #d0d0d0; margin: 16px 0;">')
-      }
+      ${container.innerHTML}
     </div>
   </body></html>`;
 }
@@ -361,18 +395,14 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Paste handler: auto-strip rich text
+// Paste handler: auto-strip rich text, insert as plain text
 markdownInput.addEventListener('paste', (e) => {
-  e.preventDefault();
   const text = e.clipboardData.getData('text/plain');
-  const start = markdownInput.selectionStart;
-  const end = markdownInput.selectionEnd;
-  markdownInput.value =
-    markdownInput.value.substring(0, start) +
-    text +
-    markdownInput.value.substring(end);
-  markdownInput.selectionStart = markdownInput.selectionEnd = start + text.length;
-  renderMarkdown();
+  if (text && e.clipboardData.types.includes('text/html')) {
+    e.preventDefault();
+    document.execCommand('insertText', false, text);
+    renderMarkdown();
+  }
 });
 
 // Keyboard shortcut: Ctrl+Shift+C

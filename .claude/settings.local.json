@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(sass assets/scss/style.scss assets/css/style.css --source-map)",
+      "Bash(npm run:*)",
+      "Bash(npx esbuild:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
