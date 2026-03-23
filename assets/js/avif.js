@@ -1,6 +1,16 @@
 // ============================================
 // FormattedAI — AVIF Converter Logic
+// Uses @jsquash/avif WASM encoder (works in all browsers)
 // ============================================
+
+// --- jSquash AVIF encoder (loaded dynamically) ---
+let avifEncode = null;
+
+async function loadAvifEncoder() {
+  if (avifEncode) return;
+  const module = await import('https://esm.sh/@jsquash/avif@2.1.1/encode.js');
+  avifEncode = module.default;
+}
 
 // --- i18n Translations ---
 const translations = {
@@ -34,8 +44,8 @@ const translations = {
     savings: 'Oszcz\u0119dno\u015B\u0107:',
     converting: 'Konwertowanie...',
     downloadSingle: 'Pobierz',
-    noSupportTitle: 'Twoja przegl\u0105darka nie obs\u0142uguje kodowania AVIF',
-    noSupportText: 'Aby korzysta\u0107 z konwertera AVIF, u\u017Cyj jednej z poni\u017Cszych przegl\u0105darek:',
+    noSupportTitle: 'Nie uda\u0142o si\u0119 za\u0142adowa\u0107 encodera AVIF',
+    noSupportText: 'Sprawd\u017A po\u0142\u0105czenie z internetem i od\u015Bwie\u017C stron\u0119. Encoder AVIF wymaga pobrania modu\u0142u WASM (~1.5 MB).',
     backHome: 'Wr\u00F3\u0107 do strony g\u0142\u00F3wnej',
     pageTitle: 'AVIF Converter \u2014 Konwertuj PNG, JPG, WebP na AVIF | FormattedAI',
   },
@@ -69,8 +79,8 @@ const translations = {
     savings: 'Savings:',
     converting: 'Converting...',
     downloadSingle: 'Download',
-    noSupportTitle: 'Your browser does not support AVIF encoding',
-    noSupportText: 'To use the AVIF converter, please use one of the following browsers:',
+    noSupportTitle: 'Failed to load AVIF encoder',
+    noSupportText: 'Check your internet connection and refresh the page. The AVIF encoder requires a WASM module download (~1.5 MB).',
     backHome: 'Back to home',
     pageTitle: 'AVIF Converter \u2014 Convert PNG, JPG, WebP to AVIF | FormattedAI',
   },
@@ -160,42 +170,13 @@ function syncTheme() {
   }
 }
 
-// --- AVIF Support Check ---
-async function checkAvifSupport() {
-  // Method 1: OffscreenCanvas (most reliable)
-  if (typeof OffscreenCanvas !== 'undefined') {
-    try {
-      const offscreen = new OffscreenCanvas(1, 1);
-      const ctx = offscreen.getContext('2d');
-      ctx.fillRect(0, 0, 1, 1);
-      const blob = await offscreen.convertToBlob({ type: 'image/avif', quality: 0.5 });
-      if (blob && blob.type === 'image/avif' && blob.size > 0) return true;
-    } catch {
-      // Fall through to method 2
-    }
-  }
-
-  // Method 2: Regular canvas toBlob
+// --- AVIF encoder preload (WASM-based, works in all modern browsers) ---
+async function preloadEncoder() {
   try {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1;
-    canvas.height = 1;
-    const ctx = canvas.getContext('2d');
-    ctx.fillRect(0, 0, 1, 1);
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/avif', 0.5));
-    if (blob && blob.type === 'image/avif' && blob.size > 0) return true;
-  } catch {
-    // Fall through to method 3
-  }
-
-  // Method 3: toDataURL check (fastest, synchronous)
-  try {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1;
-    canvas.height = 1;
-    canvas.getContext('2d').fillRect(0, 0, 1, 1);
-    return canvas.toDataURL('image/avif').startsWith('data:image/avif');
-  } catch {
+    await loadAvifEncoder();
+    return true;
+  } catch (err) {
+    console.error('Failed to load AVIF encoder:', err);
     return false;
   }
 }
@@ -318,43 +299,41 @@ function updateUI() {
   }
 }
 
-// --- Convert to AVIF ---
+// --- Convert to AVIF (using jSquash WASM encoder) ---
 async function convertToAvif(file, q) {
+  // Ensure encoder is loaded
+  await loadAvifEncoder();
+
+  // Get ImageData from file via Canvas
   let bitmap;
   try {
     bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
   } catch {
-    // Fallback without orientation option
     bitmap = await createImageBitmap(file);
   }
 
-  // Try OffscreenCanvas first
-  if (typeof OffscreenCanvas !== 'undefined') {
-    try {
-      const offscreen = new OffscreenCanvas(bitmap.width, bitmap.height);
-      const ctx = offscreen.getContext('2d');
-      ctx.drawImage(bitmap, 0, 0);
-      bitmap.close();
-      return await offscreen.convertToBlob({ type: 'image/avif', quality: q / 100 });
-    } catch {
-      // Fall through to regular canvas
-    }
-  }
-
-  // Fallback: regular canvas
   const canvas = document.createElement('canvas');
   canvas.width = bitmap.width;
   canvas.height = bitmap.height;
-  canvas.getContext('2d').drawImage(bitmap, 0, 0);
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(bitmap, 0, 0);
   bitmap.close();
 
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(
-      blob => blob ? resolve(blob) : reject(new Error('toBlob failed')),
-      'image/avif',
-      q / 100
-    );
-  });
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  // Encode with jSquash
+  const encodeOptions = {
+    quality: q,
+    speed: 6,         // 0-10, higher = faster
+    subsample: 1,     // 4:2:0 chroma subsampling
+  };
+
+  if (q === 100) {
+    encodeOptions.lossless = true;
+  }
+
+  const avifBuffer = await avifEncode(imageData, encodeOptions);
+  return new Blob([avifBuffer], { type: 'image/avif' });
 }
 
 // --- Convert All ---
@@ -642,8 +621,9 @@ async function init() {
   syncTheme();
   applyLanguage();
 
-  const supported = await checkAvifSupport();
-  if (!supported) {
+  // Preload WASM encoder in background
+  const loaded = await preloadEncoder();
+  if (!loaded) {
     app.hidden = true;
     avifWarning.hidden = false;
     if (mobileBar) mobileBar.hidden = true;
