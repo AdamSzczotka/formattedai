@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>O FormattedAI — Darmowe narzedzia webdev, 100% prywatnosci</title>
+  <meta name="description" content="FormattedAI to zestaw darmowych narzedzi dla web developerow i tworcow tresci. Wszystko dziala w przegladarce — Twoje dane nigdy nie opuszczaja urzadzenia.">
+  <meta name="keywords" content="FormattedAI, about, o nas, darmowe narzedzia, webdev tools, privacy, client-side, Adam Szczotka">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/about/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/about/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/about/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/about/">
+  <meta http-equiv="content-language" content="pl, en">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About FormattedAI — Free Privacy-Focused Web Tools">
+  <meta property="og:description" content="Free web tools for developers and content creators. 100% client-side — your data never leaves your device.">
+  <meta property="og:url" content="https://formattedai.pl/about/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About FormattedAI">
+  <meta name="twitter:description" content="Free, privacy-focused web tools. 100% browser-side.">
+
+  <!-- Structured Data: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FormattedAI",
+    "url": "https://formattedai.pl/",
+    "description": "Free, privacy-focused web tools for developers and content creators. 100% client-side.",
+    "founder": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "sameAs": [
+      "https://github.com/AdamSzczotka/formattedai"
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is FormattedAI?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FormattedAI is a collection of free web tools for developers and content creators. It includes a Markdown Formatter, AVIF image converter, and SEO & GEO Tag Generator. All tools run 100% in your browser."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my data safe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. All tools run entirely in your browser using client-side JavaScript. Your files and data never leave your device — nothing is uploaded to any server."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does it cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FormattedAI is completely free. No accounts, no subscriptions, no hidden fees. The project is open-source under the MIT license."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is GEO (Generative Engine Optimization)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GEO is a new standard for optimizing content for AI-powered search engines like ChatGPT Search, Perplexity, and Google AI Overview. It involves structured data (Schema.org), llms.txt files, and AI crawler configuration in robots.txt."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "About", "item": "https://formattedai.pl/about/" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="../assets/css/home.css">
+  <style>
+    .page { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
+    .page__title { font-size: 32px; font-weight: 800; color: var(--color-text); margin-bottom: 8px; letter-spacing: -0.5px; }
+    .page__subtitle { font-size: 16px; color: var(--color-text-muted); margin-bottom: 40px; line-height: 1.6; }
+    .page__section { margin-bottom: 40px; }
+    .page__heading { font-size: 20px; font-weight: 700; color: var(--color-text); margin-bottom: 12px; }
+    .page__text { font-size: 15px; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 12px; }
+    .page__list { margin: 12px 0 12px 24px; padding: 0; }
+    .page__list li { font-size: 15px; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 4px; }
+    .page__list li strong { color: var(--color-text); }
+    .page__faq { margin-bottom: 16px; padding: 16px 20px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; }
+    .page__faq-q { font-size: 15px; font-weight: 700; color: var(--color-text); margin-bottom: 6px; }
+    .page__faq-a { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
+    .page__link { color: #7c6cf0; text-decoration: none; font-weight: 600; }
+    .page__link:hover { text-decoration: underline; }
+    .page__tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 16px 0; }
+    .page__tool { padding: 16px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.25s; }
+    .page__tool:hover { border-color: rgba(124, 108, 240, 0.3); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .page__tool-name { font-size: 14px; font-weight: 700; color: var(--color-text); margin-bottom: 4px; }
+    .page__tool-desc { font-size: 12px; color: var(--color-text-muted); line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="bg-effects" aria-hidden="true">
+    <div class="bg-effects__orb bg-effects__orb--1"></div>
+    <div class="bg-effects__orb bg-effects__orb--2"></div>
+    <div class="bg-effects__orb bg-effects__orb--3"></div>
+    <div class="bg-effects__grid"></div>
+  </div>
+
+  <div class="app">
+    <nav class="navbar" role="navigation">
+      <a href="/" class="navbar__brand">
+        <div class="navbar__logo" aria-hidden="true">
+          <svg class="navbar__logo-svg" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
+            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient>
+              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30"><stop stop-color="rgba(108,92,231,0.3)"/><stop offset="1" stop-color="rgba(167,139,250,0.1)"/></linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
+          <p class="navbar__subtitle" data-i18n="navSubtitle">Narz&#281;dzia webdev &bull; 100% client-side</p>
+        </div>
+      </a>
+      <div class="navbar__nav">
+        <a href="/" class="navbar__link" data-i18n="navTools">Narz&#281;dzia</a>
+        <a href="/about/" class="navbar__link navbar__link--active" data-i18n="navAbout">O nas</a>
+        <button class="navbar__link" id="langToggle" type="button" style="cursor:pointer;border:none;font:inherit;">
+          <span id="langFlag">PL</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Zmie&#324; motyw">
+          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <a href="https://github.com/AdamSzczotka/formattedai" class="navbar__link" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </nav>
+
+    <main>
+      <div class="page">
+        <h1 class="page__title" data-i18n="aboutPageTitle">O FormattedAI</h1>
+        <p class="page__subtitle" data-i18n="aboutPageSubtitle">Darmowe narz&#281;dzia dla web developer&#243;w i tw&#243;rc&#243;w tre&#347;ci. Wszystko dzia&#322;a w przegl&#261;darce &#8212; zero uploadu, pe&#322;na prywatno&#347;&#263;.</p>
+
+        <!-- Mission -->
+        <div class="page__section">
+          <h2 class="page__heading" data-i18n="aboutMissionTitle">Nasza misja</h2>
+          <p class="page__text" data-i18n="aboutMissionText1">FormattedAI powsta&#322;o z prostej potrzeby &#8212; narz&#281;dzia webdev powinny by&#263; darmowe, szybkie i bezpieczne. Ka&#380;de narz&#281;dzie dzia&#322;a w 100% po stronie klienta (client-side). Twoje pliki, tekst i dane nigdy nie opuszczaj&#261; Twojego urz&#261;dzenia.</p>
+          <p class="page__text" data-i18n="aboutMissionText2">Nie zbieramy danych, nie wymagamy konta, nie wy&#347;wietlamy reklam. Po prostu otwierasz stron&#281; i korzystasz.</p>
+        </div>
+
+        <!-- Tools -->
+        <div class="page__section">
+          <h2 class="page__heading" data-i18n="aboutToolsTitle">Nasze narz&#281;dzia</h2>
+          <div class="page__tools">
+            <a href="/formatter/" class="page__tool">
+              <div class="page__tool-name">Markdown Formatter</div>
+              <p class="page__tool-desc" data-i18n="aboutToolFormatter">Konwertuj tekst z ChatGPT i Claude na sformatowany dokument dla Google Docs i Microsoft Word.</p>
+            </a>
+            <a href="/avif/" class="page__tool">
+              <div class="page__tool-name">AVIF Converter</div>
+              <p class="page__tool-desc" data-i18n="aboutToolAvif">Konwertuj obrazki PNG, JPG i WebP na nowoczesny format AVIF z lepsz&#261; kompresj&#261;.</p>
+            </a>
+            <a href="/seo-geo/" class="page__tool">
+              <div class="page__tool-name">SEO &amp; GEO Tag Generator</div>
+              <p class="page__tool-desc" data-i18n="aboutToolSeoGeo">Generuj meta tagi SEO, Open Graph, Schema.org i optymalizuj stron&#281; pod AI wyszukiwarki.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Privacy -->
+        <div class="page__section">
+          <h2 class="page__heading" data-i18n="aboutPrivacyTitle">Prywatno&#347;&#263;</h2>
+          <p class="page__text" data-i18n="aboutPrivacyText">Ka&#380;de narz&#281;dzie FormattedAI dzia&#322;a wy&#322;&#261;cznie w Twojej przegl&#261;darce. Nie mamy serwera backend, nie przechowujemy plik&#243;w, nie logujemy aktywno&#347;ci. Jedyne co zapisujemy to Twoje preferencje (j&#281;zyk, motyw) w localStorage przegl&#261;darki &#8212; na Twoim urz&#261;dzeniu.</p>
+          <p class="page__text"><a href="/privacy/" class="page__link" data-i18n="aboutPrivacyLink">Przeczytaj pe&#322;n&#261; Polityk&#281; Prywatno&#347;ci &rarr;</a></p>
+        </div>
+
+        <!-- FAQ -->
+        <div class="page__section">
+          <h2 class="page__heading" data-i18n="aboutFaqTitle">Cz&#281;sto zadawane pytania</h2>
+
+          <div class="page__faq">
+            <div class="page__faq-q" data-i18n="faq1q">Czym jest FormattedAI?</div>
+            <div class="page__faq-a" data-i18n="faq1a">FormattedAI to zestaw darmowych narz&#281;dzi online dla web developer&#243;w i tw&#243;rc&#243;w tre&#347;ci. Obejmuje Markdown Formatter, konwerter AVIF oraz generator tag&#243;w SEO i GEO. Wszystkie narz&#281;dzia dzia&#322;aj&#261; 100% w przegl&#261;darce.</div>
+          </div>
+          <div class="page__faq">
+            <div class="page__faq-q" data-i18n="faq2q">Czy moje dane s&#261; bezpieczne?</div>
+            <div class="page__faq-a" data-i18n="faq2a">Tak. Wszystkie narz&#281;dzia dzia&#322;aj&#261; wy&#322;&#261;cznie w Twojej przegl&#261;darce. Twoje pliki i dane nigdy nie opuszczaj&#261; urz&#261;dzenia &#8212; nic nie jest wysy&#322;ane na &#380;aden serwer.</div>
+          </div>
+          <div class="page__faq">
+            <div class="page__faq-q" data-i18n="faq3q">Ile to kosztuje?</div>
+            <div class="page__faq-a" data-i18n="faq3a">FormattedAI jest ca&#322;kowicie darmowe. Bez kont, bez subskrypcji, bez ukrytych op&#322;at. Projekt jest open-source na licencji MIT.</div>
+          </div>
+          <div class="page__faq">
+            <div class="page__faq-q" data-i18n="faq4q">Czym jest GEO (Generative Engine Optimization)?</div>
+            <div class="page__faq-a" data-i18n="faq4a">GEO to nowy standard optymalizacji tre&#347;ci pod AI wyszukiwarki &#8212; ChatGPT Search, Perplexity, Google AI Overview. Polega na u&#380;yciu danych strukturalnych (Schema.org), pliku llms.txt i konfiguracji robots.txt dla AI crawler&#243;w.</div>
+          </div>
+        </div>
+
+        <!-- Author -->
+        <div class="page__section">
+          <h2 class="page__heading" data-i18n="aboutAuthorTitle">Autor</h2>
+          <p class="page__text" data-i18n="aboutAuthorText">FormattedAI jest tworzone przez <a href="https://github.com/AdamSzczotka" class="page__link" target="_blank" rel="noopener">Adam Szczotka</a>. Projekt jest open-source i dost&#281;pny na <a href="https://github.com/AdamSzczotka/formattedai" class="page__link" target="_blank" rel="noopener">GitHub</a>.</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <p class="footer__text">
+        <span data-i18n="madeBy">Stworzone przez</span>
+        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
+          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Adam Szczotka
+        </a>
+      </p>
+      <div class="footer__links">
+        <a href="/" class="footer__link" data-i18n="navTools">Narz&#281;dzia</a>
+        <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
+        <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatno&#347;&#263;</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+  (function() {
+    // Theme
+    var theme = localStorage.getItem('formattedai-theme') || 'light';
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      theme = theme === 'light' ? 'dark' : 'light';
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('formattedai-theme', theme);
+    });
+
+    // i18n
+    var t = {
+      pl: {
+        navSubtitle: 'Narz\u0119dzia webdev \u2022 100% client-side',
+        navTools: 'Narz\u0119dzia', navAbout: 'O nas', navPrivacy: 'Prywatno\u015B\u0107',
+        madeBy: 'Stworzone przez',
+        aboutPageTitle: 'O FormattedAI',
+        aboutPageSubtitle: 'Darmowe narz\u0119dzia dla web developer\u00F3w i tw\u00F3rc\u00F3w tre\u015Bci. Wszystko dzia\u0142a w przegl\u0105darce \u2014 zero uploadu, pe\u0142na prywatno\u015B\u0107.',
+        aboutMissionTitle: 'Nasza misja',
+        aboutMissionText1: 'FormattedAI powsta\u0142o z prostej potrzeby \u2014 narz\u0119dzia webdev powinny by\u0107 darmowe, szybkie i bezpieczne. Ka\u017Cde narz\u0119dzie dzia\u0142a w 100% po stronie klienta (client-side). Twoje pliki, tekst i dane nigdy nie opuszczaj\u0105 Twojego urz\u0105dzenia.',
+        aboutMissionText2: 'Nie zbieramy danych, nie wymagamy konta, nie wy\u015Bwietlamy reklam. Po prostu otwierasz stron\u0119 i korzystasz.',
+        aboutToolsTitle: 'Nasze narz\u0119dzia',
+        aboutToolFormatter: 'Konwertuj tekst z ChatGPT i Claude na sformatowany dokument dla Google Docs i Microsoft Word.',
+        aboutToolAvif: 'Konwertuj obrazki PNG, JPG i WebP na nowoczesny format AVIF z lepsz\u0105 kompresj\u0105.',
+        aboutToolSeoGeo: 'Generuj meta tagi SEO, Open Graph, Schema.org i optymalizuj stron\u0119 pod AI wyszukiwarki.',
+        aboutPrivacyTitle: 'Prywatno\u015B\u0107',
+        aboutPrivacyText: 'Ka\u017Cde narz\u0119dzie FormattedAI dzia\u0142a wy\u0142\u0105cznie w Twojej przegl\u0105darce. Nie mamy serwera backend, nie przechowujemy plik\u00F3w, nie logujemy aktywno\u015Bci. Jedyne co zapisujemy to Twoje preferencje (j\u0119zyk, motyw) w localStorage przegl\u0105darki \u2014 na Twoim urz\u0105dzeniu.',
+        aboutPrivacyLink: 'Przeczytaj pe\u0142n\u0105 Polityk\u0119 Prywatno\u015Bci \u2192',
+        aboutFaqTitle: 'Cz\u0119sto zadawane pytania',
+        faq1q: 'Czym jest FormattedAI?', faq1a: 'FormattedAI to zestaw darmowych narz\u0119dzi online dla web developer\u00F3w i tw\u00F3rc\u00F3w tre\u015Bci. Obejmuje Markdown Formatter, konwerter AVIF oraz generator tag\u00F3w SEO i GEO. Wszystkie narz\u0119dzia dzia\u0142aj\u0105 100% w przegl\u0105darce.',
+        faq2q: 'Czy moje dane s\u0105 bezpieczne?', faq2a: 'Tak. Wszystkie narz\u0119dzia dzia\u0142aj\u0105 wy\u0142\u0105cznie w Twojej przegl\u0105darce. Twoje pliki i dane nigdy nie opuszczaj\u0105 urz\u0105dzenia \u2014 nic nie jest wysy\u0142ane na \u017Caden serwer.',
+        faq3q: 'Ile to kosztuje?', faq3a: 'FormattedAI jest ca\u0142kowicie darmowe. Bez kont, bez subskrypcji, bez ukrytych op\u0142at. Projekt jest open-source na licencji MIT.',
+        faq4q: 'Czym jest GEO (Generative Engine Optimization)?', faq4a: 'GEO to nowy standard optymalizacji tre\u015Bci pod AI wyszukiwarki \u2014 ChatGPT Search, Perplexity, Google AI Overview. Polega na u\u017Cyciu danych strukturalnych (Schema.org), pliku llms.txt i konfiguracji robots.txt dla AI crawler\u00F3w.',
+        aboutAuthorTitle: 'Autor',
+        aboutAuthorText: 'FormattedAI jest tworzone przez <a href="https://github.com/AdamSzczotka" class="page__link" target="_blank" rel="noopener">Adam Szczotka</a>. Projekt jest open-source i dost\u0119pny na <a href="https://github.com/AdamSzczotka/formattedai" class="page__link" target="_blank" rel="noopener">GitHub</a>.',
+      },
+      en: {
+        navSubtitle: 'Webdev tools \u2022 100% client-side',
+        navTools: 'Tools', navAbout: 'About', navPrivacy: 'Privacy',
+        madeBy: 'Created by',
+        aboutPageTitle: 'About FormattedAI',
+        aboutPageSubtitle: 'Free tools for web developers and content creators. Everything runs in your browser \u2014 zero uploads, full privacy.',
+        aboutMissionTitle: 'Our mission',
+        aboutMissionText1: 'FormattedAI was born from a simple need \u2014 web dev tools should be free, fast, and safe. Every tool runs 100% client-side. Your files, text, and data never leave your device.',
+        aboutMissionText2: 'We don\'t collect data, don\'t require accounts, and don\'t show ads. Just open the page and use it.',
+        aboutToolsTitle: 'Our tools',
+        aboutToolFormatter: 'Convert text from ChatGPT and Claude into formatted documents for Google Docs and Microsoft Word.',
+        aboutToolAvif: 'Convert PNG, JPG and WebP images to modern AVIF format with better compression.',
+        aboutToolSeoGeo: 'Generate SEO meta tags, Open Graph, Schema.org and optimize for AI search engines.',
+        aboutPrivacyTitle: 'Privacy',
+        aboutPrivacyText: 'Every FormattedAI tool runs exclusively in your browser. We have no backend server, don\'t store files, and don\'t log activity. The only thing we save is your preferences (language, theme) in your browser\'s localStorage \u2014 on your device.',
+        aboutPrivacyLink: 'Read the full Privacy Policy \u2192',
+        aboutFaqTitle: 'Frequently asked questions',
+        faq1q: 'What is FormattedAI?', faq1a: 'FormattedAI is a collection of free online tools for web developers and content creators. It includes a Markdown Formatter, AVIF image converter, and SEO & GEO Tag Generator. All tools run 100% in your browser.',
+        faq2q: 'Is my data safe?', faq2a: 'Yes. All tools run entirely in your browser. Your files and data never leave your device \u2014 nothing is sent to any server.',
+        faq3q: 'How much does it cost?', faq3a: 'FormattedAI is completely free. No accounts, no subscriptions, no hidden fees. The project is open-source under the MIT license.',
+        faq4q: 'What is GEO (Generative Engine Optimization)?', faq4a: 'GEO is a new standard for optimizing content for AI search engines \u2014 ChatGPT Search, Perplexity, Google AI Overview. It uses structured data (Schema.org), llms.txt files, and AI crawler configuration in robots.txt.',
+        aboutAuthorTitle: 'Author',
+        aboutAuthorText: 'FormattedAI is created by <a href="https://github.com/AdamSzczotka" class="page__link" target="_blank" rel="noopener">Adam Szczotka</a>. The project is open-source and available on <a href="https://github.com/AdamSzczotka/formattedai" class="page__link" target="_blank" rel="noopener">GitHub</a>.',
+      }
+    };
+
+    var lang = localStorage.getItem('formattedai-lang') || 'pl';
+    var flag = document.getElementById('langFlag');
+    var toggle = document.getElementById('langToggle');
+
+    function apply() {
+      document.documentElement.lang = lang;
+      flag.textContent = lang.toUpperCase();
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        var val = t[lang][key];
+        if (val) { if (val.includes('<')) el.innerHTML = val; else el.textContent = val; }
+      });
+    }
+
+    toggle.addEventListener('click', function() { lang = lang === 'pl' ? 'en' : 'pl'; apply(); localStorage.setItem('formattedai-lang', lang); });
+    apply();
+  })();
+  </script>
+</body>
+</html>

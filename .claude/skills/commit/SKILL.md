@@ -19,9 +19,9 @@ Wykonaj następujące kroki:
 4. Wygeneruj treść commita:
    - Jeśli użytkownik podał opis w argumencie — użyj go jako bazę.
    - Jeśli nie podał — wygeneruj opis na podstawie zmian.
-   - Commit MUSI być w języku polskim.
+   - Commit MUSI być w języku angielskim.
    - Format: krótki opis (max 72 znaki), opcjonalnie dłuższy opis po pustej linii.
-   - Przykłady: "Dodano formularz logowania", "Naprawiono walidację e-mail w rejestracji", "Zaktualizowano style nawigacji"
+   - Przykłady: "Added login form", "Fixed email validation in registration", "Updated navigation styles"
    - NIGDY nie dodawaj wzmianek o AI, Claude, asystencie, agencie ani żadnych "Co-Authored-By".
 
 5. Wykonaj commit:
@@ -30,6 +30,6 @@ Wykonaj następujące kroki:
 6. Potwierdź użytkownikowi wykonanie commita.
 
 KRYTYCZNE ZASADY:
-- Commity ZAWSZE po polsku.
+- Commity ZAWSZE po angielsku.
 - NIGDY nie dodawaj "Co-Authored-By" ani żadnych wzmianek o AI/Claude/agencie.
 - NIE pushuj automatycznie — to osobna decyzja użytkownika.

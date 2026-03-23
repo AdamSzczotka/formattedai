@@ -21,6 +21,33 @@ const translations = {
     dlHtmlDesc: 'Otw\u00F3rz w przegl\u0105darce',
     dlDocxDesc: 'Microsoft Word',
     dlMdDesc: 'Plik .md',
+    aboutTitle: 'Jak to dzia\u0142a?',
+    aboutText1: '<strong>Markdown Formatter</strong> konwertuje tekst z ChatGPT, Claude i innych asystent\u00F3w AI na sformatowany dokument gotowy do wklejenia w Google Docs lub Microsoft Word.',
+    aboutItem1: 'Wklej tekst markdown w lewym panelu',
+    aboutItem2: 'Podgl\u0105d sformatowanego tekstu pojawi si\u0119 po prawej',
+    aboutItem3: 'Kliknij "Kopiuj sformatowany" lub u\u017Cyj Ctrl+Shift+C',
+    aboutItem4: 'Wklej do Google Docs lub Word \u2014 formatowanie zostanie zachowane',
+    seoH1: 'Markdown do Word i Google Docs \u2014 Darmowy konwerter online',
+    seoDesc: 'FormattedAI Markdown Formatter to darmowe narz\u0119dzie online, kt\u00F3re konwertuje tekst markdown z ChatGPT, Claude i innych asystent\u00F3w AI na idealnie sformatowany tekst. Wklej tre\u015B\u0107, zobacz podgl\u0105d w czasie rzeczywistym i skopiuj do Google Docs lub Microsoft Word jednym klikni\u0119ciem. Wszystko dzia\u0142a 100% w przegl\u0105darce \u2014 Tw\u00F3j tekst nigdy nie opuszcza urz\u0105dzenia.',
+    seoHowTitle: 'Jak to dzia\u0142a',
+    seoHow1: 'Wklej tekst markdown z ChatGPT, Claude lub innego asystenta AI w lewym panelu',
+    seoHow2: 'Zobacz sformatowany podgl\u0105d po prawej \u2014 wybierz styl Google Docs lub Word',
+    seoHow3: 'Kliknij "Kopiuj sformatowany" (lub Ctrl+Shift+C) i wklej do dokumentu \u2014 formatowanie zachowane',
+    seoFeaturesTitle: 'Funkcje',
+    seoFeat1: 'Konwersja markdown na sformatowany tekst w czasie rzeczywistym',
+    seoFeat2: 'Kopiowanie z zachowaniem formatowania do Google Docs i Microsoft Word',
+    seoFeat3: 'Eksport do HTML, DOCX i Markdown',
+    seoFeat4: 'Presety styl\u00F3w Google Docs i Word',
+    seoFeat5: 'Tabele, bloki kodu, listy zada\u0144 i pe\u0142na sk\u0142adnia GFM',
+    seoFeat6: '100% client-side \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia',
+    seoFeat7: 'Dwuj\u0119zyczny interfejs (polski / angielski)',
+    seoFaqTitle: 'Cz\u0119sto zadawane pytania',
+    seoFaq1q: 'Jak skopiowa\u0107 tekst z ChatGPT do Google Docs z formatowaniem?',
+    seoFaq1a: 'Wklej tekst markdown z ChatGPT w lewym panelu. Sformatowany podgl\u0105d pojawi si\u0119 po prawej. Kliknij "Kopiuj sformatowany" lub naci\u015Bnij Ctrl+Shift+C, a nast\u0119pnie wklej do Google Docs \u2014 nag\u0142\u00F3wki, pogrubienia, listy, tabele i bloki kodu zostan\u0105 zachowane.',
+    seoFaq2q: 'Czy to narz\u0119dzie wysy\u0142a moje dane na serwer?',
+    seoFaq2a: 'Nie. Wszystko dzia\u0142a w Twojej przegl\u0105darce. Tw\u00F3j tekst nigdy nie jest nigdzie wysy\u0142any.',
+    seoFaq3q: 'Jakie formaty eksportu s\u0105 dost\u0119pne?',
+    seoFaq3a: 'Mo\u017Cesz eksportowa\u0107 jako HTML, DOCX (Microsoft Word) lub Markdown (.md). Mo\u017Cesz te\u017C skopiowa\u0107 sformatowany tekst bezpo\u015Brednio do schowka.',
   },
   en: {
     subtitle: 'Paste from ChatGPT \u2192 Copy to Docs / Word',
@@ -39,6 +66,12 @@ const translations = {
     dlHtmlDesc: 'Open in browser',
     dlDocxDesc: 'Microsoft Word',
     dlMdDesc: '.md file',
+    aboutTitle: 'How does it work?',
+    aboutText1: '<strong>Markdown Formatter</strong> converts text from ChatGPT, Claude and other AI assistants into a formatted document ready to paste into Google Docs or Microsoft Word.',
+    aboutItem1: 'Paste markdown text in the left panel',
+    aboutItem2: 'Formatted preview appears on the right',
+    aboutItem3: 'Click "Copy formatted" or use Ctrl+Shift+C',
+    aboutItem4: 'Paste into Google Docs or Word \u2014 formatting is preserved',
   },
 };
 
@@ -83,11 +116,8 @@ function applyLanguage() {
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (key === 'subtitle') {
-      el.innerHTML = t(key);
-    } else {
-      el.textContent = t(key);
-    }
+    const val = t(key);
+    if (val.includes('<') || key === 'subtitle') { el.innerHTML = val; } else { el.textContent = val; }
   });
 
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
@@ -413,5 +443,18 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// --- About Banner ---
+const aboutBanner = document.getElementById('aboutBanner');
+const aboutClose = document.getElementById('aboutClose');
+const ABOUT_KEY = 'formattedai-formatter-about-closed';
+
+if (aboutClose) {
+  aboutClose.addEventListener('click', () => {
+    aboutBanner.hidden = true;
+    localStorage.setItem(ABOUT_KEY, '1');
+  });
+}
+
 // --- Init ---
+if (localStorage.getItem(ABOUT_KEY) && aboutBanner) aboutBanner.hidden = true;
 applyLanguage();

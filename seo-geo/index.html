@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO: Primary -->
+  <title>SEO &amp; GEO Tag Generator — Generuj meta tagi i optymalizuj pod AI | FormattedAI</title>
+  <meta name="description" content="Darmowy generator meta tagow SEO, Open Graph, Twitter Cards, Schema.org JSON-LD i plikow GEO (llms.txt, robots.txt). Optymalizuj strone pod Google i AI wyszukiwarki.">
+  <meta name="keywords" content="SEO generator, GEO optimization, meta tag generator, Open Graph generator, Schema.org generator, llms.txt, robots.txt AI, Twitter Cards, JSON-LD, FormattedAI">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/seo-geo/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/seo-geo/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/seo-geo/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/seo-geo/">
+  <meta http-equiv="content-language" content="pl, en">
+
+  <!-- SEO: Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SEO &amp; GEO Tag Generator | FormattedAI">
+  <meta property="og:description" content="Free meta tag generator for SEO, Open Graph, Twitter Cards, Schema.org and GEO optimization. Generate llms.txt and AI-ready robots.txt.">
+  <meta property="og:url" content="https://formattedai.pl/seo-geo/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <!-- SEO: Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SEO &amp; GEO Tag Generator | FormattedAI">
+  <meta name="twitter:description" content="Generate SEO meta tags, Schema.org JSON-LD, llms.txt and AI-optimized robots.txt. Free, instant, client-side.">
+
+  <!-- SEO: Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FormattedAI SEO & GEO Tag Generator",
+    "headline": "SEO & GEO Tag Generator — Meta Tags, Schema.org, llms.txt",
+    "description": "Free online tool that generates SEO meta tags, Open Graph, Twitter Cards, Schema.org JSON-LD and GEO files (llms.txt, robots.txt) for AI search optimization.",
+    "url": "https://formattedai.pl/seo-geo/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is GEO and why does it matter?", "acceptedAnswer": { "@type": "Answer", "text": "GEO (Generative Engine Optimization) optimizes content for AI search engines. Over 40% of search queries in 2026 are answered by AI. Without GEO, your content may be invisible to ChatGPT Search, Perplexity, and Google AI Overview." } },
+      { "@type": "Question", "name": "What is llms.txt?", "acceptedAnswer": { "@type": "Answer", "text": "llms.txt is a new standard that tells AI models about your website. It's a Markdown file at your site root containing project name, description, and links to key content." } },
+      { "@type": "Question", "name": "How do I optimize for AI search engines?", "acceptedAnswer": { "@type": "Answer", "text": "Add Schema.org structured data (especially FAQPage), create an llms.txt file, and configure robots.txt to block AI training but allow AI search crawlers." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
+    { "@type": "ListItem", "position": 2, "name": "SEO & GEO Tag Generator", "item": "https://formattedai.pl/seo-geo/" }
+  ] }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/favicon.svg">
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#08080c">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="../assets/css/seogeo.css">
+</head>
+<body>
+  <div class="bg-effects" aria-hidden="true">
+    <div class="bg-effects__orb bg-effects__orb--1"></div>
+    <div class="bg-effects__orb bg-effects__orb--2"></div>
+    <div class="bg-effects__orb bg-effects__orb--3"></div>
+    <div class="bg-effects__grid"></div>
+  </div>
+
+  <div class="app">
+    <header class="header" role="banner">
+      <a href="/" class="header__brand">
+        <div class="header__logo" aria-hidden="true">
+          <svg class="header__logo-svg" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
+            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="#a78bfa"/>
+                <stop offset="1" stop-color="#6c5ce7"/>
+              </linearGradient>
+              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="rgba(108,92,231,0.3)"/>
+                <stop offset="1" stop-color="rgba(167,139,250,0.1)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="header__text">
+          <h1 class="header__title">Formatted<span class="header__title-accent">AI</span></h1>
+          <p class="header__subtitle" data-i18n="subtitle">SEO &amp; GEO Tag Generator</p>
+        </div>
+      </a>
+      <div class="header__actions">
+        <button class="lang-toggle" id="langToggle" type="button" title="Switch language" aria-label="Switch language">
+          <span class="lang-toggle__flag" id="langFlag">PL</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn btn--ghost" id="clearBtn" type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4m2 0v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="clear">Wyczysc</span>
+        </button>
+        <button class="btn btn--primary" id="copyAllBtn" type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.33" y="5.33" width="9.33" height="9.33" rx="1.33" stroke="currentColor" stroke-width="1.3"/><path d="M3.33 10.67H2.67a1.33 1.33 0 01-1.34-1.34V2.67a1.33 1.33 0 011.34-1.34h6.66a1.33 1.33 0 011.34 1.34v.66" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <span data-i18n="copyAll">Kopiuj wszystko</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- About Banner -->
+    <div class="about-banner" id="aboutBanner">
+      <div class="about-banner__content">
+        <h2 class="about-banner__title" data-i18n="aboutTitle">Czym jest SEO i GEO?</h2>
+        <p data-i18n="aboutText1"><strong>SEO</strong> (Search Engine Optimization) to optymalizacja strony pod wyszukiwarki jak Google. Meta tagi, Open Graph i Twitter Cards pomagaja Twojej stronie lepiej wyswietlac sie w wynikach wyszukiwania i na mediach spolecznosciowych.</p>
+        <p data-i18n="aboutText2"><strong>GEO</strong> (Generative Engine Optimization) to nowy standard optymalizacji pod AI wyszukiwarki — ChatGPT Search, Perplexity, Google AI Overview. Schema.org JSON-LD i plik llms.txt pomagaja AI zrozumiec i cytowac Twoja strone.</p>
+        <ul class="about-banner__list">
+          <li data-i18n="aboutItem1">Wygeneruj kompletny zestaw meta tagow SEO, Open Graph i Twitter Cards</li>
+          <li data-i18n="aboutItem2">Stworz dane strukturalne Schema.org (JSON-LD) zwiększajace szanse na cytowanie przez AI</li>
+          <li data-i18n="aboutItem3">Wygeneruj plik llms.txt i skonfiguruj robots.txt dla AI crawlerow</li>
+          <li data-i18n="aboutItem4">Wszystko dziala 100% w przegladarce — Twoje dane nigdy nie opuszczaja urzadzenia</li>
+        </ul>
+      </div>
+      <button class="about-banner__close" id="aboutClose" type="button" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <main class="workspace" role="main">
+      <!-- LEFT PANEL: Form with accordion sections -->
+      <section class="panel panel--input" aria-label="Tag generator form">
+        <div class="panel__header">
+          <div class="panel__header-left">
+            <div class="panel__dot panel__dot--green" aria-hidden="true"></div>
+            <h2 class="panel__title" data-i18n="inputTitle">Generator</h2>
+          </div>
+        </div>
+
+        <div class="form-area" id="formArea">
+
+          <!-- === SECTION 1: SEO Meta Tags === -->
+          <div class="accordion" data-section="seo">
+            <button class="accordion__header accordion__header--open" type="button" aria-expanded="true">
+              <div class="accordion__header-left">
+                <span class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="accordion__label">SEO Meta Tags</span>
+              </div>
+              <span class="accordion__badge">6</span>
+            </button>
+            <div class="accordion__body">
+              <div class="form-group">
+                <label class="form-label" for="seoTitle">
+                  <span><span data-i18n="labelTitle">Title</span> <button class="tooltip-btn" type="button" data-tooltip="helpTitle" aria-label="Help">?</button></span>
+                  <span class="form-label__counter" id="seoTitleCount">0 / 60</span>
+                </label>
+                <input class="form-input" type="text" id="seoTitle" placeholder="My Awesome Website — Main Keyword" maxlength="120" data-counter="seoTitleCount" data-min="50" data-max="60">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="seoDesc">
+                  <span><span data-i18n="labelDesc">Description</span> <button class="tooltip-btn" type="button" data-tooltip="helpDesc" aria-label="Help">?</button></span>
+                  <span class="form-label__counter" id="seoDescCount">0 / 160</span>
+                </label>
+                <textarea class="form-input form-input--textarea" id="seoDesc" placeholder="A concise description of your page (150-160 characters)" rows="3" maxlength="300" data-counter="seoDescCount" data-min="150" data-max="160"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="seoUrl">
+                  <span>Canonical URL</span>
+                </label>
+                <input class="form-input" type="url" id="seoUrl" placeholder="https://example.com/page">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="seoLang">
+                  <span data-i18n="labelLang">Language</span>
+                </label>
+                <select class="form-select" id="seoLang">
+                  <option value="pl">Polski (pl)</option>
+                  <option value="en" selected>English (en)</option>
+                  <option value="de">Deutsch (de)</option>
+                  <option value="fr">Fran&ccedil;ais (fr)</option>
+                  <option value="es">Espa&ntilde;ol (es)</option>
+                  <option value="uk">Ukra&iuml;nska (uk)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">
+                  <span><span data-i18n="labelRobots">Robots</span> <button class="tooltip-btn" type="button" data-tooltip="helpRobots" aria-label="Help">?</button></span>
+                </label>
+                <div class="form-checkboxes">
+                  <label class="form-checkbox"><input type="checkbox" id="robotsIndex" checked> index</label>
+                  <label class="form-checkbox"><input type="checkbox" id="robotsFollow" checked> follow</label>
+                  <label class="form-checkbox"><input type="checkbox" id="robotsMaxSnippet"> max-snippet:-1</label>
+                  <label class="form-checkbox"><input type="checkbox" id="robotsMaxImage"> max-image-preview:large</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="seoKeywords">
+                  <span data-i18n="labelKeywords">Keywords</span>
+                  <span class="form-label__hint" data-i18n="hintKeywords">opcjonalne, rozdzielone przecinkami</span>
+                </label>
+                <input class="form-input" type="text" id="seoKeywords" placeholder="keyword1, keyword2, keyword3">
+              </div>
+            </div>
+          </div>
+
+          <!-- === SECTION 2: Open Graph === -->
+          <div class="accordion" data-section="og">
+            <button class="accordion__header" type="button" aria-expanded="false">
+              <div class="accordion__header-left">
+                <span class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="accordion__label">Open Graph</span>
+              </div>
+              <span class="accordion__badge">8</span>
+            </button>
+            <div class="accordion__body" hidden>
+              <p class="form-autofill-hint" data-i18n="autofillHint">Puste pola uzupelnia automatycznie z SEO</p>
+              <div class="form-group">
+                <label class="form-label" for="ogTitle"><span>og:title</span></label>
+                <input class="form-input" type="text" id="ogTitle" placeholder="" data-autofill="seoTitle">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ogDesc"><span>og:description</span></label>
+                <textarea class="form-input form-input--textarea" id="ogDesc" rows="2" placeholder="" data-autofill="seoDesc"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ogUrl"><span>og:url</span></label>
+                <input class="form-input" type="url" id="ogUrl" placeholder="" data-autofill="seoUrl">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ogImage"><span>og:image <button class="tooltip-btn" type="button" data-tooltip="helpOgImage" aria-label="Help">?</button></span></label>
+                <input class="form-input" type="url" id="ogImage" placeholder="https://example.com/image.jpg">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ogType"><span>og:type</span></label>
+                <select class="form-select" id="ogType">
+                  <option value="website" selected>website</option>
+                  <option value="article">article</option>
+                  <option value="product">product</option>
+                  <option value="profile">profile</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ogSiteName"><span>og:site_name</span></label>
+                <input class="form-input" type="text" id="ogSiteName" placeholder="My Website">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ogLocale"><span>og:locale</span></label>
+                <input class="form-input" type="text" id="ogLocale" placeholder="en_US">
+              </div>
+              <div class="form-group" id="ogArticleFields" hidden>
+                <label class="form-label"><span>Article details</span></label>
+                <input class="form-input" type="text" id="ogAuthor" placeholder="article:author" style="margin-bottom:6px">
+                <input class="form-input" type="date" id="ogPublished" style="margin-bottom:6px" title="article:published_time">
+                <input class="form-input" type="date" id="ogModified" title="article:modified_time">
+              </div>
+            </div>
+          </div>
+
+          <!-- === SECTION 3: Twitter Cards === -->
+          <div class="accordion" data-section="twitter">
+            <button class="accordion__header" type="button" aria-expanded="false">
+              <div class="accordion__header-left">
+                <span class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="accordion__label">Twitter Cards</span>
+              </div>
+              <span class="accordion__badge">5</span>
+            </button>
+            <div class="accordion__body" hidden>
+              <p class="form-autofill-hint" data-i18n="autofillHint">Puste pola uzupelnia automatycznie z SEO</p>
+              <div class="form-group">
+                <label class="form-label" for="twCard"><span>twitter:card</span></label>
+                <select class="form-select" id="twCard">
+                  <option value="summary_large_image" selected>summary_large_image</option>
+                  <option value="summary">summary</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="twTitle"><span>twitter:title</span></label>
+                <input class="form-input" type="text" id="twTitle" placeholder="" data-autofill="seoTitle">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="twDesc"><span>twitter:description</span></label>
+                <textarea class="form-input form-input--textarea" id="twDesc" rows="2" placeholder="" data-autofill="seoDesc"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="twImage"><span>twitter:image</span></label>
+                <input class="form-input" type="url" id="twImage" placeholder="" data-autofill="ogImage">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="twSite"><span>twitter:site</span></label>
+                <input class="form-input" type="text" id="twSite" placeholder="@username">
+              </div>
+            </div>
+          </div>
+
+          <!-- === SECTION 4: Schema.org JSON-LD === -->
+          <div class="accordion" data-section="schema">
+            <button class="accordion__header" type="button" aria-expanded="false">
+              <div class="accordion__header-left">
+                <span class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="accordion__label">Schema.org JSON-LD</span>
+              </div>
+              <span class="accordion__badge accordion__badge--geo">GEO</span>
+            </button>
+            <div class="accordion__body" hidden>
+              <div class="form-group">
+                <label class="form-label" for="schemaType"><span><span data-i18n="labelSchemaType">Typ Schema</span> <button class="tooltip-btn" type="button" data-tooltip="helpSchema" aria-label="Help">?</button></span></label>
+                <select class="form-select" id="schemaType">
+                  <option value="Organization" selected>Organization</option>
+                  <option value="WebSite">WebSite</option>
+                  <option value="Article">Article / BlogPosting</option>
+                  <option value="FAQPage">FAQPage</option>
+                  <option value="BreadcrumbList">BreadcrumbList</option>
+                </select>
+              </div>
+
+              <!-- Organization fields -->
+              <div class="schema-fields" id="schemaOrganization">
+                <div class="form-group">
+                  <label class="form-label" for="orgName"><span data-i18n="labelOrgName">Nazwa organizacji</span></label>
+                  <input class="form-input" type="text" id="orgName" placeholder="My Company">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="orgUrl"><span>URL</span></label>
+                  <input class="form-input" type="url" id="orgUrl" placeholder="https://example.com" data-autofill="seoUrl">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="orgLogo"><span>Logo URL</span></label>
+                  <input class="form-input" type="url" id="orgLogo" placeholder="https://example.com/logo.png">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="orgSameAs"><span>Social links (sameAs)</span><span class="form-label__hint">po jednym na linie</span></label>
+                  <textarea class="form-input form-input--textarea" id="orgSameAs" rows="3" placeholder="https://twitter.com/company&#10;https://linkedin.com/company/...&#10;https://github.com/..."></textarea>
+                </div>
+              </div>
+
+              <!-- WebSite fields -->
+              <div class="schema-fields" id="schemaWebSite" hidden>
+                <div class="form-group">
+                  <label class="form-label" for="wsName"><span data-i18n="labelSiteName">Nazwa strony</span></label>
+                  <input class="form-input" type="text" id="wsName" placeholder="My Website" data-autofill="ogSiteName">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="wsUrl"><span>URL</span></label>
+                  <input class="form-input" type="url" id="wsUrl" placeholder="https://example.com" data-autofill="seoUrl">
+                </div>
+                <div class="form-group">
+                  <label class="form-checkbox">
+                    <input type="checkbox" id="wsSearchAction"> <span data-i18n="labelSearchAction">Dodaj SearchAction (sitelinks)</span>
+                  </label>
+                </div>
+                <div class="form-group" id="wsSearchUrl" hidden>
+                  <label class="form-label" for="wsSearchTarget"><span>Search URL template</span></label>
+                  <input class="form-input" type="text" id="wsSearchTarget" placeholder="https://example.com/search?q={search_term_string}">
+                </div>
+              </div>
+
+              <!-- Article fields -->
+              <div class="schema-fields" id="schemaArticle" hidden>
+                <div class="form-group">
+                  <label class="form-label" for="artHeadline"><span>Headline</span></label>
+                  <input class="form-input" type="text" id="artHeadline" placeholder="" data-autofill="seoTitle">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="artAuthor"><span data-i18n="labelAuthor">Autor</span></label>
+                  <input class="form-input" type="text" id="artAuthor" placeholder="Jan Kowalski">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="artPublished"><span>datePublished</span></label>
+                  <input class="form-input" type="date" id="artPublished">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="artModified"><span>dateModified</span></label>
+                  <input class="form-input" type="date" id="artModified">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="artImage"><span>Image URL</span></label>
+                  <input class="form-input" type="url" id="artImage" placeholder="" data-autofill="ogImage">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="artPublisher"><span>Publisher name</span></label>
+                  <input class="form-input" type="text" id="artPublisher" placeholder="" data-autofill="ogSiteName">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="artKeywords"><span>Keywords</span></label>
+                  <input class="form-input" type="text" id="artKeywords" placeholder="" data-autofill="seoKeywords">
+                </div>
+              </div>
+
+              <!-- FAQPage fields -->
+              <div class="schema-fields" id="schemaFAQPage" hidden>
+                <p class="form-hint" data-i18n="faqHint">Dodaj pytania i odpowiedzi. FAQPage ma najwyzsza szanse na cytowanie przez AI.</p>
+                <div id="faqList"></div>
+                <button class="btn btn--ghost btn--sm" id="addFaqBtn" type="button">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                  <span data-i18n="addFaq">Dodaj pytanie</span>
+                </button>
+              </div>
+
+              <!-- BreadcrumbList fields -->
+              <div class="schema-fields" id="schemaBreadcrumb" hidden>
+                <p class="form-hint" data-i18n="breadcrumbHint">Dodaj elementy sciezki nawigacji.</p>
+                <div id="breadcrumbList"></div>
+                <button class="btn btn--ghost btn--sm" id="addBreadcrumbBtn" type="button">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                  <span data-i18n="addBreadcrumb">Dodaj element</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- === SECTION 5: GEO Files === -->
+          <div class="accordion" data-section="geo">
+            <button class="accordion__header" type="button" aria-expanded="false">
+              <div class="accordion__header-left">
+                <span class="accordion__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="accordion__label">GEO Files</span>
+              </div>
+              <span class="accordion__badge accordion__badge--geo">NEW</span>
+            </button>
+            <div class="accordion__body" hidden>
+              <!-- llms.txt -->
+              <div class="form-subsection">
+                <h3 class="form-subsection__title">llms.txt</h3>
+                <p class="form-hint" data-i18n="llmsHint">Plik informujacy AI o Twojej stronie. Umieszczany w /llms.txt</p>
+                <div id="llmsForm">
+                  <div class="form-group">
+                    <label class="form-label" for="llmsName"><span data-i18n="labelProjectName">Nazwa projektu (H1)</span></label>
+                    <input class="form-input" type="text" id="llmsName" placeholder="" data-autofill="ogSiteName">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="llmsSummary"><span data-i18n="labelSummary">Krotki opis (blockquote)</span></label>
+                    <input class="form-input" type="text" id="llmsSummary" placeholder="One-line summary of your project">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="llmsContext"><span data-i18n="labelContext">Dodatkowy kontekst</span></label>
+                    <textarea class="form-input form-input--textarea" id="llmsContext" rows="3" placeholder="Additional context about your site..."></textarea>
+                  </div>
+                  <div id="llmsSections"></div>
+                  <button class="btn btn--ghost btn--sm" id="addLlmsSectionBtn" type="button">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                    <span data-i18n="addSection">Dodaj sekcje</span>
+                  </button>
+                </div>
+                <div id="llmsRaw" hidden>
+                  <textarea class="form-input form-input--code" id="llmsRawEditor" rows="12" spellcheck="false"></textarea>
+                </div>
+                <button class="btn btn--ghost btn--sm" id="llmsToggleBtn" type="button" data-i18n="editRaw">Edytuj recznie</button>
+              </div>
+
+              <!-- robots.txt -->
+              <div class="form-subsection">
+                <h3 class="form-subsection__title">robots.txt — AI Crawlers</h3>
+                <p class="form-hint" data-i18n="robotsHint">Konfiguracja dostepu AI crawlerow do Twojej strony.</p>
+                <div class="form-group">
+                  <label class="form-label"><span data-i18n="labelPreset">Preset</span></label>
+                  <div class="form-radio-group">
+                    <label class="form-radio"><input type="radio" name="robotsPreset" value="allow-all"> <span data-i18n="presetAllowAll">Pozwol wszystkim AI</span></label>
+                    <label class="form-radio"><input type="radio" name="robotsPreset" value="block-train" checked> <span data-i18n="presetBlockTrain">Blokuj training, pozwol search (rekomendowane)</span></label>
+                    <label class="form-radio"><input type="radio" name="robotsPreset" value="block-all"> <span data-i18n="presetBlockAll">Blokuj wszystkie AI</span></label>
+                  </div>
+                </div>
+                <details class="form-details">
+                  <summary data-i18n="advancedCrawlers">Zaawansowane — per crawler</summary>
+                  <div class="form-crawler-list" id="crawlerList">
+                    <!-- Populated by JS -->
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- DIVIDER -->
+      <div class="divider" aria-hidden="true">
+        <div class="divider__line"></div>
+        <div class="divider__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="divider__line"></div>
+      </div>
+
+      <!-- RIGHT PANEL: Output -->
+      <section class="panel panel--output" aria-label="Generated output">
+        <div class="panel__header">
+          <div class="panel__header-left">
+            <div class="panel__dot panel__dot--pink" aria-hidden="true"></div>
+            <h2 class="panel__title" data-i18n="outputTitle">Wynik</h2>
+          </div>
+        </div>
+
+        <div class="output-area" id="outputArea">
+          <!-- Previews -->
+          <div class="preview-section" id="previewSection">
+            <h3 class="output-section__title" data-i18n="previewTitle">Podglad</h3>
+            <!-- Google SERP -->
+            <div class="serp-preview" id="serpPreview">
+              <div class="serp-preview__url" id="serpUrl">example.com</div>
+              <div class="serp-preview__title" id="serpTitle">Page Title</div>
+              <div class="serp-preview__desc" id="serpDesc">Page description will appear here...</div>
+            </div>
+            <!-- Facebook OG -->
+            <div class="og-preview" id="ogPreview">
+              <div class="og-preview__image" id="ogPreviewImg">
+                <span data-i18n="noImage">Brak obrazka</span>
+              </div>
+              <div class="og-preview__body">
+                <div class="og-preview__site" id="ogPreviewSite">example.com</div>
+                <div class="og-preview__title" id="ogPreviewTitle">Page Title</div>
+                <div class="og-preview__desc" id="ogPreviewDesc">Description</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code blocks -->
+          <div class="output-section" id="outputSeo">
+            <div class="output-section__header">
+              <h3 class="output-section__title">SEO Meta Tags</h3>
+              <button class="btn btn--ghost btn--sm btn--copy" type="button" data-target="outputSeoCode" data-i18n="copy">Kopiuj</button>
+            </div>
+            <pre class="output-code" id="outputSeoCode"></pre>
+          </div>
+
+          <div class="output-section" id="outputOg">
+            <div class="output-section__header">
+              <h3 class="output-section__title">Open Graph</h3>
+              <button class="btn btn--ghost btn--sm btn--copy" type="button" data-target="outputOgCode" data-i18n="copy">Kopiuj</button>
+            </div>
+            <pre class="output-code" id="outputOgCode"></pre>
+          </div>
+
+          <div class="output-section" id="outputTwitter">
+            <div class="output-section__header">
+              <h3 class="output-section__title">Twitter Cards</h3>
+              <button class="btn btn--ghost btn--sm btn--copy" type="button" data-target="outputTwitterCode" data-i18n="copy">Kopiuj</button>
+            </div>
+            <pre class="output-code" id="outputTwitterCode"></pre>
+          </div>
+
+          <div class="output-section" id="outputSchema">
+            <div class="output-section__header">
+              <h3 class="output-section__title">Schema.org JSON-LD</h3>
+              <button class="btn btn--ghost btn--sm btn--copy" type="button" data-target="outputSchemaCode" data-i18n="copy">Kopiuj</button>
+            </div>
+            <pre class="output-code" id="outputSchemaCode"></pre>
+          </div>
+
+          <div class="output-section" id="outputLlms">
+            <div class="output-section__header">
+              <h3 class="output-section__title">llms.txt</h3>
+              <button class="btn btn--ghost btn--sm btn--copy" type="button" data-target="outputLlmsCode" data-i18n="copy">Kopiuj</button>
+            </div>
+            <pre class="output-code" id="outputLlmsCode"></pre>
+          </div>
+
+          <div class="output-section" id="outputRobots">
+            <div class="output-section__header">
+              <h3 class="output-section__title">robots.txt</h3>
+              <button class="btn btn--ghost btn--sm btn--copy" type="button" data-target="outputRobotsCode" data-i18n="copy">Kopiuj</button>
+            </div>
+            <pre class="output-code" id="outputRobotsCode"></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <p class="footer__text">
+        <span data-i18n="madeBy">Stworzone przez</span>
+        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
+          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Adam Szczotka
+        </a>
+      </p>
+    </footer>
+
+    <div class="toast" id="toast" role="alert" aria-live="assertive">
+      <div class="toast__icon" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="toast__text" data-i18n="toastCopied">Skopiowano!</span>
+    </div>
+  </div>
+
+  <div class="tooltip-popup" id="tooltipPopup" hidden>
+    <div class="tooltip-popup__text" id="tooltipText"></div>
+  </div>
+
+  <!-- SEO Content Section -->
+  <section class="seo-content">
+    <div class="seo-content__inner">
+      <h1 data-i18n="seoH1">SEO &amp; GEO Tag Generator — Free Meta Tags, Schema.org and llms.txt Generator</h1>
+      <p data-i18n="seoDescLong">Generate all the tags your website needs to rank in Google and get cited by AI search engines. This tool covers traditional SEO (meta tags, Open Graph, Twitter Cards), modern structured data (Schema.org JSON-LD), and the cutting-edge GEO standard (Generative Engine Optimization) with llms.txt and AI crawler configuration. Everything runs in your browser — your data stays on your device.</p>
+
+      <h2 data-i18n="seoWhatSeo">What is SEO?</h2>
+      <p data-i18n="seoWhatSeoText">SEO (Search Engine Optimization) is the practice of optimizing your website to rank higher in search engines like Google. Key elements include meta title and description tags, Open Graph tags for social sharing, Twitter Cards, canonical URLs, and structured data. This tool generates all of these from a single form.</p>
+
+      <h2 data-i18n="seoWhatGeo">What is GEO (Generative Engine Optimization)?</h2>
+      <p data-i18n="seoWhatGeoText">GEO is a new optimization standard for AI-powered search engines — ChatGPT Search, Perplexity AI, Google AI Overview, and Bing Copilot. Instead of competing for 10 blue links, you compete for 2-7 citation slots in AI-generated answers. Key GEO tools include Schema.org structured data (especially FAQPage), the llms.txt file that tells AI about your site, and robots.txt configuration for AI crawlers.</p>
+
+      <h2 data-i18n="seoFeaturesTitle">Features</h2>
+      <ul>
+        <li data-i18n="seoGeoFeat1">SEO meta tags with character counters and validation hints</li>
+        <li data-i18n="seoGeoFeat2">Open Graph tags with auto-fill from SEO fields</li>
+        <li data-i18n="seoGeoFeat3">Twitter Cards generation</li>
+        <li data-i18n="seoGeoFeat4">Schema.org JSON-LD for Organization, WebSite, Article, FAQPage, BreadcrumbList</li>
+        <li data-i18n="seoGeoFeat5">llms.txt generator with guided form and raw editor</li>
+        <li data-i18n="seoGeoFeat6">robots.txt with AI crawler presets (block training, allow search)</li>
+        <li data-i18n="seoGeoFeat7">Live SERP and social media preview</li>
+        <li data-i18n="seoGeoFeat8">Copy per section or copy all HTML at once</li>
+        <li data-i18n="seoGeoFeat9">Auto-save to localStorage — never lose your work</li>
+      </ul>
+
+      <h2 data-i18n="seoFaqTitle">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3 data-i18n="seoGeoFaq1q">What is GEO and why does it matter?</h3>
+        <p data-i18n="seoGeoFaq1a">GEO (Generative Engine Optimization) optimizes your content for AI search engines. Over 40% of search queries in 2026 are answered by AI. Without GEO optimization, your content may be invisible to ChatGPT Search, Perplexity, and Google AI Overview — even if you rank well in traditional Google results.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoGeoFaq2q">What is llms.txt?</h3>
+        <p data-i18n="seoGeoFaq2a">llms.txt is a new standard (similar to robots.txt) that tells AI models about your website. It's a Markdown file placed at your site root (/llms.txt) containing your project name, description, and links to key content. AI crawlers use it to understand what your site offers.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoGeoFaq3q">How do I optimize my site for AI search engines?</h3>
+        <p data-i18n="seoGeoFaq3a">Three key steps: 1) Add Schema.org structured data — especially FAQPage which has the highest AI citation rate. 2) Create an llms.txt file describing your site. 3) Configure robots.txt to block AI training crawlers but allow AI search crawlers. This tool generates all three.</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="../assets/js/seogeo.min.js" defer></script>
+</body>
+</html>
