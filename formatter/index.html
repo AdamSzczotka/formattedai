@@ -11,12 +11,17 @@
   <meta name="author" content="Adam Szczotka">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://formattedai.pl/formatter/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/formatter/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/formatter/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/formatter/">
+  <meta http-equiv="content-language" content="pl, en">
 
   <!-- SEO: Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Markdown Formatter — ChatGPT to Docs/Word | FormattedAI">
   <meta property="og:description" content="Free tool to convert ChatGPT markdown output into perfectly formatted text for Google Docs and Microsoft Word. One-click copy with preserved formatting.">
   <meta property="og:url" content="https://formattedai.pl/formatter/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web_formatted.png">
   <meta property="og:site_name" content="FormattedAI">
   <meta property="og:locale" content="pl_PL">
   <meta property="og:locale:alternate" content="en_US">
@@ -48,6 +53,52 @@
       "url": "https://github.com/AdamSzczotka"
     },
     "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <!-- SEO: FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I copy ChatGPT text to Google Docs with formatting?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Paste the markdown text from ChatGPT into the left panel. The formatted preview appears on the right. Click Copy formatted or press Ctrl+Shift+C, then paste into Google Docs — all headers, bold, lists, tables and code blocks will be preserved."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does this tool upload my data to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Everything runs in your browser using JavaScript. Your text is never sent anywhere."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What export formats are available?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can export as HTML, DOCX (Microsoft Word), or Markdown (.md file). You can also copy formatted text directly to clipboard for Google Docs or Word."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- SEO: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "Markdown Formatter", "item": "https://formattedai.pl/formatter/" }
+    ]
   }
   </script>
 
@@ -144,6 +195,23 @@
       </div>
     </header>
 
+    <!-- About Banner -->
+    <div class="about-banner" id="aboutBanner">
+      <div class="about-banner__content">
+        <h2 class="about-banner__title" data-i18n="aboutTitle">Jak to dziala?</h2>
+        <p data-i18n="aboutText1"><strong>Markdown Formatter</strong> konwertuje tekst z ChatGPT, Claude i innych asystentow AI na sformatowany dokument gotowy do wklejenia w Google Docs lub Microsoft Word.</p>
+        <ul class="about-banner__list">
+          <li data-i18n="aboutItem1">Wklej tekst markdown w lewym panelu</li>
+          <li data-i18n="aboutItem2">Podglad sformatowanego tekstu pojawi sie po prawej</li>
+          <li data-i18n="aboutItem3">Kliknij "Kopiuj sformatowany" lub uzyj Ctrl+Shift+C</li>
+          <li data-i18n="aboutItem4">Wklej do Google Docs lub Word — formatowanie zostanie zachowane</li>
+        </ul>
+      </div>
+      <button class="about-banner__close" id="aboutClose" type="button" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
     <main class="workspace" role="main">
       <section class="panel panel--input" aria-label="Markdown input">
         <div class="panel__header">
@@ -227,13 +295,45 @@
     </div>
   </div>
 
-  <!-- SEO: Hidden content -->
-  <article class="sr-only" aria-hidden="true">
-    <h2>FormattedAI Markdown Formatter - Free Markdown to Google Docs & Word Converter</h2>
-    <p>FormattedAI Markdown Formatter is a free online tool that converts markdown text from ChatGPT, Claude, and other AI assistants into perfectly formatted rich text. Simply paste your AI-generated markdown, preview the formatting, and copy it to Google Docs or Microsoft Word with one click.</p>
-    <h2>FormattedAI Markdown Formatter - Darmowy konwerter Markdown do Google Docs i Word</h2>
-    <p>FormattedAI to darmowe narzedzie online do konwersji tekstu markdown z ChatGPT, Claude i innych asystentow AI na idealnie sformatowany tekst. Wklej tekst wygenerowany przez AI, zobacz podglad formatowania i skopiuj do Google Docs lub Microsoft Word jednym kliknieciem.</p>
-  </article>
+  <!-- SEO Content Section -->
+  <section class="seo-content">
+    <div class="seo-content__inner">
+      <h1 data-i18n="seoH1">Markdown to Word & Google Docs Formatter — Free Online Tool</h1>
+      <p data-i18n="seoDesc">FormattedAI Markdown Formatter is a free online tool that converts markdown text from ChatGPT, Claude, and other AI assistants into perfectly formatted rich text. Paste your AI-generated content, preview the result in real time, and copy it to Google Docs or Microsoft Word with one click. Everything runs 100% in your browser — your text never leaves your device.</p>
+
+      <h2 data-i18n="seoHowTitle">How it works</h2>
+      <ol>
+        <li data-i18n="seoHow1">Paste markdown text from ChatGPT, Claude, or any AI assistant into the left panel</li>
+        <li data-i18n="seoHow2">See the formatted preview instantly on the right — choose Google Docs or Word style</li>
+        <li data-i18n="seoHow3">Click "Copy formatted" (or Ctrl+Shift+C) and paste into your document — formatting preserved</li>
+      </ol>
+
+      <h2 data-i18n="seoFeaturesTitle">Features</h2>
+      <ul>
+        <li data-i18n="seoFeat1">Real-time markdown to rich text conversion</li>
+        <li data-i18n="seoFeat2">One-click copy with preserved formatting for Google Docs and Microsoft Word</li>
+        <li data-i18n="seoFeat3">Export to HTML, DOCX, and Markdown files</li>
+        <li data-i18n="seoFeat4">Google Docs and Word output style presets</li>
+        <li data-i18n="seoFeat5">Tables, code blocks, task lists, and all GFM syntax supported</li>
+        <li data-i18n="seoFeat6">100% client-side — your data never leaves your device</li>
+        <li data-i18n="seoFeat7">Bilingual interface (Polish / English)</li>
+      </ul>
+
+      <h2 data-i18n="seoFaqTitle">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq1q">How do I copy ChatGPT text to Google Docs with formatting?</h3>
+        <p data-i18n="seoFaq1a">Paste the markdown text from ChatGPT into the left panel. The formatted preview appears on the right. Click "Copy formatted" or press Ctrl+Shift+C, then paste into Google Docs — all headers, bold, lists, tables and code blocks will be preserved.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq2q">Does this tool upload my data to a server?</h3>
+        <p data-i18n="seoFaq2a">No. Everything runs in your browser using JavaScript. Your text is never sent anywhere. You can verify this by checking the Network tab in your browser's developer tools.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq3q">What export formats are available?</h3>
+        <p data-i18n="seoFaq3a">You can export as HTML (opens in browser), DOCX (Microsoft Word), or Markdown (.md file). You can also copy the formatted text directly to clipboard for pasting into Google Docs or Word.</p>
+      </div>
+    </div>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js" defer></script>

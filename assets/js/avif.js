@@ -41,6 +41,35 @@ const translations = {
     noSupportText: 'Sprawd\u017A po\u0142\u0105czenie z internetem i od\u015Bwie\u017C stron\u0119. Encoder AVIF wymaga pobrania modu\u0142u WASM (~1.5 MB).',
     backHome: 'Wr\u00F3\u0107 do strony g\u0142\u00F3wnej',
     pageTitle: 'AVIF Converter \u2014 Konwertuj PNG, JPG, WebP na AVIF | FormattedAI',
+    aboutTitle: 'Czym jest format AVIF?',
+    aboutText1: '<strong>AVIF</strong> to nowoczesny format obraz\u00F3w opracowany przez Alliance for Open Media. Oferuje znacznie lepsz\u0105 kompresj\u0119 ni\u017C PNG czy JPEG \u2014 te same obrazki w mniejszym rozmiarze bez widocznej utraty jako\u015Bci.',
+    aboutItem1: 'Przeci\u0105gnij obrazki PNG, JPG lub WebP i przekonwertuj na AVIF',
+    aboutItem2: 'Ustaw jako\u015B\u0107 suwakiem lub wybierz preset (Niska/\u015Arednia/Wysoka/Bezstratna)',
+    aboutItem3: 'Pobierz pojedyncze pliki lub wszystkie jako ZIP',
+    aboutItem4: 'Konwersja odbywa si\u0119 100% w przegl\u0105darce \u2014 Twoje pliki nigdy nie opuszczaj\u0105 urz\u0105dzenia',
+    seoH1: 'Darmowy konwerter AVIF \u2014 Konwertuj PNG, JPG, WebP na AVIF online',
+    seoDesc: 'Konwertuj obrazki na nowoczesny format AVIF bezpo\u015Brednio w przegl\u0105darce. AVIF oferuje do 50% lepsz\u0105 kompresj\u0119 ni\u017C JPEG i 20% lepsz\u0105 ni\u017C WebP \u2014 ta sama jako\u015B\u0107 wizualna przy znacznie mniejszych plikach. Konwersja odbywa si\u0119 client-side \u2014 Twoje pliki nigdy nie opuszczaj\u0105 urz\u0105dzenia.',
+    seoHowTitle: 'Jak to dzia\u0142a',
+    seoHow1: 'Przeci\u0105gnij obrazki (PNG, JPG, WebP) lub kliknij \u017Ceby wybra\u0107 \u2014 do 20 plik\u00F3w, max 50MB ka\u017Cdy',
+    seoHow2: 'Ustaw jako\u015B\u0107 presetem (Niska 40, \u015Arednia 65, Wysoka 80, Bezstratna 100) lub suwakiem',
+    seoHow3: 'Kliknij Konwertuj \u2014 obserwuj pasek post\u0119pu',
+    seoHow4: 'Pobierz pliki AVIF pojedynczo lub wszystkie jako ZIP',
+    seoFeaturesTitle: 'Funkcje',
+    seoFeat1: 'Konwersja wielu plik\u00F3w \u2014 do 20 obrazk\u00F3w na raz',
+    seoFeat2: 'Presety jako\u015Bci: Niska (40), \u015Arednia (65), Wysoka (80), Bezstratna (100)',
+    seoFeat3: 'Pasek post\u0119pu z nazw\u0105 aktualnego pliku',
+    seoFeat4: 'Pobieranie pojedynczych plik\u00F3w lub batch jako ZIP',
+    seoFeat5: 'Podgl\u0105d z klikni\u0119ciem do powi\u0119kszenia i szachownic\u0105 przezroczysto\u015Bci',
+    seoFeat6: 'Automatyczna korekcja orientacji EXIF, usuwanie metadanych',
+    seoFeat7: 'Dzia\u0142a we wszystkich nowoczesnych przegl\u0105darkach przez WebAssembly',
+    seoFeat8: '100% client-side \u2014 Twoje pliki nigdy nie opuszczaj\u0105 urz\u0105dzenia',
+    seoFaqTitle: 'Cz\u0119sto zadawane pytania',
+    seoFaq1q: 'Czym jest format AVIF i dlaczego warto go u\u017Cywa\u0107?',
+    seoFaq1a: 'AVIF to nowoczesny format obraz\u00F3w oparty o kodek AV1. Oferuje znacznie lepsz\u0105 kompresj\u0119 ni\u017C JPEG, PNG czy WebP \u2014 typowy plik JPEG mo\u017Cna zmniejszy\u0107 o 50-70% bez widocznej utraty jako\u015Bci.',
+    seoFaq2q: 'Jak przekonwertowa\u0107 PNG na AVIF?',
+    seoFaq2a: 'Przeci\u0105gnij pliki PNG do konwertera, ustaw jako\u015B\u0107 (65 rekomendowane), kliknij Konwertuj. Narz\u0119dzie przetwarza wszystko w przegl\u0105darce przez WebAssembly. Pobierz pliki .avif pojedynczo lub jako ZIP.',
+    seoFaq3q: 'Czy AVIF jest lepszy od WebP?',
+    seoFaq3a: 'Tak. AVIF osi\u0105ga typowo 20-30% mniejsze pliki ni\u017C WebP przy tej samej jako\u015Bci wizualnej, z lepszym wsparciem kolor\u00F3w, HDR i przezroczysto\u015Bci.',
   },
   en: {
     subtitle: 'Convert images to AVIF format',
@@ -76,6 +105,12 @@ const translations = {
     noSupportText: 'Check your internet connection and refresh the page. The AVIF encoder requires a WASM module download (~1.5 MB).',
     backHome: 'Back to home',
     pageTitle: 'AVIF Converter \u2014 Convert PNG, JPG, WebP to AVIF | FormattedAI',
+    aboutTitle: 'What is the AVIF format?',
+    aboutText1: '<strong>AVIF</strong> is a modern image format developed by the Alliance for Open Media. It offers significantly better compression than PNG or JPEG \u2014 same images at smaller sizes with no visible quality loss.',
+    aboutItem1: 'Drag PNG, JPG or WebP images and convert to AVIF',
+    aboutItem2: 'Set quality with the slider or pick a preset (Low/Medium/High/Lossless)',
+    aboutItem3: 'Download individual files or all as ZIP',
+    aboutItem4: 'Conversion runs 100% in your browser \u2014 your files never leave your device',
   },
 };
 
@@ -149,7 +184,8 @@ function applyLanguage() {
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    el.textContent = t(key);
+    const val = t(key);
+    if (val.includes('<')) { el.innerHTML = val; } else { el.textContent = val; }
   });
 
   localStorage.setItem('formattedai-lang', currentLang);
@@ -648,6 +684,19 @@ if (mobileDownloadBtn) mobileDownloadBtn.addEventListener('click', downloadAllZi
 setupDragDrop(dropZone);
 setupDragDrop(dropZoneCompact);
 
+// --- About Banner ---
+const aboutBanner = document.getElementById('aboutBanner');
+const aboutClose = document.getElementById('aboutClose');
+const ABOUT_KEY = 'formattedai-avif-about-closed';
+
+if (aboutClose) {
+  aboutClose.addEventListener('click', () => {
+    aboutBanner.hidden = true;
+    localStorage.setItem(ABOUT_KEY, '1');
+  });
+}
+
 // --- Init ---
+if (localStorage.getItem(ABOUT_KEY) && aboutBanner) aboutBanner.hidden = true;
 applyTheme();
 applyLanguage();
