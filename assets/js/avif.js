@@ -351,13 +351,8 @@ async function convertAll() {
   for (let i = 0; i < inputFiles.length; i++) {
     const { id, file } = inputFiles[i];
 
-    // Update progress bar
-    const percent = Math.round((i / inputFiles.length) * 100);
-    progressFill.style.width = `${percent}%`;
-    progressPercent.textContent = `${percent}%`;
+    // Update progress bar (before conversion)
     progressFile.textContent = file.name;
-
-    // Update progress in button
     convertAllBtn.querySelector('span').textContent =
       `${t('converting')} ${i + 1}/${inputFiles.length}`;
 
@@ -384,11 +379,13 @@ async function convertAll() {
         error: true,
       });
     }
+
+    // Update progress bar (after conversion)
+    const percent = Math.round(((i + 1) / inputFiles.length) * 100);
+    progressFill.style.width = `${percent}%`;
+    progressPercent.textContent = `${percent}%`;
   }
 
-  // Finish progress bar
-  progressFill.style.width = '100%';
-  progressPercent.textContent = '100%';
   progressFile.textContent = '';
 
   isConverting = false;
