@@ -4,44 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO: Primary -->
-  <title>FormattedAI — Skopiuj tekst z ChatGPT do Google Docs i Word z idealnym formatowaniem</title>
-  <meta name="description" content="Darmowe narzedzie online do konwersji tekstu Markdown z ChatGPT na sformatowany dokument. Wklej, sformatuj i skopiuj do Google Docs lub Microsoft Word jednym kliknieciem.">
-  <meta name="keywords" content="ChatGPT do Word, ChatGPT do Google Docs, markdown converter, formatowanie tekstu, kopiuj formatowanie, markdown to docs, paste formatting tool, ChatGPT formatting, AI text formatter, FormattedAI">
+  <!-- SEO -->
+  <title>FormattedAI — Darmowe narzędzia webdev, 100% po stronie klienta</title>
+  <meta name="description" content="Zestaw darmowych narzędzi dla web developerów. Formatter tekstu AI, konwerter grafik na AVIF i więcej. Wszystko działa w przeglądarce — Twoje dane nigdy nie opuszczają urządzenia.">
+  <meta name="keywords" content="FormattedAI, narzędzia webdev, markdown converter, AVIF converter, darmowe narzędzia online, client-side tools, prywatność danych, web developer tools">
   <meta name="author" content="Adam Szczotka">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://formattedai.pl/">
 
-  <!-- SEO: Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="FormattedAI — ChatGPT to Docs/Word Formatter">
-  <meta property="og:description" content="Free tool to convert ChatGPT markdown output into perfectly formatted text for Google Docs and Microsoft Word. One-click copy with preserved formatting.">
+  <meta property="og:title" content="FormattedAI — Darmowe narzędzia webdev">
+  <meta property="og:description" content="Zestaw darmowych narzędzi dla web developerów. Wszystko działa w przeglądarce — 100% prywatności.">
   <meta property="og:url" content="https://formattedai.pl/">
   <meta property="og:site_name" content="FormattedAI">
   <meta property="og:locale" content="pl_PL">
-  <meta property="og:locale:alternate" content="en_US">
 
-  <!-- SEO: Twitter Card -->
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="FormattedAI — ChatGPT to Docs/Word Formatter">
-  <meta name="twitter:description" content="Paste markdown from ChatGPT, get perfectly formatted text for Google Docs & Word. Free, instant, no sign-up.">
+  <meta name="twitter:title" content="FormattedAI — Darmowe narzędzia webdev">
+  <meta name="twitter:description" content="Narzędzia webdev działające 100% w przeglądarce. Zero uploadu, pełna prywatność.">
 
-  <!-- SEO: Structured Data -->
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "WebSite",
     "name": "FormattedAI",
-    "headline": "FormattedAI — Markdown to Google Docs & Word Formatter",
-    "description": "Free online tool that converts ChatGPT markdown output into perfectly formatted rich text for Google Docs and Microsoft Word.",
+    "headline": "FormattedAI — Darmowe narzędzia webdev",
+    "description": "Zestaw darmowych narzędzi online dla web developerów. Formatter tekstu AI, konwerter grafik i więcej. 100% client-side.",
     "url": "https://formattedai.pl/",
-    "applicationCategory": "Productivity",
-    "operatingSystem": "Any",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
     "author": {
       "@type": "Person",
       "name": "Adam Szczotka",
@@ -57,15 +49,13 @@
 
   <!-- PWA -->
   <meta name="theme-color" content="#08080c">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="assets/css/home.css">
 </head>
 <body>
   <div class="bg-effects" aria-hidden="true">
@@ -76,10 +66,10 @@
   </div>
 
   <div class="app">
-    <header class="header" role="banner">
-      <div class="header__brand">
-        <div class="header__logo" aria-hidden="true">
-          <svg class="header__logo-svg" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+    <nav class="navbar" role="navigation">
+      <a href="/" class="navbar__brand">
+        <div class="navbar__logo" aria-hidden="true">
+          <svg class="navbar__logo-svg" viewBox="0 0 32 32" fill="none">
             <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
             <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             <defs>
@@ -94,117 +84,126 @@
             </defs>
           </svg>
         </div>
-        <div class="header__text">
-          <h1 class="header__title">Formatted<span class="header__title-accent">AI</span></h1>
-          <p class="header__subtitle" data-i18n="subtitle">Wklej z ChatGPT &rarr; Kopiuj do Docs / Word</p>
+        <div>
+          <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
+          <p class="navbar__subtitle" data-i18n="navSubtitle">Narz&#281;dzia webdev &bull; 100% client-side</p>
         </div>
+      </a>
+      <div class="navbar__nav">
+        <a href="/" class="navbar__link navbar__link--active" data-i18n="navTools">Narz&#281;dzia</a>
+        <button class="navbar__link" id="langToggle" type="button" style="cursor:pointer;border:none;font:inherit;">
+          <span id="langFlag">PL</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Zmie&#324; motyw">
+          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <a href="https://github.com/AdamSzczotka/formattedai" class="navbar__link" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
       </div>
-      <div class="header__actions">
-        <button class="lang-toggle" id="langToggle" type="button" title="Switch language" aria-label="Switch language">
-          <span class="lang-toggle__flag" id="langFlag">PL</span>
-        </button>
-        <button class="btn btn--ghost" id="clearBtn" type="button">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4m2 0v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span data-i18n="clear">Wyczysc</span>
-        </button>
-        <button class="btn btn--primary" id="copyBtn" type="button">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.33" y="5.33" width="9.33" height="9.33" rx="1.33" stroke="currentColor" stroke-width="1.3"/><path d="M3.33 10.67H2.67a1.33 1.33 0 01-1.34-1.34V2.67a1.33 1.33 0 011.34-1.34h6.66a1.33 1.33 0 011.34 1.34v.66" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          <span data-i18n="copy">Kopiuj sformatowany</span>
-        </button>
-        <div class="dropdown" id="downloadDropdown">
-          <button class="btn btn--ghost btn--download" id="downloadBtn" type="button">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8.5M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span data-i18n="download">Pobierz</span>
-            <svg class="dropdown__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <div class="dropdown__menu" id="downloadMenu">
-            <button class="dropdown__item" id="dlHtml" type="button">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3l2.5 10h1L8 5l2.5 8h1L14 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div class="dropdown__item-text">
-                <span class="dropdown__item-title">HTML</span>
-                <span class="dropdown__item-desc" data-i18n="dlHtmlDesc">Otworz w przegladarce</span>
-              </div>
-            </button>
-            <button class="dropdown__item" id="dlDocx" type="button">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="1.5" width="12" height="13" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 6h6M5 8.5h6M5 11h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-              <div class="dropdown__item-text">
-                <span class="dropdown__item-title">DOCX</span>
-                <span class="dropdown__item-desc" data-i18n="dlDocxDesc">Microsoft Word</span>
-              </div>
-            </button>
-            <button class="dropdown__item" id="dlMd" type="button">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 10V6l2 2.5L8 6v4M10.5 8.5L12 10l1.5-1.5M12 10V6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div class="dropdown__item-text">
-                <span class="dropdown__item-title">Markdown</span>
-                <span class="dropdown__item-desc" data-i18n="dlMdDesc">Plik .md</span>
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
-    </header>
+    </nav>
 
-    <main class="workspace" role="main">
-      <section class="panel panel--input" aria-label="Markdown input">
-        <div class="panel__header">
-          <div class="panel__header-left">
-            <div class="panel__dot panel__dot--green" aria-hidden="true"></div>
-            <h2 class="panel__title">Markdown</h2>
-          </div>
-          <span class="panel__badge" id="charCount">0</span>
+    <main>
+      <section class="hero">
+        <div class="hero__badge">
+          <span class="hero__badge-dot"></span>
+          100% client-side
         </div>
-        <label for="markdownInput" class="sr-only">Markdown input</label>
-        <textarea
-          class="editor"
-          id="markdownInput"
-          data-i18n-placeholder="placeholder"
-          placeholder="Wklej tutaj tekst z ChatGPT..."
-          spellcheck="false"
-          aria-label="Markdown text input"
-        ></textarea>
+        <h1 class="hero__title" data-i18n-html="heroTitle">Twoje dane <span>nigdy</span> nie opuszczaj&#261; urz&#261;dzenia</h1>
+        <p class="hero__desc" data-i18n="heroDesc">Darmowe narz&#281;dzia dla web developer&#243;w. Wszystko dzia&#322;a w przegl&#261;darce &mdash; zero uploadu na serwer, pe&#322;na prywatno&#347;&#263;.</p>
+        <div class="hero__security">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L3 3.5V7c0 3.5 2.1 6.3 5 7.5 2.9-1.2 5-4 5-7.5V3.5L8 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 8l1.5 1.5L10 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="heroSecurity">Zero danych wysy&#322;anych na serwer</span>
+        </div>
       </section>
 
-      <div class="divider" aria-hidden="true">
-        <div class="divider__line"></div>
-        <div class="divider__icon">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-            <path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+      <section class="tools">
+        <div class="tools__header">
+          <h2 class="tools__title" data-i18n="toolsTitle">Narz&#281;dzia</h2>
+          <span class="tools__count" data-i18n="toolsCount">1 aktywne &#8226; 5 w przygotowaniu</span>
         </div>
-        <div class="divider__line"></div>
-      </div>
+        <div class="tools__grid">
 
-      <section class="panel panel--output" aria-label="Formatted preview">
-        <div class="panel__header">
-          <div class="panel__header-left">
-            <div class="panel__dot panel__dot--blue" aria-hidden="true"></div>
-            <h2 class="panel__title" data-i18n="preview">Podglad</h2>
-          </div>
-          <div class="panel__controls" role="radiogroup" aria-label="Output format">
-            <button class="style-toggle active" data-style="docs" id="styleDocsBtn" type="button" role="radio" aria-checked="true">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M8.17 1.17H3.5A1.17 1.17 0 002.33 2.33v9.34A1.17 1.17 0 003.5 12.83h7a1.17 1.17 0 001.17-1.16V4.67L8.17 1.17z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Google Docs
-            </button>
-            <button class="style-toggle" data-style="word" id="styleWordBtn" type="button" role="radio" aria-checked="false">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><rect x="1.75" y="2.33" width="10.5" height="9.33" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M4.67 5.25l1.16 3.5 1.17-3.5 1.17 3.5 1.16-3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Word
-            </button>
-          </div>
-        </div>
-        <div class="preview" id="preview" role="document" aria-live="polite">
-          <div class="preview__empty">
-            <div class="preview__empty-visual" aria-hidden="true">
-              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                <rect x="12" y="8" width="40" height="48" rx="4" stroke="#d0d0d8" stroke-width="2"/>
-                <line x1="20" y1="20" x2="44" y2="20" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
-                <line x1="20" y1="28" x2="38" y2="28" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
-                <line x1="20" y1="36" x2="42" y2="36" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
-                <line x1="20" y1="44" x2="34" y2="44" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
-              </svg>
+          <!-- Formatter — LIVE -->
+          <a href="/formatter/" class="tool-card">
+            <div class="tool-card__icon tool-card__icon--purple">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <p class="preview__empty-text" data-i18n="emptyText">Tu pojawi sie sformatowany tekst</p>
-            <p class="preview__empty-hint">Ctrl + Shift + C &mdash; <span data-i18n="emptyHint">szybkie kopiowanie</span></p>
+            <h3 class="tool-card__name">Markdown Formatter</h3>
+            <p class="tool-card__desc" data-i18n="cardFormatter">Wklej tekst z ChatGPT lub Claude i skopiuj idealnie sformatowany dokument do Google Docs lub Microsoft Word.</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--live" data-i18n="tagLive">Dost&#281;pne</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </a>
+
+          <!-- AVIF Converter — COMING SOON -->
+          <div class="tool-card tool-card--coming-soon">
+            <div class="tool-card__icon tool-card__icon--blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">AVIF Converter</h3>
+            <p class="tool-card__desc" data-i18n="cardAvif">Konwertuj obrazki PNG, JPG i WebP na nowoczesny format AVIF. Kompresja bezpo&#347;rednio w przegl&#261;darce.</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--soon" data-i18n="tagSoon">Wkr&#243;tce</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
           </div>
+
+          <!-- CSS Minifier — COMING SOON -->
+          <div class="tool-card tool-card--coming-soon">
+            <div class="tool-card__icon tool-card__icon--green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">CSS Minifier</h3>
+            <p class="tool-card__desc" data-i18n="cardCss">Minifikuj i formatuj CSS. Zmniejsz rozmiar plik&#243;w styl&#243;w bez utraty funkcjonalno&#347;ci.</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--soon" data-i18n="tagSoon">Wkr&#243;tce</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <!-- JSON Formatter — COMING SOON -->
+          <div class="tool-card tool-card--coming-soon">
+            <div class="tool-card__icon tool-card__icon--orange">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 3H7a2 2 0 00-2 2v5a2 2 0 01-2 2 2 2 0 012 2v5a2 2 0 002 2h1M16 3h1a2 2 0 012 2v5a2 2 0 002 2 2 2 0 00-2 2v5a2 2 0 01-2 2h-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">JSON Formatter</h3>
+            <p class="tool-card__desc" data-i18n="cardJson">Formatuj, waliduj i minifikuj JSON. Pod&#347;wietlanie sk&#322;adni i wykrywanie b&#322;&#281;d&#243;w w czasie rzeczywistym.</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--soon" data-i18n="tagSoon">Wkr&#243;tce</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <!-- Meta Tag Generator — COMING SOON -->
+          <div class="tool-card tool-card--coming-soon">
+            <div class="tool-card__icon tool-card__icon--pink">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">Meta Tag Generator</h3>
+            <p class="tool-card__desc" data-i18n="cardMeta">Generuj meta tagi SEO, Open Graph i Twitter Cards. Podgl&#261;d jak strona wygl&#261;da w wynikach wyszukiwania.</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--soon" data-i18n="tagSoon">Wkr&#243;tce</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <!-- Color Palette — COMING SOON -->
+          <div class="tool-card tool-card--coming-soon">
+            <div class="tool-card__icon tool-card__icon--cyan">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9z" stroke="currentColor" stroke-width="1.5"/><circle cx="6.5" cy="11.5" r="1.5" fill="currentColor"/><circle cx="9.5" cy="7.5" r="1.5" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.5" fill="currentColor"/><circle cx="17.5" cy="11.5" r="1.5" fill="currentColor"/></svg>
+            </div>
+            <h3 class="tool-card__name">Color Palette</h3>
+            <p class="tool-card__desc" data-i18n="cardColor">Generuj harmonijne palety kolor&#243;w. Konwertuj mi&#281;dzy HEX, RGB, HSL. Sprawdzaj kontrast WCAG.</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--soon" data-i18n="tagSoon">Wkr&#243;tce</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
         </div>
       </section>
     </main>
@@ -213,39 +212,114 @@
       <p class="footer__text">
         <span data-i18n="madeBy">Stworzone przez</span>
         <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
-          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           Adam Szczotka
         </a>
       </p>
-    </footer>
-
-    <div class="toast" id="toast" role="alert" aria-live="assertive">
-      <div class="toast__icon" aria-hidden="true">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="footer__badge">
+        <span class="footer__badge__dot"></span>
+        <span data-i18n="footerBadge">100% client-side &mdash; zero danych na serwerze</span>
       </div>
-      <span class="toast__text" data-i18n="toast">Skopiowano! Wklej do Docs / Word</span>
-    </div>
+    </footer>
   </div>
 
-  <!-- SEO: Hidden content for crawlers -->
+  <!-- SEO hidden content -->
   <article class="sr-only" aria-hidden="true">
-    <h2>FormattedAI - Free Markdown to Google Docs & Word Converter</h2>
-    <p>FormattedAI is a free online tool that converts markdown text from ChatGPT, Claude, and other AI assistants into perfectly formatted rich text. Simply paste your AI-generated markdown, preview the formatting, and copy it to Google Docs or Microsoft Word with one click. No sign-up required.</p>
-    <h3>Features</h3>
-    <ul>
-      <li>Convert ChatGPT markdown to Google Docs format</li>
-      <li>Convert AI text to Microsoft Word format</li>
-      <li>Preserve headings, tables, lists, bold, italic formatting</li>
-      <li>One-click copy with Ctrl+Shift+C shortcut</li>
-      <li>Free, no registration, works in browser</li>
-      <li>Available in Polish and English</li>
-    </ul>
-    <h2>FormattedAI - Darmowy konwerter Markdown do Google Docs i Word</h2>
-    <p>FormattedAI to darmowe narzedzie online do konwersji tekstu markdown z ChatGPT, Claude i innych asystentow AI na idealnie sformatowany tekst. Wklej tekst wygenerowany przez AI, zobacz podglad formatowania i skopiuj do Google Docs lub Microsoft Word jednym kliknieciem.</p>
+    <h2>FormattedAI - Free Web Developer Tools Suite</h2>
+    <p>FormattedAI offers free, privacy-focused web developer tools that run entirely in your browser. No data is ever sent to a server. Tools include: Markdown to Google Docs/Word formatter, AVIF image converter, CSS minifier, JSON formatter, meta tag generator, and color palette generator.</p>
+    <h2>FormattedAI - Darmowe narzedzia dla web developerow</h2>
+    <p>FormattedAI oferuje darmowe narzedzia webdev dzialajace w 100% po stronie klienta. Zadne dane nie sa wysylane na serwer. Narzedzia: formatter tekstu AI do Google Docs/Word, konwerter grafik AVIF, minifikator CSS, formatter JSON, generator meta tagow i generator palet kolorow.</p>
   </article>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js" defer></script>
-  <script src="assets/js/app.min.js" defer></script>
+  <script>
+  (function() {
+    // --- Theme ---
+    var theme = localStorage.getItem('formattedai-theme') || 'light';
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      theme = theme === 'light' ? 'dark' : 'light';
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      localStorage.setItem('formattedai-theme', theme);
+    });
+
+    // --- i18n ---
+    const t = {
+      pl: {
+        pageTitle: 'FormattedAI \u2014 Darmowe narz\u0119dzia webdev, 100% po stronie klienta',
+        navSubtitle: 'Narz\u0119dzia webdev \u2022 100% client-side',
+        navTools: 'Narz\u0119dzia',
+        heroTitle: 'Twoje dane <span>nigdy</span> nie opuszczaj\u0105 urz\u0105dzenia',
+        heroDesc: 'Darmowe narz\u0119dzia dla web developer\u00f3w. Wszystko dzia\u0142a w przegl\u0105darce \u2014 zero uploadu na serwer, pe\u0142na prywatno\u015b\u0107.',
+        heroSecurity: 'Zero danych wysy\u0142anych na serwer',
+        toolsTitle: 'Narz\u0119dzia',
+        toolsCount: '1 aktywne \u2022 5 w przygotowaniu',
+        cardFormatter: 'Wklej tekst z ChatGPT lub Claude i skopiuj idealnie sformatowany dokument do Google Docs lub Microsoft Word.',
+        cardAvif: 'Konwertuj obrazki PNG, JPG i WebP na nowoczesny format AVIF. Kompresja bezpo\u015brednio w przegl\u0105darce.',
+        cardCss: 'Minifikuj i formatuj CSS. Zmniejsz rozmiar plik\u00f3w styl\u00f3w bez utraty funkcjonalno\u015bci.',
+        cardJson: 'Formatuj, waliduj i minifikuj JSON. Pod\u015bwietlanie sk\u0142adni i wykrywanie b\u0142\u0119d\u00f3w w czasie rzeczywistym.',
+        cardMeta: 'Generuj meta tagi SEO, Open Graph i Twitter Cards. Podgl\u0105d jak strona wygl\u0105da w wynikach wyszukiwania.',
+        cardColor: 'Generuj harmonijne palety kolor\u00f3w. Konwertuj mi\u0119dzy HEX, RGB, HSL. Sprawdzaj kontrast WCAG.',
+        tagLive: 'Dost\u0119pne',
+        tagSoon: 'Wkr\u00f3tce',
+        madeBy: 'Stworzone przez',
+        footerBadge: '100% client-side \u2014 zero danych na serwerze',
+      },
+      en: {
+        pageTitle: 'FormattedAI \u2014 Free webdev tools, 100% client-side',
+        navSubtitle: 'Webdev tools \u2022 100% client-side',
+        navTools: 'Tools',
+        heroTitle: 'Your data <span>never</span> leaves your device',
+        heroDesc: 'Free tools for web developers. Everything runs in the browser \u2014 zero server uploads, full privacy.',
+        heroSecurity: 'Zero data sent to any server',
+        toolsTitle: 'Tools',
+        toolsCount: '1 live \u2022 5 coming soon',
+        cardFormatter: 'Paste text from ChatGPT or Claude and copy a perfectly formatted document to Google Docs or Microsoft Word.',
+        cardAvif: 'Convert PNG, JPG and WebP images to modern AVIF format. Compression directly in the browser.',
+        cardCss: 'Minify and format CSS. Reduce stylesheet file sizes without losing functionality.',
+        cardJson: 'Format, validate and minify JSON. Syntax highlighting and real-time error detection.',
+        cardMeta: 'Generate SEO meta tags, Open Graph and Twitter Cards. Preview how your page looks in search results.',
+        cardColor: 'Generate harmonious color palettes. Convert between HEX, RGB, HSL. Check WCAG contrast.',
+        tagLive: 'Live',
+        tagSoon: 'Coming soon',
+        madeBy: 'Created by',
+        footerBadge: '100% client-side \u2014 zero data on servers',
+      }
+    };
+
+    let lang = localStorage.getItem('formattedai-lang') || 'pl';
+    const flag = document.getElementById('langFlag');
+    const toggle = document.getElementById('langToggle');
+
+    function apply() {
+      document.documentElement.lang = lang;
+      document.title = t[lang].pageTitle;
+      flag.textContent = lang.toUpperCase();
+
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (t[lang][key]) el.textContent = t[lang][key];
+      });
+
+      document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n-html');
+        if (t[lang][key]) el.innerHTML = t[lang][key];
+      });
+
+      localStorage.setItem('formattedai-lang', lang);
+    }
+
+    toggle.addEventListener('click', function() {
+      lang = lang === 'pl' ? 'en' : 'pl';
+      apply();
+    });
+
+    apply();
+  })();
+  </script>
 </body>
 </html>
