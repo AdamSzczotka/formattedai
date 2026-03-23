@@ -342,7 +342,7 @@ async function convertAll() {
   summaryBar.hidden = true;
   resultsList.innerHTML = '';
   resultsProgress.hidden = false;
-  progressFill.style.width = '0%';
+  progressFill.value = 0;
   progressPercent.textContent = '0%';
   progressFile.textContent = '';
 
@@ -382,7 +382,7 @@ async function convertAll() {
 
     // Update progress bar (after conversion) — force repaint
     const percent = Math.round(((i + 1) / inputFiles.length) * 100);
-    progressFill.style.width = `${percent}%`;
+    progressFill.value = percent;
     progressPercent.textContent = `${percent}%`;
     await new Promise(r => requestAnimationFrame(r));
   }
