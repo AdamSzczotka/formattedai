@@ -117,6 +117,24 @@
       </div>
     </header>
 
+    <!-- About Banner -->
+    <div class="about-banner" id="aboutBanner">
+      <div class="about-banner__content">
+        <h2 class="about-banner__title" data-i18n="aboutTitle">Czym jest SEO i GEO?</h2>
+        <p data-i18n="aboutText1"><strong>SEO</strong> (Search Engine Optimization) to optymalizacja strony pod wyszukiwarki jak Google. Meta tagi, Open Graph i Twitter Cards pomagaja Twojej stronie lepiej wyswietlac sie w wynikach wyszukiwania i na mediach spolecznosciowych.</p>
+        <p data-i18n="aboutText2"><strong>GEO</strong> (Generative Engine Optimization) to nowy standard optymalizacji pod AI wyszukiwarki — ChatGPT Search, Perplexity, Google AI Overview. Schema.org JSON-LD i plik llms.txt pomagaja AI zrozumiec i cytowac Twoja strone.</p>
+        <ul class="about-banner__list">
+          <li data-i18n="aboutItem1">Wygeneruj kompletny zestaw meta tagow SEO, Open Graph i Twitter Cards</li>
+          <li data-i18n="aboutItem2">Stworz dane strukturalne Schema.org (JSON-LD) zwiększajace szanse na cytowanie przez AI</li>
+          <li data-i18n="aboutItem3">Wygeneruj plik llms.txt i skonfiguruj robots.txt dla AI crawlerow</li>
+          <li data-i18n="aboutItem4">Wszystko dziala 100% w przegladarce — Twoje dane nigdy nie opuszczaja urzadzenia</li>
+        </ul>
+      </div>
+      <button class="about-banner__close" id="aboutClose" type="button" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
     <main class="workspace" role="main">
       <!-- LEFT PANEL: Form with accordion sections -->
       <section class="panel panel--input" aria-label="Tag generator form">
@@ -143,14 +161,14 @@
             <div class="accordion__body">
               <div class="form-group">
                 <label class="form-label" for="seoTitle">
-                  <span data-i18n="labelTitle">Title</span>
+                  <span><span data-i18n="labelTitle">Title</span> <button class="tooltip-btn" type="button" data-tooltip="helpTitle" aria-label="Help">?</button></span>
                   <span class="form-label__counter" id="seoTitleCount">0 / 60</span>
                 </label>
                 <input class="form-input" type="text" id="seoTitle" placeholder="My Awesome Website — Main Keyword" maxlength="120" data-counter="seoTitleCount" data-min="50" data-max="60">
               </div>
               <div class="form-group">
                 <label class="form-label" for="seoDesc">
-                  <span data-i18n="labelDesc">Description</span>
+                  <span><span data-i18n="labelDesc">Description</span> <button class="tooltip-btn" type="button" data-tooltip="helpDesc" aria-label="Help">?</button></span>
                   <span class="form-label__counter" id="seoDescCount">0 / 160</span>
                 </label>
                 <textarea class="form-input form-input--textarea" id="seoDesc" placeholder="A concise description of your page (150-160 characters)" rows="3" maxlength="300" data-counter="seoDescCount" data-min="150" data-max="160"></textarea>
@@ -176,7 +194,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">
-                  <span data-i18n="labelRobots">Robots</span>
+                  <span><span data-i18n="labelRobots">Robots</span> <button class="tooltip-btn" type="button" data-tooltip="helpRobots" aria-label="Help">?</button></span>
                 </label>
                 <div class="form-checkboxes">
                   <label class="form-checkbox"><input type="checkbox" id="robotsIndex" checked> index</label>
@@ -221,7 +239,7 @@
                 <input class="form-input" type="url" id="ogUrl" placeholder="" data-autofill="seoUrl">
               </div>
               <div class="form-group">
-                <label class="form-label" for="ogImage"><span>og:image</span></label>
+                <label class="form-label" for="ogImage"><span>og:image <button class="tooltip-btn" type="button" data-tooltip="helpOgImage" aria-label="Help">?</button></span></label>
                 <input class="form-input" type="url" id="ogImage" placeholder="https://example.com/image.jpg">
               </div>
               <div class="form-group">
@@ -302,7 +320,7 @@
             </button>
             <div class="accordion__body" hidden>
               <div class="form-group">
-                <label class="form-label" for="schemaType"><span data-i18n="labelSchemaType">Typ Schema</span></label>
+                <label class="form-label" for="schemaType"><span><span data-i18n="labelSchemaType">Typ Schema</span> <button class="tooltip-btn" type="button" data-tooltip="helpSchema" aria-label="Help">?</button></span></label>
                 <select class="form-select" id="schemaType">
                   <option value="Organization" selected>Organization</option>
                   <option value="WebSite">WebSite</option>
@@ -584,6 +602,10 @@
       </div>
       <span class="toast__text" data-i18n="toastCopied">Skopiowano!</span>
     </div>
+  </div>
+
+  <div class="tooltip-popup" id="tooltipPopup" hidden>
+    <div class="tooltip-popup__text" id="tooltipText"></div>
   </div>
 
   <script src="../assets/js/seogeo.min.js" defer></script>

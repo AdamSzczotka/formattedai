@@ -67,6 +67,69 @@ body { overflow: hidden; transition: none; }
   [data-theme="dark"] & { .theme-toggle__sun { display: block; } .theme-toggle__moon { display: none; } }
 }
 
+// --- About Banner ---
+.about-banner {
+  display: flex; gap: 16px; padding: 16px 24px;
+  background: rgba(236, 72, 153, 0.04);
+  border-bottom: 1px solid rgba(236, 72, 153, 0.15);
+  position: relative;
+
+  &__content { flex: 1; }
+
+  &__title {
+    font-size: 15px; font-weight: 700; color: var(--color-text);
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 13px; color: var(--color-text-muted); line-height: 1.6;
+    margin-bottom: 6px;
+    strong { color: $color-geo; font-weight: 700; }
+  }
+
+  &__list {
+    margin: 8px 0 0 18px; padding: 0;
+    li {
+      font-size: 12px; color: var(--color-text-muted); line-height: 1.6;
+      margin-bottom: 2px;
+      &::marker { color: $color-geo; }
+    }
+  }
+
+  &__close {
+    position: absolute; top: 12px; right: 12px;
+    width: 28px; height: 28px; border: none; border-radius: 6px;
+    background: transparent; color: var(--color-text-dim);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all $transition-fast;
+    &:hover { background: var(--color-surface-hover); color: var(--color-text); }
+  }
+}
+
+// --- Tooltip ---
+.tooltip-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1px solid var(--color-border); background: transparent;
+  color: var(--color-text-dim); font-size: 10px; font-weight: 700;
+  font-family: $font-body; cursor: pointer; margin-left: 4px;
+  transition: all $transition-fast; vertical-align: middle;
+
+  &:hover {
+    background: $color-geo; color: #fff; border-color: $color-geo;
+  }
+}
+
+.tooltip-popup {
+  position: fixed; z-index: 1000;
+  max-width: 320px; padding: 10px 14px;
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: $radius-sm;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  font-size: 12px; line-height: 1.6; color: var(--color-text-muted);
+  pointer-events: none;
+}
+
 // --- Workspace ---
 .workspace { display: flex; flex: 1; overflow: hidden; }
 
