@@ -1,4 +1,24 @@
 User-agent: *
 Allow: /
 
+# Block AI training crawlers (protect content from being used for model training)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+# Allow AI search crawlers (so your content appears in AI search results)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://formattedai.pl/sitemap.xml
