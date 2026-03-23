@@ -97,6 +97,7 @@ const app = document.getElementById('app');
 const avifWarning = document.getElementById('avifWarning');
 const langToggle = document.getElementById('langToggle');
 const langFlag = document.getElementById('langFlag');
+const themeToggle = document.getElementById('themeToggle');
 const clearBtn = document.getElementById('clearBtn');
 const convertAllBtn = document.getElementById('convertAllBtn');
 const downloadAllBtn = document.getElementById('downloadAllBtn');
@@ -159,14 +160,21 @@ function toggleLanguage() {
   applyLanguage();
 }
 
-// --- Theme sync ---
-function syncTheme() {
-  const theme = localStorage.getItem('formattedai-theme') || 'light';
-  if (theme === 'dark') {
+// --- Theme ---
+let currentTheme = localStorage.getItem('formattedai-theme') || 'light';
+
+function applyTheme() {
+  if (currentTheme === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
   } else {
     document.documentElement.removeAttribute('data-theme');
   }
+  localStorage.setItem('formattedai-theme', currentTheme);
+}
+
+function toggleTheme() {
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  applyTheme();
 }
 
 // --- AVIF encoder is loaded via top-level ESM import ---
@@ -579,6 +587,7 @@ function setupDragDrop(zone) {
 
 // --- Event Listeners ---
 langToggle.addEventListener('click', toggleLanguage);
+themeToggle.addEventListener('click', toggleTheme);
 clearBtn.addEventListener('click', clearAll);
 convertAllBtn.addEventListener('click', convertAll);
 downloadAllBtn.addEventListener('click', downloadAllZip);
@@ -632,5 +641,5 @@ setupDragDrop(dropZone);
 setupDragDrop(dropZoneCompact);
 
 // --- Init ---
-syncTheme();
+applyTheme();
 applyLanguage();
