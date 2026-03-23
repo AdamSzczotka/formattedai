@@ -3,28 +3,7 @@
 // Uses @jsquash/avif WASM encoder (works in all browsers)
 // ============================================
 
-// --- jSquash AVIF encoder (loaded via global from HTML module script) ---
-let avifEncode = null;
-
-async function loadAvifEncoder() {
-  if (avifEncode) return;
-
-  // Check if already loaded
-  if (window.__avifEncode) {
-    avifEncode = window.__avifEncode;
-    return;
-  }
-
-  // Wait for the encoder module to load
-  await new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => reject(new Error('AVIF encoder load timeout')), 30000);
-    window.addEventListener('avif-encoder-ready', () => {
-      clearTimeout(timeout);
-      avifEncode = window.__avifEncode;
-      resolve();
-    }, { once: true });
-  });
-}
+import avifEncode from 'https://esm.sh/@jsquash/avif@2.1.1/encode.js';
 
 // --- i18n Translations ---
 const translations = {
@@ -184,16 +163,7 @@ function syncTheme() {
   }
 }
 
-// --- AVIF encoder preload (WASM-based, works in all modern browsers) ---
-async function preloadEncoder() {
-  try {
-    await loadAvifEncoder();
-    return true;
-  } catch (err) {
-    console.error('Failed to load AVIF encoder:', err);
-    return false;
-  }
-}
+// --- AVIF encoder is loaded via top-level ESM import ---
 
 // --- File Size Formatter ---
 function formatSize(bytes) {
@@ -315,9 +285,6 @@ function updateUI() {
 
 // --- Convert to AVIF (using jSquash WASM encoder) ---
 async function convertToAvif(file, q) {
-  // Ensure encoder is loaded
-  await loadAvifEncoder();
-
   // Get ImageData from file via Canvas
   let bitmap;
   try {
@@ -631,17 +598,5 @@ setupDragDrop(dropZoneCompact);
 setupDragDrop(inputArea);
 
 // --- Init ---
-async function init() {
-  syncTheme();
-  applyLanguage();
-
-  // Preload WASM encoder in background
-  const loaded = await preloadEncoder();
-  if (!loaded) {
-    app.hidden = true;
-    avifWarning.hidden = false;
-    if (mobileBar) mobileBar.hidden = true;
-  }
-}
-
-init();
+syncTheme();
+applyLanguage();
