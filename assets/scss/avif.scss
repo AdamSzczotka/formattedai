@@ -384,17 +384,28 @@ body { overflow: hidden; }
     font-variant-numeric: tabular-nums;
   }
 
-  &__progress-track {
+  &__progress-bar {
     width: 100%; max-width: 360px; height: 10px;
-    background: var(--color-border); border-radius: 5px; overflow: hidden;
-  }
+    border: none; border-radius: 5px;
+    -webkit-appearance: none; appearance: none;
 
-  &__progress-fill {
-    height: 100%;
-    min-width: 0;
-    background: linear-gradient(90deg, $color-avif, $color-avif-light);
-    border-radius: 5px;
-    transition: width 0.4s ease-out;
+    // Track (background)
+    &::-webkit-progress-bar {
+      background: var(--color-border); border-radius: 5px;
+    }
+
+    // Fill (value)
+    &::-webkit-progress-value {
+      background: linear-gradient(90deg, $color-avif, $color-avif-light);
+      border-radius: 5px;
+      transition: width 0.3s ease-out;
+    }
+
+    // Firefox
+    &::-moz-progress-bar {
+      background: linear-gradient(90deg, $color-avif, $color-avif-light);
+      border-radius: 5px;
+    }
   }
 
   &__progress-file {
