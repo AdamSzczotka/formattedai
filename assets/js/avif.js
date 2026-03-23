@@ -117,6 +117,11 @@ const summaryOriginal = document.getElementById('summaryOriginal');
 const summaryAvif = document.getElementById('summaryAvif');
 const summarySavings = document.getElementById('summarySavings');
 const resultsEmpty = document.getElementById('resultsEmpty');
+const resultsProgress = document.getElementById('resultsProgress');
+const progressText = document.getElementById('progressText');
+const progressPercent = document.getElementById('progressPercent');
+const progressFill = document.getElementById('progressFill');
+const progressFile = document.getElementById('progressFile');
 const resultsList = document.getElementById('resultsList');
 const toast = document.getElementById('toast');
 const imageModal = document.getElementById('imageModal');
@@ -332,10 +337,25 @@ async function convertAll() {
   results.forEach(r => { if (r.objectUrl) URL.revokeObjectURL(r.objectUrl); });
   results = [];
 
+  // Show progress bar, hide empty state and results list
+  resultsEmpty.hidden = true;
+  summaryBar.hidden = true;
+  resultsList.innerHTML = '';
+  resultsProgress.hidden = false;
+  progressFill.style.width = '0%';
+  progressPercent.textContent = '0%';
+  progressFile.textContent = '';
+
   convertAllBtn.querySelector('span').textContent = t('converting');
 
   for (let i = 0; i < inputFiles.length; i++) {
     const { id, file } = inputFiles[i];
+
+    // Update progress bar
+    const percent = Math.round((i / inputFiles.length) * 100);
+    progressFill.style.width = `${percent}%`;
+    progressPercent.textContent = `${percent}%`;
+    progressFile.textContent = file.name;
 
     // Update progress in button
     convertAllBtn.querySelector('span').textContent =
@@ -366,9 +386,17 @@ async function convertAll() {
     }
   }
 
+  // Finish progress bar
+  progressFill.style.width = '100%';
+  progressPercent.textContent = '100%';
+  progressFile.textContent = '';
+
   isConverting = false;
   if (divider) divider.classList.remove('divider--loading');
   convertAllBtn.querySelector('span').textContent = t('convertAll');
+
+  // Hide progress, show results
+  resultsProgress.hidden = true;
   renderResults();
   updateUI();
   showToast(t('toastConverted'));

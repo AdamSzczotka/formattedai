@@ -231,6 +231,17 @@
             <p class="results__empty-text" data-i18n="emptyText">Tu pojawia sie skonwertowane obrazki</p>
             <p class="results__empty-hint" data-i18n="emptyHint">Dodaj pliki po lewej stronie</p>
           </div>
+          <!-- Conversion progress -->
+          <div class="results__progress" id="resultsProgress" hidden>
+            <div class="results__progress-info">
+              <span class="results__progress-text" id="progressText" data-i18n="converting">Konwertowanie...</span>
+              <span class="results__progress-percent" id="progressPercent">0%</span>
+            </div>
+            <div class="results__progress-track">
+              <div class="results__progress-fill" id="progressFill"></div>
+            </div>
+            <p class="results__progress-file" id="progressFile"></p>
+          </div>
           <div class="results__list" id="resultsList"></div>
         </div>
       </section>
