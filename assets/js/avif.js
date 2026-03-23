@@ -100,7 +100,7 @@ const langFlag = document.getElementById('langFlag');
 const clearBtn = document.getElementById('clearBtn');
 const convertAllBtn = document.getElementById('convertAllBtn');
 const downloadAllBtn = document.getElementById('downloadAllBtn');
-const divider = document.querySelector('.divider');
+const divider = document.getElementById('divider');
 const qualitySlider = document.getElementById('qualitySlider');
 const qualityValue = document.getElementById('qualityValue');
 const dropZone = document.getElementById('dropZone');
@@ -581,6 +581,12 @@ langToggle.addEventListener('click', toggleLanguage);
 clearBtn.addEventListener('click', clearAll);
 convertAllBtn.addEventListener('click', convertAll);
 downloadAllBtn.addEventListener('click', downloadAllZip);
+
+// Divider as convert button
+divider.addEventListener('click', convertAll);
+divider.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); convertAll(); }
+});
 
 browseBtn.addEventListener('click', () => fileInput.click());
 dropZoneCompact.addEventListener('click', () => fileInput.click());
