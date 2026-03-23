@@ -394,6 +394,8 @@ body { overflow: hidden; }
   display: flex; align-items: center; justify-content: center;
   background: var(--color-bg);
 
+  &[hidden] { display: none; }
+
   &__content {
     display: flex; flex-direction: column; align-items: center; gap: 16px;
     text-align: center; max-width: 480px; padding: 40px;
@@ -422,6 +424,8 @@ body { overflow: hidden; }
 .image-modal {
   position: fixed; inset: 0; z-index: 500;
   display: flex; align-items: center; justify-content: center;
+
+  &[hidden] { display: none; }
 
   &__backdrop {
     position: absolute; inset: 0;
