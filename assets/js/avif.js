@@ -342,7 +342,7 @@ async function convertAll() {
   summaryBar.hidden = true;
   resultsList.innerHTML = '';
   resultsProgress.hidden = false;
-  progressFill.style.setProperty('--progress', '0%');
+  progressFill.style.width = '0%';
   progressPercent.textContent = '0%';
   progressFile.textContent = '';
 
@@ -380,10 +380,11 @@ async function convertAll() {
       });
     }
 
-    // Update progress bar (after conversion)
+    // Update progress bar (after conversion) — force repaint
     const percent = Math.round(((i + 1) / inputFiles.length) * 100);
-    progressFill.style.setProperty('--progress', `${percent}%`);
+    progressFill.style.width = `${percent}%`;
     progressPercent.textContent = `${percent}%`;
+    await new Promise(r => requestAnimationFrame(r));
   }
 
   progressFile.textContent = '';
