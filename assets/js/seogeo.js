@@ -54,6 +54,20 @@ const translations = {
     linkName: 'Nazwa linku',
     linkUrl: 'URL linku',
     linkDesc: 'Opis',
+    // About
+    aboutTitle: 'Czym jest SEO i GEO?',
+    aboutText1: '<strong>SEO</strong> (Search Engine Optimization) to optymalizacja strony pod wyszukiwarki jak Google. Meta tagi, Open Graph i Twitter Cards pomagaj\u0105 Twojej stronie lepiej wy\u015Bwietla\u0107 si\u0119 w wynikach wyszukiwania i na mediach spo\u0142eczno\u015Bciowych.',
+    aboutText2: '<strong>GEO</strong> (Generative Engine Optimization) to nowy standard optymalizacji pod AI wyszukiwarki \u2014 ChatGPT Search, Perplexity, Google AI Overview. Schema.org JSON-LD i plik llms.txt pomagaj\u0105 AI zrozumie\u0107 i cytowa\u0107 Twoj\u0105 stron\u0119.',
+    aboutItem1: 'Wygeneruj kompletny zestaw meta tag\u00F3w SEO, Open Graph i Twitter Cards',
+    aboutItem2: 'Stw\u00F3rz dane strukturalne Schema.org (JSON-LD) zwi\u0119kszaj\u0105ce szanse na cytowanie przez AI',
+    aboutItem3: 'Wygeneruj plik llms.txt i skonfiguruj robots.txt dla AI crawler\u00F3w',
+    aboutItem4: 'Wszystko dzia\u0142a 100% w przegl\u0105darce \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia',
+    // Tooltips
+    helpTitle: 'Tytu\u0142 strony wy\u015Bwietlany w karcie przegl\u0105darki i wynikach Google. Optymalnie 50-60 znak\u00F3w.',
+    helpDesc: 'Opis strony wy\u015Bwietlany pod tytu\u0142em w wynikach Google. Optymalnie 150-160 znak\u00F3w. Powinien zach\u0119ca\u0107 do klikni\u0119cia.',
+    helpRobots: 'Instrukcje dla robot\u00F3w wyszukiwarek. "max-snippet:-1" pozwala Google AI Overview wyci\u0105gn\u0105\u0107 dowoln\u0105 ilo\u015B\u0107 tekstu.',
+    helpOgImage: 'Obrazek wy\u015Bwietlany przy udost\u0119pnianiu na Facebooku/LinkedIn. Zalecany rozmiar: 1200\u00D7630px.',
+    helpSchema: 'Schema.org to format danych strukturalnych rozumiany przez Google i AI. FAQPage ma najwy\u017Csz\u0105 szans\u0119 na cytowanie przez AI wyszukiwarki.',
   },
   en: {
     subtitle: 'SEO & GEO Tag Generator',
@@ -105,6 +119,20 @@ const translations = {
     linkName: 'Link name',
     linkUrl: 'Link URL',
     linkDesc: 'Description',
+    // About
+    aboutTitle: 'What is SEO and GEO?',
+    aboutText1: '<strong>SEO</strong> (Search Engine Optimization) optimizes your page for search engines like Google. Meta tags, Open Graph and Twitter Cards help your page appear better in search results and social media.',
+    aboutText2: '<strong>GEO</strong> (Generative Engine Optimization) is a new standard for optimizing content for AI search engines \u2014 ChatGPT Search, Perplexity, Google AI Overview. Schema.org JSON-LD and llms.txt help AI understand and cite your content.',
+    aboutItem1: 'Generate a complete set of SEO meta tags, Open Graph and Twitter Cards',
+    aboutItem2: 'Create Schema.org structured data (JSON-LD) to increase AI citation chances',
+    aboutItem3: 'Generate llms.txt and configure robots.txt for AI crawlers',
+    aboutItem4: 'Everything runs 100% in your browser \u2014 your data never leaves your device',
+    // Tooltips
+    helpTitle: 'Page title shown in browser tab and Google results. Optimal length: 50-60 characters.',
+    helpDesc: 'Page description shown below the title in Google results. Optimal: 150-160 chars. Should encourage clicks.',
+    helpRobots: 'Instructions for search engine bots. "max-snippet:-1" lets Google AI Overview extract unlimited text.',
+    helpOgImage: 'Image shown when sharing on Facebook/LinkedIn. Recommended size: 1200\u00D7630px.',
+    helpSchema: 'Schema.org is a structured data format understood by Google and AI. FAQPage has the highest chance of being cited by AI search engines.',
   },
 };
 
@@ -213,7 +241,9 @@ function applyLanguage() {
   document.title = t('pageTitle');
   langFlag.textContent = currentLang === 'pl' ? 'PL' : 'EN';
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t(el.getAttribute('data-i18n'));
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if (val.includes('<')) { el.innerHTML = val; } else { el.textContent = val; }
   });
   localStorage.setItem('formattedai-lang', currentLang);
   generateAll();
@@ -860,9 +890,50 @@ formArea.addEventListener('change', (e) => {
   }
 });
 
+// --- About Banner ---
+const aboutBanner = document.getElementById('aboutBanner');
+const aboutClose = document.getElementById('aboutClose');
+const ABOUT_KEY = 'formattedai-seogeo-about-closed';
+
+function initAboutBanner() {
+  if (localStorage.getItem(ABOUT_KEY)) {
+    aboutBanner.hidden = true;
+  }
+}
+
+aboutClose.addEventListener('click', () => {
+  aboutBanner.hidden = true;
+  localStorage.setItem(ABOUT_KEY, '1');
+});
+
+// --- Tooltips ---
+const tooltipPopup = document.getElementById('tooltipPopup');
+const tooltipText = document.getElementById('tooltipText');
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tooltip-btn');
+  if (btn) {
+    e.preventDefault();
+    const key = btn.dataset.tooltip;
+    const text = t(key);
+    if (!text || text === key) { tooltipPopup.hidden = true; return; }
+
+    tooltipText.textContent = text;
+    tooltipPopup.hidden = false;
+
+    // Position near button
+    const rect = btn.getBoundingClientRect();
+    tooltipPopup.style.top = `${rect.bottom + 8}px`;
+    tooltipPopup.style.left = `${Math.max(8, Math.min(rect.left, window.innerWidth - 340))}px`;
+  } else if (!e.target.closest('.tooltip-popup')) {
+    tooltipPopup.hidden = true;
+  }
+});
+
 // --- Init ---
 setupAccordions();
 renderCrawlerList();
+initAboutBanner();
 applyTheme();
 loadFromStorage();
 applyLanguage();
