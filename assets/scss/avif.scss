@@ -353,6 +353,43 @@ body { overflow: hidden; }
   &__empty-text { font-size: 15px; color: var(--color-text-dim); font-weight: 500; }
   &__empty-hint { font-size: 12px; color: var(--color-text-dim); opacity: 0.7; }
 
+  // Conversion progress
+  &__progress {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; gap: 20px; padding: 40px; user-select: none;
+  }
+
+  &__progress-info {
+    display: flex; align-items: baseline; gap: 12px;
+  }
+
+  &__progress-text {
+    font-size: 16px; font-weight: 600; color: var(--color-text-muted);
+  }
+
+  &__progress-percent {
+    font-size: 28px; font-weight: 800; color: $color-avif;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__progress-track {
+    width: 100%; max-width: 360px; height: 8px;
+    background: var(--color-border); border-radius: 4px; overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, $color-avif, $color-avif-light);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+
+  &__progress-file {
+    font-size: 13px; color: var(--color-text-dim);
+    max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    text-align: center;
+  }
+
   &__list { padding: 8px 16px; }
 }
 
