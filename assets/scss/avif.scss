@@ -12,7 +12,15 @@ $color-avif-dark: #2563eb;
 $color-avif-glow: rgba(59, 130, 246, 0.15);
 $color-avif-glow-strong: rgba(59, 130, 246, 0.35);
 
-body { overflow: hidden; }
+body { overflow: hidden; transition: none; }
+
+// Disable all transitions during theme change
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
 .app { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
 // Global: respect hidden attribute on elements with explicit display

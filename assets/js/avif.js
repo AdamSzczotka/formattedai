@@ -173,8 +173,16 @@ function applyTheme() {
 }
 
 function toggleTheme() {
+  // Disable transitions during theme switch for instant change
+  document.documentElement.classList.add('theme-switching');
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
   applyTheme();
+  // Re-enable transitions after repaint
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove('theme-switching');
+    });
+  });
 }
 
 // --- AVIF encoder is loaded via top-level ESM import ---
