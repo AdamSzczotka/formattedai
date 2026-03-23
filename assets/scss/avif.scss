@@ -104,6 +104,29 @@ body { overflow: hidden; }
   &:hover &__flag { color: $color-avif-light; }
 }
 
+// --- Theme Toggle ---
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border: 1px solid var(--color-border); border-radius: $radius-sm;
+  background: var(--color-surface); cursor: pointer;
+  transition: all $transition; color: var(--color-text-muted);
+
+  &:hover {
+    color: $color-avif;
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+  }
+
+  &__sun { display: none; }
+  &__moon { display: block; }
+
+  [data-theme="dark"] & {
+    .theme-toggle__sun { display: block; }
+    .theme-toggle__moon { display: none; }
+  }
+}
+
 // --- Quality Bar ---
 .quality-bar {
   display: flex; align-items: center; justify-content: center; gap: 20px;
