@@ -77,7 +77,7 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-  <link rel="apple-touch-icon" href="../assets/favicon.svg">
+  <!-- TODO: Add 180x180 PNG for apple-touch-icon (Apple does not support SVG) -->
 
   <!-- PWA -->
   <meta name="theme-color" content="#08080c">
@@ -123,6 +123,7 @@
         </div>
       </a>
       <div class="header__actions">
+        <button class="about-trigger" id="aboutTrigger" type="button" aria-label="About" title="About">?</button>
         <button class="lang-toggle" id="langToggle" type="button" title="Switch language" aria-label="Switch language">
           <span class="lang-toggle__flag" id="langFlag">PL</span>
         </button>
@@ -141,22 +142,38 @@
       </div>
     </header>
 
-    <!-- About Banner -->
-    <div class="about-banner" id="aboutBanner">
-      <div class="about-banner__content">
-        <h2 class="about-banner__title" data-i18n="aboutTitle">Czym jest SEO i GEO?</h2>
-        <p data-i18n="aboutText1"><strong>SEO</strong> (Search Engine Optimization) to optymalizacja strony pod wyszukiwarki jak Google. Meta tagi, Open Graph i Twitter Cards pomagaja Twojej stronie lepiej wyswietlac sie w wynikach wyszukiwania i na mediach spolecznosciowych.</p>
-        <p data-i18n="aboutText2"><strong>GEO</strong> (Generative Engine Optimization) to nowy standard optymalizacji pod AI wyszukiwarki — ChatGPT Search, Perplexity, Google AI Overview. Schema.org JSON-LD i plik llms.txt pomagaja AI zrozumiec i cytowac Twoja strone.</p>
-        <ul class="about-banner__list">
-          <li data-i18n="aboutItem1">Wygeneruj kompletny zestaw meta tagow SEO, Open Graph i Twitter Cards</li>
-          <li data-i18n="aboutItem2">Stworz dane strukturalne Schema.org (JSON-LD) zwiększajace szanse na cytowanie przez AI</li>
-          <li data-i18n="aboutItem3">Wygeneruj plik llms.txt i skonfiguruj robots.txt dla AI crawlerow</li>
-          <li data-i18n="aboutItem4">Wszystko dziala 100% w przegladarce — Twoje dane nigdy nie opuszczaja urzadzenia</li>
-        </ul>
+    <!-- About Modal -->
+    <div class="about-modal-overlay" id="aboutModal" hidden>
+      <div class="about-modal">
+        <div class="about-modal__header">
+          <div class="about-modal__title">
+            <div class="about-modal__icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM9 12.75V9M9 5.25h.008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span data-i18n="modalTitle">SEO & GEO Tag Generator</span>
+          </div>
+          <button class="about-modal__close" id="aboutModalClose" type="button" aria-label="Close">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="about-modal__body">
+          <p class="about-modal__desc" data-i18n="modalDesc"><strong>SEO</strong> optymalizuje strone pod Google. <strong>GEO</strong> optymalizuje pod AI wyszukiwarki (ChatGPT Search, Perplexity, Google AI Overview). To narzedzie generuje oba zestawy tagow z jednego formularza.</p>
+          <h3 class="about-modal__section-title" data-i18n="modalHowTitle">Jak uzywac</h3>
+          <ol class="about-modal__steps">
+            <li data-i18n="modalStep1">Wypelnij formularz SEO — tytul, opis, URL</li>
+            <li data-i18n="modalStep2">Przejdz do sekcji GEO — Schema.org, llms.txt, robots.txt</li>
+            <li data-i18n="modalStep3">Skopiuj wygenerowane tagi i wklej do kodu strony</li>
+          </ol>
+          <h3 class="about-modal__section-title" data-i18n="modalFeaturesTitle">Kluczowe funkcje</h3>
+          <ul class="about-modal__features">
+            <li data-i18n="modalFeat1">Meta tagi SEO, Open Graph i Twitter Cards</li>
+            <li data-i18n="modalFeat2">Schema.org JSON-LD (Organization, Article, FAQPage i inne)</li>
+            <li data-i18n="modalFeat3">Generator llms.txt i robots.txt z presetami AI crawlerow</li>
+            <li data-i18n="modalFeat4">Podglad SERP i social media na zywo</li>
+            <li data-i18n="modalFeat5">100% client-side — Twoje dane nigdy nie opuszczaja urzadzenia</li>
+          </ul>
+        </div>
       </div>
-      <button class="about-banner__close" id="aboutClose" type="button" aria-label="Close">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </button>
     </div>
 
     <main class="workspace" role="main">

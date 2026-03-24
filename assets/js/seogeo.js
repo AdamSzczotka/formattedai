@@ -54,14 +54,19 @@ const translations = {
     linkName: 'Nazwa linku',
     linkUrl: 'URL linku',
     linkDesc: 'Opis',
-    // About
-    aboutTitle: 'Czym jest SEO i GEO?',
-    aboutText1: '<strong>SEO</strong> (Search Engine Optimization) to optymalizacja strony pod wyszukiwarki jak Google. Meta tagi, Open Graph i Twitter Cards pomagaj\u0105 Twojej stronie lepiej wy\u015Bwietla\u0107 si\u0119 w wynikach wyszukiwania i na mediach spo\u0142eczno\u015Bciowych.',
-    aboutText2: '<strong>GEO</strong> (Generative Engine Optimization) to nowy standard optymalizacji pod AI wyszukiwarki \u2014 ChatGPT Search, Perplexity, Google AI Overview. Schema.org JSON-LD i plik llms.txt pomagaj\u0105 AI zrozumie\u0107 i cytowa\u0107 Twoj\u0105 stron\u0119.',
-    aboutItem1: 'Wygeneruj kompletny zestaw meta tag\u00F3w SEO, Open Graph i Twitter Cards',
-    aboutItem2: 'Stw\u00F3rz dane strukturalne Schema.org (JSON-LD) zwi\u0119kszaj\u0105ce szanse na cytowanie przez AI',
-    aboutItem3: 'Wygeneruj plik llms.txt i skonfiguruj robots.txt dla AI crawler\u00F3w',
-    aboutItem4: 'Wszystko dzia\u0142a 100% w przegl\u0105darce \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia',
+    // Modal
+    modalTitle: 'SEO & GEO Tag Generator',
+    modalDesc: '<strong>SEO</strong> optymalizuje stron\u0119 pod Google. <strong>GEO</strong> optymalizuje pod AI wyszukiwarki (ChatGPT Search, Perplexity, Google AI Overview). To narz\u0119dzie generuje oba zestawy tag\u00F3w z jednego formularza.',
+    modalHowTitle: 'Jak u\u017Cywa\u0107',
+    modalStep1: 'Wype\u0142nij formularz SEO \u2014 tytu\u0142, opis, URL',
+    modalStep2: 'Przejd\u017A do sekcji GEO \u2014 Schema.org, llms.txt, robots.txt',
+    modalStep3: 'Skopiuj wygenerowane tagi i wklej do kodu strony',
+    modalFeaturesTitle: 'Kluczowe funkcje',
+    modalFeat1: 'Meta tagi SEO, Open Graph i Twitter Cards',
+    modalFeat2: 'Schema.org JSON-LD (Organization, Article, FAQPage i inne)',
+    modalFeat3: 'Generator llms.txt i robots.txt z presetami AI crawler\u00F3w',
+    modalFeat4: 'Podgl\u0105d SERP i social media na \u017Cywo',
+    modalFeat5: '100% client-side \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia',
     // Tooltips
     helpTitle: 'Tytu\u0142 strony wy\u015Bwietlany w karcie przegl\u0105darki i wynikach Google. Optymalnie 50-60 znak\u00F3w.',
     helpDesc: 'Opis strony wy\u015Bwietlany pod tytu\u0142em w wynikach Google. Optymalnie 150-160 znak\u00F3w. Powinien zach\u0119ca\u0107 do klikni\u0119cia.',
@@ -143,23 +148,49 @@ const translations = {
     linkName: 'Link name',
     linkUrl: 'Link URL',
     linkDesc: 'Description',
-    // About
-    aboutTitle: 'What is SEO and GEO?',
-    aboutText1: '<strong>SEO</strong> (Search Engine Optimization) optimizes your page for search engines like Google. Meta tags, Open Graph and Twitter Cards help your page appear better in search results and social media.',
-    aboutText2: '<strong>GEO</strong> (Generative Engine Optimization) is a new standard for optimizing content for AI search engines \u2014 ChatGPT Search, Perplexity, Google AI Overview. Schema.org JSON-LD and llms.txt help AI understand and cite your content.',
-    aboutItem1: 'Generate a complete set of SEO meta tags, Open Graph and Twitter Cards',
-    aboutItem2: 'Create Schema.org structured data (JSON-LD) to increase AI citation chances',
-    aboutItem3: 'Generate llms.txt and configure robots.txt for AI crawlers',
-    aboutItem4: 'Everything runs 100% in your browser \u2014 your data never leaves your device',
+    // Modal
+    modalTitle: 'SEO & GEO Tag Generator',
+    modalDesc: '<strong>SEO</strong> optimizes your page for Google. <strong>GEO</strong> optimizes for AI search engines (ChatGPT Search, Perplexity, Google AI Overview). This tool generates both sets of tags from a single form.',
+    modalHowTitle: 'How to use',
+    modalStep1: 'Fill in the SEO form \u2014 title, description, URL',
+    modalStep2: 'Go to GEO sections \u2014 Schema.org, llms.txt, robots.txt',
+    modalStep3: 'Copy generated tags and paste into your page code',
+    modalFeaturesTitle: 'Key features',
+    modalFeat1: 'SEO meta tags, Open Graph and Twitter Cards',
+    modalFeat2: 'Schema.org JSON-LD (Organization, Article, FAQPage and more)',
+    modalFeat3: 'llms.txt and robots.txt generator with AI crawler presets',
+    modalFeat4: 'Live SERP and social media preview',
+    modalFeat5: '100% client-side \u2014 your data never leaves your device',
     // Tooltips
     helpTitle: 'Page title shown in browser tab and Google results. Optimal length: 50-60 characters.',
     helpDesc: 'Page description shown below the title in Google results. Optimal: 150-160 chars. Should encourage clicks.',
     helpRobots: 'Instructions for search engine bots. "max-snippet:-1" lets Google AI Overview extract unlimited text.',
     helpOgImage: 'Image shown when sharing on Facebook/LinkedIn. Recommended size: 1200\u00D7630px.',
     helpSchema: 'Schema.org is a structured data format understood by Google and AI. FAQPage has the highest chance of being cited by AI search engines.',
-    // SEO content section (English is default in HTML, so only a few overrides needed)
+    // SEO content section
+    seoH1: 'SEO & GEO Tag Generator — Free Meta Tags, Schema.org and llms.txt Generator',
+    seoDescLong: 'Generate all the tags your website needs to rank in Google and get cited by AI search engines. This tool covers traditional SEO (meta tags, Open Graph, Twitter Cards), modern structured data (Schema.org JSON-LD), and the cutting-edge GEO standard (Generative Engine Optimization) with llms.txt and AI crawler configuration.',
+    seoWhatSeo: 'What is SEO?',
+    seoWhatSeoText: 'SEO (Search Engine Optimization) is the practice of optimizing your website to rank higher in search engines like Google. Key elements include meta title and description tags, Open Graph tags for social sharing, Twitter Cards, canonical URLs, and structured data. This tool generates all of these from a single form.',
+    seoWhatGeo: 'What is GEO (Generative Engine Optimization)?',
+    seoWhatGeoText: 'GEO is a new optimization standard for AI-powered search engines — ChatGPT Search, Perplexity AI, Google AI Overview. Instead of competing for 10 blue links, you compete for 2-7 citation slots in AI-generated answers. Key GEO tools include Schema.org structured data (especially FAQPage), the llms.txt file, and robots.txt configuration for AI crawlers.',
     seoFeaturesTitle: 'Features',
+    seoGeoFeat1: 'SEO meta tags with character counters and validation hints',
+    seoGeoFeat2: 'Open Graph tags with auto-fill from SEO fields',
+    seoGeoFeat3: 'Twitter Cards generation',
+    seoGeoFeat4: 'Schema.org JSON-LD for Organization, WebSite, Article, FAQPage, BreadcrumbList',
+    seoGeoFeat5: 'llms.txt generator with guided form and raw editor',
+    seoGeoFeat6: 'robots.txt with AI crawler presets (block training, allow search)',
+    seoGeoFeat7: 'Live SERP and social media preview',
+    seoGeoFeat8: 'Copy per section or copy all HTML at once',
+    seoGeoFeat9: 'Auto-save to localStorage — never lose your work',
     seoFaqTitle: 'Frequently Asked Questions',
+    seoGeoFaq1q: 'What is GEO and why does it matter?',
+    seoGeoFaq1a: 'GEO (Generative Engine Optimization) optimizes your content for AI search engines. Over 40% of search queries in 2026 are answered by AI. Without GEO optimization, your content may be invisible to ChatGPT Search, Perplexity, and Google AI Overview.',
+    seoGeoFaq2q: 'What is llms.txt?',
+    seoGeoFaq2a: 'llms.txt is a new standard (similar to robots.txt) that tells AI models about your website. It\'s a Markdown file placed at your site root (/llms.txt) containing your project name, description, and links to key content.',
+    seoGeoFaq3q: 'How do I optimize my site for AI search engines?',
+    seoGeoFaq3a: 'Three key steps: 1) Add Schema.org structured data — especially FAQPage which has the highest AI citation rate. 2) Create an llms.txt file describing your site. 3) Configure robots.txt to block AI training crawlers but allow AI search crawlers. This tool generates all three.',
   },
 };
 
@@ -354,7 +385,7 @@ function updateCounter(input) {
 
 // --- Escape HTML ---
 function esc(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 // --- Generate SEO ---
@@ -426,7 +457,7 @@ function generateOg() {
   ogPreviewSite.textContent = siteName || (url ? url.replace(/^https?:\/\//, '').split('/')[0] : 'example.com');
   if (image) {
     ogPreviewImg.textContent = '';
-    ogPreviewImg.style.backgroundImage = `url(${image})`;
+    ogPreviewImg.style.backgroundImage = `url("${image.replace(/["\\()]/g, '')}")`;
   } else {
     ogPreviewImg.style.backgroundImage = '';
     ogPreviewImg.textContent = t('noImage');
@@ -584,8 +615,10 @@ function generateRobots() {
 
   const sitemapUrl = getVal(seoUrl);
   if (sitemapUrl) {
-    const base = sitemapUrl.replace(/\/[^/]*$/, '');
-    lines.push(`Sitemap: ${base}/sitemap.xml`);
+    try {
+      const origin = new URL(sitemapUrl).origin;
+      lines.push(`Sitemap: ${origin}/sitemap.xml`);
+    } catch { /* invalid URL, skip sitemap */ }
   }
 
   outputRobotsCode.textContent = lines.join('\n');
@@ -780,7 +813,7 @@ function copyText(text) {
 }
 
 function copyAll() {
-  const parts = [outputSeoCode, outputOgCode, outputTwitterCode, outputSchemaCode]
+  const parts = [outputSeoCode, outputOgCode, outputTwitterCode, outputSchemaCode, outputLlmsCode, outputRobotsCode]
     .map(el => el.textContent).filter(Boolean);
   copyText(parts.join('\n\n'));
 }
@@ -917,20 +950,28 @@ formArea.addEventListener('change', (e) => {
   }
 });
 
-// --- About Banner ---
-const aboutBanner = document.getElementById('aboutBanner');
-const aboutClose = document.getElementById('aboutClose');
-const ABOUT_KEY = 'formattedai-seogeo-about-closed';
+// --- About Modal ---
+const aboutTrigger = document.getElementById('aboutTrigger');
+const aboutModal = document.getElementById('aboutModal');
+const aboutModalClose = document.getElementById('aboutModalClose');
 
-function initAboutBanner() {
-  if (localStorage.getItem(ABOUT_KEY)) {
-    aboutBanner.hidden = true;
-  }
+function openAboutModal() {
+  aboutModal.hidden = false;
+  requestAnimationFrame(() => aboutModal.classList.add('show'));
 }
 
-aboutClose.addEventListener('click', () => {
-  aboutBanner.hidden = true;
-  localStorage.setItem(ABOUT_KEY, '1');
+function closeAboutModal() {
+  aboutModal.classList.remove('show');
+  setTimeout(() => { aboutModal.hidden = true; }, 200);
+}
+
+aboutTrigger.addEventListener('click', openAboutModal);
+aboutModalClose.addEventListener('click', closeAboutModal);
+aboutModal.addEventListener('click', (e) => {
+  if (e.target === aboutModal) closeAboutModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !aboutModal.hidden) closeAboutModal();
 });
 
 // --- Tooltips ---
@@ -960,7 +1001,6 @@ document.addEventListener('click', (e) => {
 // --- Init ---
 setupAccordions();
 renderCrawlerList();
-initAboutBanner();
 applyTheme();
 loadFromStorage();
 applyLanguage();
