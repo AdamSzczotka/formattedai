@@ -157,9 +157,30 @@ const translations = {
     helpRobots: 'Instructions for search engine bots. "max-snippet:-1" lets Google AI Overview extract unlimited text.',
     helpOgImage: 'Image shown when sharing on Facebook/LinkedIn. Recommended size: 1200\u00D7630px.',
     helpSchema: 'Schema.org is a structured data format understood by Google and AI. FAQPage has the highest chance of being cited by AI search engines.',
-    // SEO content section (English is default in HTML, so only a few overrides needed)
+    // SEO content section
+    seoH1: 'SEO & GEO Tag Generator — Free Meta Tags, Schema.org and llms.txt Generator',
+    seoDescLong: 'Generate all the tags your website needs to rank in Google and get cited by AI search engines. This tool covers traditional SEO (meta tags, Open Graph, Twitter Cards), modern structured data (Schema.org JSON-LD), and the cutting-edge GEO standard (Generative Engine Optimization) with llms.txt and AI crawler configuration.',
+    seoWhatSeo: 'What is SEO?',
+    seoWhatSeoText: 'SEO (Search Engine Optimization) is the practice of optimizing your website to rank higher in search engines like Google. Key elements include meta title and description tags, Open Graph tags for social sharing, Twitter Cards, canonical URLs, and structured data. This tool generates all of these from a single form.',
+    seoWhatGeo: 'What is GEO (Generative Engine Optimization)?',
+    seoWhatGeoText: 'GEO is a new optimization standard for AI-powered search engines — ChatGPT Search, Perplexity AI, Google AI Overview. Instead of competing for 10 blue links, you compete for 2-7 citation slots in AI-generated answers. Key GEO tools include Schema.org structured data (especially FAQPage), the llms.txt file, and robots.txt configuration for AI crawlers.',
     seoFeaturesTitle: 'Features',
+    seoGeoFeat1: 'SEO meta tags with character counters and validation hints',
+    seoGeoFeat2: 'Open Graph tags with auto-fill from SEO fields',
+    seoGeoFeat3: 'Twitter Cards generation',
+    seoGeoFeat4: 'Schema.org JSON-LD for Organization, WebSite, Article, FAQPage, BreadcrumbList',
+    seoGeoFeat5: 'llms.txt generator with guided form and raw editor',
+    seoGeoFeat6: 'robots.txt with AI crawler presets (block training, allow search)',
+    seoGeoFeat7: 'Live SERP and social media preview',
+    seoGeoFeat8: 'Copy per section or copy all HTML at once',
+    seoGeoFeat9: 'Auto-save to localStorage — never lose your work',
     seoFaqTitle: 'Frequently Asked Questions',
+    seoGeoFaq1q: 'What is GEO and why does it matter?',
+    seoGeoFaq1a: 'GEO (Generative Engine Optimization) optimizes your content for AI search engines. Over 40% of search queries in 2026 are answered by AI. Without GEO optimization, your content may be invisible to ChatGPT Search, Perplexity, and Google AI Overview.',
+    seoGeoFaq2q: 'What is llms.txt?',
+    seoGeoFaq2a: 'llms.txt is a new standard (similar to robots.txt) that tells AI models about your website. It\'s a Markdown file placed at your site root (/llms.txt) containing your project name, description, and links to key content.',
+    seoGeoFaq3q: 'How do I optimize my site for AI search engines?',
+    seoGeoFaq3a: 'Three key steps: 1) Add Schema.org structured data — especially FAQPage which has the highest AI citation rate. 2) Create an llms.txt file describing your site. 3) Configure robots.txt to block AI training crawlers but allow AI search crawlers. This tool generates all three.',
   },
 };
 
@@ -354,7 +375,7 @@ function updateCounter(input) {
 
 // --- Escape HTML ---
 function esc(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 // --- Generate SEO ---
@@ -426,7 +447,7 @@ function generateOg() {
   ogPreviewSite.textContent = siteName || (url ? url.replace(/^https?:\/\//, '').split('/')[0] : 'example.com');
   if (image) {
     ogPreviewImg.textContent = '';
-    ogPreviewImg.style.backgroundImage = `url(${image})`;
+    ogPreviewImg.style.backgroundImage = `url("${image.replace(/["\\()]/g, '')}")`;
   } else {
     ogPreviewImg.style.backgroundImage = '';
     ogPreviewImg.textContent = t('noImage');
@@ -584,8 +605,10 @@ function generateRobots() {
 
   const sitemapUrl = getVal(seoUrl);
   if (sitemapUrl) {
-    const base = sitemapUrl.replace(/\/[^/]*$/, '');
-    lines.push(`Sitemap: ${base}/sitemap.xml`);
+    try {
+      const origin = new URL(sitemapUrl).origin;
+      lines.push(`Sitemap: ${origin}/sitemap.xml`);
+    } catch { /* invalid URL, skip sitemap */ }
   }
 
   outputRobotsCode.textContent = lines.join('\n');
@@ -780,7 +803,7 @@ function copyText(text) {
 }
 
 function copyAll() {
-  const parts = [outputSeoCode, outputOgCode, outputTwitterCode, outputSchemaCode]
+  const parts = [outputSeoCode, outputOgCode, outputTwitterCode, outputSchemaCode, outputLlmsCode, outputRobotsCode]
     .map(el => el.textContent).filter(Boolean);
   copyText(parts.join('\n\n'));
 }
