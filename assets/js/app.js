@@ -21,12 +21,18 @@ const translations = {
     dlHtmlDesc: 'Otw\u00F3rz w przegl\u0105darce',
     dlDocxDesc: 'Microsoft Word',
     dlMdDesc: 'Plik .md',
-    aboutTitle: 'Jak to dzia\u0142a?',
-    aboutText1: '<strong>Markdown Formatter</strong> konwertuje tekst z ChatGPT, Claude i innych asystent\u00F3w AI na sformatowany dokument gotowy do wklejenia w Google Docs lub Microsoft Word.',
-    aboutItem1: 'Wklej tekst markdown w lewym panelu',
-    aboutItem2: 'Podgl\u0105d sformatowanego tekstu pojawi si\u0119 po prawej',
-    aboutItem3: 'Kliknij "Kopiuj sformatowany" lub u\u017Cyj Ctrl+Shift+C',
-    aboutItem4: 'Wklej do Google Docs lub Word \u2014 formatowanie zostanie zachowane',
+    modalTitle: 'Markdown Formatter',
+    modalDesc: '<strong>Markdown Formatter</strong> konwertuje tekst z ChatGPT, Claude i innych asystent\u00F3w AI na sformatowany dokument gotowy do wklejenia w Google Docs lub Microsoft Word. Wszystko dzia\u0142a w przegl\u0105darce \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia.',
+    modalHowTitle: 'Jak u\u017Cywa\u0107',
+    modalStep1: 'Wklej tekst markdown w lewym panelu',
+    modalStep2: 'Zobacz sformatowany podgl\u0105d po prawej',
+    modalStep3: 'Kliknij "Kopiuj sformatowany" i wklej do Docs / Word',
+    modalFeaturesTitle: 'Kluczowe funkcje',
+    modalFeat1: 'Konwersja markdown na sformatowany tekst w czasie rzeczywistym',
+    modalFeat2: 'Kopiowanie z zachowaniem formatowania do Google Docs i Word',
+    modalFeat3: 'Eksport do HTML, DOCX i Markdown',
+    modalFeat4: 'Presety styl\u00F3w Google Docs i Word',
+    modalFeat5: '100% client-side \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia',
     seoH1: 'Markdown do Word i Google Docs \u2014 Darmowy konwerter online',
     seoDesc: 'FormattedAI Markdown Formatter to darmowe narz\u0119dzie online, kt\u00F3re konwertuje tekst markdown z ChatGPT, Claude i innych asystent\u00F3w AI na idealnie sformatowany tekst. Wklej tre\u015B\u0107, zobacz podgl\u0105d w czasie rzeczywistym i skopiuj do Google Docs lub Microsoft Word jednym klikni\u0119ciem. Wszystko dzia\u0142a 100% w przegl\u0105darce \u2014 Tw\u00F3j tekst nigdy nie opuszcza urz\u0105dzenia.',
     seoHowTitle: 'Jak to dzia\u0142a',
@@ -66,17 +72,24 @@ const translations = {
     dlHtmlDesc: 'Open in browser',
     dlDocxDesc: 'Microsoft Word',
     dlMdDesc: '.md file',
-    aboutTitle: 'How does it work?',
-    aboutText1: '<strong>Markdown Formatter</strong> converts text from ChatGPT, Claude and other AI assistants into a formatted document ready to paste into Google Docs or Microsoft Word.',
-    aboutItem1: 'Paste markdown text in the left panel',
-    aboutItem2: 'Formatted preview appears on the right',
-    aboutItem3: 'Click "Copy formatted" or use Ctrl+Shift+C',
-    aboutItem4: 'Paste into Google Docs or Word \u2014 formatting is preserved',
+    modalTitle: 'Markdown Formatter',
+    modalDesc: '<strong>Markdown Formatter</strong> converts text from ChatGPT, Claude and other AI assistants into a formatted document ready to paste into Google Docs or Microsoft Word. Everything runs in your browser \u2014 your data never leaves your device.',
+    modalHowTitle: 'How to use',
+    modalStep1: 'Paste markdown text in the left panel',
+    modalStep2: 'See the formatted preview on the right',
+    modalStep3: 'Click "Copy formatted" and paste into Docs / Word',
+    modalFeaturesTitle: 'Key features',
+    modalFeat1: 'Real-time markdown to formatted text conversion',
+    modalFeat2: 'Copy with formatting preserved for Google Docs and Word',
+    modalFeat3: 'Export to HTML, DOCX and Markdown',
+    modalFeat4: 'Google Docs and Word style presets',
+    modalFeat5: '100% client-side \u2014 your data never leaves your device',
   },
 };
 
 // --- State ---
 let currentLang = localStorage.getItem('formattedai-lang') || 'pl';
+let currentTheme = localStorage.getItem('formattedai-theme') || 'light';
 let currentStyle = 'docs';
 
 // --- DOM ---
@@ -96,6 +109,7 @@ const downloadMenu = document.getElementById('downloadMenu');
 const dlHtml = document.getElementById('dlHtml');
 const dlDocx = document.getElementById('dlDocx');
 const dlMd = document.getElementById('dlMd');
+const themeToggle = document.getElementById('themeToggle');
 
 // --- Marked config ---
 marked.setOptions({
@@ -443,18 +457,53 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// --- About Banner ---
-const aboutBanner = document.getElementById('aboutBanner');
-const aboutClose = document.getElementById('aboutClose');
-const ABOUT_KEY = 'formattedai-formatter-about-closed';
+// --- Theme ---
+function applyTheme() {
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  localStorage.setItem('formattedai-theme', currentTheme);
+}
 
-if (aboutClose) {
-  aboutClose.addEventListener('click', () => {
-    aboutBanner.hidden = true;
-    localStorage.setItem(ABOUT_KEY, '1');
+function toggleTheme() {
+  document.documentElement.classList.add('theme-switching');
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  applyTheme();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove('theme-switching');
+    });
   });
 }
 
+themeToggle.addEventListener('click', toggleTheme);
+
+// --- About Modal ---
+const aboutTrigger = document.getElementById('aboutTrigger');
+const aboutModal = document.getElementById('aboutModal');
+const aboutModalClose = document.getElementById('aboutModalClose');
+
+function openAboutModal() {
+  aboutModal.hidden = false;
+  requestAnimationFrame(() => aboutModal.classList.add('show'));
+}
+
+function closeAboutModal() {
+  aboutModal.classList.remove('show');
+  setTimeout(() => { aboutModal.hidden = true; }, 200);
+}
+
+aboutTrigger.addEventListener('click', openAboutModal);
+aboutModalClose.addEventListener('click', closeAboutModal);
+aboutModal.addEventListener('click', (e) => {
+  if (e.target === aboutModal) closeAboutModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !aboutModal.hidden) closeAboutModal();
+});
+
 // --- Init ---
-if (localStorage.getItem(ABOUT_KEY) && aboutBanner) aboutBanner.hidden = true;
+applyTheme();
 applyLanguage();
