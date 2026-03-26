@@ -368,8 +368,9 @@ body {
     flex-direction: column; gap: 12px; padding: 12px 16px;
     &__actions {
       width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-      .about-trigger, .lang-toggle, .theme-toggle, .dropdown { flex: 0 0 auto; }
+      .about-trigger, .lang-toggle, .theme-toggle { flex: 0 0 auto; }
       #clearBtn { margin-left: auto; flex: 0 0 auto; }
+      .dropdown { flex: 1 1 100%; }
       #copyBtn { flex: 1 1 100%; }
       .btn { justify-content: center; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
     }
