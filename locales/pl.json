@@ -95,6 +95,15 @@
     "articlesHeroDesc": "Poradniki, porady i praktyczna wiedza o optymalizacji stron, obrazków i SEO. Wszystko w kontekście naszych narzędzi.",
     "articlesLabel": "Artykuły",
     "articlesCount": "1 artykuł",
-    "readTime": "5 min czytania"
+    "readTime": "5 min czytania",
+    "articleAvifTitle": "Jak przyspieszyć ładowanie zdjęć na stronie? Kompletny poradnik AVIF",
+    "articleAvifDesc": "Dowiedz się, dlaczego AVIF to najlepszy format obrazków w 2026 roku i jak konwertować zdjęcia bez utraty jakości.",
+    "backToArticles": "\u2190 Artykuły",
+    "ctaButton": "Otwórz AVIF Converter \u2192",
+    "pageTitle": "Artykuły — FormattedAI | Poradniki i porady webdev",
+    "metaDescription": "Artykuły, poradniki i porady na temat narzędzi webdev. Optymalizacja obrazów, SEO, formatowanie tekstu i więcej. Praktyczna wiedza od FormattedAI.",
+    "ogTitle": "Artykuły — FormattedAI",
+    "ogDescription": "Poradniki i porady na temat narzędzi webdev. Optymalizacja obrazów, SEO, formatowanie tekstu i więcej.",
+    "twitterDescription": "Poradniki i porady na temat narzędzi webdev."
   }
 }
