@@ -955,26 +955,14 @@ body {
 
     &__actions {
       width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
       gap: 8px;
 
-      .lang-toggle {
-        grid-column: 1;
-      }
-
-      #clearBtn {
-        grid-column: 2;
-      }
-
-      .dropdown {
-        grid-column: 3;
-      }
-
-      #copyBtn {
-        grid-column: 1 / -1;
-        order: 1;
-      }
+      .about-trigger, .lang-toggle, .theme-toggle, .dropdown { flex: 0 0 auto; }
+      #clearBtn { margin-left: auto; flex: 0 0 auto; }
+      #copyBtn { flex: 1 1 100%; }
 
       .btn {
         justify-content: center;
