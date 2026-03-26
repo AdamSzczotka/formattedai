@@ -58,7 +58,7 @@
         "name": "What is FormattedAI?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FormattedAI is a collection of free web tools for developers and content creators. It includes a Markdown Formatter, AVIF image converter, and SEO & GEO Tag Generator. All tools run 100% in your browser."
+          "text": "FormattedAI is a collection of free web tools for developers and content creators. It includes a Markdown Formatter, AVIF Converter, JS Minifier, CSS Minifier, and SEO & GEO Tag Generator. All tools run 100% in your browser."
         }
       },
       {
@@ -201,6 +201,14 @@
               <div class="page__tool-name">AVIF Converter</div>
               <p class="page__tool-desc" data-i18n="aboutToolAvif">Konwertuj obrazki PNG, JPG i WebP na nowoczesny format AVIF z lepsz&#261; kompresj&#261;.</p>
             </a>
+            <a href="/js-minifier/" class="page__tool">
+              <div class="page__tool-name">JS Minifier</div>
+              <p class="page__tool-desc" data-i18n="aboutToolJsMinifier">Minifikuj i formatuj JavaScript. Zmniejsz rozmiar plik&#243;w JS lub sformatuj zminifikowany kod.</p>
+            </a>
+            <a href="/css-minifier/" class="page__tool">
+              <div class="page__tool-name">CSS Minifier</div>
+              <p class="page__tool-desc" data-i18n="aboutToolCssMinifier">Minifikuj i formatuj CSS. Zmniejsz rozmiar plik&#243;w styl&#243;w bez utraty funkcjonalno&#347;ci.</p>
+            </a>
             <a href="/seo-geo/" class="page__tool">
               <div class="page__tool-name">SEO &amp; GEO Tag Generator</div>
               <p class="page__tool-desc" data-i18n="aboutToolSeoGeo">Generuj meta tagi SEO, Open Graph, Schema.org i optymalizuj stron&#281; pod AI wyszukiwarki.</p>
@@ -221,7 +229,7 @@
 
           <div class="page__faq">
             <div class="page__faq-q" data-i18n="faq1q">Czym jest FormattedAI?</div>
-            <div class="page__faq-a" data-i18n="faq1a">FormattedAI to zestaw darmowych narz&#281;dzi online dla web developer&#243;w i tw&#243;rc&#243;w tre&#347;ci. Obejmuje Markdown Formatter, konwerter AVIF oraz generator tag&#243;w SEO i GEO. Wszystkie narz&#281;dzia dzia&#322;aj&#261; 100% w przegl&#261;darce.</div>
+            <div class="page__faq-a" data-i18n="faq1a">FormattedAI to zestaw darmowych narz&#281;dzi online dla web developer&#243;w i tw&#243;rc&#243;w tre&#347;ci. Obejmuje Markdown Formatter, konwerter AVIF, JS Minifier, CSS Minifier oraz generator tag&#243;w SEO i GEO. Wszystkie narz&#281;dzia dzia&#322;aj&#261; 100% w przegl&#261;darce.</div>
           </div>
           <div class="page__faq">
             <div class="page__faq-q" data-i18n="faq2q">Czy moje dane s&#261; bezpieczne?</div>
@@ -288,12 +296,14 @@
         aboutToolsTitle: 'Nasze narz\u0119dzia',
         aboutToolFormatter: 'Konwertuj tekst z ChatGPT i Claude na sformatowany dokument dla Google Docs i Microsoft Word.',
         aboutToolAvif: 'Konwertuj obrazki PNG, JPG i WebP na nowoczesny format AVIF z lepsz\u0105 kompresj\u0105.',
+        aboutToolJsMinifier: 'Minifikuj i formatuj JavaScript. Zmniejsz rozmiar plik\u00F3w JS lub sformatuj zminifikowany kod.',
+        aboutToolCssMinifier: 'Minifikuj i formatuj CSS. Zmniejsz rozmiar plik\u00F3w styl\u00F3w bez utraty funkcjonalno\u015Bci.',
         aboutToolSeoGeo: 'Generuj meta tagi SEO, Open Graph, Schema.org i optymalizuj stron\u0119 pod AI wyszukiwarki.',
         aboutPrivacyTitle: 'Prywatno\u015B\u0107',
         aboutPrivacyText: 'Ka\u017Cde narz\u0119dzie FormattedAI dzia\u0142a wy\u0142\u0105cznie w Twojej przegl\u0105darce. Nie mamy serwera backend, nie przechowujemy plik\u00F3w, nie logujemy aktywno\u015Bci. Jedyne co zapisujemy to Twoje preferencje (j\u0119zyk, motyw) w localStorage przegl\u0105darki \u2014 na Twoim urz\u0105dzeniu.',
         aboutPrivacyLink: 'Przeczytaj pe\u0142n\u0105 Polityk\u0119 Prywatno\u015Bci \u2192',
         aboutFaqTitle: 'Cz\u0119sto zadawane pytania',
-        faq1q: 'Czym jest FormattedAI?', faq1a: 'FormattedAI to zestaw darmowych narz\u0119dzi online dla web developer\u00F3w i tw\u00F3rc\u00F3w tre\u015Bci. Obejmuje Markdown Formatter, konwerter AVIF oraz generator tag\u00F3w SEO i GEO. Wszystkie narz\u0119dzia dzia\u0142aj\u0105 100% w przegl\u0105darce.',
+        faq1q: 'Czym jest FormattedAI?', faq1a: 'FormattedAI to zestaw darmowych narz\u0119dzi online dla web developer\u00F3w i tw\u00F3rc\u00F3w tre\u015Bci. Obejmuje Markdown Formatter, konwerter AVIF, JS Minifier, CSS Minifier oraz generator tag\u00F3w SEO i GEO. Wszystkie narz\u0119dzia dzia\u0142aj\u0105 100% w przegl\u0105darce.',
         faq2q: 'Czy moje dane s\u0105 bezpieczne?', faq2a: 'Tak. Wszystkie narz\u0119dzia dzia\u0142aj\u0105 wy\u0142\u0105cznie w Twojej przegl\u0105darce. Twoje pliki i dane nigdy nie opuszczaj\u0105 urz\u0105dzenia \u2014 nic nie jest wysy\u0142ane na \u017Caden serwer.',
         faq3q: 'Ile to kosztuje?', faq3a: 'FormattedAI jest ca\u0142kowicie darmowe. Bez kont, bez subskrypcji, bez ukrytych op\u0142at. Projekt jest open-source na licencji MIT.',
         faq4q: 'Czym jest GEO (Generative Engine Optimization)?', faq4a: 'GEO to nowy standard optymalizacji tre\u015Bci pod AI wyszukiwarki \u2014 ChatGPT Search, Perplexity, Google AI Overview. Polega na u\u017Cyciu danych strukturalnych (Schema.org), pliku llms.txt i konfiguracji robots.txt dla AI crawler\u00F3w.',
@@ -312,12 +322,14 @@
         aboutToolsTitle: 'Our tools',
         aboutToolFormatter: 'Convert text from ChatGPT and Claude into formatted documents for Google Docs and Microsoft Word.',
         aboutToolAvif: 'Convert PNG, JPG and WebP images to modern AVIF format with better compression.',
+        aboutToolJsMinifier: 'Minify and beautify JavaScript. Reduce JS file size or format minified code.',
+        aboutToolCssMinifier: 'Minify and beautify CSS. Reduce stylesheet file sizes without losing functionality.',
         aboutToolSeoGeo: 'Generate SEO meta tags, Open Graph, Schema.org and optimize for AI search engines.',
         aboutPrivacyTitle: 'Privacy',
         aboutPrivacyText: 'Every FormattedAI tool runs exclusively in your browser. We have no backend server, don\'t store files, and don\'t log activity. The only thing we save is your preferences (language, theme) in your browser\'s localStorage \u2014 on your device.',
         aboutPrivacyLink: 'Read the full Privacy Policy \u2192',
         aboutFaqTitle: 'Frequently asked questions',
-        faq1q: 'What is FormattedAI?', faq1a: 'FormattedAI is a collection of free online tools for web developers and content creators. It includes a Markdown Formatter, AVIF image converter, and SEO & GEO Tag Generator. All tools run 100% in your browser.',
+        faq1q: 'What is FormattedAI?', faq1a: 'FormattedAI is a collection of free online tools for web developers and content creators. It includes a Markdown Formatter, AVIF Converter, JS Minifier, CSS Minifier, and SEO & GEO Tag Generator. All tools run 100% in your browser.',
         faq2q: 'Is my data safe?', faq2a: 'Yes. All tools run entirely in your browser. Your files and data never leave your device \u2014 nothing is sent to any server.',
         faq3q: 'How much does it cost?', faq3a: 'FormattedAI is completely free. No accounts, no subscriptions, no hidden fees. The project is open-source under the MIT license.',
         faq4q: 'What is GEO (Generative Engine Optimization)?', faq4a: 'GEO is a new standard for optimizing content for AI search engines \u2014 ChatGPT Search, Perplexity, Google AI Overview. It uses structured data (Schema.org), llms.txt files, and AI crawler configuration in robots.txt.',
