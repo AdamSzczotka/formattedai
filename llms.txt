@@ -2,13 +2,20 @@
 
 > Free, privacy-focused web tools for developers and content creators. 100% client-side.
 
-FormattedAI is a collection of free online tools that run entirely in the browser. No data is ever sent to a server. Tools include markdown formatting, image conversion, and SEO/GEO optimization.
+FormattedAI is a collection of free online tools that run entirely in the browser. No data is ever sent to a server. Tools include markdown formatting, image conversion, code minification, and SEO/GEO optimization.
 
 ## Tools
 
 - [Markdown Formatter](https://formattedai.pl/formatter/): Convert ChatGPT markdown to formatted text for Google Docs and Word
 - [AVIF Converter](https://formattedai.pl/avif/): Convert PNG, JPG, WebP images to modern AVIF format
+- [JS Minifier](https://formattedai.pl/js-minifier/): Minify and beautify JavaScript code using Terser and js-beautify
+- [CSS Minifier](https://formattedai.pl/css-minifier/): Minify and beautify CSS code using CSSO and css-beautify
 - [SEO & GEO Tag Generator](https://formattedai.pl/seo-geo/): Generate meta tags, Schema.org JSON-LD, llms.txt and robots.txt
+
+## Articles
+
+- [Articles](https://formattedai.pl/articles/): Guides and tips about web optimization
+- [How to Speed Up Image Loading with AVIF](https://formattedai.pl/articles/optymalizacja-zdjec-avif/): Complete guide to AVIF format, compression comparison, and implementation
 
 ## About
 
