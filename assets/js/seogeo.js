@@ -205,7 +205,7 @@ const translations = {
 };
 
 // --- State ---
-let currentLang = localStorage.getItem('formattedai-lang') || 'pl';
+let currentLang = document.documentElement.lang || 'pl';
 let currentTheme = localStorage.getItem('formattedai-theme') || 'light';
 const STORAGE_KEY = 'formattedai-seogeo';
 
