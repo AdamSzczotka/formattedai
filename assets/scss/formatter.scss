@@ -150,6 +150,7 @@ body {
   background: rgba(255, 255, 255, 0.03);
   cursor: pointer;
   transition: all $transition;
+  text-decoration: none;
 
   &:hover {
     background: var(--color-surface-hover);
