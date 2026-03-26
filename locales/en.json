@@ -95,6 +95,15 @@
     "articlesHeroDesc": "Guides, tips and practical knowledge about website optimization, images and SEO. All in the context of our tools.",
     "articlesLabel": "Articles",
     "articlesCount": "1 article",
-    "readTime": "5 min read"
+    "readTime": "5 min read",
+    "articleAvifTitle": "How to Speed Up Image Loading on Your Website? Complete AVIF Guide",
+    "articleAvifDesc": "Learn why AVIF is the best image format in 2026 and how to convert images without losing quality.",
+    "backToArticles": "\u2190 Articles",
+    "ctaButton": "Open AVIF Converter \u2192",
+    "pageTitle": "Articles — FormattedAI | Webdev Guides & Tips",
+    "metaDescription": "Articles, guides and tips about webdev tools. Image optimization, SEO, text formatting and more. Practical knowledge from FormattedAI.",
+    "ogTitle": "Articles — FormattedAI",
+    "ogDescription": "Guides and tips about webdev tools. Image optimization, SEO, text formatting and more.",
+    "twitterDescription": "Guides and tips about webdev tools."
   }
 }
