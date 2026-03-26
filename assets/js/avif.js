@@ -137,7 +137,7 @@ const translations = {
 };
 
 // --- State ---
-let currentLang = localStorage.getItem('formattedai-lang') || 'pl';
+let currentLang = document.documentElement.lang || 'pl';
 let quality = 65;
 let inputFiles = []; // { id, file, objectUrl }
 let results = [];    // { id, originalFile, avifBlob, objectUrl, originalSize, avifSize }
