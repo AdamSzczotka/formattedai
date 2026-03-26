@@ -516,9 +516,12 @@ body {
   .header {
     flex-direction: column; gap: 12px; padding: 12px 16px;
     &__actions {
-      width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
-      .lang-toggle { grid-column: 1; }
-      .dropdown { grid-column: 3; }
+      width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+      .about-trigger, .lang-toggle, .theme-toggle { flex: 0 0 auto; }
+      #clearBtn { margin-left: auto; }
+      .panel__controls { flex: 1 1 100%; order: 1; }
+      #processBtn { flex: 1; order: 2; }
+      .dropdown { flex: 1; order: 2; }
       .btn { justify-content: center; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
     }
   }
