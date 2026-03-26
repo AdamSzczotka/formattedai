@@ -243,6 +243,19 @@
             </div>
           </div>
 
+          <!-- Feedback — SUGGEST A TOOL -->
+          <a href="mailto:adam.szczotka0@gmail.com?subject=Pomys%C5%82%20na%20narz%C4%99dzie%20FormattedAI" class="tool-card tool-card--feedback" id="feedbackCard">
+            <div class="tool-card__icon tool-card__icon--amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V17a1 1 0 001 1h6a1 1 0 001-1v-2.3A7 7 0 0012 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name" data-i18n="feedbackTitle">Nie widzisz czego szukasz?</h3>
+            <p class="tool-card__desc" data-i18n="feedbackDesc">Zaproponuj nowe narz&#281;dzie lub zg&#322;o&#347; b&#322;&#261;d. Bez formularzy, bez cookies &#8212; piszesz bezpo&#347;rednio.</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--amber" data-i18n="feedbackTag">Napisz do nas</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </a>
+
         </div>
       </section>
     </main>
@@ -263,6 +276,8 @@
         <a href="/articles/" class="footer__link" data-i18n="navArticles">Artyku&#322;y</a>
         <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
         <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatno&#347;&#263;</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link" data-i18n="navContact">Kontakt</a>
+        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
       </div>
     </footer>
   </div>
@@ -323,6 +338,10 @@
         cardJson: 'Formatuj, waliduj i minifikuj JSON. Pod\u015bwietlanie sk\u0142adni i wykrywanie b\u0142\u0119d\u00f3w w czasie rzeczywistym.',
         cardMeta: 'Generuj meta tagi SEO, Open Graph, Schema.org i optymalizuj pod AI wyszukiwarki (GEO).',
         cardColor: 'Generuj harmonijne palety kolor\u00f3w. Konwertuj mi\u0119dzy HEX, RGB, HSL. Sprawdzaj kontrast WCAG.',
+        feedbackTitle: 'Nie widzisz czego szukasz?',
+        feedbackDesc: 'Zaproponuj nowe narz\u0119dzie lub zg\u0142o\u015B b\u0142\u0105d. Bez formularzy, bez cookies \u2014 piszesz bezpo\u015Brednio.',
+        feedbackTag: 'Napisz do nas',
+        navContact: 'Kontakt',
         tagLive: 'Dost\u0119pne',
         tagSoon: 'Wkr\u00f3tce',
         madeBy: 'Stworzone przez',
@@ -357,6 +376,10 @@
         cardJson: 'Format, validate and minify JSON. Syntax highlighting and real-time error detection.',
         cardMeta: 'Generate SEO meta tags, Open Graph, Schema.org and optimize for AI search engines (GEO).',
         cardColor: 'Generate harmonious color palettes. Convert between HEX, RGB, HSL. Check WCAG contrast.',
+        feedbackTitle: 'Don\u2019t see what you need?',
+        feedbackDesc: 'Suggest a new tool or report a bug. No forms, no cookies \u2014 you write directly.',
+        feedbackTag: 'Write to us',
+        navContact: 'Contact',
         tagLive: 'Live',
         tagSoon: 'Coming soon',
         madeBy: 'Created by',
@@ -395,6 +418,13 @@
       });
 
       localStorage.setItem('formattedai-lang', lang);
+
+      // Update feedback mailto subject
+      var fc = document.getElementById('feedbackCard');
+      if (fc) {
+        var subj = lang === 'pl' ? 'Pomys%C5%82%20na%20narz%C4%99dzie%20FormattedAI' : 'Tool%20idea%20for%20FormattedAI';
+        fc.href = 'mailto:adam.szczotka0@gmail.com?subject=' + subj;
+      }
     }
 
     toggle.addEventListener('click', function() {
