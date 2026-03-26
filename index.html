@@ -115,6 +115,7 @@
       </a>
       <div class="navbar__nav">
         <a href="/" class="navbar__link navbar__link--active" data-i18n="navTools">Narz&#281;dzia</a>
+        <a href="/articles/" class="navbar__link" data-i18n="navArticles">Artyku&#322;y</a>
         <a href="/about/" class="navbar__link" data-i18n="navAbout">O nas</a>
         <button class="navbar__link" id="langToggle" type="button" style="cursor:pointer;border:none;font:inherit;">
           <span id="langFlag">PL</span>
@@ -147,7 +148,7 @@
       <section class="tools">
         <div class="tools__header">
           <h2 class="tools__title" data-i18n="toolsTitle">Narz&#281;dzia</h2>
-          <span class="tools__count" data-i18n="toolsCount">3 aktywne &#8226; 3 w przygotowaniu</span>
+          <span class="tools__count" data-i18n="toolsCount">5 aktywnych &#8226; 2 w przygotowaniu</span>
         </div>
         <div class="tools__grid">
 
@@ -177,18 +178,18 @@
             </div>
           </a>
 
-          <!-- CSS Minifier — COMING SOON -->
-          <div class="tool-card tool-card--coming-soon">
+          <!-- CSS Minifier — LIVE -->
+          <a href="/css-minifier/" class="tool-card">
             <div class="tool-card__icon tool-card__icon--green">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <h3 class="tool-card__name">CSS Minifier</h3>
             <p class="tool-card__desc" data-i18n="cardCss">Minifikuj i formatuj CSS. Zmniejsz rozmiar plik&#243;w styl&#243;w bez utraty funkcjonalno&#347;ci.</p>
             <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--soon" data-i18n="tagSoon">Wkr&#243;tce</span>
+              <span class="tool-card__tag tool-card__tag--live" data-i18n="tagLive">Dost&#281;pne</span>
               <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-          </div>
+          </a>
 
           <!-- JSON Formatter — COMING SOON -->
           <div class="tool-card tool-card--coming-soon">
@@ -210,6 +211,19 @@
             </div>
             <h3 class="tool-card__name">SEO &amp; GEO Tag Generator</h3>
             <p class="tool-card__desc" data-i18n="cardMeta">Generuj meta tagi SEO, Open Graph, Schema.org i optymalizuj pod AI wyszukiwarki (GEO).</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--live" data-i18n="tagLive">Dost&#281;pne</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </a>
+
+          <!-- JS Minifier — LIVE -->
+          <a href="/js-minifier/" class="tool-card">
+            <div class="tool-card__icon tool-card__icon--orange">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">JS Minifier</h3>
+            <p class="tool-card__desc" data-i18n="cardJsMinifier">Minifikuj i formatuj JavaScript. Zmniejsz rozmiar plik&#243;w JS lub sformatuj zminifikowany kod.</p>
             <div class="tool-card__footer">
               <span class="tool-card__tag tool-card__tag--live" data-i18n="tagLive">Dost&#281;pne</span>
               <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -246,6 +260,7 @@
         <span data-i18n="footerBadge">100% client-side &mdash; zero danych na serwerze</span>
       </div>
       <div class="footer__links">
+        <a href="/articles/" class="footer__link" data-i18n="navArticles">Artyku&#322;y</a>
         <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
         <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatno&#347;&#263;</a>
       </div>
@@ -293,13 +308,15 @@
         pageTitle: 'FormattedAI \u2014 Darmowe narz\u0119dzia webdev, 100% po stronie klienta',
         navSubtitle: 'Narz\u0119dzia webdev \u2022 100% client-side',
         navTools: 'Narz\u0119dzia',
+        navArticles: 'Artyku\u0142y',
         navAbout: 'O nas',
         navPrivacy: 'Prywatno\u015B\u0107',
         heroTitle: 'Twoje dane <span>nigdy</span> nie opuszczaj\u0105 urz\u0105dzenia',
         heroDesc: 'Darmowe narz\u0119dzia dla web developer\u00f3w. Wszystko dzia\u0142a w przegl\u0105darce \u2014 zero uploadu na serwer, pe\u0142na prywatno\u015b\u0107.',
         heroSecurity: 'Zero danych wysy\u0142anych na serwer',
         toolsTitle: 'Narz\u0119dzia',
-        toolsCount: '3 aktywne \u2022 3 w przygotowaniu',
+        toolsCount: '5 aktywnych \u2022 2 w przygotowaniu',
+        cardJsMinifier: 'Minifikuj i formatuj JavaScript. Zmniejsz rozmiar plik\u00F3w JS lub sformatuj zminifikowany kod.',
         cardFormatter: 'Wklej tekst z ChatGPT lub Claude i skopiuj idealnie sformatowany dokument do Google Docs lub Microsoft Word.',
         cardAvif: 'Konwertuj obrazki PNG, JPG i WebP na nowoczesny format AVIF. Kompresja bezpo\u015brednio w przegl\u0105darce.',
         cardCss: 'Minifikuj i formatuj CSS. Zmniejsz rozmiar plik\u00f3w styl\u00f3w bez utraty funkcjonalno\u015bci.',
@@ -325,13 +342,15 @@
         pageTitle: 'FormattedAI \u2014 Free webdev tools, 100% client-side',
         navSubtitle: 'Webdev tools \u2022 100% client-side',
         navTools: 'Tools',
+        navArticles: 'Articles',
         navAbout: 'About',
         navPrivacy: 'Privacy',
         heroTitle: 'Your data <span>never</span> leaves your device',
         heroDesc: 'Free tools for web developers. Everything runs in the browser \u2014 zero server uploads, full privacy.',
         heroSecurity: 'Zero data sent to any server',
         toolsTitle: 'Tools',
-        toolsCount: '3 live \u2022 3 coming soon',
+        toolsCount: '5 live \u2022 2 coming soon',
+        cardJsMinifier: 'Minify and beautify JavaScript. Reduce JS file size or format minified code.',
         cardFormatter: 'Paste text from ChatGPT or Claude and copy a perfectly formatted document to Google Docs or Microsoft Word.',
         cardAvif: 'Convert PNG, JPG and WebP images to modern AVIF format. Compression directly in the browser.',
         cardCss: 'Minify and format CSS. Reduce stylesheet file sizes without losing functionality.',

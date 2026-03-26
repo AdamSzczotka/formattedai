@@ -32,6 +32,10 @@ const translations = {
     toastLimitSize: 'Plik za du\u017Cy (max 50MB)',
     toastInvalidType: 'Nieobs\u0142ugiwany format pliku',
     madeBy: 'Stworzone przez',
+    footerBadge: '100% client-side',
+    navArticles: 'Artyku\u0142y',
+    navAbout: 'O nas',
+    navPrivacy: 'Prywatno\u015B\u0107',
     totalFiles: 'Pliki:',
     originalSize: 'Orygina\u0142:',
     savings: 'Oszcz\u0119dno\u015B\u0107:',
@@ -41,12 +45,18 @@ const translations = {
     noSupportText: 'Sprawd\u017A po\u0142\u0105czenie z internetem i od\u015Bwie\u017C stron\u0119. Encoder AVIF wymaga pobrania modu\u0142u WASM (~1.5 MB).',
     backHome: 'Wr\u00F3\u0107 do strony g\u0142\u00F3wnej',
     pageTitle: 'AVIF Converter \u2014 Konwertuj PNG, JPG, WebP na AVIF | FormattedAI',
-    aboutTitle: 'Czym jest format AVIF?',
-    aboutText1: '<strong>AVIF</strong> to nowoczesny format obraz\u00F3w opracowany przez Alliance for Open Media. Oferuje znacznie lepsz\u0105 kompresj\u0119 ni\u017C PNG czy JPEG \u2014 te same obrazki w mniejszym rozmiarze bez widocznej utraty jako\u015Bci.',
-    aboutItem1: 'Przeci\u0105gnij obrazki PNG, JPG lub WebP i przekonwertuj na AVIF',
-    aboutItem2: 'Ustaw jako\u015B\u0107 suwakiem lub wybierz preset (Niska/\u015Arednia/Wysoka/Bezstratna)',
-    aboutItem3: 'Pobierz pojedyncze pliki lub wszystkie jako ZIP',
-    aboutItem4: 'Konwersja odbywa si\u0119 100% w przegl\u0105darce \u2014 Twoje pliki nigdy nie opuszczaj\u0105 urz\u0105dzenia',
+    modalTitle: 'AVIF Converter',
+    modalDesc: '<strong>AVIF</strong> to nowoczesny format obraz\u00F3w z lepsz\u0105 kompresj\u0105 ni\u017C PNG czy JPEG. Konwertuj obrazki bezpo\u015Brednio w przegl\u0105darce \u2014 Twoje pliki nigdy nie opuszczaj\u0105 urz\u0105dzenia.',
+    modalHowTitle: 'Jak u\u017Cywa\u0107',
+    modalStep1: 'Przeci\u0105gnij obrazki PNG, JPG lub WebP na stron\u0119',
+    modalStep2: 'Ustaw jako\u015B\u0107 suwakiem lub wybierz preset',
+    modalStep3: 'Pobierz przekonwertowane pliki AVIF lub ZIP',
+    modalFeaturesTitle: 'Kluczowe funkcje',
+    modalFeat1: 'Konwersja wielu plik\u00F3w jednocze\u015Bnie (batch)',
+    modalFeat2: 'Presety jako\u015Bci: Niska, \u015Arednia, Wysoka, Bezstratna',
+    modalFeat3: 'Podgl\u0105d z por\u00F3wnaniem przed/po i zoom',
+    modalFeat4: 'Pobieranie pojedynczo lub jako ZIP',
+    modalFeat5: '100% client-side \u2014 Twoje pliki nigdy nie opuszczaj\u0105 urz\u0105dzenia',
     seoH1: 'Darmowy konwerter AVIF \u2014 Konwertuj PNG, JPG, WebP na AVIF online',
     seoDesc: 'Konwertuj obrazki na nowoczesny format AVIF bezpo\u015Brednio w przegl\u0105darce. AVIF oferuje do 50% lepsz\u0105 kompresj\u0119 ni\u017C JPEG i 20% lepsz\u0105 ni\u017C WebP \u2014 ta sama jako\u015B\u0107 wizualna przy znacznie mniejszych plikach. Konwersja odbywa si\u0119 client-side \u2014 Twoje pliki nigdy nie opuszczaj\u0105 urz\u0105dzenia.',
     seoHowTitle: 'Jak to dzia\u0142a',
@@ -96,6 +106,10 @@ const translations = {
     toastLimitSize: 'File too large (max 50MB)',
     toastInvalidType: 'Unsupported file format',
     madeBy: 'Created by',
+    footerBadge: '100% client-side',
+    navArticles: 'Articles',
+    navAbout: 'About',
+    navPrivacy: 'Privacy',
     totalFiles: 'Files:',
     originalSize: 'Original:',
     savings: 'Savings:',
@@ -105,12 +119,18 @@ const translations = {
     noSupportText: 'Check your internet connection and refresh the page. The AVIF encoder requires a WASM module download (~1.5 MB).',
     backHome: 'Back to home',
     pageTitle: 'AVIF Converter \u2014 Convert PNG, JPG, WebP to AVIF | FormattedAI',
-    aboutTitle: 'What is the AVIF format?',
-    aboutText1: '<strong>AVIF</strong> is a modern image format developed by the Alliance for Open Media. It offers significantly better compression than PNG or JPEG \u2014 same images at smaller sizes with no visible quality loss.',
-    aboutItem1: 'Drag PNG, JPG or WebP images and convert to AVIF',
-    aboutItem2: 'Set quality with the slider or pick a preset (Low/Medium/High/Lossless)',
-    aboutItem3: 'Download individual files or all as ZIP',
-    aboutItem4: 'Conversion runs 100% in your browser \u2014 your files never leave your device',
+    modalTitle: 'AVIF Converter',
+    modalDesc: '<strong>AVIF</strong> is a modern image format with better compression than PNG or JPEG. Convert images directly in your browser \u2014 your files never leave your device.',
+    modalHowTitle: 'How to use',
+    modalStep1: 'Drag PNG, JPG or WebP images onto the page',
+    modalStep2: 'Set quality with the slider or pick a preset',
+    modalStep3: 'Download converted AVIF files or ZIP',
+    modalFeaturesTitle: 'Key features',
+    modalFeat1: 'Batch conversion of multiple files at once',
+    modalFeat2: 'Quality presets: Low, Medium, High, Lossless',
+    modalFeat3: 'Preview with before/after comparison and zoom',
+    modalFeat4: 'Download individually or as ZIP',
+    modalFeat5: '100% client-side \u2014 your files never leave your device',
   },
 };
 
@@ -684,19 +704,30 @@ if (mobileDownloadBtn) mobileDownloadBtn.addEventListener('click', downloadAllZi
 setupDragDrop(dropZone);
 setupDragDrop(dropZoneCompact);
 
-// --- About Banner ---
-const aboutBanner = document.getElementById('aboutBanner');
-const aboutClose = document.getElementById('aboutClose');
-const ABOUT_KEY = 'formattedai-avif-about-closed';
+// --- About Modal ---
+const aboutTrigger = document.getElementById('aboutTrigger');
+const aboutModal = document.getElementById('aboutModal');
+const aboutModalClose = document.getElementById('aboutModalClose');
 
-if (aboutClose) {
-  aboutClose.addEventListener('click', () => {
-    aboutBanner.hidden = true;
-    localStorage.setItem(ABOUT_KEY, '1');
-  });
+function openAboutModal() {
+  aboutModal.hidden = false;
+  requestAnimationFrame(() => aboutModal.classList.add('show'));
 }
 
+function closeAboutModal() {
+  aboutModal.classList.remove('show');
+  setTimeout(() => { aboutModal.hidden = true; }, 200);
+}
+
+aboutTrigger.addEventListener('click', openAboutModal);
+aboutModalClose.addEventListener('click', closeAboutModal);
+aboutModal.addEventListener('click', (e) => {
+  if (e.target === aboutModal) closeAboutModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !aboutModal.hidden) closeAboutModal();
+});
+
 // --- Init ---
-if (localStorage.getItem(ABOUT_KEY) && aboutBanner) aboutBanner.hidden = true;
 applyTheme();
 applyLanguage();

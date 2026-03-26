@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Jak przyspieszyć ładowanie zdjęć na stronie? Kompletny poradnik AVIF — FormattedAI</title>
+  <meta name="description" content="Dowiedz się, dlaczego AVIF to najlepszy format obrazków w 2026 roku. Porównanie AVIF vs WebP vs JPEG, praktyczne porady i darmowa konwersja w przeglądarce.">
+  <meta name="keywords" content="AVIF, optymalizacja obrazów, szybkość strony, konwersja zdjęć, WebP, JPEG, kompresja obrazów, Core Web Vitals, LCP, darmowy konwerter avif online, jak zmienić jpg na avif, zmniejszanie wagi zdjęcia">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/articles/optymalizacja-zdjec-avif/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/articles/optymalizacja-zdjec-avif/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/articles/optymalizacja-zdjec-avif/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/articles/optymalizacja-zdjec-avif/">
+  <meta http-equiv="content-language" content="pl, en">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Jak przyspieszyć ładowanie zdjęć na stronie? Kompletny poradnik AVIF">
+  <meta property="og:description" content="Dlaczego AVIF to najlepszy format obrazków w 2026. Porównanie formatów, praktyczne porady i darmowa konwersja.">
+  <meta property="og:url" content="https://formattedai.pl/articles/optymalizacja-zdjec-avif/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="article:published_time" content="2026-03-25">
+  <meta property="article:author" content="Adam Szczotka">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jak przyspieszyć ładowanie zdjęć? Kompletny poradnik AVIF">
+  <meta name="twitter:description" content="AVIF vs WebP vs JPEG — który format wybrać w 2026? Praktyczny poradnik z darmowym narzędziem.">
+
+  <!-- Structured Data: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Jak przyspieszyć ładowanie zdjęć na stronie? Kompletny poradnik AVIF",
+    "description": "Dowiedz się, dlaczego AVIF to najlepszy format obrazków w 2026 roku. Porównanie AVIF vs WebP vs JPEG, praktyczne porady i darmowa konwersja w przeglądarce.",
+    "url": "https://formattedai.pl/articles/optymalizacja-zdjec-avif/",
+    "datePublished": "2026-03-25",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FormattedAI",
+      "url": "https://formattedai.pl/"
+    },
+    "inLanguage": ["pl", "en"],
+    "mainEntityOfPage": "https://formattedai.pl/articles/optymalizacja-zdjec-avif/"
+  }
+  </script>
+
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://formattedai.pl/articles/" },
+      { "@type": "ListItem", "position": 3, "name": "Optymalizacja zdjęć AVIF", "item": "https://formattedai.pl/articles/optymalizacja-zdjec-avif/" }
+    ]
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="../../assets/css/articles.css">
+</head>
+<body>
+  <div class="bg-effects" aria-hidden="true">
+    <div class="bg-effects__orb bg-effects__orb--1"></div>
+    <div class="bg-effects__orb bg-effects__orb--2"></div>
+    <div class="bg-effects__orb bg-effects__orb--3"></div>
+    <div class="bg-effects__grid"></div>
+  </div>
+
+  <div class="app">
+    <nav class="navbar" role="navigation">
+      <a href="/" class="navbar__brand">
+        <div class="navbar__logo" aria-hidden="true">
+          <svg class="navbar__logo-svg" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
+            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient>
+              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30"><stop stop-color="rgba(108,92,231,0.3)"/><stop offset="1" stop-color="rgba(167,139,250,0.1)"/></linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
+          <p class="navbar__subtitle" data-i18n="navSubtitle">Narz&#281;dzia webdev &bull; 100% client-side</p>
+        </div>
+      </a>
+      <div class="navbar__nav">
+        <a href="/" class="navbar__link" data-i18n="navTools">Narz&#281;dzia</a>
+        <a href="/articles/" class="navbar__link navbar__link--active" data-i18n="navArticles">Artyku&#322;y</a>
+        <a href="/about/" class="navbar__link" data-i18n="navAbout">O nas</a>
+        <button class="navbar__link" id="langToggle" type="button" style="cursor:pointer;border:none;font:inherit;">
+          <span id="langFlag">PL</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Zmie&#324; motyw">
+          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <a href="https://github.com/AdamSzczotka/formattedai" class="navbar__link" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </nav>
+
+    <main>
+      <!-- Reading Progress -->
+      <div class="reading-progress"><div class="reading-progress__bar" id="readingProgress"></div></div>
+
+      <!-- Article Header -->
+      <header class="article-header">
+        <a href="/articles/" class="article-header__tag" data-i18n="backToArticles">&#8592; Artyku&#322;y</a>
+        <h1 class="article-header__title lang-pl">Jak przyspieszy&#263; &#322;adowanie zdj&#281;&#263; na stronie? Kompletny poradnik AVIF</h1>
+        <h1 class="article-header__title lang-en">How to Speed Up Image Loading on Your Website? Complete AVIF Guide</h1>
+        <div class="article-header__meta">
+          <span>Adam Szczotka</span>
+          <span class="article-header__meta-divider"></span>
+          <span>2026-03-25</span>
+          <span class="article-header__meta-divider"></span>
+          <span data-i18n="readTime">5 min czytania</span>
+        </div>
+      </header>
+
+      <!-- Article Content PL -->
+      <article class="article-body lang-pl">
+        <div class="article-body__inner">
+
+          <h2>Dlaczego zdj&#281;cia spowalniaj&#261; Twoj&#261; stron&#281;?</h2>
+          <p>Obrazki to najci&#281;&#380;sze elementy wi&#281;kszo&#347;ci stron internetowych. Przeci&#281;tna strona &#322;aduje <strong>ponad 1 MB samych grafik</strong> &#8212; to cz&#281;sto 50-70% ca&#322;ego rozmiaru strony. Ka&#380;dy dodatkowy kilobajt to d&#322;u&#380;szy czas &#322;adowania, gorszy wynik Core Web Vitals i ni&#380;sza pozycja w Google.</p>
+          <p>Metryka <strong>LCP (Largest Contentful Paint)</strong> bezpo&#347;rednio zale&#380;y od rozmiaru g&#322;&#243;wnego obrazka na stronie. Google rekomenduje LCP poni&#380;ej 2.5 sekundy &#8212; z ci&#281;&#380;kimi JPEGami to cz&#281;sto niemo&#380;liwe na wolniejszych po&#322;&#261;czeniach.</p>
+
+          <div class="article-tldr">
+            <div class="article-tldr__label">Nie masz czasu czyta&#263;?</div>
+            <p>Przejd&#378; od razu do naszego darmowego konwertera AVIF online. Dzia&#322;a w 100% w przegl&#261;darce &#8212; Twoje pliki nigdy nie opuszczaj&#261; urz&#261;dzenia.</p>
+            <a href="/avif/" class="btn btn--primary">Otw&#243;rz Konwerter AVIF &#8594;</a>
+          </div>
+
+          <div class="article-tip">
+            <div class="article-tip__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              Kluczowy fakt
+            </div>
+            <p>AVIF oferuje <strong>do 50% lepsz&#261; kompresj&#281;</strong> ni&#380; JPEG przy identycznej jako&#347;ci wizualnej. To najszybszy spos&#243;b na popraw&#281; LCP.</p>
+          </div>
+
+          <hr>
+
+          <h2>AVIF &#8212; nast&#281;pna generacja format&#243;w graficznych</h2>
+          <p>AVIF (AV1 Image File Format) to nowoczesny format obrazk&#243;w oparty na kodeku wideo AV1. Zosta&#322; stworzony przez Alliance for Open Media (Google, Mozilla, Apple, Microsoft) i oferuje:</p>
+          <ul>
+            <li><strong>Do 50% mniejszy rozmiar</strong> ni&#380; JPEG przy tej samej jako&#347;ci wizualnej</li>
+            <li><strong>Do 20% mniejszy rozmiar</strong> ni&#380; WebP</li>
+            <li>Obs&#322;uga przezroczysto&#347;ci (kana&#322; alfa) &#8212; jak PNG, ale znacznie l&#380;ejszy</li>
+            <li>Obs&#322;uga HDR i szerokiej palety kolor&#243;w (10-bit, 12-bit)</li>
+            <li>Kompresja stratna i bezstratna w jednym formacie</li>
+          </ul>
+
+          <hr>
+
+          <h2>AVIF vs WebP vs JPEG &#8212; por&#243;wnanie</h2>
+          <p>Jak wypadaj&#261; formaty w praktyce? Oto typowe wyniki kompresji dla zdj&#281;cia 1920x1080:</p>
+
+          <div class="article-compare">
+            <div class="article-compare__card">
+              <div class="article-compare__format">JPEG</div>
+              <div class="article-compare__value">~250 KB</div>
+              <div class="article-compare__label">jako&#347;&#263; 80</div>
+            </div>
+            <div class="article-compare__card">
+              <div class="article-compare__format">WebP</div>
+              <div class="article-compare__value">~180 KB</div>
+              <div class="article-compare__label">28% mniej</div>
+            </div>
+            <div class="article-compare__card article-compare__card--winner">
+              <div class="article-compare__format">AVIF</div>
+              <div class="article-compare__value">~120 KB</div>
+              <div class="article-compare__label">52% mniej</div>
+              <div class="article-compare__badge">Najlepszy</div>
+            </div>
+          </div>
+
+          <p>R&#243;&#380;nica jest szczeg&#243;lnie widoczna przy zdj&#281;ciach fotograficznych i grafikach z gradientami. AVIF radzi sobie wyj&#261;tkowo dobrze z p&#322;ynnymi przej&#347;ciami ton&#243;w, gdzie JPEG tworzy widoczne artefakty.</p>
+
+          <hr>
+
+          <h2>Wsparcie przegl&#261;darek</h2>
+          <p>AVIF jest obs&#322;ugiwany przez <span class="article-highlight">ponad 93% przegl&#261;darek</span> globalnie (stan na marzec 2026):</p>
+
+          <div class="article-browsers">
+            <div class="article-browsers__item">
+              <span class="article-browsers__item-icon"></span>
+              <span class="article-browsers__item-name">Chrome</span>
+              <span class="article-browsers__item-version">v85+</span>
+            </div>
+            <div class="article-browsers__item">
+              <span class="article-browsers__item-icon"></span>
+              <span class="article-browsers__item-name">Firefox</span>
+              <span class="article-browsers__item-version">v93+</span>
+            </div>
+            <div class="article-browsers__item">
+              <span class="article-browsers__item-icon"></span>
+              <span class="article-browsers__item-name">Safari</span>
+              <span class="article-browsers__item-version">v16.4+</span>
+            </div>
+            <div class="article-browsers__item">
+              <span class="article-browsers__item-icon"></span>
+              <span class="article-browsers__item-name">Edge</span>
+              <span class="article-browsers__item-version">v121+</span>
+            </div>
+          </div>
+
+          <p>Dla starszych przegl&#261;darek mo&#380;esz u&#380;y&#263; tagu <code>&lt;picture&gt;</code> z fallbackiem.</p>
+
+          <hr>
+
+          <h2>Jak u&#380;ywa&#263; AVIF na stronie?</h2>
+          <p>Najlepsza praktyka to u&#380;ycie elementu <code>&lt;picture&gt;</code> z wieloma &#378;r&#243;d&#322;ami:</p>
+
+          <h3>Przyk&#322;ad kodu HTML</h3>
+          <div class="article-code">
+            <div class="article-code__header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              HTML
+            </div>
+            <pre><code><span class="code-tag">&lt;picture&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">srcset=</span><span class="code-string">"photo.avif"</span> <span class="code-attr">type=</span><span class="code-string">"image/avif"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">srcset=</span><span class="code-string">"photo.webp"</span> <span class="code-attr">type=</span><span class="code-string">"image/webp"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">src=</span><span class="code-string">"photo.jpg"</span> <span class="code-attr">alt=</span><span class="code-string">"Opis"</span>
+       <span class="code-attr">width=</span><span class="code-string">"800"</span> <span class="code-attr">height=</span><span class="code-string">"600"</span>
+       <span class="code-attr">loading=</span><span class="code-string">"lazy"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/picture&gt;</span></code></pre>
+          </div>
+
+          <p>Przegl&#261;darka automatycznie wybierze najlepszy obs&#322;ugiwany format &#8212; AVIF je&#347;li jest obs&#322;ugiwany, potem WebP, a na ko&#324;cu JPEG jako fallback.</p>
+
+          <hr>
+
+          <h2>5 praktycznych wskaz&#243;wek optymalizacji obrazk&#243;w</h2>
+
+          <div class="article-steps">
+            <div class="article-steps__item">
+              <div class="article-steps__number">1</div>
+              <div class="article-steps__content">
+                <h3>Konwertuj do AVIF</h3>
+                <p>U&#380;yj naszego <a href="/avif/">darmowego konwertera AVIF online</a> do konwersji bezpo&#347;rednio w przegl&#261;darce, bez wysy&#322;ania plik&#243;w na serwer.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">2</div>
+              <div class="article-steps__content">
+                <h3>Dobierz jako&#347;&#263;</h3>
+                <p>Dla zdj&#281;&#263; fotograficznych AVIF z jako&#347;ci&#261; 50-65 daje wyniki wizualnie identyczne z JPEG 80-85.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">3</div>
+              <div class="article-steps__content">
+                <h3>Responsywne obrazki</h3>
+                <p>Generuj warianty dla r&#243;&#380;nych rozmiar&#243;w ekranu z atrybutem <code>srcset</code>.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">4</div>
+              <div class="article-steps__content">
+                <h3>Lazy loading</h3>
+                <p>Dodaj <code>loading="lazy"</code> do obrazk&#243;w poza pierwszym ekranem (below the fold).</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">5</div>
+              <div class="article-steps__content">
+                <h3>Wymiary w HTML</h3>
+                <p>Zawsze podawaj <code>width</code> i <code>height</code> &#8212; zapobiega to przesuni&#281;ciom layoutu (CLS).</p>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <h2>Wp&#322;yw na SEO i Core Web Vitals</h2>
+          <p>Optymalizacja obrazk&#243;w bezpo&#347;rednio wp&#322;ywa na trzy kluczowe metryki Google:</p>
+          <ul>
+            <li><strong>LCP (Largest Contentful Paint)</strong> &#8212; mniejsze pliki = szybsze wy&#347;wietlanie g&#322;&#243;wnej tre&#347;ci</li>
+            <li><strong>CLS (Cumulative Layout Shift)</strong> &#8212; podanie wymiar&#243;w zapobiega &#8222;skakaniu&#8221; strony</li>
+            <li><strong>FID/INP</strong> &#8212; mniejsze pliki oznaczaj&#261; mniej pracy dla g&#322;&#243;wnego w&#261;tku przegl&#261;darki</li>
+          </ul>
+
+          <div class="article-tip">
+            <div class="article-tip__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Dane Google
+            </div>
+            <p>Strony z dobrymi wynikami Core Web Vitals maj&#261; <strong>24% ni&#380;szy wsp&#243;&#322;czynnik odrzuce&#324;</strong>. Konwersja na AVIF to najszybszy spos&#243;b na popraw&#281; tych metryk.</p>
+          </div>
+
+          <hr>
+
+          <h2>Podsumowanie</h2>
+          <p>AVIF to aktualnie <strong>najlepszy format graficzny dla webu</strong>. Oferuje najlepsz&#261; kompresj&#281;, szerokie wsparcie przegl&#261;darek i bezpo&#347;redni wp&#322;yw na SEO. Zmniejszanie wagi zdj&#281;cia to najprostszy spos&#243;b na popraw&#281; szybko&#347;ci strony i pozycji w Google.</p>
+          <p>Je&#347;li zastanawiasz si&#281;, <strong>jak zmieni&#263; JPG na AVIF</strong> bez utraty prywatno&#347;ci &#8212; nasz <a href="/avif/" style="color:#7c6cf0;font-weight:600;">darmowy konwerter AVIF online</a> dzia&#322;a w 100% w Twojej przegl&#261;darce. Pliki nigdy nie opuszczaj&#261; urz&#261;dzenia. To najszybsze rozwi&#261;zanie.</p>
+
+        </div>
+      </article>
+
+      <!-- Article Content EN -->
+      <article class="article-body lang-en">
+        <div class="article-body__inner">
+
+          <h2>Why Do Images Slow Down Your Website?</h2>
+          <p>Images are the heaviest elements on most websites. The average page loads <strong>over 1 MB of graphics alone</strong> &#8212; that&#8217;s often 50-70% of the total page size. Every extra kilobyte means longer load times, worse Core Web Vitals scores, and lower Google rankings.</p>
+          <p>The <strong>LCP (Largest Contentful Paint)</strong> metric directly depends on the size of the main image on the page. Google recommends LCP under 2.5 seconds &#8212; with heavy JPEGs, that&#8217;s often impossible on slower connections.</p>
+
+          <div class="article-tldr">
+            <div class="article-tldr__label">No time to read?</div>
+            <p>Jump straight to our free AVIF converter online. Works 100% in the browser &#8212; your files never leave your device.</p>
+            <a href="/avif/" class="btn btn--primary">Open AVIF Converter &#8594;</a>
+          </div>
+
+          <div class="article-tip">
+            <div class="article-tip__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              Key fact
+            </div>
+            <p>AVIF offers <strong>up to 50% better compression</strong> than JPEG at identical visual quality. It&#8217;s the fastest way to improve LCP.</p>
+          </div>
+
+          <hr>
+
+          <h2>AVIF &#8212; The Next Generation Image Format</h2>
+          <p>AVIF (AV1 Image File Format) is a modern image format based on the AV1 video codec. Created by the Alliance for Open Media (Google, Mozilla, Apple, Microsoft), it offers:</p>
+          <ul>
+            <li><strong>Up to 50% smaller file size</strong> than JPEG at the same visual quality</li>
+            <li><strong>Up to 20% smaller</strong> than WebP</li>
+            <li>Transparency support (alpha channel) &#8212; like PNG, but much lighter</li>
+            <li>HDR and wide color gamut support (10-bit, 12-bit)</li>
+            <li>Both lossy and lossless compression in one format</li>
+          </ul>
+
+          <hr>
+
+          <h2>AVIF vs WebP vs JPEG &#8212; Comparison</h2>
+          <p>How do formats compare in practice? Here are typical compression results for a 1920x1080 photo:</p>
+
+          <div class="article-compare">
+            <div class="article-compare__card">
+              <div class="article-compare__format">JPEG</div>
+              <div class="article-compare__value">~250 KB</div>
+              <div class="article-compare__label">quality 80</div>
+            </div>
+            <div class="article-compare__card">
+              <div class="article-compare__format">WebP</div>
+              <div class="article-compare__value">~180 KB</div>
+              <div class="article-compare__label">28% less</div>
+            </div>
+            <div class="article-compare__card article-compare__card--winner">
+              <div class="article-compare__format">AVIF</div>
+              <div class="article-compare__value">~120 KB</div>
+              <div class="article-compare__label">52% less</div>
+              <div class="article-compare__badge">Best</div>
+            </div>
+          </div>
+
+          <p>The difference is especially visible with photographic images and graphics with gradients. AVIF handles smooth tone transitions exceptionally well, where JPEG creates visible artifacts.</p>
+
+          <hr>
+
+          <h2>Browser Support</h2>
+          <p>AVIF is supported by <span class="article-highlight">over 93% of browsers</span> globally (as of March 2026):</p>
+
+          <div class="article-browsers">
+            <div class="article-browsers__item">
+              <span class="article-browsers__item-icon"></span>
+              <span class="article-browsers__item-name">Chrome</span>
+              <span class="article-browsers__item-version">v85+</span>
+            </div>
+            <div class="article-browsers__item">
+              <span class="article-browsers__item-icon"></span>
+              <span class="article-browsers__item-name">Firefox</span>
+              <span class="article-browsers__item-version">v93+</span>
+            </div>
+            <div class="article-browsers__item">
+              <span class="article-browsers__item-icon"></span>
+              <span class="article-browsers__item-name">Safari</span>
+              <span class="article-browsers__item-version">v16.4+</span>
+            </div>
+            <div class="article-browsers__item">
+              <span class="article-browsers__item-icon"></span>
+              <span class="article-browsers__item-name">Edge</span>
+              <span class="article-browsers__item-version">v121+</span>
+            </div>
+          </div>
+
+          <p>For older browsers, you can use the <code>&lt;picture&gt;</code> tag with a fallback.</p>
+
+          <hr>
+
+          <h2>How to Use AVIF on Your Website?</h2>
+          <p>The best practice is to use the <code>&lt;picture&gt;</code> element with multiple sources:</p>
+
+          <h3>HTML Code Example</h3>
+          <div class="article-code">
+            <div class="article-code__header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              HTML
+            </div>
+            <pre><code><span class="code-tag">&lt;picture&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">srcset=</span><span class="code-string">"photo.avif"</span> <span class="code-attr">type=</span><span class="code-string">"image/avif"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">srcset=</span><span class="code-string">"photo.webp"</span> <span class="code-attr">type=</span><span class="code-string">"image/webp"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;img</span> <span class="code-attr">src=</span><span class="code-string">"photo.jpg"</span> <span class="code-attr">alt=</span><span class="code-string">"Description"</span>
+       <span class="code-attr">width=</span><span class="code-string">"800"</span> <span class="code-attr">height=</span><span class="code-string">"600"</span>
+       <span class="code-attr">loading=</span><span class="code-string">"lazy"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/picture&gt;</span></code></pre>
+          </div>
+
+          <p>The browser will automatically choose the best supported format &#8212; AVIF if supported, then WebP, and finally JPEG as a fallback.</p>
+
+          <hr>
+
+          <h2>5 Practical Image Optimization Tips</h2>
+
+          <div class="article-steps">
+            <div class="article-steps__item">
+              <div class="article-steps__number">1</div>
+              <div class="article-steps__content">
+                <h3>Convert to AVIF</h3>
+                <p>Use our <a href="/avif/">free AVIF converter online</a> to convert directly in the browser, without uploading files to any server.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">2</div>
+              <div class="article-steps__content">
+                <h3>Choose the right quality</h3>
+                <p>For photographic images, AVIF at quality 50-65 gives results visually identical to JPEG 80-85.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">3</div>
+              <div class="article-steps__content">
+                <h3>Responsive images</h3>
+                <p>Generate variants for different screen sizes using the <code>srcset</code> attribute.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">4</div>
+              <div class="article-steps__content">
+                <h3>Lazy loading</h3>
+                <p>Add <code>loading="lazy"</code> to images below the fold.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">5</div>
+              <div class="article-steps__content">
+                <h3>Dimensions in HTML</h3>
+                <p>Always specify <code>width</code> and <code>height</code> &#8212; this prevents layout shifts (CLS).</p>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <h2>Impact on SEO and Core Web Vitals</h2>
+          <p>Image optimization directly affects three key Google metrics:</p>
+          <ul>
+            <li><strong>LCP (Largest Contentful Paint)</strong> &#8212; smaller files = faster rendering of the main content</li>
+            <li><strong>CLS (Cumulative Layout Shift)</strong> &#8212; specifying dimensions prevents page &#8220;jumping&#8221;</li>
+            <li><strong>FID/INP</strong> &#8212; smaller files mean less work for the browser&#8217;s main thread</li>
+          </ul>
+
+          <div class="article-tip">
+            <div class="article-tip__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Google data
+            </div>
+            <p>Pages with good Core Web Vitals scores have a <strong>24% lower bounce rate</strong>. Converting to AVIF is the fastest way to improve these metrics.</p>
+          </div>
+
+          <hr>
+
+          <h2>Summary</h2>
+          <p>AVIF is currently the <strong>best image format for the web</strong>. It offers the best compression, broad browser support, and a direct impact on SEO. The easiest way to reduce image file size and improve your Google rankings is to switch to AVIF.</p>
+          <p>If you&#8217;re wondering <strong>how to convert JPG to AVIF</strong> without compromising your privacy &#8212; our <a href="/avif/" style="color:#7c6cf0;font-weight:600;">free AVIF converter online</a> works 100% in your browser. Files never leave your device. It&#8217;s the fastest solution.</p>
+
+        </div>
+      </article>
+
+      <!-- CTA -->
+      <div class="article-cta">
+        <h2 class="article-cta__title lang-pl">Skonwertuj swoje obrazki na AVIF</h2>
+        <h2 class="article-cta__title lang-en">Convert Your Images to AVIF</h2>
+        <p class="article-cta__desc lang-pl">Nasz darmowy AVIF Converter dzia&#322;a 100% w przegl&#261;darce. Twoje pliki nigdy nie opuszczaj&#261; urz&#261;dzenia. Konwertuj do 20 obrazk&#243;w naraz.</p>
+        <p class="article-cta__desc lang-en">Our free AVIF Converter works 100% in the browser. Your files never leave your device. Convert up to 20 images at once.</p>
+        <a href="/avif/" class="btn btn--primary" data-i18n="ctaButton">Otw&#243;rz AVIF Converter &#8594;</a>
+      </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <p class="footer__text">
+        <span data-i18n="madeBy">Stworzone przez</span>
+        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
+          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Adam Szczotka
+        </a>
+      </p>
+      <div class="footer__badge">
+        <span class="footer__badge__dot"></span>
+        <span data-i18n="footerBadge">100% client-side &mdash; zero danych na serwerze</span>
+      </div>
+      <div class="footer__links">
+        <a href="/" class="footer__link" data-i18n="navTools">Narz&#281;dzia</a>
+        <a href="/articles/" class="footer__link" data-i18n="navArticles">Artyku&#322;y</a>
+        <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
+        <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatno&#347;&#263;</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+  (function() {
+    // Theme
+    var theme = localStorage.getItem('formattedai-theme') || 'light';
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      theme = theme === 'light' ? 'dark' : 'light';
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('formattedai-theme', theme);
+    });
+
+    // i18n
+    var t = {
+      pl: {
+        navSubtitle: 'Narz\u0119dzia webdev \u2022 100% client-side',
+        navTools: 'Narz\u0119dzia', navArticles: 'Artyku\u0142y', navAbout: 'O nas', navPrivacy: 'Prywatno\u015B\u0107',
+        madeBy: 'Stworzone przez',
+        footerBadge: '100% client-side \u2014 zero danych na serwerze',
+        backToArticles: '\u2190 Artyku\u0142y',
+        readTime: '5 min czytania',
+        ctaButton: 'Otw\u00F3rz AVIF Converter \u2192',
+      },
+      en: {
+        navSubtitle: 'Webdev tools \u2022 100% client-side',
+        navTools: 'Tools', navArticles: 'Articles', navAbout: 'About', navPrivacy: 'Privacy',
+        madeBy: 'Created by',
+        footerBadge: '100% client-side \u2014 zero data on servers',
+        backToArticles: '\u2190 Articles',
+        readTime: '5 min read',
+        ctaButton: 'Open AVIF Converter \u2192',
+      }
+    };
+
+    var lang = localStorage.getItem('formattedai-lang') || 'pl';
+    var flag = document.getElementById('langFlag');
+    var toggle = document.getElementById('langToggle');
+
+    function apply() {
+      document.documentElement.lang = lang;
+      document.documentElement.setAttribute('data-lang', lang);
+      flag.textContent = lang.toUpperCase();
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        var val = t[lang][key];
+        if (val) { if (val.indexOf('<') !== -1) el.innerHTML = val; else el.textContent = val; }
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n-html');
+        if (t[lang][key]) el.innerHTML = t[lang][key];
+      });
+    }
+
+    toggle.addEventListener('click', function() { lang = lang === 'pl' ? 'en' : 'pl'; apply(); localStorage.setItem('formattedai-lang', lang); });
+    apply();
+
+    // Reading progress bar
+    var progressBar = document.getElementById('readingProgress');
+    if (progressBar) {
+      window.addEventListener('scroll', function() {
+        var h = document.documentElement;
+        var scrollTop = h.scrollTop || document.body.scrollTop;
+        var scrollHeight = h.scrollHeight - h.clientHeight;
+        var pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        progressBar.style.width = pct + '%';
+      });
+    }
+  })();
+  </script>
+</body>
+</html>
