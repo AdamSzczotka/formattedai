@@ -8,7 +8,9 @@
     "build:avif": "sass assets/scss/avif.scss assets/css/avif.css --style=compressed --no-source-map",
     "build:seogeo": "sass assets/scss/seogeo.scss assets/css/seogeo.css --style=compressed --no-source-map",
     "build:articles": "sass assets/scss/articles.scss assets/css/articles.css --style=compressed --no-source-map",
-    "build:css": "npm run build:home && npm run build:formatter && npm run build:avif && npm run build:seogeo && npm run build:articles",
+    "build:jsminifier": "sass assets/scss/jsminifier.scss assets/css/jsminifier.css --style=compressed --no-source-map",
+    "build:cssminifier": "sass assets/scss/cssminifier.scss assets/css/cssminifier.css --style=compressed --no-source-map",
+    "build:css": "npm run build:home && npm run build:formatter && npm run build:avif && npm run build:seogeo && npm run build:articles && npm run build:jsminifier && npm run build:cssminifier",
     "build:js": "esbuild assets/js/app.js --outfile=assets/js/app.min.js --minify --target=es2020 && esbuild assets/js/avif.js --outfile=assets/js/avif.min.js --bundle --minify --target=es2020 --format=esm --external:https://* && esbuild assets/js/seogeo.js --outfile=assets/js/seogeo.min.js --minify --target=es2020",
     "build": "npm run build:css && npm run build:js",
     "watch:home": "sass assets/scss/home.scss assets/css/home.css --watch --no-source-map",
@@ -16,10 +18,15 @@
     "watch:avif": "sass assets/scss/avif.scss assets/css/avif.css --watch --no-source-map",
     "watch:seogeo": "sass assets/scss/seogeo.scss assets/css/seogeo.css --watch --no-source-map",
     "watch:articles": "sass assets/scss/articles.scss assets/css/articles.css --watch --no-source-map",
-    "dev": "npm run watch:home & npm run watch:formatter & npm run watch:avif & npm run watch:seogeo & npm run watch:articles"
+    "watch:jsminifier": "sass assets/scss/jsminifier.scss assets/css/jsminifier.css --watch --no-source-map",
+    "watch:cssminifier": "sass assets/scss/cssminifier.scss assets/css/cssminifier.css --watch --no-source-map",
+    "dev": "npm run watch:home & npm run watch:formatter & npm run watch:avif & npm run watch:seogeo & npm run watch:articles & npm run watch:jsminifier & npm run watch:cssminifier"
   },
   "devDependencies": {
+    "csso": "^5.0.5",
     "esbuild": "^0.25.0",
-    "sass": "^1.86.0"
+    "js-beautify": "^1.15.4",
+    "sass": "^1.86.0",
+    "terser": "^5.46.1"
   }
 }
