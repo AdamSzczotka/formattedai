@@ -906,7 +906,7 @@ function renderCrawlerList() {
 }
 
 // --- Event Listeners ---
-langToggle.addEventListener('click', toggleLanguage);
+if (langToggle) langToggle.addEventListener('click', toggleLanguage);
 themeToggle.addEventListener('click', toggleTheme);
 clearBtn.addEventListener('click', clearAll);
 copyAllBtn.addEventListener('click', copyAll);

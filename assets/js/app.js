@@ -423,7 +423,7 @@ copyBtn.addEventListener('click', copyFormatted);
 clearBtn.addEventListener('click', clearAll);
 styleDocsBtn.addEventListener('click', () => setStyle('docs'));
 styleWordBtn.addEventListener('click', () => setStyle('word'));
-langToggle.addEventListener('click', toggleLanguage);
+if (langToggle) langToggle.addEventListener('click', toggleLanguage);
 
 // Download dropdown
 downloadBtn.addEventListener('click', (e) => {
