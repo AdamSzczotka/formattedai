@@ -20,6 +20,7 @@
     "watch:articles": "sass assets/scss/articles.scss assets/css/articles.css --watch --no-source-map",
     "watch:jsminifier": "sass assets/scss/jsminifier.scss assets/css/jsminifier.css --watch --no-source-map",
     "watch:cssminifier": "sass assets/scss/cssminifier.scss assets/css/cssminifier.css --watch --no-source-map",
+    "build:i18n": "node scripts/build-i18n.js",
     "dev": "npm run watch:home & npm run watch:formatter & npm run watch:avif & npm run watch:seogeo & npm run watch:articles & npm run watch:jsminifier & npm run watch:cssminifier"
   },
   "devDependencies": {
