@@ -41,6 +41,8 @@
     "seoHomeGeoText": "GEO is the next evolution of SEO. AI search engines (ChatGPT Search, Perplexity, Google AI Overview) are becoming mainstream. The SEO & GEO Tag Generator helps create Schema.org structured data, llms.txt files, and configure robots.txt for AI crawlers."
   },
   "about": {
+    "pageTitle": "About FormattedAI — Free Privacy-Focused Web Tools",
+    "metaDescription": "FormattedAI is a collection of free tools for web developers and content creators. Everything runs in your browser — your data never leaves your device.",
     "aboutPageTitle": "About FormattedAI",
     "aboutPageSubtitle": "Free tools for web developers and content creators. Everything runs in your browser — zero uploads, full privacy.",
     "aboutMissionTitle": "Our mission",
