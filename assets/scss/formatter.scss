@@ -5,25 +5,6 @@
 @use 'variables' as *;
 @use 'base';
 
-// Formatter always uses dark theme
-:root {
-  --color-bg: #08080c;
-  --color-surface: #111118;
-  --color-surface-raised: #181822;
-  --color-surface-hover: #1f1f2e;
-  --color-border: #2a2a40;
-  --color-border-subtle: #1e1e32;
-  --color-text: #ededf5;
-  --color-text-muted: #a0a0c0;
-  --color-text-dim: #707090;
-  --glass-bg: rgba(17, 17, 24, 0.85);
-  --glass-bg-strong: rgba(17, 17, 24, 0.92);
-  --orb-1: rgba(124, 108, 240, 0.12);
-  --orb-2: rgba(167, 139, 250, 0.08);
-  --orb-3: rgba(99, 102, 241, 0.06);
-  --grid-line: rgba(124, 108, 240, 0.03);
-}
-
 body {
   overflow: hidden;
 }
@@ -150,6 +131,7 @@ body {
   background: rgba(255, 255, 255, 0.03);
   cursor: pointer;
   transition: all $transition;
+  text-decoration: none;
 
   &:hover {
     background: var(--color-surface-hover);
@@ -385,11 +367,11 @@ body {
   .header {
     flex-direction: column; gap: 12px; padding: 12px 16px;
     &__actions {
-      width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
-      .lang-toggle { grid-column: 1; }
-      #clearBtn { grid-column: 2; }
-      .dropdown { grid-column: 3; }
-      #copyBtn { grid-column: 1 / -1; order: 1; }
+      width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+      .about-trigger, .lang-toggle, .theme-toggle { flex: 0 0 auto; }
+      #clearBtn { margin-left: auto; flex: 0 0 auto; }
+      .dropdown { flex: 1 1 100%; }
+      #copyBtn { flex: 1 1 100%; }
       .btn { justify-content: center; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
     }
   }

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>{{privacy.privacyTitle}} — FormattedAI</title>
+  <meta name="description" content="{{privacy.privacyIntroText}}">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="{{currentUrl}}">
+  <link rel="alternate" hreflang="pl" href="{{baseUrl}}/privacy/">
+  <link rel="alternate" hreflang="en" href="{{baseUrl}}/en/privacy/">
+  <link rel="alternate" hreflang="x-default" href="{{baseUrl}}/privacy/">
+  <meta http-equiv="content-language" content="{{lang}}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{privacy.privacyTitle}} — FormattedAI">
+  <meta property="og:description" content="{{privacy.privacyIntroText}}">
+  <meta property="og:url" content="{{currentUrl}}">
+  <meta property="og:site_name" content="FormattedAI">
+
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{baseUrl}}/" },
+      { "@type": "ListItem", "position": 2, "name": "{{privacy.privacyTitle}}", "item": "{{currentUrl}}" }
+    ]
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{cssPath}}/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+
+  <!-- Fonts & Styles -->
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="{{cssPath}}/css/home.css">
+  <style>
+    .page { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
+    .page__title { font-size: 32px; font-weight: 800; color: var(--color-text); margin-bottom: 8px; }
+    .page__subtitle { font-size: 14px; color: var(--color-text-dim); margin-bottom: 40px; }
+    .page__section { margin-bottom: 32px; }
+    .page__heading { font-size: 20px; font-weight: 700; color: var(--color-text); margin-bottom: 12px; }
+    .page__text { font-size: 15px; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 12px; }
+    .page__list { margin: 8px 0 12px 24px; padding: 0; }
+    .page__list li { font-size: 15px; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 4px; }
+    .page__link { color: #7c6cf0; text-decoration: none; font-weight: 600; }
+    .page__link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="bg-effects" aria-hidden="true">
+    <div class="bg-effects__orb bg-effects__orb--1"></div>
+    <div class="bg-effects__orb bg-effects__orb--2"></div>
+    <div class="bg-effects__orb bg-effects__orb--3"></div>
+    <div class="bg-effects__grid"></div>
+  </div>
+
+  <div class="app">
+    <nav class="navbar" role="navigation">
+      <a href="{{pathPrefix}}/" class="navbar__brand">
+        <div class="navbar__logo" aria-hidden="true">
+          <svg class="navbar__logo-svg" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
+            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="#a78bfa"/>
+                <stop offset="1" stop-color="#6c5ce7"/>
+              </linearGradient>
+              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="rgba(108,92,231,0.3)"/>
+                <stop offset="1" stop-color="rgba(167,139,250,0.1)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
+          <p class="navbar__subtitle">{{shared.navSubtitle}}</p>
+        </div>
+      </a>
+      <div class="navbar__nav">
+        <a href="{{pathPrefix}}/" class="navbar__link">{{shared.navTools}}</a>
+        <a href="{{pathPrefix}}/articles/" class="navbar__link">{{shared.navArticles}}</a>
+        <a href="{{pathPrefix}}/about/" class="navbar__link">{{shared.navAbout}}</a>
+        <a href="{{altUrl}}" class="navbar__link">{{ALT_LANG}}</a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <main>
+      <div class="page">
+        <h1 class="page__title">{{privacy.privacyTitle}}</h1>
+        <p class="page__subtitle">{{privacy.privacyUpdated}}</p>
+
+        <div class="page__section">
+          <h2 class="page__heading">{{privacy.privacyIntroTitle}}</h2>
+          <p class="page__text">{{privacy.privacyIntroText}}</p>
+        </div>
+
+        <div class="page__section">
+          <h2 class="page__heading">{{privacy.privacyDataTitle}}</h2>
+          <p class="page__text">{{privacy.privacyDataText}}</p>
+        </div>
+
+        <div class="page__section">
+          <h2 class="page__heading">{{privacy.privacyLocalTitle}}</h2>
+          <p class="page__text">{{privacy.privacyLocalText}}</p>
+          <ul class="page__list">
+            <li>{{privacy.privacyLocal1}}</li>
+            <li>{{privacy.privacyLocal2}}</li>
+            <li>{{privacy.privacyLocal3}}</li>
+          </ul>
+          <p class="page__text">{{privacy.privacyLocalClear}}</p>
+        </div>
+
+        <div class="page__section">
+          <h2 class="page__heading">{{privacy.privacyFilesTitle}}</h2>
+          <p class="page__text">{{privacy.privacyFilesText}}</p>
+        </div>
+
+        <div class="page__section">
+          <h2 class="page__heading">{{privacy.privacyCdnTitle}}</h2>
+          <p class="page__text">{{privacy.privacyCdnText}}</p>
+        </div>
+
+        <div class="page__section">
+          <h2 class="page__heading">{{privacy.privacyContactTitle}}</h2>
+          <p class="page__text">{{privacy.privacyContactText}}</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <p class="footer__text">
+        <span>{{shared.madeBy}}</span>
+        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
+          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Adam Szczotka
+        </a>
+      </p>
+      <div class="footer__links">
+        <a href="{{pathPrefix}}/" class="footer__link">{{shared.navTools}}</a>
+        <a href="{{pathPrefix}}/articles/" class="footer__link">{{shared.navArticles}}</a>
+        <a href="{{pathPrefix}}/about/" class="footer__link">{{shared.navAbout}}</a>
+        <a href="{{pathPrefix}}/privacy/" class="footer__link">{{shared.navPrivacy}}</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link">{{shared.navContact}}</a>
+        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+  (function() {
+    var theme = localStorage.getItem('formattedai-theme') || 'light';
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      theme = theme === 'light' ? 'dark' : 'light';
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('formattedai-theme', theme);
+    });
+  })();
+  </script>
+</body>
+</html>

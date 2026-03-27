@@ -51,6 +51,7 @@ body { overflow: hidden; transition: none; }
   display: flex; align-items: center; justify-content: center;
   width: 40px; height: 36px; border: 1px solid var(--color-border); border-radius: $radius-sm;
   background: rgba(255, 255, 255, 0.03); cursor: pointer; transition: all $transition;
+  text-decoration: none;
   &:hover { background: var(--color-surface-hover); border-color: rgba(236, 72, 153, 0.3); transform: translateY(-1px); }
   &__flag { font-size: 12px; font-weight: 800; font-family: $font-body; color: var(--color-text-muted); letter-spacing: 0.5px; transition: color $transition-fast; }
   &:hover &__flag { color: $color-geo-light; }
@@ -356,9 +357,87 @@ body { overflow: hidden; transition: none; }
   &::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; }
 }
 
+// --- Fetch URL Bar ---
+.fetch-bar {
+  padding: 12px 16px; margin-bottom: 12px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: $radius-sm;
+
+  &__inner { display: flex; flex-direction: column; gap: 8px; }
+
+  &__field {
+    display: flex; gap: 8px;
+  }
+
+  &__input {
+    flex: 1; min-width: 0;
+  }
+
+  &__btn {
+    white-space: nowrap; display: flex; align-items: center; gap: 6px;
+    position: relative;
+
+    &--loading {
+      pointer-events: none; opacity: 0.7;
+
+      .fetch-bar__icon {
+        animation: fetchSpin 1s linear infinite;
+      }
+    }
+  }
+
+  &__error {
+    font-size: 12px; color: #ef4444; line-height: 1.4;
+    padding: 6px 10px;
+    background: rgba(239, 68, 68, 0.08);
+    border-radius: 4px;
+  }
+
+  &__badge {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 8px;
+    font-size: 11px; color: var(--color-text-dim);
+    opacity: 0.7;
+
+    svg { flex-shrink: 0; }
+  }
+}
+
+@keyframes fetchSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 // --- Previews ---
 .preview-section {
   margin-bottom: 20px;
+}
+
+// --- SERP Tabs ---
+.serp-tabs {
+  display: flex; gap: 4px; margin-bottom: 8px;
+
+  &__btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 6px 12px;
+    font-size: 12px; font-weight: 500;
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: $radius-sm;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover { color: var(--color-text); background: var(--color-surface); }
+
+    &--active {
+      color: var(--color-text);
+      background: var(--color-surface);
+      border-color: var(--color-accent, #6c5ce7);
+      box-shadow: 0 0 0 1px var(--color-accent, #6c5ce7);
+    }
+  }
 }
 
 .serp-preview {
@@ -372,6 +451,29 @@ body { overflow: hidden; transition: none; }
   }
   &__desc { font-size: 13px; color: #545454; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     [data-theme="dark"] & { color: #bdc1c6; }
+  }
+
+  // Mobile variant
+  &--mobile {
+    .serp-preview__title { font-size: 16px; }
+    .serp-preview__desc { font-size: 12px; -webkit-line-clamp: 3; }
+  }
+
+  &__url-row {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  &__favicon {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--color-surface-raised);
+  }
+
+  &__breadcrumb {
+    font-size: 12px; color: var(--color-text-muted);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
 }
 
@@ -454,8 +556,10 @@ body { overflow: hidden; transition: none; }
   .header {
     flex-direction: column; gap: 12px; padding: 12px 16px;
     &__actions {
-      width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
-      #copyAllBtn { grid-column: 1 / -1; order: 1; }
+      width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+      .about-trigger, .lang-toggle, .theme-toggle { flex: 0 0 auto; }
+      #clearBtn { margin-left: auto; }
+      #copyAllBtn { flex: 1 1 100%; order: 1; }
       .btn { justify-content: center; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
     }
   }

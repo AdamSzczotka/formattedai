@@ -12,7 +12,7 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://formattedai.pl/seo-geo/">
   <link rel="alternate" hreflang="pl" href="https://formattedai.pl/seo-geo/">
-  <link rel="alternate" hreflang="en" href="https://formattedai.pl/seo-geo/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/seo-geo/">
   <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/seo-geo/">
   <meta http-equiv="content-language" content="pl, en">
 
@@ -84,10 +84,7 @@
   <meta name="mobile-web-app-capable" content="yes">
 
   <!-- Fonts & Styles -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="../assets/css/seogeo.css">
 </head>
 <body>
@@ -124,9 +121,9 @@
       </a>
       <div class="header__actions">
         <button class="about-trigger" id="aboutTrigger" type="button" aria-label="About" title="About">?</button>
-        <button class="lang-toggle" id="langToggle" type="button" title="Switch language" aria-label="Switch language">
-          <span class="lang-toggle__flag" id="langFlag">PL</span>
-        </button>
+        <a href="https://formattedai.pl/en/seo-geo/" class="lang-toggle" title="English version" aria-label="English version">
+          <span class="lang-toggle__flag">EN</span>
+        </a>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
           <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
@@ -183,6 +180,24 @@
           <div class="panel__header-left">
             <div class="panel__dot panel__dot--green" aria-hidden="true"></div>
             <h2 class="panel__title" data-i18n="inputTitle">Generator</h2>
+          </div>
+        </div>
+
+        <!-- Fetch URL bar -->
+        <div class="fetch-bar" id="fetchBar">
+          <div class="fetch-bar__inner">
+            <div class="fetch-bar__field">
+              <input class="form-input fetch-bar__input" type="url" id="fetchUrl" placeholder="https://example.com" aria-label="URL strony do pobrania">
+              <button class="btn btn--primary fetch-bar__btn" id="fetchBtn" type="button">
+                <svg class="fetch-bar__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span data-i18n="fetchBtn">Pobierz dane</span>
+              </button>
+            </div>
+            <div class="fetch-bar__error" id="fetchError" hidden></div>
+          </div>
+          <div class="fetch-bar__badge">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 4v3M6 8.5h.005" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span data-i18n="fetchBadge">Wymaga polaczenia z internetem</span>
           </div>
         </div>
 
@@ -556,11 +571,31 @@
           <!-- Previews -->
           <div class="preview-section" id="previewSection">
             <h3 class="output-section__title" data-i18n="previewTitle">Podglad</h3>
-            <!-- Google SERP -->
-            <div class="serp-preview" id="serpPreview">
+            <!-- SERP Tabs -->
+            <div class="serp-tabs" id="serpTabs">
+              <button class="serp-tabs__btn serp-tabs__btn--active" type="button" data-serp-tab="desktop">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><rect x="1" y="2" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4 12h6M7 10v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                Desktop
+              </button>
+              <button class="serp-tabs__btn" type="button" data-serp-tab="mobile">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><rect x="3.5" y="1" width="7" height="12" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 11h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                Mobile
+              </button>
+            </div>
+            <!-- Google SERP Desktop -->
+            <div class="serp-preview serp-preview--desktop" id="serpPreviewDesktop">
               <div class="serp-preview__url" id="serpUrl">example.com</div>
               <div class="serp-preview__title" id="serpTitle">Page Title</div>
               <div class="serp-preview__desc" id="serpDesc">Page description will appear here...</div>
+            </div>
+            <!-- Google SERP Mobile -->
+            <div class="serp-preview serp-preview--mobile" id="serpPreviewMobile" hidden>
+              <div class="serp-preview__url-row">
+                <img class="serp-preview__favicon" id="serpFavicon" src="" alt="" width="16" height="16">
+                <div class="serp-preview__breadcrumb" id="serpBreadcrumb">example.com</div>
+              </div>
+              <div class="serp-preview__title" id="serpTitleMobile">Page Title</div>
+              <div class="serp-preview__desc" id="serpDescMobile">Page description will appear here...</div>
             </div>
             <!-- Facebook OG -->
             <div class="og-preview" id="ogPreview">
@@ -643,6 +678,8 @@
         <a href="/articles/" class="footer__link" data-i18n="navArticles">Artyku&#322;y</a>
         <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
         <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatno&#347;&#263;</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link" data-i18n="navContact">Kontakt</a>
+        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
       </div>
     </footer>
 

@@ -2,15 +2,24 @@
 
 > Free, privacy-focused web tools for developers and content creators. 100% client-side.
 
-FormattedAI is a collection of free online tools that run entirely in the browser. No data is ever sent to a server. Tools include markdown formatting, image conversion, and SEO/GEO optimization.
+FormattedAI is a collection of free online tools that run entirely in the browser. No data is ever sent to a server. Tools include markdown formatting, image conversion, code minification, and SEO/GEO optimization.
+
+Available in Polish (default) and English (/en/).
 
 ## Tools
 
-- [Markdown Formatter](https://formattedai.pl/formatter/): Convert ChatGPT markdown to formatted text for Google Docs and Word
-- [AVIF Converter](https://formattedai.pl/avif/): Convert PNG, JPG, WebP images to modern AVIF format
-- [SEO & GEO Tag Generator](https://formattedai.pl/seo-geo/): Generate meta tags, Schema.org JSON-LD, llms.txt and robots.txt
+- [Markdown Formatter](https://formattedai.pl/formatter/) ([EN](https://formattedai.pl/en/formatter/)): Convert ChatGPT markdown to formatted text for Google Docs and Word
+- [AVIF Converter](https://formattedai.pl/avif/) ([EN](https://formattedai.pl/en/avif/)): Convert PNG, JPG, WebP images to modern AVIF format
+- [JS Minifier](https://formattedai.pl/js-minifier/) ([EN](https://formattedai.pl/en/js-minifier/)): Minify and beautify JavaScript code using Terser and js-beautify
+- [CSS Minifier](https://formattedai.pl/css-minifier/) ([EN](https://formattedai.pl/en/css-minifier/)): Minify and beautify CSS code using CSSO and css-beautify
+- [SEO & GEO Tag Generator](https://formattedai.pl/seo-geo/) ([EN](https://formattedai.pl/en/seo-geo/)): Generate meta tags, Schema.org JSON-LD, llms.txt and robots.txt
+
+## Articles
+
+- [Articles](https://formattedai.pl/articles/) ([EN](https://formattedai.pl/en/articles/)): Guides and tips about web optimization
+- [How to Speed Up Image Loading with AVIF](https://formattedai.pl/articles/optymalizacja-zdjec-avif/) ([EN](https://formattedai.pl/en/articles/optymalizacja-zdjec-avif/)): Complete guide to AVIF format, compression comparison, and implementation
 
 ## About
 
-- [About FormattedAI](https://formattedai.pl/about/): Mission, author, privacy information
-- [Privacy Policy](https://formattedai.pl/privacy/): How we handle your data
+- [About FormattedAI](https://formattedai.pl/about/) ([EN](https://formattedai.pl/en/about/)): Mission, author, privacy information
+- [Privacy Policy](https://formattedai.pl/privacy/) ([EN](https://formattedai.pl/en/privacy/)): How we handle your data

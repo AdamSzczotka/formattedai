@@ -36,6 +36,7 @@ const translations = {
     navArticles: 'Artyku\u0142y',
     navAbout: 'O nas',
     navPrivacy: 'Prywatno\u015B\u0107',
+    navContact: 'Kontakt',
     totalFiles: 'Pliki:',
     originalSize: 'Orygina\u0142:',
     savings: 'Oszcz\u0119dno\u015B\u0107:',
@@ -110,6 +111,7 @@ const translations = {
     navArticles: 'Articles',
     navAbout: 'About',
     navPrivacy: 'Privacy',
+    navContact: 'Contact',
     totalFiles: 'Files:',
     originalSize: 'Original:',
     savings: 'Savings:',
@@ -135,7 +137,7 @@ const translations = {
 };
 
 // --- State ---
-let currentLang = localStorage.getItem('formattedai-lang') || 'pl';
+let currentLang = document.documentElement.lang || 'pl';
 let quality = 65;
 let inputFiles = []; // { id, file, objectUrl }
 let results = [];    // { id, originalFile, avifBlob, objectUrl, originalSize, avifSize }
@@ -650,7 +652,7 @@ function setupDragDrop(zone) {
 }
 
 // --- Event Listeners ---
-langToggle.addEventListener('click', toggleLanguage);
+if (langToggle) langToggle.addEventListener('click', toggleLanguage);
 themeToggle.addEventListener('click', toggleTheme);
 clearBtn.addEventListener('click', clearAll);
 convertAllBtn.addEventListener('click', convertAll);
