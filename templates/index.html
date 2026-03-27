@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>{{home.pageTitle}}</title>
+  <meta name="description" content="{{home.metaDescription}}">
+  <meta name="keywords" content="FormattedAI, narzędzia webdev, markdown converter, AVIF converter, darmowe narzędzia online, client-side tools, prywatność danych, web developer tools">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="{{currentUrl}}">
+  <link rel="alternate" hreflang="pl" href="{{baseUrl}}/">
+  <link rel="alternate" hreflang="en" href="{{baseUrl}}/en/">
+  <link rel="alternate" hreflang="x-default" href="{{baseUrl}}/">
+  <meta http-equiv="content-language" content="{{lang}}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{home.pageTitle}}">
+  <meta property="og:description" content="{{home.metaDescription}}">
+  <meta property="og:url" content="{{currentUrl}}">
+  <meta property="og:image" content="{{baseUrl}}/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="{{lang}}">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{home.pageTitle}}">
+  <meta name="twitter:description" content="{{home.metaDescription}}">
+
+  <!-- Structured Data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "FormattedAI",
+    "headline": "{{home.pageTitle}}",
+    "description": "{{home.metaDescription}}",
+    "url": "{{currentUrl}}",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "inLanguage": "{{lang}}"
+  }
+  </script>
+
+  <!-- Structured Data: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FormattedAI",
+    "url": "{{baseUrl}}/",
+    "description": "Free, privacy-focused web tools for developers and content creators. 100% client-side.",
+    "founder": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "sameAs": [
+      "https://github.com/AdamSzczotka/formattedai"
+    ]
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{cssPath}}/favicon.svg">
+  <link rel="apple-touch-icon" href="{{cssPath}}/favicon.svg">
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#08080c">
+
+  <!-- Fonts & Styles -->
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="{{cssPath}}/css/home.css">
+</head>
+<body>
+  <div class="bg-effects" aria-hidden="true">
+    <div class="bg-effects__orb bg-effects__orb--1"></div>
+    <div class="bg-effects__orb bg-effects__orb--2"></div>
+    <div class="bg-effects__orb bg-effects__orb--3"></div>
+    <div class="bg-effects__grid"></div>
+  </div>
+
+  <div class="app">
+    <nav class="navbar" role="navigation">
+      <a href="{{pathPrefix}}/" class="navbar__brand">
+        <div class="navbar__logo" aria-hidden="true">
+          <svg class="navbar__logo-svg" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
+            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="#a78bfa"/>
+                <stop offset="1" stop-color="#6c5ce7"/>
+              </linearGradient>
+              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="rgba(108,92,231,0.3)"/>
+                <stop offset="1" stop-color="rgba(167,139,250,0.1)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
+          <p class="navbar__subtitle">{{shared.navSubtitle}}</p>
+        </div>
+      </a>
+      <div class="navbar__nav">
+        <a href="{{pathPrefix}}/" class="navbar__link navbar__link--active">{{shared.navTools}}</a>
+        <a href="{{pathPrefix}}/articles/" class="navbar__link">{{shared.navArticles}}</a>
+        <a href="{{pathPrefix}}/about/" class="navbar__link">{{shared.navAbout}}</a>
+        <a href="{{altUrl}}" class="navbar__link">{{ALT_LANG}}</a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <a href="https://github.com/AdamSzczotka/formattedai" class="navbar__link" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <div class="hero__badge">
+          <span class="hero__badge-dot"></span>
+          100% client-side
+        </div>
+        <h1 class="hero__title">{{home.heroTitle}}</h1>
+        <p class="hero__desc">{{home.heroDesc}}</p>
+        <div class="hero__security">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L3 3.5V7c0 3.5 2.1 6.3 5 7.5 2.9-1.2 5-4 5-7.5V3.5L8 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 8l1.5 1.5L10 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>{{home.heroSecurity}}</span>
+        </div>
+      </section>
+
+      <section class="tools">
+        <div class="tools__header">
+          <h2 class="tools__title">{{home.toolsTitle}}</h2>
+          <span class="tools__count">{{home.toolsCount}}</span>
+        </div>
+        <div class="tools__grid">
+
+          <!-- Formatter — LIVE -->
+          <a href="{{pathPrefix}}/formatter/" class="tool-card">
+            <div class="tool-card__icon tool-card__icon--purple">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">Markdown Formatter</h3>
+            <p class="tool-card__desc">{{home.cardFormatter}}</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--live">{{shared.tagLive}}</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </a>
+
+          <!-- AVIF Converter — LIVE -->
+          <a href="{{pathPrefix}}/avif/" class="tool-card">
+            <div class="tool-card__icon tool-card__icon--blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">AVIF Converter</h3>
+            <p class="tool-card__desc">{{home.cardAvif}}</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--live">{{shared.tagLive}}</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </a>
+
+          <!-- CSS Minifier — LIVE -->
+          <a href="{{pathPrefix}}/css-minifier/" class="tool-card">
+            <div class="tool-card__icon tool-card__icon--green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">CSS Minifier</h3>
+            <p class="tool-card__desc">{{home.cardCss}}</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--live">{{shared.tagLive}}</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </a>
+
+          <!-- JSON Formatter — COMING SOON -->
+          <div class="tool-card tool-card--coming-soon">
+            <div class="tool-card__icon tool-card__icon--orange">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 3H7a2 2 0 00-2 2v5a2 2 0 01-2 2 2 2 0 012 2v5a2 2 0 002 2h1M16 3h1a2 2 0 012 2v5a2 2 0 002 2 2 2 0 00-2 2v5a2 2 0 01-2 2h-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">JSON Formatter</h3>
+            <p class="tool-card__desc">{{home.cardJson}}</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--soon">{{shared.tagSoon}}</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <!-- SEO & GEO Tag Generator — LIVE -->
+          <a href="{{pathPrefix}}/seo-geo/" class="tool-card">
+            <div class="tool-card__icon tool-card__icon--pink">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">SEO &amp; GEO Tag Generator</h3>
+            <p class="tool-card__desc">{{home.cardMeta}}</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--live">{{shared.tagLive}}</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </a>
+
+          <!-- JS Minifier — LIVE -->
+          <a href="{{pathPrefix}}/js-minifier/" class="tool-card">
+            <div class="tool-card__icon tool-card__icon--orange">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">JS Minifier</h3>
+            <p class="tool-card__desc">{{home.cardJsMinifier}}</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--live">{{shared.tagLive}}</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </a>
+
+          <!-- Color Palette — COMING SOON -->
+          <div class="tool-card tool-card--coming-soon">
+            <div class="tool-card__icon tool-card__icon--cyan">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9z" stroke="currentColor" stroke-width="1.5"/><circle cx="6.5" cy="11.5" r="1.5" fill="currentColor"/><circle cx="9.5" cy="7.5" r="1.5" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.5" fill="currentColor"/><circle cx="17.5" cy="11.5" r="1.5" fill="currentColor"/></svg>
+            </div>
+            <h3 class="tool-card__name">Color Palette</h3>
+            <p class="tool-card__desc">{{home.cardColor}}</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--soon">{{shared.tagSoon}}</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <!-- Feedback — SUGGEST A TOOL -->
+          <a href="mailto:adam.szczotka0@gmail.com?subject=Pomys%C5%82%20na%20narz%C4%99dzie%20FormattedAI" class="tool-card tool-card--feedback" id="feedbackCard">
+            <div class="tool-card__icon tool-card__icon--amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V17a1 1 0 001 1h6a1 1 0 001-1v-2.3A7 7 0 0012 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="tool-card__name">{{home.feedbackTitle}}</h3>
+            <p class="tool-card__desc">{{home.feedbackDesc}}</p>
+            <div class="tool-card__footer">
+              <span class="tool-card__tag tool-card__tag--amber">{{home.feedbackTag}}</span>
+              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </a>
+
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <p class="footer__text">
+        <span>{{shared.madeBy}}</span>
+        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
+          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Adam Szczotka
+        </a>
+      </p>
+      <div class="footer__badge">
+        <span class="footer__badge__dot"></span>
+        <span>{{shared.footerBadge}}</span>
+      </div>
+      <div class="footer__links">
+        <a href="{{pathPrefix}}/articles/" class="footer__link">{{shared.navArticles}}</a>
+        <a href="{{pathPrefix}}/about/" class="footer__link">{{shared.navAbout}}</a>
+        <a href="{{pathPrefix}}/privacy/" class="footer__link">{{shared.navPrivacy}}</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link">{{shared.navContact}}</a>
+        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SEO Content Section -->
+  <section class="seo-content">
+    <div class="seo-content__inner">
+      <h2>{{home.seoHomeTitle}}</h2>
+      <p>{{home.seoHomeDesc}}</p>
+
+      <h2>{{home.seoHomeToolsTitle}}</h2>
+      <p>{{home.seoHomeTool1}}</p>
+      <p>{{home.seoHomeTool2}}</p>
+      <p>{{home.seoHomeTool3}}</p>
+
+      <h2>{{home.seoHomeWhyTitle}}</h2>
+      <p>{{home.seoHomeWhyText}}</p>
+
+      <h2>{{home.seoHomeGeoTitle}}</h2>
+      <p>{{home.seoHomeGeoText}}</p>
+    </div>
+  </section>
+
+  <script>
+  (function() {
+    var theme = localStorage.getItem('formattedai-theme') || 'light';
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      theme = theme === 'light' ? 'dark' : 'light';
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('formattedai-theme', theme);
+    });
+  })();
+  </script>
+</body>
+</html>

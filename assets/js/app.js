@@ -20,6 +20,7 @@ const translations = {
     navArticles: 'Artyku\u0142y',
     navAbout: 'O nas',
     navPrivacy: 'Prywatno\u015B\u0107',
+    navContact: 'Kontakt',
     chars: 'znak\u00F3w',
     pageTitle: 'FormattedAI \u2014 Skopiuj tekst z ChatGPT do Google Docs i Word z idealnym formatowaniem',
     dlHtmlDesc: 'Otw\u00F3rz w przegl\u0105darce',
@@ -75,6 +76,7 @@ const translations = {
     navArticles: 'Articles',
     navAbout: 'About',
     navPrivacy: 'Privacy',
+    navContact: 'Contact',
     chars: 'chars',
     pageTitle: 'FormattedAI \u2014 Copy ChatGPT text to Google Docs & Word with perfect formatting',
     dlHtmlDesc: 'Open in browser',
@@ -96,7 +98,7 @@ const translations = {
 };
 
 // --- State ---
-let currentLang = localStorage.getItem('formattedai-lang') || 'pl';
+let currentLang = document.documentElement.lang || 'pl';
 let currentTheme = localStorage.getItem('formattedai-theme') || 'light';
 let currentStyle = 'docs';
 
@@ -421,7 +423,7 @@ copyBtn.addEventListener('click', copyFormatted);
 clearBtn.addEventListener('click', clearAll);
 styleDocsBtn.addEventListener('click', () => setStyle('docs'));
 styleWordBtn.addEventListener('click', () => setStyle('word'));
-langToggle.addEventListener('click', toggleLanguage);
+if (langToggle) langToggle.addEventListener('click', toggleLanguage);
 
 // Download dropdown
 downloadBtn.addEventListener('click', (e) => {

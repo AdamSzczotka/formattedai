@@ -12,9 +12,9 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://formattedai.pl/articles/">
   <link rel="alternate" hreflang="pl" href="https://formattedai.pl/articles/">
-  <link rel="alternate" hreflang="en" href="https://formattedai.pl/articles/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/articles/">
   <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/articles/">
-  <meta http-equiv="content-language" content="pl, en">
+  <meta http-equiv="content-language" content="pl">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -23,7 +23,7 @@
   <meta property="og:url" content="https://formattedai.pl/articles/">
   <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
   <meta property="og:site_name" content="FormattedAI">
-  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale" content="pl">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -37,7 +37,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/" },
-      { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://formattedai.pl/articles/" }
+      { "@type": "ListItem", "position": 2, "name": "Artykuły", "item": "https://formattedai.pl/articles/" }
     ]
   }
   </script>
@@ -48,10 +48,7 @@
   <meta name="theme-color" content="#08080c">
 
   <!-- Fonts & Styles -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="../assets/css/articles.css">
 </head>
 <body>
@@ -77,17 +74,15 @@
         </div>
         <div>
           <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
-          <p class="navbar__subtitle" data-i18n="navSubtitle">Narz&#281;dzia webdev &bull; 100% client-side</p>
+          <p class="navbar__subtitle">Narzędzia webdev • 100% client-side</p>
         </div>
       </a>
       <div class="navbar__nav">
-        <a href="/" class="navbar__link" data-i18n="navTools">Narz&#281;dzia</a>
-        <a href="/articles/" class="navbar__link navbar__link--active" data-i18n="navArticles">Artyku&#322;y</a>
-        <a href="/about/" class="navbar__link" data-i18n="navAbout">O nas</a>
-        <button class="navbar__link" id="langToggle" type="button" style="cursor:pointer;border:none;font:inherit;">
-          <span id="langFlag">PL</span>
-        </button>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Zmie&#324; motyw">
+        <a href="/" class="navbar__link">Narzędzia</a>
+        <a href="/articles/" class="navbar__link navbar__link--active">Artykuły</a>
+        <a href="/about/" class="navbar__link">O nas</a>
+        <a href="https://formattedai.pl/en/articles/" class="navbar__link">EN</a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
           <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
         </button>
@@ -102,20 +97,20 @@
       <section class="articles-hero">
         <div class="articles-hero__badge">
           <span class="articles-hero__badge-dot"></span>
-          <span data-i18n="articlesBadge">Baza wiedzy</span>
+          Baza wiedzy
         </div>
-        <h1 class="articles-hero__title" data-i18n-html="articlesHeroTitle">Wiedza, kt&#243;ra <span>przyspiesza</span> Tw&#243;j web</h1>
-        <p class="articles-hero__desc" data-i18n="articlesHeroDesc">Poradniki, porady i praktyczna wiedza o optymalizacji stron, obrazk&#243;w i SEO. Wszystko w kontek&#347;cie naszych narz&#281;dzi.</p>
+        <h1 class="articles-hero__title">Wiedza, która <span>przyspiesza</span> Twój web</h1>
+        <p class="articles-hero__desc">Poradniki, porady i praktyczna wiedza o optymalizacji stron, obrazków i SEO. Wszystko w kontekście naszych narzędzi.</p>
       </section>
 
       <section class="articles-list">
         <div class="articles-list__header">
-          <span class="articles-list__label" data-i18n="articlesLabel">Artyku&#322;y</span>
-          <span class="articles-list__count" data-i18n="articlesCount">1 artyku&#322;</span>
+          <span class="articles-list__label">Artykuły</span>
+          <span class="articles-list__count">1 artykuł</span>
         </div>
         <div class="articles-list__grid">
 
-          <!-- Article: Optymalizacja zdjęć AVIF -->
+          <!-- Article: Optymalizacja zdjec AVIF -->
           <a href="/articles/optymalizacja-zdjec-avif/" class="article-card">
             <div class="article-card__header-row">
               <div class="article-card__icon">
@@ -125,14 +120,12 @@
                 <span class="article-card__tag article-card__tag--live">AVIF</span>
               </div>
             </div>
-            <h2 class="article-card__title lang-pl">Jak przyspieszy&#263; &#322;adowanie zdj&#281;&#263; na stronie? Kompletny poradnik AVIF</h2>
-            <h2 class="article-card__title lang-en">How to Speed Up Image Loading on Your Website? Complete AVIF Guide</h2>
-            <p class="article-card__desc lang-pl">Dowiedz si&#281;, dlaczego AVIF to najlepszy format obrazk&#243;w w 2026 roku i jak konwertowa&#263; zdj&#281;cia bez utraty jako&#347;ci.</p>
-            <p class="article-card__desc lang-en">Learn why AVIF is the best image format in 2026 and how to convert images without losing quality.</p>
+            <h2 class="article-card__title">Jak przyspieszyć ładowanie zdjęć na stronie? Kompletny poradnik AVIF</h2>
+            <p class="article-card__desc">Dowiedz się, dlaczego AVIF to najlepszy format obrazków w 2026 roku i jak konwertować zdjęcia bez utraty jakości.</p>
             <div class="article-card__footer">
               <div class="article-card__meta">
                 <span>2026-03-25</span>
-                <span data-i18n="readTime">5 min czytania</span>
+                <span>5 min czytania</span>
               </div>
               <svg class="article-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
@@ -144,7 +137,7 @@
 
     <footer class="footer" role="contentinfo">
       <p class="footer__text">
-        <span data-i18n="madeBy">Stworzone przez</span>
+        <span>Stworzone przez</span>
         <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
           <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           Adam Szczotka
@@ -152,20 +145,20 @@
       </p>
       <div class="footer__badge">
         <span class="footer__badge__dot"></span>
-        <span data-i18n="footerBadge">100% client-side &mdash; zero danych na serwerze</span>
+        <span>100% client-side — zero danych na serwerze</span>
       </div>
       <div class="footer__links">
-        <a href="/" class="footer__link" data-i18n="navTools">Narz&#281;dzia</a>
-        <a href="/articles/" class="footer__link" data-i18n="navArticles">Artyku&#322;y</a>
-        <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
-        <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatno&#347;&#263;</a>
+        <a href="/articles/" class="footer__link">Artykuły</a>
+        <a href="/about/" class="footer__link">O nas</a>
+        <a href="/privacy/" class="footer__link">Prywatność</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link">Kontakt</a>
+        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
       </div>
     </footer>
   </div>
 
   <script>
   (function() {
-    // Theme
     var theme = localStorage.getItem('formattedai-theme') || 'light';
     if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     document.getElementById('themeToggle').addEventListener('click', function() {
@@ -174,56 +167,6 @@
       else document.documentElement.removeAttribute('data-theme');
       localStorage.setItem('formattedai-theme', theme);
     });
-
-    // i18n
-    var t = {
-      pl: {
-        navSubtitle: 'Narz\u0119dzia webdev \u2022 100% client-side',
-        navTools: 'Narz\u0119dzia', navArticles: 'Artyku\u0142y', navAbout: 'O nas', navPrivacy: 'Prywatno\u015B\u0107',
-        madeBy: 'Stworzone przez',
-        footerBadge: '100% client-side \u2014 zero danych na serwerze',
-        articlesBadge: 'Baza wiedzy',
-        articlesHeroTitle: 'Wiedza, kt\u00F3ra <span>przyspiesza</span> Tw\u00F3j web',
-        articlesHeroDesc: 'Poradniki, porady i praktyczna wiedza o optymalizacji stron, obrazk\u00F3w i SEO. Wszystko w kontek\u015Bcie naszych narz\u0119dzi.',
-        articlesLabel: 'Artyku\u0142y',
-        articlesCount: '1 artyku\u0142',
-        readTime: '5 min czytania',
-      },
-      en: {
-        navSubtitle: 'Webdev tools \u2022 100% client-side',
-        navTools: 'Tools', navArticles: 'Articles', navAbout: 'About', navPrivacy: 'Privacy',
-        madeBy: 'Created by',
-        footerBadge: '100% client-side \u2014 zero data on servers',
-        articlesBadge: 'Knowledge base',
-        articlesHeroTitle: 'Knowledge that <span>speeds up</span> your web',
-        articlesHeroDesc: 'Guides, tips and practical knowledge about website optimization, images and SEO. All in the context of our tools.',
-        articlesLabel: 'Articles',
-        articlesCount: '1 article',
-        readTime: '5 min read',
-      }
-    };
-
-    var lang = localStorage.getItem('formattedai-lang') || 'pl';
-    var flag = document.getElementById('langFlag');
-    var toggle = document.getElementById('langToggle');
-
-    function apply() {
-      document.documentElement.lang = lang;
-      document.documentElement.setAttribute('data-lang', lang);
-      flag.textContent = lang.toUpperCase();
-      document.querySelectorAll('[data-i18n]').forEach(function(el) {
-        var key = el.getAttribute('data-i18n');
-        var val = t[lang][key];
-        if (val) { if (val.indexOf('<') !== -1) el.innerHTML = val; else el.textContent = val; }
-      });
-      document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
-        var key = el.getAttribute('data-i18n-html');
-        if (t[lang][key]) el.innerHTML = t[lang][key];
-      });
-    }
-
-    toggle.addEventListener('click', function() { lang = lang === 'pl' ? 'en' : 'pl'; apply(); localStorage.setItem('formattedai-lang', lang); });
-    apply();
   })();
   </script>
 </body>
