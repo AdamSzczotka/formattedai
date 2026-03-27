@@ -102,6 +102,14 @@ const translations = {
     seoGeoFaq2a: 'llms.txt to nowy standard (podobny do robots.txt), kt\u00F3ry informuje modele AI o Twojej stronie. To plik Markdown w katalogu g\u0142\u00F3wnym zawieraj\u0105cy nazw\u0119 projektu, opis i linki do kluczowych tre\u015Bci.',
     seoGeoFaq3q: 'Jak zoptymalizowa\u0107 stron\u0119 pod AI wyszukiwarki?',
     seoGeoFaq3a: 'Trzy kroki: 1) Dodaj dane strukturalne Schema.org \u2014 zw\u0142aszcza FAQPage. 2) Stw\u00F3rz plik llms.txt opisuj\u0105cy Twoj\u0105 stron\u0119. 3) Skonfiguruj robots.txt \u017Ceby blokowa\u0107 AI training ale pozwala\u0107 AI search. To narz\u0119dzie generuje wszystkie trzy.',
+    // Fetch URL
+    fetchBtn: 'Pobierz dane',
+    fetchBadge: 'Wymaga po\u0142\u0105czenia z internetem',
+    fetchLoading: 'Pobieram...',
+    fetchErrInvalid: 'Podaj poprawny adres URL (https://...)',
+    fetchErrFailed: 'Nie uda\u0142o si\u0119 pobra\u0107 danych. Sprawd\u017A URL i spr\u00F3buj ponownie.',
+    fetchErrTimeout: 'Przekroczono limit czasu (5s). Strona nie odpowiada.',
+    fetchErrNotHtml: 'URL nie wskazuje na stron\u0119 HTML.',
   },
   en: {
     subtitle: 'SEO & GEO Tag Generator',
@@ -201,6 +209,14 @@ const translations = {
     seoGeoFaq2a: 'llms.txt is a new standard (similar to robots.txt) that tells AI models about your website. It\'s a Markdown file placed at your site root (/llms.txt) containing your project name, description, and links to key content.',
     seoGeoFaq3q: 'How do I optimize my site for AI search engines?',
     seoGeoFaq3a: 'Three key steps: 1) Add Schema.org structured data — especially FAQPage which has the highest AI citation rate. 2) Create an llms.txt file describing your site. 3) Configure robots.txt to block AI training crawlers but allow AI search crawlers. This tool generates all three.',
+    // Fetch URL
+    fetchBtn: 'Fetch data',
+    fetchBadge: 'Requires internet connection',
+    fetchLoading: 'Fetching...',
+    fetchErrInvalid: 'Enter a valid URL (https://...)',
+    fetchErrFailed: 'Could not fetch data. Check the URL and try again.',
+    fetchErrTimeout: 'Request timed out (5s). The page is not responding.',
+    fetchErrNotHtml: 'URL does not point to an HTML page.',
   },
 };
 
@@ -281,10 +297,24 @@ const outputSchemaCode = document.getElementById('outputSchemaCode');
 const outputLlmsCode = document.getElementById('outputLlmsCode');
 const outputRobotsCode = document.getElementById('outputRobotsCode');
 
-// Previews
+// Previews — Desktop
 const serpUrl = document.getElementById('serpUrl');
 const serpTitle = document.getElementById('serpTitle');
 const serpDesc = document.getElementById('serpDesc');
+// Previews — Mobile
+const serpTitleMobile = document.getElementById('serpTitleMobile');
+const serpDescMobile = document.getElementById('serpDescMobile');
+const serpBreadcrumb = document.getElementById('serpBreadcrumb');
+const serpFavicon = document.getElementById('serpFavicon');
+const serpPreviewDesktop = document.getElementById('serpPreviewDesktop');
+const serpPreviewMobile = document.getElementById('serpPreviewMobile');
+// Fetch URL
+const fetchUrl = document.getElementById('fetchUrl');
+const fetchBtn = document.getElementById('fetchBtn');
+const fetchError = document.getElementById('fetchError');
+let fetchedFavicon = '';
+const FETCH_API = 'https://api.formattedai.pl/fetch-meta';
+
 const ogPreviewImg = document.getElementById('ogPreviewImg');
 const ogPreviewSite = document.getElementById('ogPreviewSite');
 const ogPreviewTitle = document.getElementById('ogPreviewTitle');
@@ -424,10 +454,24 @@ function generateSeo() {
 
   outputSeoCode.textContent = lines.join('\n');
 
-  // Update previews
+  // Update previews — Desktop
   serpTitle.textContent = title || 'Page Title';
   serpDesc.textContent = desc || 'Page description will appear here...';
-  serpUrl.textContent = url ? url.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'example.com';
+  const cleanUrl = url ? url.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'example.com';
+  serpUrl.textContent = cleanUrl;
+
+  // Update previews — Mobile
+  const mobileTitle = title ? (title.length > 55 ? title.slice(0, 55) + '...' : title) : 'Page Title';
+  const mobileDesc = desc ? (desc.length > 120 ? desc.slice(0, 120) + '...' : desc) : 'Page description will appear here...';
+  serpTitleMobile.textContent = mobileTitle;
+  serpDescMobile.textContent = mobileDesc;
+  serpBreadcrumb.textContent = cleanUrl;
+  if (fetchedFavicon) {
+    serpFavicon.src = fetchedFavicon;
+    serpFavicon.hidden = false;
+  } else {
+    serpFavicon.hidden = true;
+  }
 }
 
 // --- Generate OG ---
@@ -1006,6 +1050,130 @@ document.addEventListener('click', (e) => {
   } else if (!e.target.closest('.tooltip-popup')) {
     tooltipPopup.hidden = true;
   }
+});
+
+// --- SERP Tabs ---
+document.getElementById('serpTabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-serp-tab]');
+  if (!btn) return;
+  const tab = btn.dataset.serpTab;
+  document.querySelectorAll('.serp-tabs__btn').forEach(b => b.classList.remove('serp-tabs__btn--active'));
+  btn.classList.add('serp-tabs__btn--active');
+  serpPreviewDesktop.hidden = tab !== 'desktop';
+  serpPreviewMobile.hidden = tab !== 'mobile';
+});
+
+// --- Fetch URL ---
+function setFetchLoading(loading) {
+  fetchBtn.disabled = loading;
+  const label = fetchBtn.querySelector('[data-i18n="fetchBtn"]');
+  if (loading) {
+    fetchBtn.classList.add('fetch-bar__btn--loading');
+    label.textContent = t('fetchLoading');
+  } else {
+    fetchBtn.classList.remove('fetch-bar__btn--loading');
+    label.textContent = t('fetchBtn');
+  }
+}
+
+function showFetchError(msgKey) {
+  fetchError.textContent = t(msgKey);
+  fetchError.hidden = false;
+}
+
+function hideFetchError() {
+  fetchError.hidden = true;
+  fetchError.textContent = '';
+}
+
+function fillIfEmpty(field, value) {
+  if (!value) return;
+  if (field.value.trim() === '') {
+    field.value = value;
+    updateCounter(field);
+  }
+}
+
+function fillSelectIfMatch(selectEl, value) {
+  if (!value) return;
+  const option = Array.from(selectEl.options).find(o => o.value === value);
+  if (option && selectEl.value !== value) {
+    selectEl.value = value;
+  }
+}
+
+async function handleFetch() {
+  hideFetchError();
+  const url = fetchUrl.value.trim();
+
+  if (!url || !url.match(/^https?:\/\/.+/)) {
+    showFetchError('fetchErrInvalid');
+    return;
+  }
+
+  setFetchLoading(true);
+
+  try {
+    const res = await fetch(`${FETCH_API}?url=${encodeURIComponent(url)}`);
+    const data = await res.json();
+
+    if (!res.ok) {
+      if (res.status === 504) showFetchError('fetchErrTimeout');
+      else if (data.error && data.error.includes('HTML')) showFetchError('fetchErrNotHtml');
+      else showFetchError('fetchErrFailed');
+      setFetchLoading(false);
+      return;
+    }
+
+    // Fill SEO fields (only empty)
+    fillIfEmpty(seoTitle, data.title);
+    fillIfEmpty(seoDesc, data.description);
+    fillIfEmpty(seoUrl, data.canonical || url);
+    fillIfEmpty(seoKeywords, data.keywords);
+
+    // Language
+    if (data.lang) {
+      const langMap = { 'pl': 'pl', 'en': 'en', 'de': 'de', 'fr': 'fr', 'es': 'es', 'uk': 'uk' };
+      const shortLang = data.lang.split('-')[0].toLowerCase();
+      if (langMap[shortLang]) fillSelectIfMatch(seoLang, shortLang);
+    }
+
+    // Fill OG fields
+    if (data.og) {
+      fillIfEmpty(ogTitle, data.og.title);
+      fillIfEmpty(ogDesc, data.og.description);
+      fillIfEmpty(ogUrl, data.og.url);
+      fillIfEmpty(ogImage, data.og.image);
+      fillIfEmpty(ogSiteName, data.og.site_name);
+      fillIfEmpty(ogLocale, data.og.locale);
+      if (data.og.type) fillSelectIfMatch(ogType, data.og.type);
+    }
+
+    // Fill Twitter fields
+    if (data.twitter) {
+      fillIfEmpty(twTitle, data.twitter.title);
+      fillIfEmpty(twDesc, data.twitter.description);
+      fillIfEmpty(twImage, data.twitter.image);
+      fillIfEmpty(twSite, data.twitter.site);
+      if (data.twitter.card) fillSelectIfMatch(twCard, data.twitter.card);
+    }
+
+    // Favicon for mobile preview
+    if (data.favicon) {
+      fetchedFavicon = data.favicon;
+    }
+
+    generateAll();
+  } catch {
+    showFetchError('fetchErrFailed');
+  }
+
+  setFetchLoading(false);
+}
+
+fetchBtn.addEventListener('click', handleFetch);
+fetchUrl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') handleFetch();
 });
 
 // --- Init ---
