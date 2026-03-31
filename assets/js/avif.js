@@ -383,15 +383,9 @@ async function convertToAvif(file, q) {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   // Encode with jSquash
-  const encodeOptions = {
-    quality: q,
-    speed: 6,         // 0-10, higher = faster
-    subsample: 1,     // 4:2:0 chroma subsampling
-  };
-
-  if (q === 100) {
-    encodeOptions.lossless = true;
-  }
+  const encodeOptions = q === 100
+    ? { lossless: true, speed: 2, subsample: 1 }
+    : { quality: q, speed: 6, subsample: 1 };
 
   const avifBuffer = await avifEncode(imageData, encodeOptions);
   return new Blob([avifBuffer], { type: 'image/avif' });
