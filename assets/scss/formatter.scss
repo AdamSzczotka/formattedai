@@ -282,7 +282,8 @@ body {
   resize: none; overflow-y: auto; tab-size: 2;
 
   &::placeholder { color: var(--color-text-dim); font-style: italic; }
-  &:focus { background: #0a0a0f; }
+  &:focus { background: var(--color-bg); }
+  [data-theme="dark"] &:focus { background: #0a0a0f; }
   &::-webkit-scrollbar { width: 5px; }
   &::-webkit-scrollbar-track { background: transparent; }
   &::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; &:hover { background: #32324d; } }
