@@ -136,7 +136,7 @@ function applyLanguage() {
   document.documentElement.lang = currentLang;
   document.title = t('pageTitle');
 
-  langFlag.textContent = currentLang === 'pl' ? 'PL' : 'EN';
+  if (langFlag) langFlag.textContent = currentLang === 'pl' ? 'PL' : 'EN';
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
