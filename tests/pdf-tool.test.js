@@ -336,7 +336,25 @@ criticalIds.forEach(id => {
   });
 });
 
-// ─── 10. No stale prompt() calls ───
+// ─── 10. Async UI init calls updateUI ───
+console.log('\n── Async UI Init ──');
+
+test('loadAnnotatePreview calls updateUI() after ensureAnnotateUI()', () => {
+  const m = pdfJs.match(/ensureAnnotateUI\(\);[\s\S]{0,50}?updateUI\(\)/);
+  assert(m, 'updateUI() must be called right after ensureAnnotateUI() to unhide container');
+});
+
+test('loadFormPreview calls updateUI() after ensureFormsUI()', () => {
+  const m = pdfJs.match(/ensureFormsUI\(\);[\s\S]{0,50}?updateUI\(\)/);
+  assert(m, 'updateUI() must be called right after ensureFormsUI() to unhide container');
+});
+
+test('loadCropPreview calls updateUI() after ensureCropUI()', () => {
+  const m = pdfJs.match(/ensureCropUI\(\);[\s\S]{0,50}?updateUI\(\)/);
+  assert(m, 'updateUI() must be called right after ensureCropUI() to unhide container');
+});
+
+// ─── 11. No stale prompt() calls ───
 console.log('\n── No Browser Dialogs ──');
 test('No prompt() calls in pdf.js', () => {
   const prompts = (pdfJs.match(/[^a-zA-Z]prompt\s*\(/g) || []);
