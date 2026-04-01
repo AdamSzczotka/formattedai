@@ -68,6 +68,15 @@
       cropPageNav: 'Strona',
       cropReset: 'Resetuj zaznaczenie',
       cropHint: 'Zaznacz obszar do przycięcia przeciągając na podglądzie',
+      // Forms
+      tabForms: 'Formularze',
+      dropForms: 'Przeciągnij plik PDF z formularzem',
+      dropTextForms: 'Przeciągnij plik PDF z formularzem',
+      formsBtnText: 'Zapisz formularz',
+      formsResult: 'Wypełniony PDF',
+      formsFlatten: 'Zablokuj pola po wypełnieniu (flatten)',
+      formsNoFields: 'Ten PDF nie zawiera pól formularza.',
+      formsFieldCount: 'Pola formularza:',
       // Progress
       processing: 'Przetwarzanie...',
       processingFile: 'Przetwarzanie pliku',
@@ -203,6 +212,15 @@
       cropPageNav: 'Page',
       cropReset: 'Reset selection',
       cropHint: 'Draw the crop area by dragging on the preview',
+      // Forms
+      tabForms: 'Forms',
+      dropForms: 'Drag & drop a PDF with form fields',
+      dropTextForms: 'Drag & drop a PDF with form fields',
+      formsBtnText: 'Save form',
+      formsResult: 'Filled PDF',
+      formsFlatten: 'Lock fields after filling (flatten)',
+      formsNoFields: 'This PDF does not contain form fields.',
+      formsFieldCount: 'Form fields:',
       processing: 'Processing...',
       processingFile: 'Processing file',
       processingPage: 'Processing page',
@@ -289,7 +307,7 @@
   var ACCEPTED_PDF = ['application/pdf'];
   var ACCEPTED_IMAGES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
   var THUMBNAIL_HEIGHT = 150;
-  var TAB_IDS = ['merge', 'split', 'compress', 'img2pdf', 'crop'];
+  var TAB_IDS = ['merge', 'split', 'compress', 'img2pdf', 'crop', 'forms'];
 
   // ==================
   // State
@@ -315,6 +333,11 @@
     cropTotalPages: 0,
     cropRect: null,       // { x, y, w, h } in PDF points (relative to page)
     cropApplyAll: true,
+    // Forms state
+    formsFlatten: false,
+    formsFields: [],  // { name, type, widget, rect, pageIndex }
+    formsCurrentPage: 0,
+    formsTotalPages: 0,
   };
 
   // ==================
@@ -559,12 +582,21 @@
     if (dom.compressControls) dom.compressControls.hidden = tabId !== 'compress';
     var cropContainer = document.getElementById('cropContainer');
     if (cropContainer) cropContainer.hidden = tabId !== 'crop';
+    var formsContainer = document.getElementById('formsContainer');
+    if (formsContainer) formsContainer.hidden = tabId !== 'forms';
 
     // Reset crop state
     state.cropCurrentPage = 0;
     state.cropRect = null;
     state.cropTotalPages = 0;
     cropPdfDocRef = null;
+
+    // Reset forms state
+    state.formsFields = [];
+    state.formsCurrentPage = 0;
+    state.formsTotalPages = 0;
+    formsPdfDocRef = null;
+    formsPdfLibDoc = null;
 
     // Update URL hash
     history.replaceState(null, '', '#' + tabId);
@@ -599,6 +631,7 @@
       'compress': 'dropCompress',
       'img2pdf': 'dropImg2Pdf',
       'crop': 'dropCrop',
+      'forms': 'dropForms',
     };
     dom.dropZoneText.textContent = t(textMap[state.activeTab] || 'dropMerge');
   }
@@ -612,6 +645,7 @@
         'compress': 'compressBtnText',
         'img2pdf': 'img2PdfBtnText',
         'crop': 'cropBtnText',
+        'forms': 'formsBtnText',
       };
       dom.divider.title = t(titleMap[state.activeTab] || 'mergeBtnText');
       dom.divider.setAttribute('aria-label', dom.divider.title);
@@ -697,6 +731,11 @@
           // For crop: auto-load preview
           if (state.activeTab === 'crop' && state.files.length === 1) {
             loadCropPreview(data);
+          }
+
+          // For forms: auto-load form fields
+          if (state.activeTab === 'forms' && state.files.length === 1) {
+            loadFormPreview(data);
           }
 
           // For merge page mode: reload page preview when files change
@@ -1685,6 +1724,10 @@
     var cropContainer = document.getElementById('cropContainer');
     if (cropContainer) cropContainer.hidden = !(state.activeTab === 'crop' && hasFiles);
 
+    // Forms container visibility
+    var formsContainer = document.getElementById('formsContainer');
+    if (formsContainer) formsContainer.hidden = !(state.activeTab === 'forms' && hasFiles);
+
     // Hide split-only UI elements when in merge page mode
     if (dom.splitControls && state.activeTab === 'merge' && state.mergePageMode) {
       var selectAllBtn = document.getElementById('selectAllBtn');
@@ -2368,6 +2411,379 @@
   }
 
   // ==================
+  // FORMS (AcroForm)
+  // ==================
+  var formsPdfDocRef = null;  // pdfjs doc for preview
+  var formsPdfLibDoc = null;  // pdf-lib doc for reading fields
+  var formsCanvasEl = null;
+  var formsFieldsWrap = null;
+  var formsScale = 1;
+
+  function loadFormPreview(fileData) {
+    state.formsFields = [];
+    state.formsCurrentPage = 0;
+    state.formsTotalPages = 0;
+    formsPdfLibDoc = null;
+
+    // Load with pdf-lib to inspect form fields
+    PDFLib.PDFDocument.load(fileData.slice(), { ignoreEncryption: true }).then(function (pdfLibDoc) {
+      formsPdfLibDoc = pdfLibDoc;
+      var form;
+      try { form = pdfLibDoc.getForm(); } catch (e) { form = null; }
+
+      if (!form) {
+        showToast(t('formsNoFields'));
+        return;
+      }
+
+      var fields = form.getFields();
+      if (fields.length === 0) {
+        showToast(t('formsNoFields'));
+        return;
+      }
+
+      // Extract field info
+      state.formsFields = [];
+      fields.forEach(function (field) {
+        var fieldType = null;
+        var value = '';
+
+        if (field instanceof PDFLib.PDFTextField) {
+          fieldType = 'text';
+          value = field.getText() || '';
+        } else if (field instanceof PDFLib.PDFCheckBox) {
+          fieldType = 'checkbox';
+          value = field.isChecked();
+        } else if (field instanceof PDFLib.PDFRadioGroup) {
+          fieldType = 'radio';
+          value = field.getSelected() || '';
+        } else if (field instanceof PDFLib.PDFDropdown) {
+          fieldType = 'dropdown';
+          value = field.getSelected() || [];
+        }
+
+        if (!fieldType) return;
+
+        // Get widgets (visual representations on pages)
+        var widgets = field.acroField.getWidgets();
+        widgets.forEach(function (widget) {
+          var rect = widget.getRectangle();
+          var pageRef = widget.P();
+          var pageIndex = 0;
+          if (pageRef) {
+            var pages = pdfLibDoc.getPages();
+            for (var pi = 0; pi < pages.length; pi++) {
+              if (pages[pi].ref === pageRef) { pageIndex = pi; break; }
+            }
+          }
+
+          state.formsFields.push({
+            name: field.getName(),
+            type: fieldType,
+            value: value,
+            rect: rect,
+            pageIndex: pageIndex,
+            options: fieldType === 'dropdown' ? (field.getOptions ? field.getOptions() : []) : [],
+            radioOptions: fieldType === 'radio' ? (field.getOptions ? field.getOptions() : []) : [],
+          });
+        });
+      });
+
+      // Load pdfjs for rendering
+      loadPdfjs().then(function (lib) {
+        lib.getDocument({ data: fileData.slice() }).promise.then(function (pdfDoc) {
+          formsPdfDocRef = pdfDoc;
+          state.formsTotalPages = pdfDoc.numPages;
+          ensureFormsUI();
+          renderFormsPage();
+          updateFormsNav();
+        });
+      });
+    }).catch(function () {
+      showToast(t('errorCorruptPdf'));
+    });
+  }
+
+  function ensureFormsUI() {
+    if (document.getElementById('formsContainer')) return;
+
+    var optionsPanel = document.getElementById('optionsPanel');
+    if (!optionsPanel) return;
+
+    var container = document.createElement('div');
+    container.id = 'formsContainer';
+    container.className = 'forms-container';
+    container.hidden = true;
+
+    // Nav bar
+    var nav = document.createElement('div');
+    nav.className = 'forms-container__nav';
+
+    var prevBtn = document.createElement('button');
+    prevBtn.type = 'button';
+    prevBtn.className = 'btn btn--ghost btn--sm';
+    prevBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    prevBtn.addEventListener('click', function () { formsNavigate(-1); });
+
+    var pageLabel = document.createElement('span');
+    pageLabel.className = 'forms-container__page-label';
+    pageLabel.id = 'formsPageLabel';
+
+    var nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'btn btn--ghost btn--sm';
+    nextBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    nextBtn.addEventListener('click', function () { formsNavigate(1); });
+
+    var fieldCount = document.createElement('span');
+    fieldCount.className = 'forms-container__field-count';
+    fieldCount.id = 'formsFieldCount';
+
+    nav.appendChild(prevBtn);
+    nav.appendChild(pageLabel);
+    nav.appendChild(nextBtn);
+    nav.appendChild(fieldCount);
+
+    // Canvas wrapper with overlaid fields
+    var canvasWrap = document.createElement('div');
+    canvasWrap.className = 'forms-container__canvas-wrap';
+    canvasWrap.id = 'formsCanvasWrap';
+
+    formsCanvasEl = document.createElement('canvas');
+    formsCanvasEl.className = 'forms-container__canvas';
+
+    formsFieldsWrap = document.createElement('div');
+    formsFieldsWrap.className = 'forms-container__fields';
+    formsFieldsWrap.id = 'formsFieldsOverlay';
+
+    canvasWrap.appendChild(formsCanvasEl);
+    canvasWrap.appendChild(formsFieldsWrap);
+
+    // Options row
+    var optionsRow = document.createElement('div');
+    optionsRow.className = 'forms-container__options';
+
+    var flattenLabel = document.createElement('label');
+    flattenLabel.className = 'options-panel__checkbox';
+    var flattenCb = document.createElement('input');
+    flattenCb.type = 'checkbox';
+    flattenCb.id = 'formsFlattenCb';
+    flattenCb.addEventListener('change', function () {
+      state.formsFlatten = this.checked;
+    });
+    var flattenText = document.createElement('span');
+    flattenText.textContent = t('formsFlatten');
+    flattenLabel.appendChild(flattenCb);
+    flattenLabel.appendChild(flattenText);
+
+    optionsRow.appendChild(flattenLabel);
+
+    container.appendChild(nav);
+    container.appendChild(canvasWrap);
+    container.appendChild(optionsRow);
+    optionsPanel.appendChild(container);
+  }
+
+  function renderFormsPage() {
+    if (!formsPdfDocRef || !formsCanvasEl) return;
+
+    formsPdfDocRef.getPage(state.formsCurrentPage + 1).then(function (page) {
+      var viewport = page.getViewport({ scale: 1 });
+      var wrapEl = document.getElementById('formsCanvasWrap');
+      var maxW = wrapEl ? wrapEl.clientWidth - 4 : 500;
+      formsScale = Math.min(maxW / viewport.width, 700 / viewport.height);
+      var scaledViewport = page.getViewport({ scale: formsScale });
+
+      formsCanvasEl.width = Math.floor(scaledViewport.width);
+      formsCanvasEl.height = Math.floor(scaledViewport.height);
+
+      var ctx = formsCanvasEl.getContext('2d');
+      page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+        renderFormFields();
+      });
+    });
+  }
+
+  function renderFormFields() {
+    if (!formsFieldsWrap) return;
+    formsFieldsWrap.innerHTML = '';
+    formsFieldsWrap.style.width = formsCanvasEl.width + 'px';
+    formsFieldsWrap.style.height = formsCanvasEl.height + 'px';
+
+    var pageFields = state.formsFields.filter(function (f) {
+      return f.pageIndex === state.formsCurrentPage;
+    });
+
+    // Get page mediaBox for Y coordinate conversion
+    if (!formsPdfLibDoc) return;
+    var pages = formsPdfLibDoc.getPages();
+    var page = pages[state.formsCurrentPage];
+    if (!page) return;
+    var mb = page.getMediaBox();
+
+    pageFields.forEach(function (field, idx) {
+      var r = field.rect;
+      // Convert PDF coords (bottom-up) to screen coords (top-down)
+      var left = (r.x - mb.x) * formsScale;
+      var bottom = (r.y - mb.y) * formsScale;
+      var width = r.width * formsScale;
+      var height = r.height * formsScale;
+      var top = formsCanvasEl.height - bottom - height;
+
+      var el;
+
+      if (field.type === 'text') {
+        el = document.createElement('input');
+        el.type = 'text';
+        el.value = field.value || '';
+        el.placeholder = field.name;
+        el.className = 'forms-field forms-field--text';
+        (function (f) {
+          el.addEventListener('input', function () { f.value = this.value; });
+        })(field);
+      } else if (field.type === 'checkbox') {
+        el = document.createElement('input');
+        el.type = 'checkbox';
+        el.checked = !!field.value;
+        el.className = 'forms-field forms-field--checkbox';
+        (function (f) {
+          el.addEventListener('change', function () { f.value = this.checked; });
+        })(field);
+      } else if (field.type === 'dropdown') {
+        el = document.createElement('select');
+        el.className = 'forms-field forms-field--dropdown';
+        var emptyOpt = document.createElement('option');
+        emptyOpt.value = '';
+        emptyOpt.textContent = '—';
+        el.appendChild(emptyOpt);
+        (field.options || []).forEach(function (opt) {
+          var o = document.createElement('option');
+          o.value = opt;
+          o.textContent = opt;
+          if (Array.isArray(field.value) ? field.value.indexOf(opt) >= 0 : field.value === opt) {
+            o.selected = true;
+          }
+          el.appendChild(o);
+        });
+        (function (f) {
+          el.addEventListener('change', function () { f.value = this.value; });
+        })(field);
+      } else if (field.type === 'radio') {
+        el = document.createElement('input');
+        el.type = 'radio';
+        el.name = 'form_radio_' + field.name;
+        el.className = 'forms-field forms-field--radio';
+        el.checked = false;
+        (function (f) {
+          el.addEventListener('change', function () {
+            if (this.checked) f.value = f.name;
+          });
+        })(field);
+      }
+
+      if (el) {
+        el.style.position = 'absolute';
+        el.style.left = left + 'px';
+        el.style.top = top + 'px';
+        el.style.width = width + 'px';
+        el.style.height = height + 'px';
+        el.title = field.name;
+        formsFieldsWrap.appendChild(el);
+      }
+    });
+
+    // Update field count
+    var countEl = document.getElementById('formsFieldCount');
+    if (countEl) {
+      countEl.textContent = t('formsFieldCount') + ' ' + state.formsFields.length;
+    }
+  }
+
+  function formsNavigate(delta) {
+    var newPage = state.formsCurrentPage + delta;
+    if (newPage < 0 || newPage >= state.formsTotalPages) return;
+    state.formsCurrentPage = newPage;
+    renderFormsPage();
+    updateFormsNav();
+  }
+
+  function updateFormsNav() {
+    var label = document.getElementById('formsPageLabel');
+    if (label) {
+      label.textContent = t('cropPageNav') + ' ' + (state.formsCurrentPage + 1) + ' / ' + state.formsTotalPages;
+    }
+  }
+
+  async function saveFormPDF() {
+    if (state.files.length === 0) {
+      showToast(t('errorNoFiles'));
+      return;
+    }
+    if (state.formsFields.length === 0) {
+      showToast(t('formsNoFields'));
+      return;
+    }
+
+    state.processing = true;
+    updateUI();
+    hideResult();
+
+    try {
+      showProgress(0, t('processing'));
+      var pdfDoc = await PDFLib.PDFDocument.load(state.files[0].data, { ignoreEncryption: true });
+      var form = pdfDoc.getForm();
+
+      showProgress(30, t('processing'));
+
+      // Apply field values
+      state.formsFields.forEach(function (fieldInfo) {
+        try {
+          var field;
+          if (fieldInfo.type === 'text') {
+            field = form.getTextField(fieldInfo.name);
+            if (field) field.setText(fieldInfo.value || '');
+          } else if (fieldInfo.type === 'checkbox') {
+            field = form.getCheckBox(fieldInfo.name);
+            if (field) {
+              if (fieldInfo.value) field.check();
+              else field.uncheck();
+            }
+          } else if (fieldInfo.type === 'radio') {
+            field = form.getRadioGroup(fieldInfo.name);
+            if (field && fieldInfo.value) field.select(fieldInfo.value);
+          } else if (fieldInfo.type === 'dropdown') {
+            field = form.getDropdown(fieldInfo.name);
+            if (field && fieldInfo.value) field.select(fieldInfo.value);
+          }
+        } catch (e) {
+          console.warn('Could not set field:', fieldInfo.name, e);
+        }
+      });
+
+      showProgress(70, t('processing'));
+
+      if (state.formsFlatten) {
+        form.flatten();
+      }
+
+      showProgress(90, t('processing'));
+      var savedBytes = await pdfDoc.save();
+      showProgress(100, t('processing'));
+
+      var originalName = state.files[0].name.replace(/\.pdf$/i, '');
+      showResult(savedBytes, originalName + '_filled.pdf', 'application/pdf', state.files[0].size);
+      showToast(t('toastSuccess'));
+    } catch (err) {
+      console.error('Forms error:', err);
+      showToast(t('errorGeneric'));
+    }
+
+    state.processing = false;
+    hideProgress();
+    updateUI();
+  }
+
+  // ==================
   // CROP
   // ==================
   var cropPdfDocRef = null;  // pdfjs doc for preview
@@ -2712,6 +3128,7 @@
       case 'compress': compressPDF(); break;
       case 'img2pdf': imagesToPDF(); break;
       case 'crop': cropPDF(); break;
+      case 'forms': saveFormPDF(); break;
     }
   }
 
