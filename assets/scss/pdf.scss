@@ -837,6 +837,13 @@ html, body { height: 100%; }
   &[hidden] { display: none !important; }
 }
 
+// When editor is active, input panel takes full width
+.workspace--editor {
+  .panel--input { flex: 1 1 100%; max-width: none; }
+  .divider { display: none; }
+  .panel--output { display: none; }
+}
+
 .output-area {
   flex: 1; overflow-y: auto; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
@@ -1053,6 +1060,63 @@ html, body { height: 100%; }
 
   &__stroke {
     width: 60px; accent-color: $color-pdf; flex-shrink: 0;
+  }
+
+  &__save {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 16px; border: none; border-radius: 6px;
+    background: $color-pdf; color: #fff;
+    font-family: $font-body; font-size: 12px; font-weight: 600;
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    margin-left: auto;
+    transition: background 0.15s ease;
+
+    &:hover { background: $color-pdf-dark; }
+
+    svg { flex-shrink: 0; }
+  }
+}
+
+.annotate-popover {
+  position: absolute; z-index: 10;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  padding: 6px;
+  display: flex; gap: 4px; align-items: center;
+
+  &__input {
+    width: 180px; padding: 6px 10px;
+    border: 1.5px solid var(--color-border); border-radius: 6px;
+    background: var(--color-bg); color: var(--color-text);
+    font-family: $font-body; font-size: 13px;
+    outline: none;
+
+    &:focus { border-color: $color-pdf; }
+  }
+
+  &__btn {
+    padding: 6px 14px; border: none; border-radius: 6px;
+    background: $color-pdf; color: #fff;
+    font-family: $font-body; font-size: 12px; font-weight: 600;
+    cursor: pointer;
+
+    &:hover { background: $color-pdf-dark; }
+  }
+
+  &--stamps {
+    flex-direction: column; align-items: stretch; padding: 4px;
+  }
+
+  &__stamp {
+    padding: 8px 16px; border: 1.5px solid var(--color-border); border-radius: 6px;
+    background: transparent; color: $color-pdf;
+    font-family: $font-body; font-size: 13px; font-weight: 700;
+    letter-spacing: 1px; cursor: pointer; text-align: center;
+    transition: all 0.15s ease;
+
+    &:hover { background: rgba(239, 68, 68, 0.08); border-color: $color-pdf; }
   }
 }
 
