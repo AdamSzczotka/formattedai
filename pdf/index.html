@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO: Primary -->
+  <title>Narzedzia PDF Online — Lacz, dziel, kompresuj PDF za darmo | FormattedAI</title>
+  <meta name="description" content="Darmowy edytor PDF online. Lacz, dziel, kompresuj pliki PDF i konwertuj obrazki na PDF. 100% w przegladarce — Twoje pliki nigdy nie opuszczaja urzadzenia.">
+  <meta name="keywords" content="PDF editor online, merge PDF, split PDF, compress PDF, image to PDF, darmowy edytor PDF, laczenie PDF online, dzielenie PDF, kompresja PDF, obrazki na PDF, FormattedAI">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/pdf/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/pdf/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/pdf/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/pdf/">
+  <meta http-equiv="content-language" content="pl, en">
+
+  <!-- SEO: Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Narzedzia PDF — Lacz, dziel, kompresuj online | FormattedAI">
+  <meta property="og:description" content="Darmowe narzedzia PDF online. Lacz, dziel, kompresuj pliki PDF i konwertuj obrazki na PDF. 100% w przegladarce — zero uploadu na serwer.">
+  <meta property="og:url" content="https://formattedai.pl/pdf/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_desktop_pdf_1.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <!-- SEO: Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Narzedzia PDF — Lacz, dziel, kompresuj online | FormattedAI">
+  <meta name="twitter:description" content="Darmowe narzedzia PDF dzialajace 100% w przegladarce. Lacz, dziel, kompresuj PDF bez uploadu na serwer.">
+
+  <!-- SEO: Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FormattedAI PDF Tools",
+    "headline": "Narzedzia PDF Online — Lacz, dziel, kompresuj PDF za darmo",
+    "description": "Darmowe narzedzia PDF online. Lacz, dziel, kompresuj pliki PDF i konwertuj obrazki na PDF. 100% w przegladarce — Twoje pliki nigdy nie opuszczaja urzadzenia.",
+    "url": "https://formattedai.pl/pdf/",
+    "applicationCategory": "Utility",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Czy moje pliki sa bezpieczne?", "acceptedAnswer": { "@type": "Answer", "text": "Tak. Wszystkie pliki sa przetwarzane wylacznie w Twojej przegladarce. Zadne dane nie sa wysylane na serwer." } },
+      { "@type": "Question", "name": "Jak polaczyc pliki PDF?", "acceptedAnswer": { "@type": "Answer", "text": "Przeciagnij pliki PDF na strone, ustaw kolejnosc przeciagajac miniatury, kliknij Polacz PDF." } },
+      { "@type": "Question", "name": "Jak wyciag strony z PDF?", "acceptedAnswer": { "@type": "Answer", "text": "Wrzuc plik PDF, zaznacz strony ktore chcesz zachowac, kliknij Podziel PDF." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
+    { "@type": "ListItem", "position": 2, "name": "Narzedzia PDF", "item": "https://formattedai.pl/pdf/" }
+  ] }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/favicon.svg">
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#08080c">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Fonts & Styles -->
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/css/pdf.css">
+</head>
+<body>
+  <div class="bg-effects" aria-hidden="true">
+    <div class="bg-effects__orb bg-effects__orb--1"></div>
+    <div class="bg-effects__orb bg-effects__orb--2"></div>
+    <div class="bg-effects__orb bg-effects__orb--3"></div>
+    <div class="bg-effects__grid"></div>
+  </div>
+
+  <div class="app" id="app">
+    <header class="header" role="banner">
+      <a href="/" class="header__brand">
+        <div class="header__logo" aria-hidden="true">
+          <svg class="header__logo-svg" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
+            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="#a78bfa"/>
+                <stop offset="1" stop-color="#6c5ce7"/>
+              </linearGradient>
+              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30">
+                <stop stop-color="rgba(108,92,231,0.3)"/>
+                <stop offset="1" stop-color="rgba(167,139,250,0.1)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="header__text">
+          <h1 class="header__title">Formatted<span class="header__title-accent">AI</span></h1>
+          <p class="header__subtitle" data-i18n="subtitle">Narzedzia PDF &bull; 100% client-side</p>
+        </div>
+      </a>
+      <div class="header__actions">
+        <button class="about-trigger" id="aboutTrigger" type="button" aria-label="About" title="About">?</button>
+        <a href="https://formattedai.pl/en/pdf/" class="lang-toggle" title="English version" aria-label="English version">
+          <span class="lang-toggle__flag">EN</span>
+        </a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn btn--ghost" id="clearBtn" type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4m2 0v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="clear">Wyczysc</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- About Modal -->
+    <div class="about-modal-overlay" id="aboutModal" hidden>
+      <div class="about-modal">
+        <div class="about-modal__header">
+          <div class="about-modal__title">
+            <div class="about-modal__icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM9 12.75V9M9 5.25h.008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span data-i18n="modalTitle">Narzedzia PDF</span>
+          </div>
+          <button class="about-modal__close" id="aboutModalClose" type="button" aria-label="Close">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="about-modal__body">
+          <p class="about-modal__desc" data-i18n="modalDesc">Darmowe narzedzia do edycji <strong>PDF</strong> dzialajace w 100% w Twojej przegladarce. Lacz, dziel, kompresuj pliki PDF i konwertuj obrazki — Twoje pliki nigdy nie opuszczaja urzadzenia.</p>
+          <h3 class="about-modal__section-title" data-i18n="modalHowTitle">Jak uzywac</h3>
+          <ol class="about-modal__steps">
+            <li data-i18n="modalStep1">Wybierz zakladke: Lacz, Dziel, Kompresuj lub IMG &rarr; PDF</li>
+            <li data-i18n="modalStep2">Przeciagnij pliki na strone lub kliknij Przegladaj</li>
+            <li data-i18n="modalStep3">Ustaw opcje i kliknij przycisk akcji</li>
+            <li data-i18n="modalStep4">Pobierz przetworzony plik PDF</li>
+          </ol>
+          <h3 class="about-modal__section-title" data-i18n="modalFeaturesTitle">Kluczowe funkcje</h3>
+          <ul class="about-modal__features">
+            <li data-i18n="modalFeat1">Laczenie wielu plikow PDF w jeden dokument</li>
+            <li data-i18n="modalFeat2">Dzielenie PDF — wybierz strony do zachowania</li>
+            <li data-i18n="modalFeat3">Kompresja PDF — 3 presety jakosci</li>
+            <li data-i18n="modalFeat4">Konwersja obrazkow (JPG, PNG, WebP) na PDF</li>
+            <li data-i18n="modalFeat5">100% client-side — Twoje pliki nigdy nie opuszczaja urzadzenia</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="pdf-tabs" id="pdfTabs">
+      <button class="pdf-tabs__item pdf-tabs__item--active" data-tab="merge" data-i18n="tabMerge" type="button">Lacz PDF</button>
+      <button class="pdf-tabs__item" data-tab="split" data-i18n="tabSplit" type="button">Dziel PDF</button>
+      <button class="pdf-tabs__item" data-tab="compress" data-i18n="tabCompress" type="button">Kompresuj</button>
+      <button class="pdf-tabs__item" data-tab="img2pdf" data-i18n="tabImg2Pdf" type="button">IMG &rarr; PDF</button>
+    </div>
+
+    <main class="workspace" role="main">
+      <!-- LEFT PANEL: Input -->
+      <section class="panel panel--input" aria-label="PDF input">
+        <div class="panel__header">
+          <div class="panel__header-left">
+            <div class="panel__dot panel__dot--green" aria-hidden="true"></div>
+            <h2 class="panel__title" data-i18n="inputTitle">Pliki</h2>
+          </div>
+          <span class="panel__badge" id="fileCount">0 / 20</span>
+        </div>
+
+        <div class="input-area" id="inputArea">
+          <!-- Drop Zone -->
+          <div class="drop-zone" id="dropZone">
+            <div class="drop-zone__icon" aria-hidden="true">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="36" height="36" rx="4" stroke="currentColor" stroke-width="2"/><path d="M24 16v16M16 24h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <p class="drop-zone__text" id="dropZoneText" data-i18n="dropTextMerge">Przeciagnij pliki PDF do polaczenia</p>
+            <p class="drop-zone__formats" id="dropZoneFormats">.pdf</p>
+            <button class="btn btn--ghost drop-zone__browse" id="browseBtn" type="button" data-i18n="browseFiles">Przegladaj pliki</button>
+            <p class="drop-zone__privacy">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1.75A2.625 2.625 0 004.375 4.375V5.25h5.25V4.375A2.625 2.625 0 007 1.75z" stroke="currentColor" stroke-width="1.2"/><rect x="2.625" y="5.25" width="8.75" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="7" cy="8.75" r="0.875" fill="currentColor"/></svg>
+              <span data-i18n="privacyNote">Pliki przetwarzane lokalnie. Zero uploadu na serwer.</span>
+            </p>
+          </div>
+
+          <input type="file" id="fileInput" multiple accept=".pdf,application/pdf" hidden>
+          <input type="file" id="addMoreInput" multiple accept=".pdf,application/pdf" hidden>
+
+          <!-- File List -->
+          <div class="file-list-wrapper" id="fileListArea" hidden>
+            <div class="pdf-files" id="fileList"></div>
+            <div class="drop-zone drop-zone--compact" id="addMoreZone">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <button class="btn btn--ghost btn--sm" id="addMoreBtn" type="button" data-i18n="addMore">Dodaj wiecej plikow</button>
+            </div>
+          </div>
+
+          <!-- Options Panel -->
+          <div class="options-panel" id="optionsPanel" hidden>
+            <!-- Compress Options -->
+            <div class="options-panel__compress" id="compressOptions" hidden>
+              <div class="options-panel__presets">
+                <button class="options-panel__preset" data-preset="light" type="button" data-i18n="presetLight">Lekka</button>
+                <button class="options-panel__preset options-panel__preset--active" data-preset="balanced" type="button" data-i18n="presetBalanced">Zbalansowana</button>
+                <button class="options-panel__preset" data-preset="maximum" type="button" data-i18n="presetMaximum">Maksymalna</button>
+              </div>
+              <label class="options-panel__checkbox">
+                <input type="checkbox" id="stripMetadata" checked>
+                <span data-i18n="stripMetadata">Usun metadane</span>
+              </label>
+              <details class="options-panel__advanced">
+                <summary data-i18n="advanced">Zaawansowane</summary>
+                <div class="options-panel__slider">
+                  <label for="qualitySlider" data-i18n="quality">Jakosc</label>
+                  <input type="range" id="qualitySlider" min="0" max="100" value="65">
+                  <span class="options-panel__slider-value" id="qualityValue">65</span>
+                </div>
+              </details>
+            </div>
+
+            <!-- Split Options -->
+            <div class="options-panel__split" id="splitOptions" hidden>
+              <div class="options-panel__split-actions">
+                <button class="btn btn--ghost btn--sm" id="selectAllBtn" type="button" data-i18n="selectAll">Zaznacz wszystko</button>
+                <button class="btn btn--ghost btn--sm" id="deselectAllBtn" type="button" data-i18n="deselectAll">Odznacz wszystko</button>
+              </div>
+              <div class="pdf-pages" id="splitPageGrid"></div>
+              <label class="options-panel__checkbox">
+                <input type="checkbox" id="splitSeparate">
+                <span data-i18n="splitSeparate">Pobierz kazda strone osobno (ZIP)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DIVIDER -->
+      <div class="divider" id="divider" role="button" tabindex="0" title="Przetwarzaj" aria-label="Przetwarzaj">
+        <div class="divider__line"></div>
+        <div class="divider__icon" id="actionBtn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8h14M11 4l4 4-4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="divider__line"></div>
+      </div>
+
+      <!-- RIGHT PANEL: Result -->
+      <section class="panel panel--output" aria-label="PDF result">
+        <div class="panel__header">
+          <div class="panel__header-left">
+            <div class="panel__dot panel__dot--red" aria-hidden="true"></div>
+            <h2 class="panel__title" data-i18n="outputTitle">Wynik</h2>
+          </div>
+        </div>
+
+        <div class="output-area" id="outputArea">
+          <!-- Empty state -->
+          <div class="output-empty" id="outputEmpty">
+            <div class="output-empty__visual" aria-hidden="true">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M28 6H14a4 4 0 00-4 4v28a4 4 0 004 4h20a4 4 0 004-4V16l-10-10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 6v10h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <p class="output-empty__text" data-i18n="emptyResult">Tu pojawi sie przetworzony PDF</p>
+            <p class="output-empty__hint" data-i18n="emptyHint">Dodaj pliki po lewej stronie</p>
+          </div>
+
+          <!-- Progress -->
+          <div class="progress-bar" id="progressBar" hidden>
+            <div class="progress-bar__info">
+              <span class="progress-bar__text" id="progressText" data-i18n="processing">Przetwarzanie...</span>
+              <span class="progress-bar__percent" id="progressPercent">0%</span>
+            </div>
+            <progress class="progress-bar__fill" id="progressFill" max="100" value="0"></progress>
+          </div>
+
+          <!-- Result -->
+          <div class="result-area" id="resultArea" hidden>
+            <p class="result-area__filename" id="resultFilename"></p>
+            <div class="result-area__stats" id="resultStats">
+              <div class="result-area__stat">
+                <span class="result-area__stat-label" data-i18n="filesProcessed">Plikow:</span>
+                <span class="result-area__stat-value" id="statFiles">0</span>
+              </div>
+              <div class="result-area__stat">
+                <span class="result-area__stat-label" data-i18n="sizeBefore">Przed:</span>
+                <span class="result-area__stat-value" id="statBefore">0 KB</span>
+              </div>
+              <div class="result-area__stat">
+                <span class="result-area__stat-label" data-i18n="sizeAfter">Po:</span>
+                <span class="result-area__stat-value" id="statAfter">0 KB</span>
+              </div>
+              <div class="result-area__stat result-area__stat--highlight" id="resultSavingsRow">
+                <span class="result-area__stat-label" data-i18n="savings">Oszczednosc:</span>
+                <span class="result-area__stat-value" id="statSavings">0%</span>
+              </div>
+            </div>
+            <div class="result-area__actions">
+              <button class="btn btn--primary btn--lg" id="downloadBtn" type="button">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8.5M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span data-i18n="download">Pobierz</span>
+              </button>
+              <button class="btn btn--ghost" id="resetBtn" type="button">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 2v5h5M14 14V9H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.49 5.66A6 6 0 002.34 4.34L2 7M2.51 10.34a6 6 0 0011.15 1.32L14 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span data-i18n="processAnother">Przetworz kolejny</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <p class="footer__text">
+        <span data-i18n="madeBy">Stworzone przez</span>
+        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
+          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Adam Szczotka
+        </a>
+      </p>
+      <div class="footer__badge">
+        <span class="footer__badge__dot"></span>
+        <span data-i18n="footerBadge">100% client-side</span>
+      </div>
+      <div class="footer__links">
+        <a href="/articles/" class="footer__link" data-i18n="navArticles">Artyku&#322;y</a>
+        <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
+        <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatno&#347;&#263;</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link" data-i18n="navContact">Kontakt</a>
+        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
+
+    <div class="toast" id="toast" role="alert" aria-live="assertive">
+      <div class="toast__icon" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="toast__text" data-i18n="toastDone">Gotowe!</span>
+    </div>
+  </div>
+
+  <!-- SEO Content Section -->
+  <section class="seo-content">
+    <div class="seo-content__inner">
+      <h1 data-i18n="seoH1">Darmowe narzedzia PDF online — lacz, dziel, kompresuj PDF w przegladarce</h1>
+      <p data-i18n="seoDesc">Edytuj pliki PDF bezposrednio w przegladarce. Lacz wiele dokumentow PDF w jeden, dziel PDF na wybrane strony, kompresuj pliki PDF i konwertuj obrazki na PDF. Wszystko dziala 100% lokalnie — Twoje pliki nigdy nie sa wysylane na zaden serwer. Idealne narzedzie dla kazdego, kto potrzebuje szybkiej edycji PDF bez instalowania oprogramowania.</p>
+
+      <h2 data-i18n="seoHowTitle">Jak to dziala</h2>
+      <ol>
+        <li data-i18n="seoHow1">Wybierz zakladke: Lacz PDF, Dziel PDF, Kompresuj lub IMG &rarr; PDF</li>
+        <li data-i18n="seoHow2">Przeciagnij pliki na strone lub kliknij Przegladaj pliki</li>
+        <li data-i18n="seoHow3">Ustaw opcje (kolejnosc, strony do zachowania, poziom kompresji)</li>
+        <li data-i18n="seoHow4">Kliknij przycisk akcji i pobierz gotowy plik PDF</li>
+      </ol>
+
+      <h2 data-i18n="seoFeaturesTitle">Funkcje</h2>
+      <ul>
+        <li data-i18n="seoFeat1">Laczenie wielu plikow PDF w jeden dokument z podgladem kolejnosci</li>
+        <li data-i18n="seoFeat2">Dzielenie PDF — wybierz strony do zachowania lub pobierz kazda osobno jako ZIP</li>
+        <li data-i18n="seoFeat3">Kompresja PDF — 3 presety (Lekka, Zbalansowana, Maksymalna) + suwak jakosci</li>
+        <li data-i18n="seoFeat4">Konwersja obrazkow (JPG, PNG, WebP, AVIF) na PDF</li>
+        <li data-i18n="seoFeat5">Podglad miniatur stron i drag-and-drop kolejnosci</li>
+        <li data-i18n="seoFeat6">Usuwanie metadanych dla lepszej prywatnosci</li>
+        <li data-i18n="seoFeat7">Dziala we wszystkich nowoczesnych przegladarkach</li>
+        <li data-i18n="seoFeat8">100% client-side — Twoje pliki nigdy nie opuszczaja urzadzenia</li>
+      </ul>
+
+      <h2 data-i18n="seoFaqTitle">Czesto zadawane pytania</h2>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq1q">Czy moje pliki sa bezpieczne?</h3>
+        <p data-i18n="seoFaq1a">Tak. Wszystkie pliki sa przetwarzane wylacznie w Twojej przegladarce. Zadne dane nie sa wysylane na serwer. Nie mamy dostepu do Twoich dokumentow — cala logika dziala lokalnie na Twoim urzadzeniu.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq2q">Jak polaczyc pliki PDF?</h3>
+        <p data-i18n="seoFaq2a">Przeciagnij pliki PDF na strone, ustaw kolejnosc przeciagajac miniatury, kliknij Polacz PDF. Gotowy dokument pobierzesz jednym kliknieciem.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq3q">Jak wyciag strony z PDF?</h3>
+        <p data-i18n="seoFaq3a">Wrzuc plik PDF, zaznacz strony ktore chcesz zachowac na podgladzie miniatur, kliknij Podziel PDF. Mozesz tez pobrac kazda strone jako osobny plik w archiwum ZIP.</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="../assets/vendor/pdf-lib.min.js"></script>
+  <script src="../assets/vendor/fflate.min.js"></script>
+  <script src="../assets/js/pdf.js"></script>
+
+  <script type="module">
+    import * as pdfjsLib from '../assets/vendor/pdf.min.mjs';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '../assets/vendor/pdf.worker.min.mjs';
+    window.pdfjsLib = pdfjsLib;
+    window.dispatchEvent(new Event('pdfjs-ready'));
+  </script>
+</body>
+</html>
