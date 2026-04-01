@@ -2755,7 +2755,8 @@
     }
   }
 
-  var annotateUserZoom = 1.0; // user-controlled zoom multiplier
+  var annotateUserZoom = 1.0;
+  var annotateBaseScale = 0; // computed once on first render
 
   function renderAnnotatePage() {
     if (!annotatePdfDocRef || !annotateCanvasEl) return;
@@ -2763,13 +2764,14 @@
     annotatePdfDocRef.getPage(state.annotateCurrentPage + 1).then(function (page) {
       var viewport = page.getViewport({ scale: 1 });
 
-      // Calculate base scale to fit container, then apply user zoom
-      var wrapEl = document.getElementById('annotateCanvasWrap');
-      var containerW = wrapEl ? wrapEl.clientWidth : 0;
-      if (containerW < 100) containerW = 600; // fallback when hidden
-
-      var baseScale = containerW / viewport.width;
-      annotateScale = baseScale * annotateUserZoom;
+      // Compute base scale once — use the annotate container (parent of canvas wrap), not the wrap itself
+      if (!annotateBaseScale) {
+        var container = document.getElementById('annotateContainer');
+        var containerW = container ? container.clientWidth - 32 : 600;
+        if (containerW < 100) containerW = 600;
+        annotateBaseScale = containerW / viewport.width;
+      }
+      annotateScale = annotateBaseScale * annotateUserZoom;
       var scaledViewport = page.getViewport({ scale: annotateScale });
 
       var w = Math.floor(scaledViewport.width);
