@@ -469,7 +469,11 @@
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
       var val = t(key);
-      if (val.indexOf('<') !== -1) {
+      // If element has a child <span>, update only the span (preserve SVG icons)
+      var span = el.querySelector(':scope > span');
+      if (span) {
+        span.textContent = val;
+      } else if (val.indexOf('<') !== -1) {
         el.innerHTML = val;
       } else {
         el.textContent = val;
@@ -614,16 +618,22 @@
   // ==================
   function switchTab(tabId) {
     if (TAB_IDS.indexOf(tabId) === -1) tabId = 'merge';
+    var prevTab = state.activeTab;
     state.activeTab = tabId;
 
-    // Reset merge page mode when switching tabs
+    // Reset merge page mode
     state.mergePageMode = false;
     state.mergePages = [];
     mergePdfDocs = [];
     if (fullscreenOverlay && !fullscreenOverlay.hidden) closeFullscreenPageView();
 
-    // Clear state when switching
-    clearFiles();
+    // Only clear files when switching between incompatible types (img2pdf <-> pdf tabs)
+    var imgTabs = ['img2pdf'];
+    var switchingFileType = (imgTabs.indexOf(prevTab) >= 0) !== (imgTabs.indexOf(tabId) >= 0);
+    if (switchingFileType) {
+      clearFiles();
+    }
+
     hideResult();
     hideProgress();
 
@@ -648,27 +658,21 @@
     var annotateContainer = document.getElementById('annotateContainer');
     if (annotateContainer) annotateContainer.hidden = tabId !== 'annotate';
 
-    // Reset crop state
-    state.cropCurrentPage = 0;
-    state.cropRect = null;
-    state.cropTotalPages = 0;
-    cropPdfDocRef = null;
-
-    // Reset forms state
-    state.formsFields = [];
-    state.formsCurrentPage = 0;
-    state.formsTotalPages = 0;
-    formsPdfDocRef = null;
-    formsPdfLibDoc = null;
-
-    // Reset annotate state
-    state.annotateCurrentPage = 0;
-    state.annotateTotalPages = 0;
-    state.annotateTool = 'cursor';
-    state.annotateAnnotations = {};
-    state.annotateUndoStack = [];
-    state.annotateRedoStack = [];
-    annotatePdfDocRef = null;
+    // Auto-load previews for new tab if files already present
+    if (state.files.length > 0) {
+      var fileData = state.files[0].data;
+      if (tabId === 'split' && state.splitPages.length === 0) {
+        loadSplitPreview(fileData);
+      } else if (tabId === 'crop' && state.cropTotalPages === 0) {
+        loadCropPreview(fileData);
+      } else if (tabId === 'forms' && state.formsFields.length === 0) {
+        loadFormPreview(fileData);
+      } else if (tabId === 'annotate' && state.annotateTotalPages === 0) {
+        loadAnnotatePreview(fileData);
+      } else if (tabId === 'merge' && state.mergePageMode) {
+        loadMergePagePreview();
+      }
+    }
 
     // Update URL hash
     history.replaceState(null, '', '#' + tabId);
@@ -1788,10 +1792,17 @@
   // ==================
   function updateUI() {
     var hasFiles = state.files.length > 0;
+    var isEditorTab = ['crop', 'forms', 'annotate'].indexOf(state.activeTab) >= 0;
 
-    // Show/hide options panel
+    // Editor area: full-panel preview for crop/forms/annotate
+    var editorArea = document.getElementById('editorArea');
+    var showEditor = isEditorTab && hasFiles;
+    if (editorArea) editorArea.hidden = !showEditor;
+
+    // Hide file list & options panel when editor is active
+    if (dom.fileListArea && showEditor) dom.fileListArea.hidden = true;
     var optionsPanel = document.getElementById('optionsPanel');
-    if (optionsPanel) optionsPanel.hidden = !hasFiles;
+    if (optionsPanel) optionsPanel.hidden = isEditorTab || !hasFiles;
 
     // Show/hide tab-specific controls
     var showSplitControls = (state.activeTab === 'split' && hasFiles) ||
@@ -1799,15 +1810,11 @@
     if (dom.splitControls) dom.splitControls.hidden = !showSplitControls;
     if (dom.compressControls) dom.compressControls.hidden = state.activeTab !== 'compress' || !hasFiles;
 
-    // Crop container visibility
+    // Editor sub-container visibility
     var cropContainer = document.getElementById('cropContainer');
     if (cropContainer) cropContainer.hidden = !(state.activeTab === 'crop' && hasFiles);
-
-    // Forms container visibility
     var formsContainer = document.getElementById('formsContainer');
     if (formsContainer) formsContainer.hidden = !(state.activeTab === 'forms' && hasFiles);
-
-    // Annotate container visibility
     var annotateContainer = document.getElementById('annotateContainer');
     if (annotateContainer) annotateContainer.hidden = !(state.activeTab === 'annotate' && hasFiles);
 
@@ -2543,8 +2550,8 @@
   function ensureAnnotateUI() {
     if (document.getElementById('annotateContainer')) return;
 
-    var optionsPanel = document.getElementById('optionsPanel');
-    if (!optionsPanel) return;
+    var editorArea = document.getElementById('editorArea');
+    if (!editorArea) return;
 
     var container = document.createElement('div');
     container.id = 'annotateContainer';
@@ -2681,7 +2688,7 @@
     container.appendChild(nav);
     container.appendChild(canvasWrap);
     container.appendChild(imgInput);
-    optionsPanel.appendChild(container);
+    editorArea.appendChild(container);
   }
 
   function setAnnotateTool(tool) {
@@ -3417,8 +3424,8 @@
   function ensureFormsUI() {
     if (document.getElementById('formsContainer')) return;
 
-    var optionsPanel = document.getElementById('optionsPanel');
-    if (!optionsPanel) return;
+    var editorArea = document.getElementById('editorArea');
+    if (!editorArea) return;
 
     var container = document.createElement('div');
     container.id = 'formsContainer';
@@ -3491,7 +3498,7 @@
     container.appendChild(nav);
     container.appendChild(canvasWrap);
     container.appendChild(optionsRow);
-    optionsPanel.appendChild(container);
+    editorArea.appendChild(container);
   }
 
   function renderFormsPage() {
@@ -3724,8 +3731,8 @@
   function ensureCropUI() {
     if (document.getElementById('cropContainer')) return;
 
-    var optionsPanel = document.getElementById('optionsPanel');
-    if (!optionsPanel) return;
+    var editorArea = document.getElementById('editorArea');
+    if (!editorArea) return;
 
     var container = document.createElement('div');
     container.id = 'cropContainer';
@@ -3821,7 +3828,7 @@
     container.appendChild(hint);
     container.appendChild(canvasWrap);
     container.appendChild(optionsRow);
-    optionsPanel.appendChild(container);
+    editorArea.appendChild(container);
   }
 
   function renderCropPage() {
