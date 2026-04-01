@@ -77,6 +77,32 @@
       formsFlatten: 'Zablokuj pola po wypełnieniu (flatten)',
       formsNoFields: 'Ten PDF nie zawiera pól formularza.',
       formsFieldCount: 'Pola formularza:',
+      // Annotate
+      tabAnnotate: 'Adnotacje',
+      dropAnnotate: 'Przeciągnij plik PDF do adnotacji',
+      dropTextAnnotate: 'Przeciągnij plik PDF do adnotacji',
+      annotateBtnText: 'Zapisz PDF',
+      annotateResult: 'PDF z adnotacjami',
+      annotateTool_cursor: 'Kursor',
+      annotateTool_text: 'Tekst',
+      annotateTool_pen: 'Pióro',
+      annotateTool_highlight: 'Zakreślacz',
+      annotateTool_rect: 'Prostokąt',
+      annotateTool_circle: 'Okrąg',
+      annotateTool_line: 'Linia',
+      annotateTool_arrow: 'Strzałka',
+      annotateTool_stamp: 'Stempel',
+      annotateTool_signature: 'Podpis',
+      annotateTool_image: 'Obrazek',
+      annotateUndo: 'Cofnij',
+      annotateRedo: 'Ponów',
+      annotateColor: 'Kolor',
+      annotateStroke: 'Grubość',
+      annotateStampDraft: 'WERSJA ROBOCZA',
+      annotateStampApproved: 'ZATWIERDZONY',
+      annotateStampConfidential: 'POUFNE',
+      annotateTextPrompt: 'Wpisz tekst:',
+      annotateStampPrompt: 'Wybierz stempel:',
       // Progress
       processing: 'Przetwarzanie...',
       processingFile: 'Przetwarzanie pliku',
@@ -221,6 +247,32 @@
       formsFlatten: 'Lock fields after filling (flatten)',
       formsNoFields: 'This PDF does not contain form fields.',
       formsFieldCount: 'Form fields:',
+      // Annotate
+      tabAnnotate: 'Annotate',
+      dropAnnotate: 'Drag & drop a PDF to annotate',
+      dropTextAnnotate: 'Drag & drop a PDF to annotate',
+      annotateBtnText: 'Save PDF',
+      annotateResult: 'Annotated PDF',
+      annotateTool_cursor: 'Cursor',
+      annotateTool_text: 'Text',
+      annotateTool_pen: 'Pen',
+      annotateTool_highlight: 'Highlight',
+      annotateTool_rect: 'Rectangle',
+      annotateTool_circle: 'Circle',
+      annotateTool_line: 'Line',
+      annotateTool_arrow: 'Arrow',
+      annotateTool_stamp: 'Stamp',
+      annotateTool_signature: 'Signature',
+      annotateTool_image: 'Image',
+      annotateUndo: 'Undo',
+      annotateRedo: 'Redo',
+      annotateColor: 'Color',
+      annotateStroke: 'Width',
+      annotateStampDraft: 'DRAFT',
+      annotateStampApproved: 'APPROVED',
+      annotateStampConfidential: 'CONFIDENTIAL',
+      annotateTextPrompt: 'Enter text:',
+      annotateStampPrompt: 'Choose stamp:',
       processing: 'Processing...',
       processingFile: 'Processing file',
       processingPage: 'Processing page',
@@ -307,7 +359,7 @@
   var ACCEPTED_PDF = ['application/pdf'];
   var ACCEPTED_IMAGES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
   var THUMBNAIL_HEIGHT = 150;
-  var TAB_IDS = ['merge', 'split', 'compress', 'img2pdf', 'crop', 'forms'];
+  var TAB_IDS = ['merge', 'split', 'compress', 'img2pdf', 'crop', 'forms', 'annotate'];
 
   // ==================
   // State
@@ -338,6 +390,15 @@
     formsFields: [],  // { name, type, widget, rect, pageIndex }
     formsCurrentPage: 0,
     formsTotalPages: 0,
+    // Annotate state
+    annotateCurrentPage: 0,
+    annotateTotalPages: 0,
+    annotateTool: 'cursor',
+    annotateColor: '#ef4444',
+    annotateStroke: 2,
+    annotateAnnotations: {},  // { pageIndex: [ { type, points/rect/text, color, stroke, ... } ] }
+    annotateUndoStack: [],
+    annotateRedoStack: [],
   };
 
   // ==================
@@ -584,6 +645,8 @@
     if (cropContainer) cropContainer.hidden = tabId !== 'crop';
     var formsContainer = document.getElementById('formsContainer');
     if (formsContainer) formsContainer.hidden = tabId !== 'forms';
+    var annotateContainer = document.getElementById('annotateContainer');
+    if (annotateContainer) annotateContainer.hidden = tabId !== 'annotate';
 
     // Reset crop state
     state.cropCurrentPage = 0;
@@ -597,6 +660,15 @@
     state.formsTotalPages = 0;
     formsPdfDocRef = null;
     formsPdfLibDoc = null;
+
+    // Reset annotate state
+    state.annotateCurrentPage = 0;
+    state.annotateTotalPages = 0;
+    state.annotateTool = 'cursor';
+    state.annotateAnnotations = {};
+    state.annotateUndoStack = [];
+    state.annotateRedoStack = [];
+    annotatePdfDocRef = null;
 
     // Update URL hash
     history.replaceState(null, '', '#' + tabId);
@@ -632,6 +704,7 @@
       'img2pdf': 'dropImg2Pdf',
       'crop': 'dropCrop',
       'forms': 'dropForms',
+      'annotate': 'dropAnnotate',
     };
     dom.dropZoneText.textContent = t(textMap[state.activeTab] || 'dropMerge');
   }
@@ -646,6 +719,7 @@
         'img2pdf': 'img2PdfBtnText',
         'crop': 'cropBtnText',
         'forms': 'formsBtnText',
+        'annotate': 'annotateBtnText',
       };
       dom.divider.title = t(titleMap[state.activeTab] || 'mergeBtnText');
       dom.divider.setAttribute('aria-label', dom.divider.title);
@@ -736,6 +810,11 @@
           // For forms: auto-load form fields
           if (state.activeTab === 'forms' && state.files.length === 1) {
             loadFormPreview(data);
+          }
+
+          // For annotate: auto-load preview
+          if (state.activeTab === 'annotate' && state.files.length === 1) {
+            loadAnnotatePreview(data);
           }
 
           // For merge page mode: reload page preview when files change
@@ -1728,6 +1807,10 @@
     var formsContainer = document.getElementById('formsContainer');
     if (formsContainer) formsContainer.hidden = !(state.activeTab === 'forms' && hasFiles);
 
+    // Annotate container visibility
+    var annotateContainer = document.getElementById('annotateContainer');
+    if (annotateContainer) annotateContainer.hidden = !(state.activeTab === 'annotate' && hasFiles);
+
     // Hide split-only UI elements when in merge page mode
     if (dom.splitControls && state.activeTab === 'merge' && state.mergePageMode) {
       var selectAllBtn = document.getElementById('selectAllBtn');
@@ -2408,6 +2491,833 @@
 
     var dataUrl = canvas.toDataURL('image/jpeg', 0.92);
     return dataUrlToUint8Array(dataUrl);
+  }
+
+  // ==================
+  // ANNOTATE
+  // ==================
+  var annotatePdfDocRef = null; // pdfjs doc
+  var annotateCanvasEl = null;
+  var annotateDrawCanvas = null;
+  var annotateScale = 1;
+  var annotateDrawing = false;
+  var annotateCurrentPath = [];
+  var annotateShapeStart = null;
+  var annotateSignaturePad = null;
+
+  var ANNOTATE_TOOLS = ['cursor', 'text', 'pen', 'highlight', 'rect', 'circle', 'line', 'arrow', 'stamp', 'signature', 'image'];
+  var ANNOTATE_TOOL_ICONS = {
+    cursor: '<path d="M3 3l4 12 2-4 4-2z" stroke="currentColor" stroke-width="1.3" fill="none"/>',
+    text: '<text x="4" y="13" font-size="12" font-weight="700" fill="currentColor">T</text>',
+    pen: '<path d="M12 2l2 2-9 9-3 1 1-3z" stroke="currentColor" stroke-width="1.3" fill="none"/>',
+    highlight: '<rect x="2" y="6" width="12" height="5" rx="1" fill="currentColor" opacity="0.3"/><path d="M2 8.5h12" stroke="currentColor" stroke-width="1"/>',
+    rect: '<rect x="3" y="3" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.3" fill="none"/>',
+    circle: '<circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.3" fill="none"/>',
+    line: '<line x1="3" y1="13" x2="13" y2="3" stroke="currentColor" stroke-width="1.3"/>',
+    arrow: '<path d="M3 13L13 3M13 3H7M13 3v6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+    stamp: '<rect x="2" y="9" width="12" height="4" rx="1" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M6 9V6a2 2 0 014 0v3" stroke="currentColor" stroke-width="1.2" fill="none"/>',
+    signature: '<path d="M2 12c2-4 3-6 5-6s2 3 3 3 2-2 4-4" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/>',
+    image: '<rect x="2" y="3" width="12" height="10" rx="1" stroke="currentColor" stroke-width="1.2" fill="none"/><circle cx="5.5" cy="6.5" r="1.5" fill="currentColor"/><path d="M2 11l3-3 2 2 3-4 4 5" stroke="currentColor" stroke-width="1" fill="none"/>',
+  };
+
+  function loadAnnotatePreview(fileData) {
+    state.annotateCurrentPage = 0;
+    state.annotateTotalPages = 0;
+    state.annotateAnnotations = {};
+    state.annotateUndoStack = [];
+    state.annotateRedoStack = [];
+
+    loadPdfjs().then(function (lib) {
+      lib.getDocument({ data: fileData.slice() }).promise.then(function (pdfDoc) {
+        annotatePdfDocRef = pdfDoc;
+        state.annotateTotalPages = pdfDoc.numPages;
+        ensureAnnotateUI();
+        renderAnnotatePage();
+        updateAnnotateNav();
+      }).catch(function () {
+        showToast(t('errorCorruptPdf'));
+      });
+    });
+  }
+
+  function ensureAnnotateUI() {
+    if (document.getElementById('annotateContainer')) return;
+
+    var optionsPanel = document.getElementById('optionsPanel');
+    if (!optionsPanel) return;
+
+    var container = document.createElement('div');
+    container.id = 'annotateContainer';
+    container.className = 'annotate-container';
+    container.hidden = true;
+
+    // Toolbar
+    var toolbar = document.createElement('div');
+    toolbar.className = 'annotate-toolbar';
+
+    ANNOTATE_TOOLS.forEach(function (tool) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'annotate-toolbar__btn' + (tool === state.annotateTool ? ' annotate-toolbar__btn--active' : '');
+      btn.dataset.tool = tool;
+      btn.title = t('annotateTool_' + tool);
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none">' + ANNOTATE_TOOL_ICONS[tool] + '</svg>';
+      btn.addEventListener('click', function () {
+        setAnnotateTool(tool);
+      });
+      toolbar.appendChild(btn);
+    });
+
+    // Separator
+    var sep = document.createElement('span');
+    sep.className = 'annotate-toolbar__sep';
+    toolbar.appendChild(sep);
+
+    // Undo/Redo
+    var undoBtn = document.createElement('button');
+    undoBtn.type = 'button';
+    undoBtn.className = 'annotate-toolbar__btn';
+    undoBtn.id = 'annotateUndoBtn';
+    undoBtn.title = t('annotateUndo');
+    undoBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6h6a3 3 0 010 6H7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/><path d="M6 3L3 6l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>';
+    undoBtn.addEventListener('click', annotateUndo);
+    toolbar.appendChild(undoBtn);
+
+    var redoBtn = document.createElement('button');
+    redoBtn.type = 'button';
+    redoBtn.className = 'annotate-toolbar__btn';
+    redoBtn.id = 'annotateRedoBtn';
+    redoBtn.title = t('annotateRedo');
+    redoBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M12 6H6a3 3 0 000 6h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/><path d="M10 3l3 3-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>';
+    redoBtn.addEventListener('click', annotateRedo);
+    toolbar.appendChild(redoBtn);
+
+    // Separator
+    var sep2 = document.createElement('span');
+    sep2.className = 'annotate-toolbar__sep';
+    toolbar.appendChild(sep2);
+
+    // Color picker
+    var colorInput = document.createElement('input');
+    colorInput.type = 'color';
+    colorInput.value = state.annotateColor;
+    colorInput.className = 'annotate-toolbar__color';
+    colorInput.title = t('annotateColor');
+    colorInput.addEventListener('input', function () {
+      state.annotateColor = this.value;
+    });
+    toolbar.appendChild(colorInput);
+
+    // Stroke width
+    var strokeInput = document.createElement('input');
+    strokeInput.type = 'range';
+    strokeInput.min = '1';
+    strokeInput.max = '10';
+    strokeInput.value = String(state.annotateStroke);
+    strokeInput.className = 'annotate-toolbar__stroke';
+    strokeInput.title = t('annotateStroke');
+    strokeInput.addEventListener('input', function () {
+      state.annotateStroke = parseInt(this.value, 10);
+    });
+    toolbar.appendChild(strokeInput);
+
+    // Nav bar
+    var nav = document.createElement('div');
+    nav.className = 'annotate-container__nav';
+
+    var prevBtn = document.createElement('button');
+    prevBtn.type = 'button';
+    prevBtn.className = 'btn btn--ghost btn--sm';
+    prevBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    prevBtn.addEventListener('click', function () { annotateNavigate(-1); });
+
+    var pageLabel = document.createElement('span');
+    pageLabel.className = 'annotate-container__page-label';
+    pageLabel.id = 'annotatePageLabel';
+
+    var nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'btn btn--ghost btn--sm';
+    nextBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    nextBtn.addEventListener('click', function () { annotateNavigate(1); });
+
+    nav.appendChild(prevBtn);
+    nav.appendChild(pageLabel);
+    nav.appendChild(nextBtn);
+
+    // Canvas area
+    var canvasWrap = document.createElement('div');
+    canvasWrap.className = 'annotate-container__canvas-wrap';
+    canvasWrap.id = 'annotateCanvasWrap';
+
+    annotateCanvasEl = document.createElement('canvas');
+    annotateCanvasEl.className = 'annotate-container__canvas';
+
+    annotateDrawCanvas = document.createElement('canvas');
+    annotateDrawCanvas.className = 'annotate-container__draw';
+    annotateDrawCanvas.id = 'annotateDrawCanvas';
+
+    // Drawing events
+    annotateDrawCanvas.addEventListener('mousedown', onAnnotateMouseDown);
+    annotateDrawCanvas.addEventListener('mousemove', onAnnotateMouseMove);
+    annotateDrawCanvas.addEventListener('mouseup', onAnnotateMouseUp);
+    annotateDrawCanvas.addEventListener('mouseleave', onAnnotateMouseUp);
+    annotateDrawCanvas.addEventListener('touchstart', onAnnotateTouchStart, { passive: false });
+    annotateDrawCanvas.addEventListener('touchmove', onAnnotateTouchMove, { passive: false });
+    annotateDrawCanvas.addEventListener('touchend', onAnnotateMouseUp);
+
+    canvasWrap.appendChild(annotateCanvasEl);
+    canvasWrap.appendChild(annotateDrawCanvas);
+
+    // Hidden file input for image tool
+    var imgInput = document.createElement('input');
+    imgInput.type = 'file';
+    imgInput.accept = 'image/*';
+    imgInput.hidden = true;
+    imgInput.id = 'annotateImageInput';
+    imgInput.addEventListener('change', onAnnotateImageSelected);
+
+    container.appendChild(toolbar);
+    container.appendChild(nav);
+    container.appendChild(canvasWrap);
+    container.appendChild(imgInput);
+    optionsPanel.appendChild(container);
+  }
+
+  function setAnnotateTool(tool) {
+    state.annotateTool = tool;
+    var btns = document.querySelectorAll('.annotate-toolbar__btn');
+    btns.forEach(function (b) {
+      b.classList.toggle('annotate-toolbar__btn--active', b.dataset.tool === tool);
+    });
+
+    if (annotateDrawCanvas) {
+      annotateDrawCanvas.style.cursor = tool === 'cursor' ? 'default' : 'crosshair';
+    }
+
+    // Special tools
+    if (tool === 'signature') {
+      openSignaturePad();
+    } else if (tool === 'image') {
+      var inp = document.getElementById('annotateImageInput');
+      if (inp) inp.click();
+    }
+  }
+
+  function renderAnnotatePage() {
+    if (!annotatePdfDocRef || !annotateCanvasEl) return;
+
+    annotatePdfDocRef.getPage(state.annotateCurrentPage + 1).then(function (page) {
+      var viewport = page.getViewport({ scale: 1 });
+      var wrapEl = document.getElementById('annotateCanvasWrap');
+      var maxW = wrapEl ? wrapEl.clientWidth - 4 : 500;
+      annotateScale = Math.min(maxW / viewport.width, 700 / viewport.height);
+      var scaledViewport = page.getViewport({ scale: annotateScale });
+
+      annotateCanvasEl.width = Math.floor(scaledViewport.width);
+      annotateCanvasEl.height = Math.floor(scaledViewport.height);
+      annotateDrawCanvas.width = annotateCanvasEl.width;
+      annotateDrawCanvas.height = annotateCanvasEl.height;
+
+      var ctx = annotateCanvasEl.getContext('2d');
+      page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+        redrawAnnotations();
+      });
+    });
+  }
+
+  function getPageAnnotations() {
+    return state.annotateAnnotations[state.annotateCurrentPage] || [];
+  }
+
+  function addAnnotation(ann) {
+    var pageIdx = state.annotateCurrentPage;
+    if (!state.annotateAnnotations[pageIdx]) state.annotateAnnotations[pageIdx] = [];
+    state.annotateAnnotations[pageIdx].push(ann);
+    state.annotateUndoStack.push({ action: 'add', pageIdx: pageIdx, index: state.annotateAnnotations[pageIdx].length - 1 });
+    state.annotateRedoStack = [];
+    redrawAnnotations();
+  }
+
+  function annotateUndo() {
+    var last = state.annotateUndoStack.pop();
+    if (!last) return;
+    if (last.action === 'add') {
+      var removed = state.annotateAnnotations[last.pageIdx].splice(last.index, 1)[0];
+      state.annotateRedoStack.push({ action: 'add', pageIdx: last.pageIdx, annotation: removed });
+    }
+    redrawAnnotations();
+  }
+
+  function annotateRedo() {
+    var last = state.annotateRedoStack.pop();
+    if (!last) return;
+    if (last.action === 'add') {
+      if (!state.annotateAnnotations[last.pageIdx]) state.annotateAnnotations[last.pageIdx] = [];
+      state.annotateAnnotations[last.pageIdx].push(last.annotation);
+      state.annotateUndoStack.push({ action: 'add', pageIdx: last.pageIdx, index: state.annotateAnnotations[last.pageIdx].length - 1 });
+    }
+    redrawAnnotations();
+  }
+
+  function redrawAnnotations() {
+    if (!annotateDrawCanvas) return;
+    var ctx = annotateDrawCanvas.getContext('2d');
+    ctx.clearRect(0, 0, annotateDrawCanvas.width, annotateDrawCanvas.height);
+
+    var anns = getPageAnnotations();
+    anns.forEach(function (ann) {
+      drawAnnotation(ctx, ann);
+    });
+  }
+
+  function drawAnnotation(ctx, ann) {
+    var s = annotateScale;
+    ctx.save();
+    ctx.strokeStyle = ann.color || '#ef4444';
+    ctx.fillStyle = ann.color || '#ef4444';
+    ctx.lineWidth = (ann.stroke || 2) * s;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    switch (ann.type) {
+      case 'pen':
+        if (ann.points && ann.points.length > 1) {
+          ctx.beginPath();
+          ctx.moveTo(ann.points[0].x * s, ann.points[0].y * s);
+          for (var i = 1; i < ann.points.length; i++) {
+            ctx.lineTo(ann.points[i].x * s, ann.points[i].y * s);
+          }
+          ctx.stroke();
+        }
+        break;
+      case 'highlight':
+        ctx.globalAlpha = 0.3;
+        ctx.fillRect(ann.rect.x * s, ann.rect.y * s, ann.rect.w * s, ann.rect.h * s);
+        ctx.globalAlpha = 1;
+        break;
+      case 'rect':
+        ctx.strokeRect(ann.rect.x * s, ann.rect.y * s, ann.rect.w * s, ann.rect.h * s);
+        break;
+      case 'circle':
+        ctx.beginPath();
+        var cx = (ann.rect.x + ann.rect.w / 2) * s;
+        var cy = (ann.rect.y + ann.rect.h / 2) * s;
+        var rx = Math.abs(ann.rect.w / 2) * s;
+        var ry = Math.abs(ann.rect.h / 2) * s;
+        ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        break;
+      case 'line':
+        ctx.beginPath();
+        ctx.moveTo(ann.start.x * s, ann.start.y * s);
+        ctx.lineTo(ann.end.x * s, ann.end.y * s);
+        ctx.stroke();
+        break;
+      case 'arrow':
+        var ax = ann.start.x * s, ay = ann.start.y * s;
+        var bx = ann.end.x * s, by = ann.end.y * s;
+        ctx.beginPath();
+        ctx.moveTo(ax, ay);
+        ctx.lineTo(bx, by);
+        ctx.stroke();
+        // Arrowhead
+        var angle = Math.atan2(by - ay, bx - ax);
+        var headLen = 10 * s;
+        ctx.beginPath();
+        ctx.moveTo(bx, by);
+        ctx.lineTo(bx - headLen * Math.cos(angle - 0.4), by - headLen * Math.sin(angle - 0.4));
+        ctx.moveTo(bx, by);
+        ctx.lineTo(bx - headLen * Math.cos(angle + 0.4), by - headLen * Math.sin(angle + 0.4));
+        ctx.stroke();
+        break;
+      case 'text':
+        ctx.font = (ann.fontSize || 14) * s + 'px system-ui, sans-serif';
+        ctx.fillText(ann.text, ann.pos.x * s, ann.pos.y * s);
+        break;
+      case 'stamp':
+        var stampText = ann.text;
+        ctx.font = 'bold ' + 18 * s + 'px system-ui, sans-serif';
+        ctx.strokeStyle = ann.color;
+        ctx.lineWidth = 2 * s;
+        var tm = ctx.measureText(stampText);
+        var px = ann.pos.x * s;
+        var py = ann.pos.y * s;
+        var pad = 8 * s;
+        ctx.strokeRect(px - pad, py - 18 * s - pad / 2, tm.width + pad * 2, 18 * s + pad);
+        ctx.fillText(stampText, px, py);
+        break;
+      case 'image':
+        if (ann.imgEl) {
+          ctx.drawImage(ann.imgEl, ann.rect.x * s, ann.rect.y * s, ann.rect.w * s, ann.rect.h * s);
+        }
+        break;
+      case 'signature':
+        if (ann.imgEl) {
+          ctx.drawImage(ann.imgEl, ann.rect.x * s, ann.rect.y * s, ann.rect.w * s, ann.rect.h * s);
+        }
+        break;
+    }
+    ctx.restore();
+  }
+
+  // Mouse/touch handlers for annotate
+  function getAnnotatePos(e) {
+    var rect = annotateDrawCanvas.getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.left) / annotateScale,
+      y: (e.clientY - rect.top) / annotateScale,
+    };
+  }
+
+  function onAnnotateMouseDown(e) {
+    var tool = state.annotateTool;
+    if (tool === 'cursor' || tool === 'signature' || tool === 'image') return;
+    var pos = getAnnotatePos(e);
+
+    if (tool === 'text') {
+      var text = prompt(t('annotateTextPrompt'));
+      if (text) {
+        addAnnotation({ type: 'text', text: text, pos: pos, color: state.annotateColor, fontSize: 14 });
+      }
+      return;
+    }
+
+    if (tool === 'stamp') {
+      var stamps = [t('annotateStampDraft'), t('annotateStampApproved'), t('annotateStampConfidential')];
+      var choice = prompt(t('annotateStampPrompt') + '\n1. ' + stamps[0] + '\n2. ' + stamps[1] + '\n3. ' + stamps[2], '1');
+      var idx = parseInt(choice, 10) - 1;
+      if (idx >= 0 && idx < stamps.length) {
+        addAnnotation({ type: 'stamp', text: stamps[idx], pos: pos, color: state.annotateColor });
+      }
+      return;
+    }
+
+    annotateDrawing = true;
+    if (tool === 'pen') {
+      annotateCurrentPath = [pos];
+    } else {
+      annotateShapeStart = pos;
+    }
+  }
+
+  function onAnnotateMouseMove(e) {
+    if (!annotateDrawing) return;
+    var tool = state.annotateTool;
+    var pos = getAnnotatePos(e);
+
+    if (tool === 'pen') {
+      annotateCurrentPath.push(pos);
+      // Live preview
+      var ctx = annotateDrawCanvas.getContext('2d');
+      redrawAnnotations();
+      ctx.save();
+      ctx.strokeStyle = state.annotateColor;
+      ctx.lineWidth = state.annotateStroke * annotateScale;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(annotateCurrentPath[0].x * annotateScale, annotateCurrentPath[0].y * annotateScale);
+      for (var i = 1; i < annotateCurrentPath.length; i++) {
+        ctx.lineTo(annotateCurrentPath[i].x * annotateScale, annotateCurrentPath[i].y * annotateScale);
+      }
+      ctx.stroke();
+      ctx.restore();
+    } else if (annotateShapeStart) {
+      // Live preview shape
+      var ctx2 = annotateDrawCanvas.getContext('2d');
+      redrawAnnotations();
+      var tempAnn = buildShapeAnnotation(tool, annotateShapeStart, pos);
+      if (tempAnn) drawAnnotation(ctx2, tempAnn);
+    }
+  }
+
+  function onAnnotateMouseUp() {
+    if (!annotateDrawing) return;
+    annotateDrawing = false;
+    var tool = state.annotateTool;
+
+    if (tool === 'pen' && annotateCurrentPath.length > 1) {
+      addAnnotation({
+        type: 'pen',
+        points: annotateCurrentPath.slice(),
+        color: state.annotateColor,
+        stroke: state.annotateStroke,
+      });
+    } else if (annotateShapeStart) {
+      var pos = annotateCurrentPath.length > 0 ? annotateCurrentPath[annotateCurrentPath.length - 1] : annotateShapeStart;
+      // Get last mouse position from the draw canvas — use stored value
+    }
+
+    annotateCurrentPath = [];
+    annotateShapeStart = null;
+  }
+
+  // Override onAnnotateMouseUp for shapes
+  var origMouseUp = onAnnotateMouseUp;
+  onAnnotateMouseUp = function (e) {
+    if (!annotateDrawing) return;
+    annotateDrawing = false;
+    var tool = state.annotateTool;
+
+    if (tool === 'pen' && annotateCurrentPath.length > 1) {
+      addAnnotation({
+        type: 'pen',
+        points: annotateCurrentPath.slice(),
+        color: state.annotateColor,
+        stroke: state.annotateStroke,
+      });
+    } else if (annotateShapeStart && e && e.clientX !== undefined) {
+      var pos = getAnnotatePos(e);
+      var ann = buildShapeAnnotation(tool, annotateShapeStart, pos);
+      if (ann) addAnnotation(ann);
+    }
+
+    annotateCurrentPath = [];
+    annotateShapeStart = null;
+  };
+
+  function buildShapeAnnotation(tool, start, end) {
+    var x = Math.min(start.x, end.x);
+    var y = Math.min(start.y, end.y);
+    var w = Math.abs(end.x - start.x);
+    var h = Math.abs(end.y - start.y);
+    if (w < 2 && h < 2) return null;
+
+    var base = { color: state.annotateColor, stroke: state.annotateStroke };
+
+    switch (tool) {
+      case 'highlight':
+        return Object.assign(base, { type: 'highlight', rect: { x: x, y: y, w: w, h: h } });
+      case 'rect':
+        return Object.assign(base, { type: 'rect', rect: { x: x, y: y, w: w, h: h } });
+      case 'circle':
+        return Object.assign(base, { type: 'circle', rect: { x: x, y: y, w: w, h: h } });
+      case 'line':
+        return Object.assign(base, { type: 'line', start: { x: start.x, y: start.y }, end: { x: end.x, y: end.y } });
+      case 'arrow':
+        return Object.assign(base, { type: 'arrow', start: { x: start.x, y: start.y }, end: { x: end.x, y: end.y } });
+      default:
+        return null;
+    }
+  }
+
+  function onAnnotateTouchStart(e) {
+    e.preventDefault();
+    var touch = e.touches[0];
+    onAnnotateMouseDown({ clientX: touch.clientX, clientY: touch.clientY });
+  }
+
+  function onAnnotateTouchMove(e) {
+    e.preventDefault();
+    var touch = e.touches[0];
+    onAnnotateMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+  }
+
+  // Signature pad (simple modal)
+  function openSignaturePad() {
+    var existing = document.getElementById('signaturePadOverlay');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'signaturePadOverlay';
+    overlay.className = 'signature-pad-overlay';
+
+    var pad = document.createElement('div');
+    pad.className = 'signature-pad';
+
+    var padCanvas = document.createElement('canvas');
+    padCanvas.width = 400;
+    padCanvas.height = 200;
+    padCanvas.className = 'signature-pad__canvas';
+
+    var padCtx = padCanvas.getContext('2d');
+    padCtx.fillStyle = '#fff';
+    padCtx.fillRect(0, 0, 400, 200);
+
+    var drawing = false;
+    padCanvas.addEventListener('mousedown', function (e) {
+      drawing = true;
+      var r = padCanvas.getBoundingClientRect();
+      padCtx.beginPath();
+      padCtx.moveTo(e.clientX - r.left, e.clientY - r.top);
+    });
+    padCanvas.addEventListener('mousemove', function (e) {
+      if (!drawing) return;
+      var r = padCanvas.getBoundingClientRect();
+      padCtx.strokeStyle = '#000';
+      padCtx.lineWidth = 2;
+      padCtx.lineCap = 'round';
+      padCtx.lineTo(e.clientX - r.left, e.clientY - r.top);
+      padCtx.stroke();
+    });
+    padCanvas.addEventListener('mouseup', function () { drawing = false; });
+    padCanvas.addEventListener('mouseleave', function () { drawing = false; });
+
+    var btns = document.createElement('div');
+    btns.className = 'signature-pad__btns';
+
+    var clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.className = 'btn btn--ghost btn--sm';
+    clearBtn.textContent = t('cropReset');
+    clearBtn.addEventListener('click', function () {
+      padCtx.fillStyle = '#fff';
+      padCtx.fillRect(0, 0, 400, 200);
+    });
+
+    var okBtn = document.createElement('button');
+    okBtn.type = 'button';
+    okBtn.className = 'btn btn--ghost btn--sm';
+    okBtn.textContent = 'OK';
+    okBtn.addEventListener('click', function () {
+      padCanvas.toBlob(function (blob) {
+        var img = new Image();
+        img.onload = function () {
+          addAnnotation({
+            type: 'signature',
+            imgEl: img,
+            rect: { x: 50, y: 50, w: 200, h: 100 },
+            imgData: padCanvas.toDataURL('image/png'),
+          });
+          overlay.remove();
+          setAnnotateTool('cursor');
+        };
+        img.src = URL.createObjectURL(blob);
+      }, 'image/png');
+    });
+
+    var cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'btn btn--ghost btn--sm';
+    cancelBtn.textContent = t('fullscreenClose');
+    cancelBtn.addEventListener('click', function () {
+      overlay.remove();
+      setAnnotateTool('cursor');
+    });
+
+    btns.appendChild(clearBtn);
+    btns.appendChild(okBtn);
+    btns.appendChild(cancelBtn);
+
+    pad.appendChild(padCanvas);
+    pad.appendChild(btns);
+    overlay.appendChild(pad);
+    document.body.appendChild(overlay);
+  }
+
+  function onAnnotateImageSelected(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var img = new Image();
+    img.onload = function () {
+      var w = Math.min(img.width, 200);
+      var h = img.height * (w / img.width);
+      addAnnotation({
+        type: 'image',
+        imgEl: img,
+        rect: { x: 50, y: 50, w: w, h: h },
+        imgData: img.src,
+      });
+      setAnnotateTool('cursor');
+    };
+    img.src = URL.createObjectURL(file);
+    e.target.value = '';
+  }
+
+  function annotateNavigate(delta) {
+    var newPage = state.annotateCurrentPage + delta;
+    if (newPage < 0 || newPage >= state.annotateTotalPages) return;
+    state.annotateCurrentPage = newPage;
+    renderAnnotatePage();
+    updateAnnotateNav();
+  }
+
+  function updateAnnotateNav() {
+    var label = document.getElementById('annotatePageLabel');
+    if (label) {
+      label.textContent = t('cropPageNav') + ' ' + (state.annotateCurrentPage + 1) + ' / ' + state.annotateTotalPages;
+    }
+  }
+
+  async function saveAnnotatedPDF() {
+    if (state.files.length === 0) {
+      showToast(t('errorNoFiles'));
+      return;
+    }
+
+    state.processing = true;
+    updateUI();
+    hideResult();
+
+    try {
+      showProgress(0, t('processing'));
+      var pdfDoc = await PDFLib.PDFDocument.load(state.files[0].data, { ignoreEncryption: true });
+      var pages = pdfDoc.getPages();
+      var font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+      var fontBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+      var totalPages = pages.length;
+
+      for (var pi = 0; pi < totalPages; pi++) {
+        showProgress((pi / totalPages) * 80, t('processingPage') + ' ' + (pi + 1) + '/' + totalPages);
+
+        var anns = state.annotateAnnotations[pi];
+        if (!anns || anns.length === 0) continue;
+
+        var page = pages[pi];
+        var mb = page.getMediaBox();
+        var pageH = mb.height;
+
+        for (var ai = 0; ai < anns.length; ai++) {
+          var ann = anns[ai];
+          var color = hexToRgb(ann.color || '#ef4444');
+          var pdfColor = PDFLib.rgb(color.r / 255, color.g / 255, color.b / 255);
+
+          switch (ann.type) {
+            case 'pen':
+              if (ann.points && ann.points.length > 1) {
+                for (var j = 1; j < ann.points.length; j++) {
+                  page.drawLine({
+                    start: { x: ann.points[j - 1].x, y: pageH - ann.points[j - 1].y },
+                    end: { x: ann.points[j].x, y: pageH - ann.points[j].y },
+                    thickness: ann.stroke || 2,
+                    color: pdfColor,
+                  });
+                }
+              }
+              break;
+            case 'highlight':
+              page.drawRectangle({
+                x: ann.rect.x, y: pageH - ann.rect.y - ann.rect.h,
+                width: ann.rect.w, height: ann.rect.h,
+                color: pdfColor, opacity: 0.3,
+              });
+              break;
+            case 'rect':
+              page.drawRectangle({
+                x: ann.rect.x, y: pageH - ann.rect.y - ann.rect.h,
+                width: ann.rect.w, height: ann.rect.h,
+                borderColor: pdfColor, borderWidth: ann.stroke || 2,
+              });
+              break;
+            case 'circle':
+              var ecx = ann.rect.x + ann.rect.w / 2;
+              var ecy = pageH - ann.rect.y - ann.rect.h / 2;
+              page.drawEllipse({
+                x: ecx, y: ecy,
+                xScale: Math.abs(ann.rect.w / 2), yScale: Math.abs(ann.rect.h / 2),
+                borderColor: pdfColor, borderWidth: ann.stroke || 2,
+              });
+              break;
+            case 'line':
+            case 'arrow':
+              page.drawLine({
+                start: { x: ann.start.x, y: pageH - ann.start.y },
+                end: { x: ann.end.x, y: pageH - ann.end.y },
+                thickness: ann.stroke || 2,
+                color: pdfColor,
+              });
+              if (ann.type === 'arrow') {
+                // Arrowhead as two short lines
+                var ax2 = ann.end.x, ay2 = pageH - ann.end.y;
+                var angle = Math.atan2((pageH - ann.end.y) - (pageH - ann.start.y), ann.end.x - ann.start.x);
+                var hl = 10;
+                page.drawLine({
+                  start: { x: ax2, y: ay2 },
+                  end: { x: ax2 - hl * Math.cos(angle - 0.4), y: ay2 - hl * Math.sin(angle - 0.4) },
+                  thickness: ann.stroke || 2, color: pdfColor,
+                });
+                page.drawLine({
+                  start: { x: ax2, y: ay2 },
+                  end: { x: ax2 - hl * Math.cos(angle + 0.4), y: ay2 - hl * Math.sin(angle + 0.4) },
+                  thickness: ann.stroke || 2, color: pdfColor,
+                });
+              }
+              break;
+            case 'text':
+              page.drawText(ann.text, {
+                x: ann.pos.x,
+                y: pageH - ann.pos.y,
+                size: ann.fontSize || 14,
+                font: font,
+                color: pdfColor,
+              });
+              break;
+            case 'stamp':
+              page.drawText(ann.text, {
+                x: ann.pos.x,
+                y: pageH - ann.pos.y,
+                size: 18,
+                font: fontBold,
+                color: pdfColor,
+              });
+              // Stamp border
+              var stm = fontBold.widthOfTextAtSize(ann.text, 18);
+              page.drawRectangle({
+                x: ann.pos.x - 8,
+                y: pageH - ann.pos.y - 6,
+                width: stm + 16,
+                height: 26,
+                borderColor: pdfColor, borderWidth: 2,
+              });
+              break;
+            case 'signature':
+            case 'image':
+              if (ann.imgData) {
+                try {
+                  var imgEmbed;
+                  if (ann.imgData.indexOf('data:image/png') === 0) {
+                    var base64 = ann.imgData.split(',')[1];
+                    var bytes = Uint8Array.from(atob(base64), function (c) { return c.charCodeAt(0); });
+                    imgEmbed = await pdfDoc.embedPng(bytes);
+                  } else {
+                    var resp = await fetch(ann.imgData);
+                    var arrBuf = await resp.arrayBuffer();
+                    imgEmbed = await pdfDoc.embedPng(new Uint8Array(arrBuf)).catch(function () {
+                      return pdfDoc.embedJpg(new Uint8Array(arrBuf));
+                    });
+                  }
+                  page.drawImage(imgEmbed, {
+                    x: ann.rect.x,
+                    y: pageH - ann.rect.y - ann.rect.h,
+                    width: ann.rect.w,
+                    height: ann.rect.h,
+                  });
+                } catch (imgErr) {
+                  console.warn('Could not embed image:', imgErr);
+                }
+              }
+              break;
+          }
+        }
+
+        if (pi % 5 === 0) await yieldToMain();
+      }
+
+      showProgress(90, t('processing'));
+      var savedBytes = await pdfDoc.save();
+      showProgress(100, t('processing'));
+
+      var originalName = state.files[0].name.replace(/\.pdf$/i, '');
+      showResult(savedBytes, originalName + '_annotated.pdf', 'application/pdf', state.files[0].size);
+      showToast(t('toastSuccess'));
+    } catch (err) {
+      console.error('Annotate error:', err);
+      showToast(t('errorGeneric'));
+    }
+
+    state.processing = false;
+    hideProgress();
+    updateUI();
+  }
+
+  function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16),
+    } : { r: 239, g: 68, b: 68 };
   }
 
   // ==================
@@ -3129,6 +4039,7 @@
       case 'img2pdf': imagesToPDF(); break;
       case 'crop': cropPDF(); break;
       case 'forms': saveFormPDF(); break;
+      case 'annotate': saveAnnotatedPDF(); break;
     }
   }
 

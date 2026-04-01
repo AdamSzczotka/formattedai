@@ -972,6 +972,107 @@ html, body { height: 100%; }
 }
 
 // ============================================
+// Annotate container
+// ============================================
+.annotate-container {
+  padding: 8px 0;
+
+  &__nav {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  }
+
+  &__page-label {
+    font-size: 12px; font-weight: 600; color: var(--color-text-muted);
+    min-width: 80px; text-align: center;
+  }
+
+  &__canvas-wrap {
+    position: relative;
+    display: inline-block;
+    border: 1px solid var(--color-border);
+    border-radius: $radius-sm;
+    overflow: hidden;
+    line-height: 0;
+    max-width: 100%;
+  }
+
+  &__canvas { display: block; max-width: 100%; }
+
+  &__draw {
+    position: absolute; inset: 0;
+    cursor: crosshair;
+  }
+}
+
+.annotate-toolbar {
+  display: flex; align-items: center; gap: 2px;
+  padding: 6px 8px; margin-bottom: 8px;
+  background: var(--glass-bg);
+  border: 1px solid var(--color-border);
+  border-radius: $radius-sm;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+
+  &::-webkit-scrollbar { height: 3px; }
+  &::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; }
+
+  &__btn {
+    width: 32px; height: 32px; min-width: 32px;
+    border: 1.5px solid transparent; border-radius: 6px;
+    background: transparent; color: var(--color-text-dim);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s ease;
+
+    &:hover { color: var(--color-text); background: var(--color-surface-hover); }
+
+    &--active {
+      color: $color-pdf; border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.08);
+    }
+  }
+
+  &__sep {
+    width: 1px; height: 20px; background: var(--color-border);
+    margin: 0 4px; flex-shrink: 0;
+  }
+
+  &__color {
+    width: 28px; height: 28px; padding: 0; border: 2px solid var(--color-border);
+    border-radius: 6px; cursor: pointer; flex-shrink: 0;
+
+    &::-webkit-color-swatch-wrapper { padding: 2px; }
+    &::-webkit-color-swatch { border: none; border-radius: 3px; }
+  }
+
+  &__stroke {
+    width: 60px; accent-color: $color-pdf; flex-shrink: 0;
+  }
+}
+
+.signature-pad-overlay {
+  position: fixed; inset: 0; z-index: 1200;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.signature-pad {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px; padding: 16px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+
+  &__canvas {
+    display: block; border: 1px solid var(--color-border);
+    border-radius: 6px; cursor: crosshair;
+    max-width: 100%;
+  }
+
+  &__btns {
+    display: flex; gap: 8px; margin-top: 12px; justify-content: flex-end;
+  }
+}
+
+// ============================================
 // Forms container
 // ============================================
 .forms-container {
