@@ -14,6 +14,7 @@
     "build:css": "npm run build:home && npm run build:formatter && npm run build:avif && npm run build:seogeo && npm run build:articles && npm run build:jsminifier && npm run build:cssminifier && npm run build:pdf",
     "build:js": "esbuild assets/js/app.js --outfile=assets/js/app.min.js --minify --target=es2020 && esbuild assets/js/avif.js --outfile=assets/js/avif.min.js --bundle --minify --target=es2020 --format=esm --external:https://* && esbuild assets/js/seogeo.js --outfile=assets/js/seogeo.min.js --minify --target=es2020",
     "build": "npm run build:css && npm run build:js",
+    "test:pdf": "node tests/pdf-tool.test.js",
     "watch:home": "sass assets/scss/home.scss assets/css/home.css --watch --no-source-map",
     "watch:formatter": "sass assets/scss/formatter.scss assets/css/formatter.css --watch --no-source-map",
     "watch:avif": "sass assets/scss/avif.scss assets/css/avif.css --watch --no-source-map",
