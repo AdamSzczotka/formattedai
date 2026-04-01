@@ -58,6 +58,16 @@
       // Image to PDF
       img2PdfBtnText: 'Utwórz PDF',
       img2PdfResult: 'Utworzony PDF',
+      // Crop
+      tabCrop: 'Przytnij',
+      dropCrop: 'Przeciągnij plik PDF do przycięcia',
+      dropTextCrop: 'Przeciągnij plik PDF do przycięcia',
+      cropBtnText: 'Przytnij PDF',
+      cropResult: 'Przycięty PDF',
+      cropApplyAll: 'Zastosuj do wszystkich stron',
+      cropPageNav: 'Strona',
+      cropReset: 'Resetuj zaznaczenie',
+      cropHint: 'Zaznacz obszar do przycięcia przeciągając na podglądzie',
       // Progress
       processing: 'Przetwarzanie...',
       processingFile: 'Przetwarzanie pliku',
@@ -183,6 +193,16 @@
       compressNoImages: 'This PDF contains no images to compress. Structure optimization applied.',
       img2PdfBtnText: 'Create PDF',
       img2PdfResult: 'Created PDF',
+      // Crop
+      tabCrop: 'Crop',
+      dropCrop: 'Drag & drop a PDF file to crop',
+      dropTextCrop: 'Drag & drop a PDF file to crop',
+      cropBtnText: 'Crop PDF',
+      cropResult: 'Cropped PDF',
+      cropApplyAll: 'Apply to all pages',
+      cropPageNav: 'Page',
+      cropReset: 'Reset selection',
+      cropHint: 'Draw the crop area by dragging on the preview',
       processing: 'Processing...',
       processingFile: 'Processing file',
       processingPage: 'Processing page',
@@ -269,7 +289,7 @@
   var ACCEPTED_PDF = ['application/pdf'];
   var ACCEPTED_IMAGES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
   var THUMBNAIL_HEIGHT = 150;
-  var TAB_IDS = ['merge', 'split', 'compress', 'img2pdf'];
+  var TAB_IDS = ['merge', 'split', 'compress', 'img2pdf', 'crop'];
 
   // ==================
   // State
@@ -290,6 +310,11 @@
     mergePageMode: false, // false = file order, true = page order
     mergePages: [],       // { fileIndex, pageNum, thumbnailRendered }
     advancedMode: { files: false, size: false, pages: false },
+    // Crop state
+    cropCurrentPage: 0,
+    cropTotalPages: 0,
+    cropRect: null,       // { x, y, w, h } in PDF points (relative to page)
+    cropApplyAll: true,
   };
 
   // ==================
@@ -532,6 +557,14 @@
     // Show/hide tab-specific controls
     if (dom.splitControls) dom.splitControls.hidden = tabId !== 'split';
     if (dom.compressControls) dom.compressControls.hidden = tabId !== 'compress';
+    var cropContainer = document.getElementById('cropContainer');
+    if (cropContainer) cropContainer.hidden = tabId !== 'crop';
+
+    // Reset crop state
+    state.cropCurrentPage = 0;
+    state.cropRect = null;
+    state.cropTotalPages = 0;
+    cropPdfDocRef = null;
 
     // Update URL hash
     history.replaceState(null, '', '#' + tabId);
@@ -565,6 +598,7 @@
       'split': 'dropSplit',
       'compress': 'dropCompress',
       'img2pdf': 'dropImg2Pdf',
+      'crop': 'dropCrop',
     };
     dom.dropZoneText.textContent = t(textMap[state.activeTab] || 'dropMerge');
   }
@@ -577,6 +611,7 @@
         'split': 'splitBtnText',
         'compress': 'compressBtnText',
         'img2pdf': 'img2PdfBtnText',
+        'crop': 'cropBtnText',
       };
       dom.divider.title = t(titleMap[state.activeTab] || 'mergeBtnText');
       dom.divider.setAttribute('aria-label', dom.divider.title);
@@ -657,6 +692,11 @@
           // For split/compress: auto-load preview
           if (state.activeTab === 'split' && state.files.length === 1) {
             loadSplitPreview(data);
+          }
+
+          // For crop: auto-load preview
+          if (state.activeTab === 'crop' && state.files.length === 1) {
+            loadCropPreview(data);
           }
 
           // For merge page mode: reload page preview when files change
@@ -1641,6 +1681,10 @@
     if (dom.splitControls) dom.splitControls.hidden = !showSplitControls;
     if (dom.compressControls) dom.compressControls.hidden = state.activeTab !== 'compress' || !hasFiles;
 
+    // Crop container visibility
+    var cropContainer = document.getElementById('cropContainer');
+    if (cropContainer) cropContainer.hidden = !(state.activeTab === 'crop' && hasFiles);
+
     // Hide split-only UI elements when in merge page mode
     if (dom.splitControls && state.activeTab === 'merge' && state.mergePageMode) {
       var selectAllBtn = document.getElementById('selectAllBtn');
@@ -2324,6 +2368,339 @@
   }
 
   // ==================
+  // CROP
+  // ==================
+  var cropPdfDocRef = null;  // pdfjs doc for preview
+  var cropCanvasEl = null;
+  var cropOverlayEl = null;
+  var cropDragging = false;
+  var cropStartX = 0, cropStartY = 0;
+  var cropScale = 1;
+
+  function loadCropPreview(fileData) {
+    state.cropCurrentPage = 0;
+    state.cropRect = null;
+    state.cropTotalPages = 0;
+
+    loadPdfjs().then(function (lib) {
+      lib.getDocument({ data: fileData.slice() }).promise.then(function (pdfDoc) {
+        cropPdfDocRef = pdfDoc;
+        state.cropTotalPages = pdfDoc.numPages;
+        ensureCropUI();
+        renderCropPage();
+        updateCropNav();
+      }).catch(function () {
+        showToast(t('errorCorruptPdf'));
+      });
+    });
+  }
+
+  function ensureCropUI() {
+    if (document.getElementById('cropContainer')) return;
+
+    var optionsPanel = document.getElementById('optionsPanel');
+    if (!optionsPanel) return;
+
+    var container = document.createElement('div');
+    container.id = 'cropContainer';
+    container.className = 'crop-container';
+    container.hidden = true;
+
+    // Nav bar
+    var nav = document.createElement('div');
+    nav.className = 'crop-container__nav';
+
+    var prevBtn = document.createElement('button');
+    prevBtn.type = 'button';
+    prevBtn.className = 'btn btn--ghost btn--sm';
+    prevBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    prevBtn.addEventListener('click', function () { cropNavigate(-1); });
+
+    var pageLabel = document.createElement('span');
+    pageLabel.className = 'crop-container__page-label';
+    pageLabel.id = 'cropPageLabel';
+
+    var nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'btn btn--ghost btn--sm';
+    nextBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    nextBtn.addEventListener('click', function () { cropNavigate(1); });
+
+    nav.appendChild(prevBtn);
+    nav.appendChild(pageLabel);
+    nav.appendChild(nextBtn);
+
+    // Hint
+    var hint = document.createElement('p');
+    hint.className = 'crop-container__hint';
+    hint.textContent = t('cropHint');
+
+    // Canvas wrapper (for crop drawing)
+    var canvasWrap = document.createElement('div');
+    canvasWrap.className = 'crop-container__canvas-wrap';
+    canvasWrap.id = 'cropCanvasWrap';
+
+    cropCanvasEl = document.createElement('canvas');
+    cropCanvasEl.className = 'crop-container__canvas';
+    cropCanvasEl.id = 'cropCanvas';
+
+    cropOverlayEl = document.createElement('canvas');
+    cropOverlayEl.className = 'crop-container__overlay';
+    cropOverlayEl.id = 'cropOverlay';
+
+    // Mouse/touch events on overlay for drawing crop rect
+    cropOverlayEl.addEventListener('mousedown', onCropMouseDown);
+    cropOverlayEl.addEventListener('mousemove', onCropMouseMove);
+    cropOverlayEl.addEventListener('mouseup', onCropMouseUp);
+    cropOverlayEl.addEventListener('mouseleave', onCropMouseUp);
+    // Touch
+    cropOverlayEl.addEventListener('touchstart', onCropTouchStart, { passive: false });
+    cropOverlayEl.addEventListener('touchmove', onCropTouchMove, { passive: false });
+    cropOverlayEl.addEventListener('touchend', onCropMouseUp);
+
+    canvasWrap.appendChild(cropCanvasEl);
+    canvasWrap.appendChild(cropOverlayEl);
+
+    // Options row
+    var optionsRow = document.createElement('div');
+    optionsRow.className = 'crop-container__options';
+
+    var applyAllLabel = document.createElement('label');
+    applyAllLabel.className = 'options-panel__checkbox';
+    var applyAllCb = document.createElement('input');
+    applyAllCb.type = 'checkbox';
+    applyAllCb.id = 'cropApplyAll';
+    applyAllCb.checked = true;
+    applyAllCb.addEventListener('change', function () {
+      state.cropApplyAll = this.checked;
+    });
+    var applyAllText = document.createElement('span');
+    applyAllText.textContent = t('cropApplyAll');
+    applyAllLabel.appendChild(applyAllCb);
+    applyAllLabel.appendChild(applyAllText);
+
+    var resetBtn = document.createElement('button');
+    resetBtn.type = 'button';
+    resetBtn.className = 'btn btn--ghost btn--sm';
+    resetBtn.textContent = t('cropReset');
+    resetBtn.addEventListener('click', function () {
+      state.cropRect = null;
+      drawCropOverlay();
+    });
+
+    optionsRow.appendChild(applyAllLabel);
+    optionsRow.appendChild(resetBtn);
+
+    container.appendChild(nav);
+    container.appendChild(hint);
+    container.appendChild(canvasWrap);
+    container.appendChild(optionsRow);
+    optionsPanel.appendChild(container);
+  }
+
+  function renderCropPage() {
+    if (!cropPdfDocRef || !cropCanvasEl) return;
+
+    cropPdfDocRef.getPage(state.cropCurrentPage + 1).then(function (page) {
+      var viewport = page.getViewport({ scale: 1 });
+      // Fit canvas to container width
+      var wrapEl = document.getElementById('cropCanvasWrap');
+      var maxW = wrapEl ? wrapEl.clientWidth - 4 : 500;
+      cropScale = Math.min(maxW / viewport.width, 600 / viewport.height);
+      var scaledViewport = page.getViewport({ scale: cropScale });
+
+      cropCanvasEl.width = Math.floor(scaledViewport.width);
+      cropCanvasEl.height = Math.floor(scaledViewport.height);
+      cropOverlayEl.width = cropCanvasEl.width;
+      cropOverlayEl.height = cropCanvasEl.height;
+
+      var ctx = cropCanvasEl.getContext('2d');
+      page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+        drawCropOverlay();
+      });
+    });
+  }
+
+  function drawCropOverlay() {
+    if (!cropOverlayEl) return;
+    var ctx = cropOverlayEl.getContext('2d');
+    var w = cropOverlayEl.width;
+    var h = cropOverlayEl.height;
+    ctx.clearRect(0, 0, w, h);
+
+    if (!state.cropRect) return;
+
+    // Darken outside crop area
+    var r = state.cropRect;
+    var sx = r.x * cropScale;
+    var sy = r.y * cropScale;
+    var sw = r.w * cropScale;
+    var sh = r.h * cropScale;
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+    // Top
+    ctx.fillRect(0, 0, w, sy);
+    // Bottom
+    ctx.fillRect(0, sy + sh, w, h - sy - sh);
+    // Left
+    ctx.fillRect(0, sy, sx, sh);
+    // Right
+    ctx.fillRect(sx + sw, sy, w - sx - sw, sh);
+
+    // Border
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 3]);
+    ctx.strokeRect(sx, sy, sw, sh);
+    ctx.setLineDash([]);
+
+    // Corner handles
+    var hs = 6;
+    ctx.fillStyle = '#ef4444';
+    [[sx, sy], [sx + sw, sy], [sx, sy + sh], [sx + sw, sy + sh]].forEach(function (p) {
+      ctx.fillRect(p[0] - hs / 2, p[1] - hs / 2, hs, hs);
+    });
+
+    // Dimensions label
+    var cropW = Math.round(r.w * 72 / 72); // already in points
+    var cropH = Math.round(r.h * 72 / 72);
+    var dimText = cropW + ' × ' + cropH + ' pt';
+    ctx.font = '11px system-ui, sans-serif';
+    ctx.fillStyle = '#ef4444';
+    ctx.textAlign = 'center';
+    ctx.fillText(dimText, sx + sw / 2, sy > 18 ? sy - 6 : sy + sh + 16);
+  }
+
+  function onCropMouseDown(e) {
+    var rect = cropOverlayEl.getBoundingClientRect();
+    cropStartX = (e.clientX - rect.left) / cropScale;
+    cropStartY = (e.clientY - rect.top) / cropScale;
+    cropDragging = true;
+    state.cropRect = { x: cropStartX, y: cropStartY, w: 0, h: 0 };
+  }
+
+  function onCropMouseMove(e) {
+    if (!cropDragging) return;
+    var rect = cropOverlayEl.getBoundingClientRect();
+    var curX = (e.clientX - rect.left) / cropScale;
+    var curY = (e.clientY - rect.top) / cropScale;
+
+    var x = Math.min(cropStartX, curX);
+    var y = Math.min(cropStartY, curY);
+    var w = Math.abs(curX - cropStartX);
+    var h = Math.abs(curY - cropStartY);
+
+    // Clamp to canvas bounds (in PDF points)
+    var maxW = cropOverlayEl.width / cropScale;
+    var maxH = cropOverlayEl.height / cropScale;
+    if (x < 0) { w += x; x = 0; }
+    if (y < 0) { h += y; y = 0; }
+    if (x + w > maxW) w = maxW - x;
+    if (y + h > maxH) h = maxH - y;
+
+    state.cropRect = { x: x, y: y, w: w, h: h };
+    drawCropOverlay();
+  }
+
+  function onCropMouseUp() {
+    cropDragging = false;
+    if (state.cropRect && state.cropRect.w < 5 && state.cropRect.h < 5) {
+      state.cropRect = null;
+      drawCropOverlay();
+    }
+  }
+
+  function onCropTouchStart(e) {
+    e.preventDefault();
+    var touch = e.touches[0];
+    var rect = cropOverlayEl.getBoundingClientRect();
+    cropStartX = (touch.clientX - rect.left) / cropScale;
+    cropStartY = (touch.clientY - rect.top) / cropScale;
+    cropDragging = true;
+    state.cropRect = { x: cropStartX, y: cropStartY, w: 0, h: 0 };
+  }
+
+  function onCropTouchMove(e) {
+    e.preventDefault();
+    if (!cropDragging) return;
+    var touch = e.touches[0];
+    var fakeEvent = { clientX: touch.clientX, clientY: touch.clientY };
+    onCropMouseMove(fakeEvent);
+  }
+
+  function cropNavigate(delta) {
+    var newPage = state.cropCurrentPage + delta;
+    if (newPage < 0 || newPage >= state.cropTotalPages) return;
+    state.cropCurrentPage = newPage;
+    renderCropPage();
+    updateCropNav();
+  }
+
+  function updateCropNav() {
+    var label = document.getElementById('cropPageLabel');
+    if (label) {
+      label.textContent = t('cropPageNav') + ' ' + (state.cropCurrentPage + 1) + ' / ' + state.cropTotalPages;
+    }
+  }
+
+  async function cropPDF() {
+    if (state.files.length === 0) {
+      showToast(t('errorNoFiles'));
+      return;
+    }
+    if (!state.cropRect || state.cropRect.w < 1 || state.cropRect.h < 1) {
+      showToast(t('cropHint'));
+      return;
+    }
+
+    state.processing = true;
+    updateUI();
+    hideResult();
+
+    try {
+      showProgress(0, t('processing'));
+      var pdfDoc = await PDFLib.PDFDocument.load(state.files[0].data, { ignoreEncryption: true });
+      var pages = pdfDoc.getPages();
+      var totalPages = pages.length;
+
+      for (var i = 0; i < totalPages; i++) {
+        showProgress(((i + 1) / totalPages) * 90, t('processingPage') + ' ' + (i + 1) + '/' + totalPages);
+
+        if (state.cropApplyAll || i === state.cropCurrentPage) {
+          var page = pages[i];
+          var mb = page.getMediaBox();
+          var r = state.cropRect;
+
+          // Convert screen coords to PDF coords (PDF Y is bottom-up)
+          var pdfX = mb.x + r.x;
+          var pdfY = mb.y + (mb.height - r.y - r.h);
+          var pdfW = r.w;
+          var pdfH = r.h;
+
+          page.setCropBox(pdfX, pdfY, pdfW, pdfH);
+        }
+
+        if (i % 10 === 0) await yieldToMain();
+      }
+
+      showProgress(95, t('processing'));
+      var croppedBytes = await pdfDoc.save();
+      showProgress(100, t('processing'));
+
+      var originalName = state.files[0].name.replace(/\.pdf$/i, '');
+      showResult(croppedBytes, originalName + '_cropped.pdf', 'application/pdf', state.files[0].size);
+      showToast(t('toastSuccess'));
+    } catch (err) {
+      console.error('Crop error:', err);
+      showToast(t('errorGeneric'));
+    }
+
+    state.processing = false;
+    hideProgress();
+    updateUI();
+  }
+
+  // ==================
   // Action dispatcher
   // ==================
   function executeAction() {
@@ -2334,6 +2711,7 @@
       case 'split': splitPDF(); break;
       case 'compress': compressPDF(); break;
       case 'img2pdf': imagesToPDF(); break;
+      case 'crop': cropPDF(); break;
     }
   }
 
