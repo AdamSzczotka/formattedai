@@ -1799,8 +1799,13 @@
     var showEditor = isEditorTab && hasFiles;
     if (editorArea) editorArea.hidden = !showEditor;
 
-    // Hide file list & options panel when editor is active
+    // Full-width editor mode: hide divider + right panel
+    var workspace = document.querySelector('.workspace');
+    if (workspace) workspace.classList.toggle('workspace--editor', showEditor);
+
+    // Hide file list, drop zone & options panel when editor is active
     if (dom.fileListArea && showEditor) dom.fileListArea.hidden = true;
+    if (dom.dropZone && showEditor) dom.dropZone.hidden = true;
     var optionsPanel = document.getElementById('optionsPanel');
     if (optionsPanel) optionsPanel.hidden = isEditorTab || !hasFiles;
 
@@ -2684,6 +2689,18 @@
     imgInput.id = 'annotateImageInput';
     imgInput.addEventListener('change', onAnnotateImageSelected);
 
+    // Save button in toolbar
+    var sep3 = document.createElement('span');
+    sep3.className = 'annotate-toolbar__sep';
+    toolbar.appendChild(sep3);
+
+    var saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.className = 'annotate-toolbar__save';
+    saveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> ' + t('download');
+    saveBtn.addEventListener('click', function () { saveAnnotatedPDF(); });
+    toolbar.appendChild(saveBtn);
+
     container.appendChild(toolbar);
     container.appendChild(nav);
     container.appendChild(canvasWrap);
@@ -2877,26 +2894,96 @@
     };
   }
 
+  function showAnnotateInlineInput(pos) {
+    removeAnnotatePopover();
+    var wrap = document.getElementById('annotateCanvasWrap');
+    if (!wrap) return;
+
+    var popover = document.createElement('div');
+    popover.className = 'annotate-popover';
+    popover.id = 'annotatePopover';
+    popover.style.left = (pos.x * annotateScale) + 'px';
+    popover.style.top = (pos.y * annotateScale) + 'px';
+
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'annotate-popover__input';
+    input.placeholder = t('annotateTextPrompt');
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && input.value.trim()) {
+        addAnnotation({ type: 'text', text: input.value.trim(), pos: pos, color: state.annotateColor, fontSize: 14 });
+        removeAnnotatePopover();
+      } else if (e.key === 'Escape') {
+        removeAnnotatePopover();
+      }
+    });
+
+    var okBtn = document.createElement('button');
+    okBtn.type = 'button';
+    okBtn.className = 'annotate-popover__btn';
+    okBtn.textContent = 'OK';
+    okBtn.addEventListener('click', function () {
+      if (input.value.trim()) {
+        addAnnotation({ type: 'text', text: input.value.trim(), pos: pos, color: state.annotateColor, fontSize: 14 });
+      }
+      removeAnnotatePopover();
+    });
+
+    popover.appendChild(input);
+    popover.appendChild(okBtn);
+    wrap.appendChild(popover);
+    input.focus();
+  }
+
+  function showAnnotateStampPicker(pos) {
+    removeAnnotatePopover();
+    var wrap = document.getElementById('annotateCanvasWrap');
+    if (!wrap) return;
+
+    var stamps = [
+      { key: 'annotateStampDraft', label: t('annotateStampDraft') },
+      { key: 'annotateStampApproved', label: t('annotateStampApproved') },
+      { key: 'annotateStampConfidential', label: t('annotateStampConfidential') },
+    ];
+
+    var popover = document.createElement('div');
+    popover.className = 'annotate-popover annotate-popover--stamps';
+    popover.id = 'annotatePopover';
+    popover.style.left = (pos.x * annotateScale) + 'px';
+    popover.style.top = (pos.y * annotateScale) + 'px';
+
+    stamps.forEach(function (s) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'annotate-popover__stamp';
+      btn.textContent = s.label;
+      btn.addEventListener('click', function () {
+        addAnnotation({ type: 'stamp', text: s.label, pos: pos, color: state.annotateColor });
+        removeAnnotatePopover();
+      });
+      popover.appendChild(btn);
+    });
+
+    wrap.appendChild(popover);
+  }
+
+  function removeAnnotatePopover() {
+    var existing = document.getElementById('annotatePopover');
+    if (existing) existing.remove();
+  }
+
   function onAnnotateMouseDown(e) {
     var tool = state.annotateTool;
     if (tool === 'cursor' || tool === 'signature' || tool === 'image') return;
     var pos = getAnnotatePos(e);
 
     if (tool === 'text') {
-      var text = prompt(t('annotateTextPrompt'));
-      if (text) {
-        addAnnotation({ type: 'text', text: text, pos: pos, color: state.annotateColor, fontSize: 14 });
-      }
+      showAnnotateInlineInput(pos);
       return;
     }
 
     if (tool === 'stamp') {
-      var stamps = [t('annotateStampDraft'), t('annotateStampApproved'), t('annotateStampConfidential')];
-      var choice = prompt(t('annotateStampPrompt') + '\n1. ' + stamps[0] + '\n2. ' + stamps[1] + '\n3. ' + stamps[2], '1');
-      var idx = parseInt(choice, 10) - 1;
-      if (idx >= 0 && idx < stamps.length) {
-        addAnnotation({ type: 'stamp', text: stamps[idx], pos: pos, color: state.annotateColor });
-      }
+      showAnnotateStampPicker(pos);
       return;
     }
 
@@ -3493,7 +3580,14 @@
     flattenLabel.appendChild(flattenCb);
     flattenLabel.appendChild(flattenText);
 
+    var formsSaveBtn = document.createElement('button');
+    formsSaveBtn.type = 'button';
+    formsSaveBtn.className = 'annotate-toolbar__save';
+    formsSaveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> ' + t('formsBtnText');
+    formsSaveBtn.addEventListener('click', function () { saveFormPDF(); });
+
     optionsRow.appendChild(flattenLabel);
+    optionsRow.appendChild(formsSaveBtn);
 
     container.appendChild(nav);
     container.appendChild(canvasWrap);
@@ -3821,8 +3915,15 @@
       drawCropOverlay();
     });
 
+    var cropSaveBtn = document.createElement('button');
+    cropSaveBtn.type = 'button';
+    cropSaveBtn.className = 'annotate-toolbar__save';
+    cropSaveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> ' + t('cropBtnText');
+    cropSaveBtn.addEventListener('click', function () { cropPDF(); });
+
     optionsRow.appendChild(applyAllLabel);
     optionsRow.appendChild(resetBtn);
+    optionsRow.appendChild(cropSaveBtn);
 
     container.appendChild(nav);
     container.appendChild(hint);
