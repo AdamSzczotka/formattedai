@@ -2972,10 +2972,46 @@
     if (existing) existing.remove();
   }
 
+  // Drag-to-move state for annotations
+  var annotateDragTarget = null; // { annIndex, offsetX, offsetY }
+
+  function hitTestAnnotation(pos) {
+    var anns = getPageAnnotations();
+    // Reverse order — top-most first
+    for (var i = anns.length - 1; i >= 0; i--) {
+      var ann = anns[i];
+      if (ann.rect) {
+        if (pos.x >= ann.rect.x && pos.x <= ann.rect.x + ann.rect.w &&
+            pos.y >= ann.rect.y && pos.y <= ann.rect.y + ann.rect.h) {
+          return { annIndex: i, offsetX: pos.x - ann.rect.x, offsetY: pos.y - ann.rect.y };
+        }
+      } else if (ann.pos) {
+        // Text/stamp — hit area ~100x30 from pos
+        var tw = 120, th = 30;
+        if (pos.x >= ann.pos.x - 5 && pos.x <= ann.pos.x + tw &&
+            pos.y >= ann.pos.y - th && pos.y <= ann.pos.y + 5) {
+          return { annIndex: i, offsetX: pos.x - ann.pos.x, offsetY: pos.y - ann.pos.y };
+        }
+      }
+    }
+    return null;
+  }
+
   function onAnnotateMouseDown(e) {
     var tool = state.annotateTool;
-    if (tool === 'cursor' || tool === 'signature' || tool === 'image') return;
     var pos = getAnnotatePos(e);
+
+    // Cursor tool: try to grab an annotation to drag
+    if (tool === 'cursor') {
+      var hit = hitTestAnnotation(pos);
+      if (hit) {
+        annotateDragTarget = hit;
+        annotateDrawCanvas.style.cursor = 'grabbing';
+      }
+      return;
+    }
+
+    if (tool === 'signature' || tool === 'image') return;
 
     if (tool === 'text') {
       showAnnotateInlineInput(pos);
@@ -2996,6 +3032,24 @@
   }
 
   function onAnnotateMouseMove(e) {
+    // Handle drag-to-move
+    if (annotateDragTarget) {
+      var pos = getAnnotatePos(e);
+      var anns = getPageAnnotations();
+      var ann = anns[annotateDragTarget.annIndex];
+      if (ann) {
+        if (ann.rect) {
+          ann.rect.x = pos.x - annotateDragTarget.offsetX;
+          ann.rect.y = pos.y - annotateDragTarget.offsetY;
+        } else if (ann.pos) {
+          ann.pos.x = pos.x - annotateDragTarget.offsetX;
+          ann.pos.y = pos.y - annotateDragTarget.offsetY;
+        }
+        redrawAnnotations();
+      }
+      return;
+    }
+
     if (!annotateDrawing) return;
     var tool = state.annotateTool;
     var pos = getAnnotatePos(e);
@@ -3026,30 +3080,15 @@
     }
   }
 
-  function onAnnotateMouseUp() {
-    if (!annotateDrawing) return;
-    annotateDrawing = false;
-    var tool = state.annotateTool;
-
-    if (tool === 'pen' && annotateCurrentPath.length > 1) {
-      addAnnotation({
-        type: 'pen',
-        points: annotateCurrentPath.slice(),
-        color: state.annotateColor,
-        stroke: state.annotateStroke,
-      });
-    } else if (annotateShapeStart) {
-      var pos = annotateCurrentPath.length > 0 ? annotateCurrentPath[annotateCurrentPath.length - 1] : annotateShapeStart;
-      // Get last mouse position from the draw canvas — use stored value
+  // onAnnotateMouseUp — handles shapes + drag release
+  function onAnnotateMouseUp(e) {
+    // Release drag
+    if (annotateDragTarget) {
+      annotateDragTarget = null;
+      if (annotateDrawCanvas) annotateDrawCanvas.style.cursor = state.annotateTool === 'cursor' ? 'default' : 'crosshair';
+      return;
     }
 
-    annotateCurrentPath = [];
-    annotateShapeStart = null;
-  }
-
-  // Override onAnnotateMouseUp for shapes
-  var origMouseUp = onAnnotateMouseUp;
-  onAnnotateMouseUp = function (e) {
     if (!annotateDrawing) return;
     annotateDrawing = false;
     var tool = state.annotateTool;
@@ -3069,7 +3108,7 @@
 
     annotateCurrentPath = [];
     annotateShapeStart = null;
-  };
+  }
 
   function buildShapeAnnotation(tool, start, end) {
     var x = Math.min(start.x, end.x);
