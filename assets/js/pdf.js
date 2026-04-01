@@ -2685,7 +2685,7 @@
     var imgInput = document.createElement('input');
     imgInput.type = 'file';
     imgInput.accept = 'image/*';
-    imgInput.hidden = true;
+    imgInput.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;opacity:0;';
     imgInput.id = 'annotateImageInput';
     imgInput.addEventListener('change', onAnnotateImageSelected);
 
@@ -3203,19 +3203,24 @@
   function onAnnotateImageSelected(e) {
     var file = e.target.files[0];
     if (!file) return;
-    var img = new Image();
-    img.onload = function () {
-      var w = Math.min(img.width, 200);
-      var h = img.height * (w / img.width);
-      addAnnotation({
-        type: 'image',
-        imgEl: img,
-        rect: { x: 50, y: 50, w: w, h: h },
-        imgData: img.src,
-      });
-      setAnnotateTool('cursor');
+    var reader = new FileReader();
+    reader.onload = function (re) {
+      var dataUrl = re.target.result;
+      var img = new Image();
+      img.onload = function () {
+        var w = Math.min(img.width, 200);
+        var h = img.height * (w / img.width);
+        addAnnotation({
+          type: 'image',
+          imgEl: img,
+          rect: { x: 50, y: 50, w: w, h: h },
+          imgData: dataUrl,
+        });
+        setAnnotateTool('cursor');
+      };
+      img.src = dataUrl;
     };
-    img.src = URL.createObjectURL(file);
+    reader.readAsDataURL(file);
     e.target.value = '';
   }
 
