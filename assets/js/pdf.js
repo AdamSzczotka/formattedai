@@ -124,6 +124,10 @@
       mergePageMode: 'Tryb stron',
       mergeFileMode: 'Tryb plików',
       mergePageModeHint: 'Przeciągnij strony aby zmienić kolejność',
+      fullscreenOpen: 'Pełny ekran',
+      fullscreenClose: 'Zamknij',
+      fullscreenTitle: 'Kolejność stron',
+      fullscreenHint: 'Przeciągnij strony aby zmienić kolejność. Kliknij ✕ aby usunąć stronę.',
       toastDone: 'Gotowe!',
       inputTitle: 'Pliki',
       outputTitle: 'Wynik',
@@ -236,6 +240,10 @@
       mergePageMode: 'Page mode',
       mergeFileMode: 'File mode',
       mergePageModeHint: 'Drag pages to reorder',
+      fullscreenOpen: 'Fullscreen',
+      fullscreenClose: 'Close',
+      fullscreenTitle: 'Page order',
+      fullscreenHint: 'Drag pages to reorder. Click ✕ to remove a page.',
       toastDone: 'Done!',
       inputTitle: 'Files',
       outputTitle: 'Result',
@@ -496,6 +504,7 @@
     state.mergePageMode = false;
     state.mergePages = [];
     mergePdfDocs = [];
+    if (fullscreenOverlay && !fullscreenOverlay.hidden) closeFullscreenPageView();
 
     // Clear state when switching
     clearFiles();
@@ -1044,7 +1053,10 @@
     state.splitPages.splice(destIndex, 0, moved);
     splitDragSrcIndex = null;
 
-    // Re-render grid preserving thumbnail state
+    // Reset thumbnail flags — old canvases are destroyed by innerHTML = ''
+    state.splitPages.forEach(function (p) { p.thumbnailRendered = false; });
+
+    // Re-render grid
     if (splitPdfDocRef) {
       renderSplitGrid(splitPdfDocRef);
     }
@@ -1126,6 +1138,7 @@
       mergePdfDocs = [];
       if (dom.splitPageGrid) dom.splitPageGrid.innerHTML = '';
     }
+    updateUI();
   }
 
   function updateMergePageModeUI() {
@@ -1275,6 +1288,9 @@
     state.mergePages.splice(destIndex, 0, moved);
     mergePageDragSrcIndex = null;
 
+    // Reset thumbnail flags — old canvases are destroyed by innerHTML = ''
+    state.mergePages.forEach(function (p) { p.thumbnailRendered = false; });
+
     renderMergePageGrid();
   }
 
@@ -1284,6 +1300,244 @@
     if (dom.splitPageGrid) {
       dom.splitPageGrid.querySelectorAll('.pdf-pages__item--drag-over').forEach(function (el) {
         el.classList.remove('pdf-pages__item--drag-over');
+      });
+    }
+  }
+
+  // ==================
+  // Fullscreen page reorder overlay
+  // ==================
+  var fullscreenOverlay = null;
+  var fullscreenGrid = null;
+  var fullscreenDragSrcIndex = null;
+
+  function openFullscreenPageView() {
+    if (state.mergePages.length === 0) return;
+    createFullscreenOverlay();
+    renderFullscreenGrid();
+    fullscreenOverlay.hidden = false;
+    requestAnimationFrame(function () {
+      fullscreenOverlay.classList.add('show');
+    });
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFullscreenPageView() {
+    if (!fullscreenOverlay) return;
+    fullscreenOverlay.classList.remove('show');
+    setTimeout(function () {
+      fullscreenOverlay.hidden = true;
+      document.body.style.overflow = '';
+    }, 200);
+    // Sync back to inline grid
+    renderMergePageGrid();
+  }
+
+  function createFullscreenOverlay() {
+    if (fullscreenOverlay) return;
+
+    fullscreenOverlay = document.createElement('div');
+    fullscreenOverlay.className = 'fs-pages-overlay';
+    fullscreenOverlay.id = 'fullscreenPagesOverlay';
+    fullscreenOverlay.hidden = true;
+
+    var container = document.createElement('div');
+    container.className = 'fs-pages';
+
+    // Header
+    var header = document.createElement('div');
+    header.className = 'fs-pages__header';
+
+    var titleWrap = document.createElement('div');
+    titleWrap.className = 'fs-pages__title-wrap';
+
+    var title = document.createElement('h2');
+    title.className = 'fs-pages__title';
+    title.textContent = t('fullscreenTitle');
+
+    var hint = document.createElement('p');
+    hint.className = 'fs-pages__hint';
+    hint.textContent = t('fullscreenHint');
+
+    var count = document.createElement('span');
+    count.className = 'fs-pages__count';
+    count.id = 'fsPageCount';
+
+    titleWrap.appendChild(title);
+    titleWrap.appendChild(hint);
+
+    var closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'fs-pages__close';
+    closeBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+    closeBtn.title = t('fullscreenClose');
+    closeBtn.addEventListener('click', closeFullscreenPageView);
+
+    header.appendChild(titleWrap);
+    header.appendChild(count);
+    header.appendChild(closeBtn);
+
+    // Grid
+    fullscreenGrid = document.createElement('div');
+    fullscreenGrid.className = 'fs-pages__grid';
+
+    container.appendChild(header);
+    container.appendChild(fullscreenGrid);
+    fullscreenOverlay.appendChild(container);
+
+    // Close on overlay click
+    fullscreenOverlay.addEventListener('click', function (e) {
+      if (e.target === fullscreenOverlay) closeFullscreenPageView();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && fullscreenOverlay && !fullscreenOverlay.hidden) {
+        closeFullscreenPageView();
+      }
+    });
+
+    document.body.appendChild(fullscreenOverlay);
+  }
+
+  function renderFullscreenGrid() {
+    if (!fullscreenGrid) return;
+    fullscreenGrid.innerHTML = '';
+
+    var countEl = document.getElementById('fsPageCount');
+    if (countEl) countEl.textContent = state.mergePages.length + ' ' + (currentLang === 'pl' ? 'stron' : 'pages');
+
+    state.mergePages.forEach(function (pageInfo, idx) {
+      var card = document.createElement('div');
+      card.className = 'fs-pages__item';
+      card.dataset.index = idx;
+      card.setAttribute('draggable', 'true');
+
+      // Drag events
+      card.addEventListener('dragstart', onFsDragStart);
+      card.addEventListener('dragover', onFsDragOver);
+      card.addEventListener('dragenter', onFsDragEnter);
+      card.addEventListener('dragleave', onFsDragLeave);
+      card.addEventListener('drop', onFsDrop);
+      card.addEventListener('dragend', onFsDragEnd);
+
+      // Card wrapper (contains thumb + badge + remove)
+      var cardInner = document.createElement('div');
+      cardInner.className = 'fs-pages__card';
+
+      var thumbDiv = document.createElement('div');
+      thumbDiv.className = 'fs-pages__thumb';
+
+      var badge = document.createElement('span');
+      badge.className = 'fs-pages__badge';
+      badge.textContent = (idx + 1);
+
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'fs-pages__remove';
+      removeBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+      removeBtn.title = t('removeFile');
+      (function (i) {
+        removeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          state.mergePages.splice(i, 1);
+          renderFullscreenGrid();
+        });
+      })(idx);
+
+      cardInner.appendChild(thumbDiv);
+      cardInner.appendChild(badge);
+      cardInner.appendChild(removeBtn);
+
+      // Label (outside card, always visible below)
+      var label = document.createElement('span');
+      label.className = 'fs-pages__label';
+      var fileName = state.files[pageInfo.fileIndex] ? state.files[pageInfo.fileIndex].name : '';
+      var shortName = fileName.length > 25 ? fileName.substring(0, 22) + '...' : fileName;
+      label.textContent = shortName + ' — ' + t('pageLabel') + ' ' + (pageInfo.pageNum + 1);
+      label.title = fileName + ' — ' + t('pageLabel') + ' ' + (pageInfo.pageNum + 1);
+
+      card.appendChild(cardInner);
+      card.appendChild(label);
+      fullscreenGrid.appendChild(card);
+
+      // Render thumbnail
+      var pdfDoc = mergePdfDocs[pageInfo.fileIndex];
+      if (pdfDoc) {
+        (function (pi, td, doc) {
+          var observer = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                renderFsThumbnail(doc, pi.pageNum, td);
+                obs.unobserve(entry.target);
+              }
+            });
+          }, { root: fullscreenGrid, rootMargin: '300px' });
+          observer.observe(card);
+        })(pageInfo, thumbDiv, pdfDoc);
+      }
+    });
+  }
+
+  function renderFsThumbnail(pdfDoc, pageNum, container) {
+    pdfDoc.getPage(pageNum + 1).then(function (page) {
+      var viewport = page.getViewport({ scale: 1 });
+      var scale = 220 / viewport.height;
+      var scaledViewport = page.getViewport({ scale: scale });
+
+      var canvas = document.createElement('canvas');
+      canvas.width = Math.floor(scaledViewport.width);
+      canvas.height = Math.floor(scaledViewport.height);
+      var ctx = canvas.getContext('2d');
+
+      page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+        container.innerHTML = '';
+        container.appendChild(canvas);
+      });
+    });
+  }
+
+  // Fullscreen drag & drop
+  function onFsDragStart(e) {
+    fullscreenDragSrcIndex = parseInt(this.dataset.index, 10);
+    this.classList.add('fs-pages__item--dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', String(fullscreenDragSrcIndex));
+  }
+
+  function onFsDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }
+
+  function onFsDragEnter(e) {
+    e.preventDefault();
+    this.classList.add('fs-pages__item--drag-over');
+  }
+
+  function onFsDragLeave() {
+    this.classList.remove('fs-pages__item--drag-over');
+  }
+
+  function onFsDrop(e) {
+    e.preventDefault();
+    this.classList.remove('fs-pages__item--drag-over');
+    var destIndex = parseInt(this.dataset.index, 10);
+    if (fullscreenDragSrcIndex === null || fullscreenDragSrcIndex === destIndex) return;
+
+    var moved = state.mergePages.splice(fullscreenDragSrcIndex, 1)[0];
+    state.mergePages.splice(destIndex, 0, moved);
+    fullscreenDragSrcIndex = null;
+
+    renderFullscreenGrid();
+  }
+
+  function onFsDragEnd() {
+    this.classList.remove('fs-pages__item--dragging');
+    fullscreenDragSrcIndex = null;
+    if (fullscreenGrid) {
+      fullscreenGrid.querySelectorAll('.fs-pages__item--drag-over').forEach(function (el) {
+        el.classList.remove('fs-pages__item--drag-over');
       });
     }
   }
@@ -1358,8 +1612,27 @@
     if (optionsPanel) optionsPanel.hidden = !hasFiles;
 
     // Show/hide tab-specific controls
-    if (dom.splitControls) dom.splitControls.hidden = state.activeTab !== 'split' || !hasFiles;
+    var showSplitControls = (state.activeTab === 'split' && hasFiles) ||
+                            (state.activeTab === 'merge' && state.mergePageMode && hasFiles);
+    if (dom.splitControls) dom.splitControls.hidden = !showSplitControls;
     if (dom.compressControls) dom.compressControls.hidden = state.activeTab !== 'compress' || !hasFiles;
+
+    // Hide split-only UI elements when in merge page mode
+    if (dom.splitControls && state.activeTab === 'merge' && state.mergePageMode) {
+      var selectAllBtn = document.getElementById('selectAllBtn');
+      var deselectAllBtn = document.getElementById('deselectAllBtn');
+      var splitSeparateCb = document.getElementById('splitSeparate');
+      if (selectAllBtn) selectAllBtn.hidden = true;
+      if (deselectAllBtn) deselectAllBtn.hidden = true;
+      if (splitSeparateCb && splitSeparateCb.parentElement) splitSeparateCb.parentElement.hidden = true;
+    } else if (dom.splitControls && state.activeTab === 'split') {
+      var selectAllBtn2 = document.getElementById('selectAllBtn');
+      var deselectAllBtn2 = document.getElementById('deselectAllBtn');
+      var splitSeparateCb2 = document.getElementById('splitSeparate');
+      if (selectAllBtn2) selectAllBtn2.hidden = false;
+      if (deselectAllBtn2) deselectAllBtn2.hidden = false;
+      if (splitSeparateCb2 && splitSeparateCb2.parentElement) splitSeparateCb2.parentElement.hidden = false;
+    }
 
     // Divider disabled state
     if (dom.divider) {
@@ -1376,9 +1649,13 @@
 
     // Merge page mode toggle visibility
     ensureMergePageModeToggle();
-    var toggleBtn = document.getElementById('mergePageModeToggle');
-    if (toggleBtn) {
-      toggleBtn.hidden = !(state.activeTab === 'merge' && hasFiles);
+    var mergeWrap = document.getElementById('mergePageModeWrap');
+    if (mergeWrap) {
+      mergeWrap.hidden = !(state.activeTab === 'merge' && hasFiles);
+    }
+    var fsBtn = document.getElementById('mergeFullscreenBtn');
+    if (fsBtn) {
+      fsBtn.hidden = !(state.mergePageMode && hasFiles);
     }
 
     // Show split page grid container when in merge page mode
@@ -1395,9 +1672,14 @@
 
   function ensureMergePageModeToggle() {
     if (document.getElementById('mergePageModeToggle')) return;
-    // Create the toggle button and insert it into the options panel area
     var optionsPanel = document.getElementById('optionsPanel');
     if (!optionsPanel) return;
+
+    // Wrapper for both buttons
+    var wrap = document.createElement('div');
+    wrap.className = 'options-panel__merge-actions';
+    wrap.id = 'mergePageModeWrap';
+    wrap.hidden = true;
 
     var toggleBtn = document.createElement('button');
     toggleBtn.type = 'button';
@@ -1405,15 +1687,23 @@
     toggleBtn.className = 'options-panel__preset';
     toggleBtn.setAttribute('data-i18n', 'mergePageMode');
     toggleBtn.textContent = t('mergePageMode');
-    toggleBtn.hidden = true;
-    toggleBtn.style.marginBottom = '0.5rem';
-
     toggleBtn.addEventListener('click', function () {
       toggleMergePageMode();
     });
 
-    // Insert at the beginning of the options panel
-    optionsPanel.insertBefore(toggleBtn, optionsPanel.firstChild);
+    var fsBtn = document.createElement('button');
+    fsBtn.type = 'button';
+    fsBtn.id = 'mergeFullscreenBtn';
+    fsBtn.className = 'options-panel__preset';
+    fsBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 5V1h4M9 1h4v4M13 9v4H9M5 13H1V9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> ' + t('fullscreenOpen');
+    fsBtn.hidden = true;
+    fsBtn.addEventListener('click', function () {
+      openFullscreenPageView();
+    });
+
+    wrap.appendChild(toggleBtn);
+    wrap.appendChild(fsBtn);
+    optionsPanel.insertBefore(wrap, optionsPanel.firstChild);
   }
 
   // ==================
