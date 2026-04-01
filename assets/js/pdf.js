@@ -2544,6 +2544,7 @@
         annotatePdfDocRef = pdfDoc;
         state.annotateTotalPages = pdfDoc.numPages;
         ensureAnnotateUI();
+        updateUI();
         renderAnnotatePage();
         updateAnnotateNav();
       }).catch(function () {
@@ -3593,6 +3594,7 @@
           formsPdfDocRef = pdfDoc;
           state.formsTotalPages = pdfDoc.numPages;
           ensureFormsUI();
+          updateUI();
           renderFormsPage();
           updateFormsNav();
         });
@@ -3911,6 +3913,7 @@
         cropPdfDocRef = pdfDoc;
         state.cropTotalPages = pdfDoc.numPages;
         ensureCropUI();
+        updateUI();
         renderCropPage();
         updateCropNav();
       }).catch(function () {
