@@ -2653,9 +2653,35 @@
     nextBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     nextBtn.addEventListener('click', function () { annotateNavigate(1); });
 
+    // Zoom controls
+    var zoomWrap = document.createElement('span');
+    zoomWrap.className = 'annotate-container__zoom';
+
+    var zoomOut = document.createElement('button');
+    zoomOut.type = 'button';
+    zoomOut.className = 'btn btn--ghost btn--sm';
+    zoomOut.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+    zoomOut.addEventListener('click', function () { annotateZoom(-0.25); });
+
+    var zoomLabel = document.createElement('span');
+    zoomLabel.className = 'annotate-container__zoom-label';
+    zoomLabel.id = 'annotateZoomLabel';
+    zoomLabel.textContent = '100%';
+
+    var zoomIn = document.createElement('button');
+    zoomIn.type = 'button';
+    zoomIn.className = 'btn btn--ghost btn--sm';
+    zoomIn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+    zoomIn.addEventListener('click', function () { annotateZoom(0.25); });
+
+    zoomWrap.appendChild(zoomOut);
+    zoomWrap.appendChild(zoomLabel);
+    zoomWrap.appendChild(zoomIn);
+
     nav.appendChild(prevBtn);
     nav.appendChild(pageLabel);
     nav.appendChild(nextBtn);
+    nav.appendChild(zoomWrap);
 
     // Canvas area
     var canvasWrap = document.createElement('div');
@@ -2728,20 +2754,30 @@
     }
   }
 
+  var annotateUserZoom = 1.0; // user-controlled zoom multiplier
+
   function renderAnnotatePage() {
     if (!annotatePdfDocRef || !annotateCanvasEl) return;
 
     annotatePdfDocRef.getPage(state.annotateCurrentPage + 1).then(function (page) {
       var viewport = page.getViewport({ scale: 1 });
+
+      // Calculate base scale to fit container, then apply user zoom
       var wrapEl = document.getElementById('annotateCanvasWrap');
-      var maxW = wrapEl ? wrapEl.clientWidth - 4 : 500;
-      annotateScale = Math.min(maxW / viewport.width, 700 / viewport.height);
+      var containerW = wrapEl ? wrapEl.clientWidth : 0;
+      if (containerW < 100) containerW = 600; // fallback when hidden
+
+      var baseScale = containerW / viewport.width;
+      annotateScale = baseScale * annotateUserZoom;
       var scaledViewport = page.getViewport({ scale: annotateScale });
 
-      annotateCanvasEl.width = Math.floor(scaledViewport.width);
-      annotateCanvasEl.height = Math.floor(scaledViewport.height);
-      annotateDrawCanvas.width = annotateCanvasEl.width;
-      annotateDrawCanvas.height = annotateCanvasEl.height;
+      var w = Math.floor(scaledViewport.width);
+      var h = Math.floor(scaledViewport.height);
+
+      annotateCanvasEl.width = w;
+      annotateCanvasEl.height = h;
+      annotateDrawCanvas.width = w;
+      annotateDrawCanvas.height = h;
 
       var ctx = annotateCanvasEl.getContext('2d');
       page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
@@ -2797,6 +2833,8 @@
 
   function drawAnnotation(ctx, ann) {
     var s = annotateScale;
+    if (!s || s <= 0) return;
+    try {
     ctx.save();
     ctx.strokeStyle = ann.color || '#ef4444';
     ctx.fillStyle = ann.color || '#ef4444';
@@ -2872,17 +2910,22 @@
         ctx.fillText(stampText, px, py);
         break;
       case 'image':
-        if (ann.imgEl) {
-          ctx.drawImage(ann.imgEl, ann.rect.x * s, ann.rect.y * s, ann.rect.w * s, ann.rect.h * s);
-        }
-        break;
       case 'signature':
-        if (ann.imgEl) {
+        if (ann.imgEl && ann.imgEl.complete && ann.imgEl.naturalWidth > 0) {
           ctx.drawImage(ann.imgEl, ann.rect.x * s, ann.rect.y * s, ann.rect.w * s, ann.rect.h * s);
+        } else if (ann.imgData) {
+          // Reload image from stored dataURL
+          var reloadImg = new Image();
+          reloadImg.onload = function () {
+            ann.imgEl = reloadImg;
+            redrawAnnotations();
+          };
+          reloadImg.src = ann.imgData;
         }
         break;
     }
     ctx.restore();
+    } catch (err) { console.warn('drawAnnotation error:', err); }
   }
 
   // Mouse/touch handlers for annotate
@@ -3263,6 +3306,13 @@
     e.target.value = '';
   }
 
+  function annotateZoom(delta) {
+    annotateUserZoom = Math.max(0.25, Math.min(4, annotateUserZoom + delta));
+    var label = document.getElementById('annotateZoomLabel');
+    if (label) label.textContent = Math.round(annotateUserZoom * 100) + '%';
+    renderAnnotatePage();
+  }
+
   function annotateNavigate(delta) {
     var newPage = state.annotateCurrentPage + delta;
     if (newPage < 0 || newPage >= state.annotateTotalPages) return;
@@ -3639,14 +3689,17 @@
     editorArea.appendChild(container);
   }
 
+  var formsUserZoom = 1.0;
+
   function renderFormsPage() {
     if (!formsPdfDocRef || !formsCanvasEl) return;
 
     formsPdfDocRef.getPage(state.formsCurrentPage + 1).then(function (page) {
       var viewport = page.getViewport({ scale: 1 });
       var wrapEl = document.getElementById('formsCanvasWrap');
-      var maxW = wrapEl ? wrapEl.clientWidth - 4 : 500;
-      formsScale = Math.min(maxW / viewport.width, 700 / viewport.height);
+      var containerW = wrapEl ? wrapEl.clientWidth : 0;
+      if (containerW < 100) containerW = 600;
+      formsScale = (containerW / viewport.width) * formsUserZoom;
       var scaledViewport = page.getViewport({ scale: formsScale });
 
       formsCanvasEl.width = Math.floor(scaledViewport.width);
@@ -3976,15 +4029,17 @@
     editorArea.appendChild(container);
   }
 
+  var cropUserZoom = 1.0;
+
   function renderCropPage() {
     if (!cropPdfDocRef || !cropCanvasEl) return;
 
     cropPdfDocRef.getPage(state.cropCurrentPage + 1).then(function (page) {
       var viewport = page.getViewport({ scale: 1 });
-      // Fit canvas to container width
       var wrapEl = document.getElementById('cropCanvasWrap');
-      var maxW = wrapEl ? wrapEl.clientWidth - 4 : 500;
-      cropScale = Math.min(maxW / viewport.width, 600 / viewport.height);
+      var containerW = wrapEl ? wrapEl.clientWidth : 0;
+      if (containerW < 100) containerW = 600;
+      cropScale = (containerW / viewport.width) * cropUserZoom;
       var scaledViewport = page.getViewport({ scale: cropScale });
 
       cropCanvasEl.width = Math.floor(scaledViewport.width);
