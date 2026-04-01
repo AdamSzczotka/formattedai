@@ -72,6 +72,9 @@
       errorCorruptPdf: 'Nie można otworzyć pliku PDF. Plik może być uszkodzony lub zaszyfrowany.',
       errorFileTooLarge: 'Plik za duży (max 100 MB)',
       errorTooManyFiles: 'Za dużo plików (max 20)',
+      advancedUnlockFiles: 'Osiągnięto limit 20 plików. Odblokować limit? Duża liczba plików może spowolnić przeglądarkę.',
+      advancedUnlockSize: 'Plik przekracza 100 MB. Kontynuować? Duże pliki mogą spowolnić przeglądarkę.',
+      advancedUnlockPages: 'PDF ma więcej niż 200 stron. Załadować wszystkie? Może to chwilę potrwać.',
       errorInvalidType: 'Nieobsługiwany format pliku',
       errorNoFiles: 'Dodaj pliki aby kontynuować',
       errorEncryptedPdf: 'PDF jest zaszyfrowany. Odblokuj go przed przetwarzaniem.',
@@ -191,6 +194,9 @@
       errorCorruptPdf: 'Cannot open PDF file. The file may be corrupted or encrypted.',
       errorFileTooLarge: 'File too large (max 100 MB)',
       errorTooManyFiles: 'Too many files (max 20)',
+      advancedUnlockFiles: 'Reached 20 file limit. Unlock limit? Large number of files may slow down your browser.',
+      advancedUnlockSize: 'File exceeds 100 MB. Continue? Large files may slow down your browser.',
+      advancedUnlockPages: 'PDF has more than 200 pages. Load all? This may take a moment.',
       errorInvalidType: 'Unsupported file format',
       errorNoFiles: 'Add files to continue',
       errorEncryptedPdf: 'PDF is encrypted. Unlock it before processing.',
@@ -283,6 +289,7 @@
     lastShiftIndex: -1,  // for shift+click range select in split
     mergePageMode: false, // false = file order, true = page order
     mergePages: [],       // { fileIndex, pageNum, thumbnailRendered }
+    advancedMode: { files: false, size: false, pages: false },
   };
 
   // ==================
@@ -601,9 +608,12 @@
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
 
-      if (state.files.length >= MAX_FILES) {
-        showToast(t('errorTooManyFiles'));
-        break;
+      if (!state.advancedMode.files && state.files.length >= MAX_FILES) {
+        if (confirm(t('advancedUnlockFiles'))) {
+          state.advancedMode.files = true;
+        } else {
+          break;
+        }
       }
 
       // Validate type
@@ -621,8 +631,13 @@
       }
 
       if (file.size > MAX_FILE_SIZE) {
-        showToast(t('errorFileTooLarge'));
-        continue;
+        if (!state.advancedMode.size) {
+          if (confirm(t('advancedUnlockSize'))) {
+            state.advancedMode.size = true;
+          } else {
+            continue;
+          }
+        }
       }
 
       (function (f) {
@@ -698,7 +713,9 @@
     if (dom.fileListArea) dom.fileListArea.hidden = !hasFiles;
     if (dom.dropZone) dom.dropZone.hidden = hasFiles;
     if (dom.fileCountLabel) {
-      dom.fileCountLabel.textContent = state.files.length + ' / ' + MAX_FILES;
+      dom.fileCountLabel.textContent = state.advancedMode.files
+        ? state.files.length + ' / ∞'
+        : state.files.length + ' / ' + MAX_FILES;
     }
 
     // Only show "Add more" for multi-file tabs
@@ -924,7 +941,14 @@
     loadPdfjs().then(function (lib) {
       var loadingTask = lib.getDocument({ data: pdfData.slice() });
       loadingTask.promise.then(function (pdfDoc) {
-        var numPages = Math.min(pdfDoc.numPages, MAX_SPLIT_PAGES);
+        var numPages = pdfDoc.numPages;
+        if (numPages > MAX_SPLIT_PAGES && !state.advancedMode.pages) {
+          if (confirm(t('advancedUnlockPages'))) {
+            state.advancedMode.pages = true;
+          } else {
+            numPages = MAX_SPLIT_PAGES;
+          }
+        }
         state.splitTotalPages = pdfDoc.numPages;
 
         for (var i = 0; i < numPages; i++) {
@@ -1177,7 +1201,7 @@
         mergePdfDocs = [];
         for (var r = 0; r < results.length; r++) {
           mergePdfDocs[results[r].fileIndex] = results[r].pdfDoc;
-          var numPages = Math.min(results[r].pdfDoc.numPages, MAX_SPLIT_PAGES);
+          var numPages = state.advancedMode.pages ? results[r].pdfDoc.numPages : Math.min(results[r].pdfDoc.numPages, MAX_SPLIT_PAGES);
           for (var p = 0; p < numPages; p++) {
             state.mergePages.push({
               fileIndex: results[r].fileIndex,

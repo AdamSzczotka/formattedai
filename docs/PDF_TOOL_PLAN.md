@@ -13,11 +13,42 @@ Status: Zatwierdzony po grill-me session
 3. **Compress** — kompresja PDF (recompression obrazków + metadata strip)
 4. **Image-to-PDF** — konwersja obrazków do PDF
 
-Faza 2 (po MVP):
-- Edycja tekstu / adnotacje
-- Crop / przycinanie stron
-- Wypełnianie formularzy (AcroForm)
-- Advanced mode — odblokowane limity (dla użytkowników z mocnym sprzętem)
+Faza 2 (po MVP) — zatwierdzone po grill-me session 2026-04-01:
+
+### 2.1 Advanced mode (odblokowane limity)
+- Wariant C: ostrzeżenie gdy user uderzy w limit, z opcją odblokowania
+- Zero dodatkowego UI — dialog pojawia się tylko przy przekroczeniu limitu
+- "Uwaga: duże pliki mogą spowolnić przeglądarkę. Kontynuować?"
+- Dotyczy wszystkich tabów (również nowych z Fazy 2)
+
+### 2.2 Crop / przycinanie stron
+- Osobny tab "Przytnij" z ikoną SVG (stroke-based)
+- Podgląd strony na canvas (pdfjs), drag handles do zaznaczania prostokąta
+- Checkbox "Zastosuj do wszystkich stron" (domyślnie ON)
+- Nawigacja strzałkami + numer strony między stronami
+- pdf-lib `page.setCropBox()` do zapisu
+
+### 2.3 Wypełnianie formularzy (AcroForm)
+- Osobny tab "Formularze"
+- Obsługiwane typy pól: text fields, checkboxes, radio buttons, dropdowns
+- Signatures — OUT OF SCOPE (zbyt duży scope, ryzyko prawne)
+- UI: pdfjs render podglądu + natywne HTML inputy pozycjonowane absolutnie nad polami
+- Checkbox "Zablokuj pola po wypełnieniu (flatten)" — domyślnie OFF
+- pdf-lib `getForm()` API
+
+### 2.4 Adnotacje (pełny scope)
+- Osobny tab "Adnotacje"
+- Toolbar na górze podglądu (desktop: rząd ikon, mobile: scroll horyzontalny)
+- Narzędzia: Kursor, Tekst, Pióro/freehand, Highlight/marker, Prostokąt, Okrąg, Linia, Strzałka, Stempel, Podpis odręczny, Obrazek
+- Opcje: Kolor, Grubość, Cofnij/Ponów
+- Podpis odręczny: canvas → PNG z przezroczystym tłem → `embedPng()` w pdf-lib
+- Adnotacje embedded na stałe w page content stream (nie annotation objects)
+- Nawigacja strzałkami + numer strony
+
+### Taby (7 łącznie)
+- Desktop: pełne nazwy w jednym rzędzie
+- Mobile: ikony SVG (stroke-based, spójne z resztą strony) + scroll horyzontalny
+- Merge | Split | Compress | IMG→PDF | Crop | Forms | Annotate
 
 ---
 
