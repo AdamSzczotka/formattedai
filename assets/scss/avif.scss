@@ -518,17 +518,45 @@ body { overflow: hidden; transition: none; }
     padding: 1px 6px; background: rgba(34, 197, 94, 0.1); border-radius: 4px;
   }
 
-  &__bar {
-    height: 4px; width: 100%; background: var(--color-border); border-radius: 2px; overflow: hidden;
-  }
-
-  &__bar-fill {
-    height: 100%; background: linear-gradient(90deg, $color-avif, $color-avif-light);
-    border-radius: 2px; transition: width 0.5s ease;
-  }
-
   &__download {
     flex-shrink: 0; padding: 8px;
+  }
+}
+
+// --- Done Banner ---
+.results-done-banner {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; margin-bottom: 8px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: $radius-sm;
+  color: #16a34a;
+  font-size: 13px; font-weight: 600;
+
+  svg { flex-shrink: 0; }
+
+  &__btn {
+    margin-left: auto;
+    padding: 5px 14px;
+    background: #16a34a; color: #fff;
+    border: none; border-radius: $radius-sm;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.15s ease;
+
+    &:hover { background: #15803d; }
+  }
+
+  [data-theme="dark"] & {
+    background: rgba(34, 197, 94, 0.08);
+    border-color: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+
+    .results-done-banner__btn {
+      background: #22c55e;
+      color: #052e16;
+      &:hover { background: #16a34a; }
+    }
   }
 }
 
