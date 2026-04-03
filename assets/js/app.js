@@ -219,8 +219,8 @@ async function copyFormatted() {
     ]);
 
     showToast(t('toast'));
-    copyBtn.classList.add('btn--success');
-    setTimeout(() => copyBtn.classList.remove('btn--success'), 1500);
+    flashSuccess(copyBtn, 'Skopiowano!');
+    flashSuccess(mobileCopyBtn, 'Skopiowano!');
   } catch (err) {
     const range = document.createRange();
     range.selectNodeContents(preview);
@@ -417,10 +417,28 @@ function clearAll() {
   markdownInput.focus();
 }
 
+// --- Flash success helper ---
+function flashSuccess(btn, successText) {
+  if (!btn) return;
+  var span = btn.querySelector('span');
+  if (!span) return;
+  var origText = span.textContent;
+  btn.classList.add('btn--success');
+  span.textContent = successText;
+  setTimeout(function() {
+    btn.classList.remove('btn--success');
+    span.textContent = origText;
+  }, 2000);
+}
+
 // --- Event listeners ---
 markdownInput.addEventListener('input', renderMarkdown);
 copyBtn.addEventListener('click', copyFormatted);
 clearBtn.addEventListener('click', clearAll);
+
+// Mobile bar
+var mobileCopyBtn = document.getElementById('mobileCopyBtn');
+if (mobileCopyBtn) mobileCopyBtn.addEventListener('click', copyFormatted);
 styleDocsBtn.addEventListener('click', () => setStyle('docs'));
 styleWordBtn.addEventListener('click', () => setStyle('word'));
 if (langToggle) langToggle.addEventListener('click', toggleLanguage);

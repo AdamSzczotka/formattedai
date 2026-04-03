@@ -57,7 +57,9 @@
       "Bash(git -C \"/c/Users/Euforia/Documents/GitHub/formattedai\" log --oneline -10 feature/pdf-tool)",
       "Bash(git -C \"/c/Users/Euforia/Documents/GitHub/formattedai\" log --oneline -10)",
       "Bash(python3:*)",
-      "Bash(ls *.json)"
+      "Bash(ls *.json)",
+      "Bash(grep -o '\\\\.btn[^,{]*{' assets/css/avif.css)",
+      "Bash(grep -rn \"^\\\\.btn\" assets/scss/*.scss)"
     ]
   }
 }

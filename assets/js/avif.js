@@ -194,7 +194,7 @@ const mobileConvertBtn = document.getElementById('mobileConvertBtn');
 const mobileDownloadBtn = document.getElementById('mobileDownloadBtn');
 
 // --- Preset buttons ---
-const presetBtns = document.querySelectorAll('.quality-bar__preset');
+const presetBtns = document.querySelectorAll('.tool-bar__preset');
 
 // --- i18n Engine ---
 function t(key) {
@@ -264,6 +264,20 @@ function showToast(message) {
   toast.querySelector('.toast__text').textContent = message || t('toastConverted');
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// --- Flash success helper ---
+function flashSuccess(btn, successText) {
+  if (!btn) return;
+  var span = btn.querySelector('span');
+  if (!span) return;
+  var origText = span.textContent;
+  btn.classList.add('btn--success');
+  span.textContent = successText;
+  setTimeout(function() {
+    btn.classList.remove('btn--success');
+    span.textContent = origText;
+  }, 2000);
 }
 
 // --- Handle Files ---
@@ -468,6 +482,8 @@ async function convertAll() {
   renderResults();
   updateUI();
   showToast(t('toastConverted'));
+  flashSuccess(convertAllBtn, t('toastConverted'));
+  flashSuccess(mobileConvertBtn, t('toastConverted'));
 }
 
 // --- Render Results ---
@@ -614,7 +630,7 @@ function setQuality(q) {
   qualityValue.textContent = q;
 
   presetBtns.forEach(btn => {
-    btn.classList.toggle('quality-bar__preset--active', Number(btn.dataset.quality) === q);
+    btn.classList.toggle('tool-bar__preset--active', Number(btn.dataset.quality) === q);
   });
 }
 
@@ -658,11 +674,8 @@ clearBtn.addEventListener('click', clearAll);
 convertAllBtn.addEventListener('click', convertAll);
 downloadAllBtn.addEventListener('click', downloadAllZip);
 
-// Divider as convert button
+// Divider click shortcut (no longer a button, but click still works)
 divider.addEventListener('click', convertAll);
-divider.addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); convertAll(); }
-});
 
 browseBtn.addEventListener('click', () => fileInput.click());
 dropZoneCompact.addEventListener('click', () => fileInput.click());
@@ -682,7 +695,7 @@ qualitySlider.addEventListener('input', () => {
 
   // Update preset active state
   presetBtns.forEach(btn => {
-    btn.classList.toggle('quality-bar__preset--active', Number(btn.dataset.quality) === val);
+    btn.classList.toggle('tool-bar__preset--active', Number(btn.dataset.quality) === val);
   });
 });
 

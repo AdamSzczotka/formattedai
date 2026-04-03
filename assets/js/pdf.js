@@ -65,6 +65,8 @@
       cropBtnText: 'Przytnij PDF',
       cropResult: 'Przycięty PDF',
       cropApplyAll: 'Zastosuj do wszystkich stron',
+      cropModePan: 'Przesu\u0144',
+      cropModeCrop: 'Zaznacz',
       cropPageNav: 'Strona',
       cropReset: 'Resetuj zaznaczenie',
       cropHint: 'Zaznacz obszar do przycięcia przeciągając na podglądzie',
@@ -154,6 +156,7 @@
       actionCompress: 'Kompresuj PDF',
       actionImg2Pdf: 'Utwórz PDF',
       clear: 'Wyczyść',
+      actionBtnText: 'Wykonaj',
       filesProcessed: 'Plików:',
       sizeBefore: 'Przed:',
       sizeAfter: 'Po:',
@@ -235,6 +238,8 @@
       cropBtnText: 'Crop PDF',
       cropResult: 'Cropped PDF',
       cropApplyAll: 'Apply to all pages',
+      cropModePan: 'Pan',
+      cropModeCrop: 'Select',
       cropPageNav: 'Page',
       cropReset: 'Reset selection',
       cropHint: 'Draw the crop area by dragging on the preview',
@@ -318,6 +323,7 @@
       actionCompress: 'Compress PDF',
       actionImg2Pdf: 'Create PDF',
       clear: 'Clear',
+      actionBtnText: 'Process',
       filesProcessed: 'Files:',
       sizeBefore: 'Before:',
       sizeAfter: 'After:',
@@ -385,6 +391,7 @@
     cropTotalPages: 0,
     cropRect: null,       // { x, y, w, h } in PDF points (relative to page)
     cropApplyAll: true,
+    cropMode: 'crop',     // 'crop' or 'pan'
     // Forms state
     formsFlatten: false,
     formsFields: [],  // { name, type, widget, rect, pageIndex }
@@ -551,6 +558,7 @@
     // Action button (divider icon)
     dom.actionBtn = document.getElementById('actionBtn');
     dom.divider = document.getElementById('divider');
+    dom.toolActionBtn = document.getElementById('toolActionBtn');
     dom.outputEmpty = document.getElementById('outputEmpty');
 
     // Progress
@@ -573,6 +581,9 @@
     dom.aboutTrigger = document.getElementById('aboutTrigger');
     dom.aboutModal = document.getElementById('aboutModal');
     dom.aboutModalClose = document.getElementById('aboutModalClose');
+
+    // Mobile bar
+    dom.mobileActionBtn = document.getElementById('mobileActionBtn');
   }
 
   // ==================
@@ -599,6 +610,19 @@
     if (textEl) textEl.textContent = message;
     dom.toast.classList.add('show');
     setTimeout(function () { dom.toast.classList.remove('show'); }, 2500);
+  }
+
+  function flashSuccess(btn, successText) {
+    if (!btn) return;
+    var span = btn.querySelector('span');
+    if (!span) return;
+    var origText = span.textContent;
+    btn.classList.add('btn--success');
+    span.textContent = successText;
+    setTimeout(function() {
+      btn.classList.remove('btn--success');
+      span.textContent = origText;
+    }, 2000);
   }
 
   function downloadBlob(data, filename, mime) {
@@ -1773,6 +1797,9 @@
     } else {
       if (dom.resultSavingsRow) dom.resultSavingsRow.hidden = true;
     }
+
+    flashSuccess(dom.toolActionBtn, t('toastSuccess'));
+    flashSuccess(dom.mobileActionBtn, t('toastSuccess'));
   }
 
   function hideResult() {
@@ -1844,6 +1871,16 @@
     // Divider disabled state
     if (dom.divider) {
       dom.divider.classList.toggle('divider--disabled', !hasFiles || state.processing);
+    }
+
+    // Toolbar action button disabled state
+    if (dom.toolActionBtn) {
+      dom.toolActionBtn.disabled = !hasFiles || state.processing;
+    }
+
+    // Mobile bar action button disabled state
+    if (dom.mobileActionBtn) {
+      dom.mobileActionBtn.disabled = !hasFiles || state.processing;
     }
 
     // Drop zone visibility
@@ -2753,6 +2790,41 @@
     canvasInner.appendChild(annotateCanvasEl);
     canvasInner.appendChild(annotateDrawCanvas);
     canvasWrap.appendChild(canvasInner);
+
+    // Ctrl+wheel zoom on annotate canvas
+    canvasWrap.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        annotateZoom(e.deltaY < 0 ? 0.15 : -0.15);
+      }
+    }, { passive: false });
+
+    // Middle mouse button drag to pan
+    var annotatePanning = false;
+    var annotatePanStartX = 0, annotatePanStartY = 0;
+    var annotateScrollStartX = 0, annotateScrollStartY = 0;
+    canvasWrap.addEventListener('mousedown', function (e) {
+      if (e.button === 1) {
+        e.preventDefault();
+        annotatePanning = true;
+        annotatePanStartX = e.clientX;
+        annotatePanStartY = e.clientY;
+        annotateScrollStartX = canvasWrap.scrollLeft;
+        annotateScrollStartY = canvasWrap.scrollTop;
+        canvasWrap.style.cursor = 'grabbing';
+      }
+    });
+    window.addEventListener('mousemove', function (e) {
+      if (!annotatePanning) return;
+      canvasWrap.scrollLeft = annotateScrollStartX - (e.clientX - annotatePanStartX);
+      canvasWrap.scrollTop = annotateScrollStartY - (e.clientY - annotatePanStartY);
+    });
+    window.addEventListener('mouseup', function () {
+      if (annotatePanning) {
+        annotatePanning = false;
+        canvasWrap.style.cursor = '';
+      }
+    });
 
     // Hidden file input for image tool
     var imgInput = document.createElement('input');
@@ -3813,7 +3885,8 @@
       showProgress(100, t('processing'));
 
       var originalName = state.files[0].name.replace(/\.pdf$/i, '');
-      showResult(savedBytes, originalName + '_annotated.pdf', 'application/pdf', state.files[0].size);
+      // Auto-download and stay in editor
+      downloadBlob(savedBytes, originalName + '_annotated.pdf', 'application/pdf');
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Annotate error:', err);
@@ -4206,7 +4279,8 @@
       showProgress(100, t('processing'));
 
       var originalName = state.files[0].name.replace(/\.pdf$/i, '');
-      showResult(savedBytes, originalName + '_filled.pdf', 'application/pdf', state.files[0].size);
+      // Auto-download and stay in editor
+      downloadBlob(savedBytes, originalName + '_filled.pdf', 'application/pdf');
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Forms error:', err);
@@ -4278,9 +4352,59 @@
     nextBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     nextBtn.addEventListener('click', function () { cropNavigate(1); });
 
+    // Zoom controls
+    var cropZoomWrap = document.createElement('span');
+    cropZoomWrap.className = 'annotate-container__zoom';
+
+    var cropZoomOut = document.createElement('button');
+    cropZoomOut.type = 'button';
+    cropZoomOut.className = 'btn btn--ghost btn--sm';
+    cropZoomOut.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+    cropZoomOut.addEventListener('click', function () { cropZoom(-0.25); });
+
+    var cropZoomLabel = document.createElement('span');
+    cropZoomLabel.className = 'annotate-container__zoom-label';
+    cropZoomLabel.id = 'cropZoomLabel';
+    cropZoomLabel.textContent = '100%';
+
+    var cropZoomIn = document.createElement('button');
+    cropZoomIn.type = 'button';
+    cropZoomIn.className = 'btn btn--ghost btn--sm';
+    cropZoomIn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+    cropZoomIn.addEventListener('click', function () { cropZoom(0.25); });
+
+    cropZoomWrap.appendChild(cropZoomOut);
+    cropZoomWrap.appendChild(cropZoomLabel);
+    cropZoomWrap.appendChild(cropZoomIn);
+
+    // Mode toggle: crop vs pan
+    var cropModeWrap = document.createElement('span');
+    cropModeWrap.className = 'annotate-container__zoom'; // reuse zoom group styling
+    cropModeWrap.style.marginLeft = '8px';
+
+    var cropModeBtn = document.createElement('button');
+    cropModeBtn.type = 'button';
+    cropModeBtn.className = 'btn btn--ghost btn--sm';
+    cropModeBtn.id = 'cropModeBtn';
+    cropModeBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 1L1 5l4 4M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> <span>' + t('cropModePan') + '</span>';
+    cropModeBtn.addEventListener('click', function () {
+      state.cropMode = state.cropMode === 'pan' ? 'crop' : 'pan';
+      var label = cropModeBtn.querySelector('span');
+      if (state.cropMode === 'pan') {
+        label.textContent = t('cropModeCrop');
+        cropOverlayEl.className = 'crop-container__overlay crop-container__overlay--pan';
+      } else {
+        label.textContent = t('cropModePan');
+        cropOverlayEl.className = 'crop-container__overlay';
+      }
+    });
+    cropModeWrap.appendChild(cropModeBtn);
+
     nav.appendChild(prevBtn);
     nav.appendChild(pageLabel);
     nav.appendChild(nextBtn);
+    nav.appendChild(cropZoomWrap);
+    nav.appendChild(cropModeWrap);
 
     // Hint
     var hint = document.createElement('p');
@@ -4310,8 +4434,20 @@
     cropOverlayEl.addEventListener('touchmove', onCropTouchMove, { passive: false });
     cropOverlayEl.addEventListener('touchend', onCropMouseUp);
 
-    canvasWrap.appendChild(cropCanvasEl);
-    canvasWrap.appendChild(cropOverlayEl);
+    // Inner wrapper to keep canvas + overlay aligned when scrolled
+    var cropCanvasInner = document.createElement('div');
+    cropCanvasInner.className = 'crop-container__canvas-inner';
+    cropCanvasInner.appendChild(cropCanvasEl);
+    cropCanvasInner.appendChild(cropOverlayEl);
+    canvasWrap.appendChild(cropCanvasInner);
+
+    // Ctrl+wheel zoom on crop canvas
+    canvasWrap.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        cropZoom(e.deltaY < 0 ? 0.15 : -0.15);
+      }
+    }, { passive: false });
 
     // Options row
     var optionsRow = document.createElement('div');
@@ -4358,6 +4494,13 @@
   }
 
   var cropUserZoom = 1.0;
+
+  function cropZoom(delta) {
+    cropUserZoom = Math.max(0.25, Math.min(4, cropUserZoom + delta));
+    var label = document.getElementById('cropZoomLabel');
+    if (label) label.textContent = Math.round(cropUserZoom * 100) + '%';
+    renderCropPage();
+  }
 
   function renderCropPage() {
     if (!cropPdfDocRef || !cropCanvasEl) return;
@@ -4432,7 +4575,26 @@
     ctx.fillText(dimText, sx + sw / 2, sy > 18 ? sy - 6 : sy + sh + 16);
   }
 
+  // Pan state for crop
+  var cropPanActive = false;
+  var cropPanStartX2 = 0, cropPanStartY2 = 0;
+  var cropPanScrollX = 0, cropPanScrollY = 0;
+
   function onCropMouseDown(e) {
+    // Pan mode — scroll the canvas wrap
+    if (state.cropMode === 'pan') {
+      var wrap = document.getElementById('cropCanvasWrap');
+      if (!wrap) return;
+      cropPanActive = true;
+      cropPanStartX2 = e.clientX;
+      cropPanStartY2 = e.clientY;
+      cropPanScrollX = wrap.scrollLeft;
+      cropPanScrollY = wrap.scrollTop;
+      cropOverlayEl.className = 'crop-container__overlay crop-container__overlay--panning';
+      return;
+    }
+
+    // Crop mode — draw selection rect
     var rect = cropOverlayEl.getBoundingClientRect();
     cropStartX = (e.clientX - rect.left) / cropScale;
     cropStartY = (e.clientY - rect.top) / cropScale;
@@ -4441,6 +4603,16 @@
   }
 
   function onCropMouseMove(e) {
+    // Pan mode
+    if (cropPanActive) {
+      var wrap = document.getElementById('cropCanvasWrap');
+      if (!wrap) return;
+      wrap.scrollLeft = cropPanScrollX - (e.clientX - cropPanStartX2);
+      wrap.scrollTop = cropPanScrollY - (e.clientY - cropPanStartY2);
+      return;
+    }
+
+    // Crop mode
     if (!cropDragging) return;
     var rect = cropOverlayEl.getBoundingClientRect();
     var curX = (e.clientX - rect.left) / cropScale;
@@ -4464,6 +4636,11 @@
   }
 
   function onCropMouseUp() {
+    if (cropPanActive) {
+      cropPanActive = false;
+      cropOverlayEl.className = 'crop-container__overlay crop-container__overlay--pan';
+      return;
+    }
     cropDragging = false;
     if (state.cropRect && state.cropRect.w < 5 && state.cropRect.h < 5) {
       state.cropRect = null;
@@ -4474,6 +4651,10 @@
   function onCropTouchStart(e) {
     e.preventDefault();
     var touch = e.touches[0];
+    if (state.cropMode === 'pan') {
+      onCropMouseDown({ clientX: touch.clientX, clientY: touch.clientY });
+      return;
+    }
     var rect = cropOverlayEl.getBoundingClientRect();
     cropStartX = (touch.clientX - rect.left) / cropScale;
     cropStartY = (touch.clientY - rect.top) / cropScale;
@@ -4483,10 +4664,12 @@
 
   function onCropTouchMove(e) {
     e.preventDefault();
-    if (!cropDragging) return;
+    if (cropPanActive || !cropDragging) {
+      onCropMouseMove({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
+      return;
+    }
     var touch = e.touches[0];
-    var fakeEvent = { clientX: touch.clientX, clientY: touch.clientY };
-    onCropMouseMove(fakeEvent);
+    onCropMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
   }
 
   function cropNavigate(delta) {
@@ -4549,7 +4732,8 @@
       showProgress(100, t('processing'));
 
       var originalName = state.files[0].name.replace(/\.pdf$/i, '');
-      showResult(croppedBytes, originalName + '_cropped.pdf', 'application/pdf', state.files[0].size);
+      // Auto-download and stay in editor (no result panel needed)
+      downloadBlob(croppedBytes, originalName + '_cropped.pdf', 'application/pdf');
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Crop error:', err);
@@ -4698,6 +4882,13 @@
       });
     }
 
+    // Toolbar action button (primary trigger)
+    if (dom.toolActionBtn) {
+      dom.toolActionBtn.addEventListener('click', function () {
+        executeAction();
+      });
+    }
+
     // Result download
     if (dom.resultDownloadBtn) {
       dom.resultDownloadBtn.addEventListener('click', downloadResult);
@@ -4756,6 +4947,11 @@
       dom.compressStripMeta.addEventListener('change', function () {
         state.stripMetadata = dom.compressStripMeta.checked;
       });
+    }
+
+    // Mobile bar
+    if (dom.mobileActionBtn) {
+      dom.mobileActionBtn.addEventListener('click', function() { executeAction(); });
     }
 
     // About modal
