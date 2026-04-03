@@ -52,7 +52,12 @@
       "Bash(echo \"MISSING: $id\")",
       "Bash(done)",
       "Bash(node:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Read(//c/Users/Euforia/Documents/GitHub/formattedai/**)",
+      "Bash(git -C \"/c/Users/Euforia/Documents/GitHub/formattedai\" log --oneline -10 feature/pdf-tool)",
+      "Bash(git -C \"/c/Users/Euforia/Documents/GitHub/formattedai\" log --oneline -10)",
+      "Bash(python3:*)",
+      "Bash(ls *.json)"
     ]
   }
 }

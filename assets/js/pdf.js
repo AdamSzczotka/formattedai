@@ -1800,8 +1800,9 @@
     if (editorArea) editorArea.hidden = !showEditor;
 
     // Full-width editor mode: hide divider + right panel
+    // When result is ready, exit editor mode to show download panel
     var workspace = document.querySelector('.workspace');
-    if (workspace) workspace.classList.toggle('workspace--editor', showEditor);
+    if (workspace) workspace.classList.toggle('workspace--editor', showEditor && !state.result);
 
     // Hide file list, drop zone & options panel when editor is active
     if (dom.fileListArea && showEditor) dom.fileListArea.hidden = true;
@@ -2543,10 +2544,17 @@
       lib.getDocument({ data: fileData.slice() }).promise.then(function (pdfDoc) {
         annotatePdfDocRef = pdfDoc;
         state.annotateTotalPages = pdfDoc.numPages;
+        annotateBaseScale = 0; // reset scale for new file
+        annotateUserZoom = 1.0;
         ensureAnnotateUI();
         updateUI();
-        renderAnnotatePage();
-        updateAnnotateNav();
+        var zoomLabel = document.getElementById('annotateZoomLabel');
+        if (zoomLabel) zoomLabel.textContent = '100%';
+        // Wait for layout to settle before reading container dimensions
+        requestAnimationFrame(function () {
+          renderAnnotatePage();
+          updateAnnotateNav();
+        });
       }).catch(function () {
         showToast(t('errorCorruptPdf'));
       });
@@ -2705,8 +2713,46 @@
     annotateDrawCanvas.addEventListener('touchmove', onAnnotateTouchMove, { passive: false });
     annotateDrawCanvas.addEventListener('touchend', onAnnotateMouseUp);
 
-    canvasWrap.appendChild(annotateCanvasEl);
-    canvasWrap.appendChild(annotateDrawCanvas);
+    // Drag-and-drop images onto canvas
+    annotateDrawCanvas.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+    });
+    annotateDrawCanvas.addEventListener('drop', function (e) {
+      e.preventDefault();
+      var file = e.dataTransfer.files && e.dataTransfer.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      var pos = getAnnotatePos(e);
+      var reader = new FileReader();
+      reader.onload = function (re) {
+        var dataUrl = re.target.result;
+        var img = new Image();
+        img.onload = function () {
+          var w = Math.min(img.width, 200);
+          var h = img.height * (w / img.width);
+          addAnnotation({ type: 'image', imgEl: img, rect: { x: pos.x, y: pos.y, w: w, h: h }, imgData: dataUrl });
+          setAnnotateTool('cursor');
+        };
+        img.onerror = function () { showToast(t('errorGeneric')); };
+        img.src = dataUrl;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Paste images from clipboard (only register once)
+    if (!window._annotatePasteRegistered) {
+      document.addEventListener('paste', onAnnotatePaste);
+      document.addEventListener('keydown', onAnnotateKeyDown);
+      window._annotatePasteRegistered = true;
+    }
+
+    // Inner wrapper keeps render + draw canvases aligned even when scrolled
+    var canvasInner = document.createElement('div');
+    canvasInner.className = 'annotate-container__canvas-inner';
+    canvasInner.id = 'annotateCanvasInner';
+    canvasInner.appendChild(annotateCanvasEl);
+    canvasInner.appendChild(annotateDrawCanvas);
+    canvasWrap.appendChild(canvasInner);
 
     // Hidden file input for image tool
     var imgInput = document.createElement('input');
@@ -2737,6 +2783,9 @@
 
   function setAnnotateTool(tool) {
     state.annotateTool = tool;
+    if (tool !== 'cursor') {
+      annotateSelectedIndex = -1;
+    }
     var btns = document.querySelectorAll('.annotate-toolbar__btn');
     btns.forEach(function (b) {
       b.classList.toggle('annotate-toolbar__btn--active', b.dataset.tool === tool);
@@ -2756,7 +2805,19 @@
   }
 
   var annotateUserZoom = 1.0;
-  var annotateBaseScale = 0; // computed once on first render
+  var annotateBaseScale = 0;
+  var annotateResizeTimer = null;
+
+  function recalcAnnotateBaseScale() {
+    annotateBaseScale = 0;
+    if (annotatePdfDocRef) renderAnnotatePage();
+  }
+
+  window.addEventListener('resize', function () {
+    if (!annotatePdfDocRef) return;
+    clearTimeout(annotateResizeTimer);
+    annotateResizeTimer = setTimeout(recalcAnnotateBaseScale, 200);
+  });
 
   function renderAnnotatePage() {
     if (!annotatePdfDocRef || !annotateCanvasEl) return;
@@ -2764,7 +2825,7 @@
     annotatePdfDocRef.getPage(state.annotateCurrentPage + 1).then(function (page) {
       var viewport = page.getViewport({ scale: 1 });
 
-      // Compute base scale once — use the annotate container (parent of canvas wrap), not the wrap itself
+      // Recompute base scale when reset or on first render
       if (!annotateBaseScale) {
         var container = document.getElementById('annotateContainer');
         var containerW = container ? container.clientWidth - 32 : 600;
@@ -2808,6 +2869,26 @@
     if (last.action === 'add') {
       var removed = state.annotateAnnotations[last.pageIdx].splice(last.index, 1)[0];
       state.annotateRedoStack.push({ action: 'add', pageIdx: last.pageIdx, annotation: removed });
+    } else if (last.action === 'move') {
+      var ann = (state.annotateAnnotations[last.pageIdx] || [])[last.index];
+      if (ann) {
+        var curPos = ann.rect ? { x: ann.rect.x, y: ann.rect.y } : ann.pos ? { x: ann.pos.x, y: ann.pos.y } : null;
+        if (ann.rect) { ann.rect.x = last.origPos.x; ann.rect.y = last.origPos.y; }
+        else if (ann.pos) { ann.pos.x = last.origPos.x; ann.pos.y = last.origPos.y; }
+        state.annotateRedoStack.push({ action: 'move', pageIdx: last.pageIdx, index: last.index, origPos: curPos });
+      }
+    } else if (last.action === 'resize') {
+      var ann2 = (state.annotateAnnotations[last.pageIdx] || [])[last.index];
+      if (ann2 && ann2.rect) {
+        var curRect = { x: ann2.rect.x, y: ann2.rect.y, w: ann2.rect.w, h: ann2.rect.h };
+        ann2.rect.x = last.origRect.x; ann2.rect.y = last.origRect.y;
+        ann2.rect.w = last.origRect.w; ann2.rect.h = last.origRect.h;
+        state.annotateRedoStack.push({ action: 'resize', pageIdx: last.pageIdx, index: last.index, origRect: curRect });
+      }
+    } else if (last.action === 'delete') {
+      if (!state.annotateAnnotations[last.pageIdx]) state.annotateAnnotations[last.pageIdx] = [];
+      state.annotateAnnotations[last.pageIdx].splice(last.index, 0, last.annotation);
+      state.annotateRedoStack.push({ action: 'delete', pageIdx: last.pageIdx, index: last.index, annotation: last.annotation });
     }
     redrawAnnotations();
   }
@@ -2819,6 +2900,25 @@
       if (!state.annotateAnnotations[last.pageIdx]) state.annotateAnnotations[last.pageIdx] = [];
       state.annotateAnnotations[last.pageIdx].push(last.annotation);
       state.annotateUndoStack.push({ action: 'add', pageIdx: last.pageIdx, index: state.annotateAnnotations[last.pageIdx].length - 1 });
+    } else if (last.action === 'move') {
+      var ann = (state.annotateAnnotations[last.pageIdx] || [])[last.index];
+      if (ann) {
+        var curPos = ann.rect ? { x: ann.rect.x, y: ann.rect.y } : ann.pos ? { x: ann.pos.x, y: ann.pos.y } : null;
+        if (ann.rect) { ann.rect.x = last.origPos.x; ann.rect.y = last.origPos.y; }
+        else if (ann.pos) { ann.pos.x = last.origPos.x; ann.pos.y = last.origPos.y; }
+        state.annotateUndoStack.push({ action: 'move', pageIdx: last.pageIdx, index: last.index, origPos: curPos });
+      }
+    } else if (last.action === 'resize') {
+      var ann2 = (state.annotateAnnotations[last.pageIdx] || [])[last.index];
+      if (ann2 && ann2.rect) {
+        var curRect = { x: ann2.rect.x, y: ann2.rect.y, w: ann2.rect.w, h: ann2.rect.h };
+        ann2.rect.x = last.origRect.x; ann2.rect.y = last.origRect.y;
+        ann2.rect.w = last.origRect.w; ann2.rect.h = last.origRect.h;
+        state.annotateUndoStack.push({ action: 'resize', pageIdx: last.pageIdx, index: last.index, origRect: curRect });
+      }
+    } else if (last.action === 'delete') {
+      var removed = state.annotateAnnotations[last.pageIdx].splice(last.index, 1)[0];
+      state.annotateUndoStack.push({ action: 'delete', pageIdx: last.pageIdx, index: last.index, annotation: removed });
     }
     redrawAnnotations();
   }
@@ -2832,13 +2932,18 @@
     anns.forEach(function (ann) {
       drawAnnotation(ctx, ann);
     });
+
+    // Draw selection handles on selected annotation
+    if (annotateSelectedIndex >= 0 && annotateSelectedIndex < anns.length && state.annotateTool === 'cursor') {
+      drawSelectionHandles(ctx, anns[annotateSelectedIndex]);
+    }
   }
 
   function drawAnnotation(ctx, ann) {
     var s = annotateScale;
     if (!s || s <= 0) return;
-    try {
     ctx.save();
+    try {
     ctx.strokeStyle = ann.color || '#ef4444';
     ctx.fillStyle = ann.color || '#ef4444';
     ctx.lineWidth = (ann.stroke || 2) * s;
@@ -2916,23 +3021,30 @@
       case 'signature':
         if (ann.imgEl && ann.imgEl.complete && ann.imgEl.naturalWidth > 0) {
           ctx.drawImage(ann.imgEl, ann.rect.x * s, ann.rect.y * s, ann.rect.w * s, ann.rect.h * s);
-        } else if (ann.imgData) {
-          // Reload image from stored dataURL
+        } else if (ann.imgData && !ann._imgLoading) {
+          // Reload image from stored dataURL (guard against repeated calls)
+          ann._imgLoading = true;
           var reloadImg = new Image();
           reloadImg.onload = function () {
             ann.imgEl = reloadImg;
+            ann._imgLoading = false;
             redrawAnnotations();
+          };
+          reloadImg.onerror = function () {
+            ann._imgLoading = false;
+            console.warn('Failed to reload annotation image');
           };
           reloadImg.src = ann.imgData;
         }
         break;
     }
-    ctx.restore();
     } catch (err) { console.warn('drawAnnotation error:', err); }
+    finally { ctx.restore(); }
   }
 
   // Mouse/touch handlers for annotate
   function getAnnotatePos(e) {
+    if (!annotateDrawCanvas) return { x: 0, y: 0 };
     var rect = annotateDrawCanvas.getBoundingClientRect();
     return {
       x: (e.clientX - rect.left) / annotateScale,
@@ -2942,7 +3054,7 @@
 
   function showAnnotateInlineInput(pos) {
     removeAnnotatePopover();
-    var wrap = document.getElementById('annotateCanvasWrap');
+    var wrap = document.getElementById('annotateCanvasInner') || document.getElementById('annotateCanvasWrap');
     if (!wrap) return;
 
     var popover = document.createElement('div');
@@ -2983,7 +3095,7 @@
 
   function showAnnotateStampPicker(pos) {
     removeAnnotatePopover();
-    var wrap = document.getElementById('annotateCanvasWrap');
+    var wrap = document.getElementById('annotateCanvasInner') || document.getElementById('annotateCanvasWrap');
     if (!wrap) return;
 
     var stamps = [
@@ -3018,8 +3130,72 @@
     if (existing) existing.remove();
   }
 
-  // Drag-to-move state for annotations
-  var annotateDragTarget = null; // { annIndex, offsetX, offsetY }
+  // Selection & resize state for annotations
+  var annotateDragTarget = null; // { annIndex, offsetX, offsetY, origPos }
+  var annotateSelectedIndex = -1; // index of currently selected annotation
+  var annotateResizeTarget = null; // { annIndex, handle, origRect, startPos }
+  var HANDLE_SIZE = 8; // px in PDF coordinates
+
+  function drawSelectionHandles(ctx, ann) {
+    if (!ann.rect) return;
+    var s = annotateScale;
+    var r = ann.rect;
+    var x = r.x * s, y = r.y * s, w = r.w * s, h = r.h * s;
+    var hs = HANDLE_SIZE * Math.min(s, 1.5);
+
+    // Dashed selection border
+    ctx.save();
+    ctx.strokeStyle = '#3b82f6';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 3]);
+    ctx.strokeRect(x, y, w, h);
+    ctx.setLineDash([]);
+
+    // Resize handles at corners + midpoints
+    ctx.fillStyle = '#fff';
+    ctx.strokeStyle = '#3b82f6';
+    ctx.lineWidth = 1.5;
+    var handles = getHandlePositions(r, s, hs);
+    handles.forEach(function (hp) {
+      ctx.fillRect(hp.sx - hs / 2, hp.sy - hs / 2, hs, hs);
+      ctx.strokeRect(hp.sx - hs / 2, hp.sy - hs / 2, hs, hs);
+    });
+    ctx.restore();
+  }
+
+  function getHandlePositions(rect, s, hs) {
+    var x = rect.x * s, y = rect.y * s, w = rect.w * s, h = rect.h * s;
+    return [
+      { id: 'nw', sx: x, sy: y },
+      { id: 'ne', sx: x + w, sy: y },
+      { id: 'sw', sx: x, sy: y + h },
+      { id: 'se', sx: x + w, sy: y + h },
+      { id: 'n',  sx: x + w / 2, sy: y },
+      { id: 's',  sx: x + w / 2, sy: y + h },
+      { id: 'w',  sx: x, sy: y + h / 2 },
+      { id: 'e',  sx: x + w, sy: y + h / 2 },
+    ];
+  }
+
+  function hitTestHandle(pos, ann) {
+    if (!ann || !ann.rect) return null;
+    var s = annotateScale;
+    var hs = HANDLE_SIZE * Math.min(s, 1.5);
+    var handles = getHandlePositions(ann.rect, s, hs);
+    var px = pos.x * s, py = pos.y * s;
+    for (var i = 0; i < handles.length; i++) {
+      if (Math.abs(px - handles[i].sx) <= hs && Math.abs(py - handles[i].sy) <= hs) {
+        return handles[i].id;
+      }
+    }
+    return null;
+  }
+
+  function getCursorForHandle(handle) {
+    var map = { nw: 'nwse-resize', se: 'nwse-resize', ne: 'nesw-resize', sw: 'nesw-resize',
+                n: 'ns-resize', s: 'ns-resize', w: 'ew-resize', e: 'ew-resize' };
+    return map[handle] || 'default';
+  }
 
   function hitTestAnnotation(pos) {
     var anns = getPageAnnotations();
@@ -3047,12 +3223,39 @@
     var tool = state.annotateTool;
     var pos = getAnnotatePos(e);
 
-    // Cursor tool: try to grab an annotation to drag
+    // Cursor tool: select, resize handle, or drag
     if (tool === 'cursor') {
+      // Check if clicking a resize handle on the selected annotation
+      if (annotateSelectedIndex >= 0) {
+        var selAnn = getPageAnnotations()[annotateSelectedIndex];
+        if (selAnn && selAnn.rect) {
+          var handle = hitTestHandle(pos, selAnn);
+          if (handle) {
+            annotateResizeTarget = {
+              annIndex: annotateSelectedIndex,
+              handle: handle,
+              origRect: { x: selAnn.rect.x, y: selAnn.rect.y, w: selAnn.rect.w, h: selAnn.rect.h },
+              startPos: pos,
+            };
+            annotateDrawCanvas.style.cursor = getCursorForHandle(handle);
+            return;
+          }
+        }
+      }
+
       var hit = hitTestAnnotation(pos);
       if (hit) {
+        annotateSelectedIndex = hit.annIndex;
+        var ann = getPageAnnotations()[hit.annIndex];
+        hit.origPos = ann.rect
+          ? { x: ann.rect.x, y: ann.rect.y }
+          : ann.pos ? { x: ann.pos.x, y: ann.pos.y } : null;
         annotateDragTarget = hit;
         annotateDrawCanvas.style.cursor = 'grabbing';
+        redrawAnnotations();
+      } else {
+        annotateSelectedIndex = -1;
+        redrawAnnotations();
       }
       return;
     }
@@ -3078,6 +3281,31 @@
   }
 
   function onAnnotateMouseMove(e) {
+    // Handle resize
+    if (annotateResizeTarget) {
+      var pos = getAnnotatePos(e);
+      var rt = annotateResizeTarget;
+      var ann = getPageAnnotations()[rt.annIndex];
+      if (!ann || !ann.rect) return;
+      var dx = pos.x - rt.startPos.x;
+      var dy = pos.y - rt.startPos.y;
+      var o = rt.origRect;
+      var MIN_SIZE = 10;
+
+      switch (rt.handle) {
+        case 'se': ann.rect.w = Math.max(MIN_SIZE, o.w + dx); ann.rect.h = Math.max(MIN_SIZE, o.h + dy); break;
+        case 'sw': ann.rect.x = o.x + dx; ann.rect.w = Math.max(MIN_SIZE, o.w - dx); ann.rect.h = Math.max(MIN_SIZE, o.h + dy); break;
+        case 'ne': ann.rect.w = Math.max(MIN_SIZE, o.w + dx); ann.rect.y = o.y + dy; ann.rect.h = Math.max(MIN_SIZE, o.h - dy); break;
+        case 'nw': ann.rect.x = o.x + dx; ann.rect.y = o.y + dy; ann.rect.w = Math.max(MIN_SIZE, o.w - dx); ann.rect.h = Math.max(MIN_SIZE, o.h - dy); break;
+        case 'n': ann.rect.y = o.y + dy; ann.rect.h = Math.max(MIN_SIZE, o.h - dy); break;
+        case 's': ann.rect.h = Math.max(MIN_SIZE, o.h + dy); break;
+        case 'w': ann.rect.x = o.x + dx; ann.rect.w = Math.max(MIN_SIZE, o.w - dx); break;
+        case 'e': ann.rect.w = Math.max(MIN_SIZE, o.w + dx); break;
+      }
+      redrawAnnotations();
+      return;
+    }
+
     // Handle drag-to-move
     if (annotateDragTarget) {
       var pos = getAnnotatePos(e);
@@ -3096,7 +3324,20 @@
       return;
     }
 
-    if (!annotateDrawing) return;
+    if (!annotateDrawing) {
+      // Hover cursor update for cursor tool
+      if (state.annotateTool === 'cursor' && annotateDrawCanvas) {
+        var hPos = getAnnotatePos(e);
+        if (annotateSelectedIndex >= 0) {
+          var selAnn = getPageAnnotations()[annotateSelectedIndex];
+          var hHandle = hitTestHandle(hPos, selAnn);
+          if (hHandle) { annotateDrawCanvas.style.cursor = getCursorForHandle(hHandle); return; }
+        }
+        var hHit = hitTestAnnotation(hPos);
+        annotateDrawCanvas.style.cursor = hHit ? 'grab' : 'default';
+      }
+      return;
+    }
     var tool = state.annotateTool;
     var pos = getAnnotatePos(e);
 
@@ -3126,10 +3367,30 @@
     }
   }
 
-  // onAnnotateMouseUp — handles shapes + drag release
+  // onAnnotateMouseUp — handles shapes, resize + drag release
   function onAnnotateMouseUp(e) {
-    // Release drag
+    // Release resize — push to undo stack
+    if (annotateResizeTarget) {
+      var rt = annotateResizeTarget;
+      state.annotateUndoStack.push({
+        action: 'resize', pageIdx: state.annotateCurrentPage,
+        index: rt.annIndex, origRect: rt.origRect,
+      });
+      state.annotateRedoStack = [];
+      annotateResizeTarget = null;
+      if (annotateDrawCanvas) annotateDrawCanvas.style.cursor = 'default';
+      return;
+    }
+
+    // Release drag — push move to undo stack
     if (annotateDragTarget) {
+      if (annotateDragTarget.origPos) {
+        var pageIdx = state.annotateCurrentPage;
+        var idx = annotateDragTarget.annIndex;
+        var orig = annotateDragTarget.origPos;
+        state.annotateUndoStack.push({ action: 'move', pageIdx: pageIdx, index: idx, origPos: orig });
+        state.annotateRedoStack = [];
+      }
       annotateDragTarget = null;
       if (annotateDrawCanvas) annotateDrawCanvas.style.cursor = state.annotateTool === 'cursor' ? 'default' : 'crosshair';
       return;
@@ -3157,6 +3418,7 @@
   }
 
   function buildShapeAnnotation(tool, start, end) {
+    if (!start || !end) return null;
     var x = Math.min(start.x, end.x);
     var y = Math.min(start.y, end.y);
     var w = Math.abs(end.x - start.x);
@@ -3285,6 +3547,63 @@
     document.body.appendChild(overlay);
   }
 
+  function onAnnotateKeyDown(e) {
+    if (state.activeTab !== 'annotate' || !annotateDrawCanvas) return;
+    // Don't handle when typing in an input
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    // Delete/Backspace removes selected annotation
+    if ((e.key === 'Delete' || e.key === 'Backspace') && annotateSelectedIndex >= 0) {
+      e.preventDefault();
+      var anns = getPageAnnotations();
+      if (annotateSelectedIndex < anns.length) {
+        var removed = anns.splice(annotateSelectedIndex, 1)[0];
+        state.annotateUndoStack.push({
+          action: 'delete', pageIdx: state.annotateCurrentPage,
+          index: annotateSelectedIndex, annotation: removed,
+        });
+        state.annotateRedoStack = [];
+        annotateSelectedIndex = -1;
+        redrawAnnotations();
+      }
+    }
+
+    // Escape deselects
+    if (e.key === 'Escape' && annotateSelectedIndex >= 0) {
+      annotateSelectedIndex = -1;
+      redrawAnnotations();
+    }
+  }
+
+  function onAnnotatePaste(e) {
+    // Only handle paste when annotate tab is active
+    if (state.activeTab !== 'annotate' || !annotateDrawCanvas) return;
+    var items = (e.clipboardData || e.originalEvent && e.originalEvent.clipboardData || {}).items;
+    if (!items) return;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') === 0) {
+        e.preventDefault();
+        var blob = items[i].getAsFile();
+        if (!blob) continue;
+        var reader = new FileReader();
+        reader.onload = function (re) {
+          var dataUrl = re.target.result;
+          var img = new Image();
+          img.onload = function () {
+            var w = Math.min(img.width, 200);
+            var h = img.height * (w / img.width);
+            addAnnotation({ type: 'image', imgEl: img, rect: { x: 50, y: 50, w: w, h: h }, imgData: dataUrl });
+            setAnnotateTool('cursor');
+          };
+          img.onerror = function () { showToast(t('errorGeneric')); };
+          img.src = dataUrl;
+        };
+        reader.readAsDataURL(blob);
+        break;
+      }
+    }
+  }
+
   function onAnnotateImageSelected(e) {
     var file = e.target.files[0];
     if (!file) return;
@@ -3303,6 +3622,7 @@
         });
         setAnnotateTool('cursor');
       };
+      img.onerror = function () { showToast(t('errorGeneric')); };
       img.src = dataUrl;
     };
     reader.readAsDataURL(file);
@@ -3320,6 +3640,7 @@
     var newPage = state.annotateCurrentPage + delta;
     if (newPage < 0 || newPage >= state.annotateTotalPages) return;
     state.annotateCurrentPage = newPage;
+    annotateSelectedIndex = -1;
     renderAnnotatePage();
     updateAnnotateNav();
   }
@@ -3464,9 +3785,11 @@
                   } else {
                     var resp = await fetch(ann.imgData);
                     var arrBuf = await resp.arrayBuffer();
-                    imgEmbed = await pdfDoc.embedPng(new Uint8Array(arrBuf)).catch(function () {
-                      return pdfDoc.embedJpg(new Uint8Array(arrBuf));
-                    });
+                    try {
+                      imgEmbed = await pdfDoc.embedPng(new Uint8Array(arrBuf));
+                    } catch (_) {
+                      imgEmbed = await pdfDoc.embedJpg(new Uint8Array(arrBuf));
+                    }
                   }
                   page.drawImage(imgEmbed, {
                     x: ann.rect.x,
