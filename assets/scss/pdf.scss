@@ -12,6 +12,17 @@ $color-pdf-dark: #dc2626;
 $color-pdf-glow: rgba(239, 68, 68, 0.15);
 $color-pdf-glow-strong: rgba(239, 68, 68, 0.35);
 
+// Override accent CSS custom properties for PDF (red)
+:root {
+  --color-accent: #{$color-pdf};
+  --color-accent-light: #{$color-pdf-light};
+  --color-accent-dark: #{$color-pdf-dark};
+  --color-accent-glow: #{$color-pdf-glow};
+  --color-accent-glow-strong: #{$color-pdf-glow-strong};
+  --color-accent-subtle: rgba(239, 68, 68, 0.04);
+  --color-accent-border: rgba(239, 68, 68, 0.3);
+}
+
 body { overflow: hidden; transition: none; }
 html, body { height: 100%; }
 
@@ -28,129 +39,13 @@ html, body { height: 100%; }
 // Global: respect hidden attribute on elements with explicit display
 [hidden] { display: none !important; }
 
-// --- About Banner ---
-.about-banner {
-  display: flex; gap: 16px; padding: 16px 24px;
-  background: rgba(239, 68, 68, 0.04);
-  border-bottom: 1px solid rgba(239, 68, 68, 0.15);
-  position: relative;
-
-  &__content { flex: 1; }
-  &__title { font-size: 15px; font-weight: 700; color: var(--color-text); margin-bottom: 8px; }
-  p { font-size: 13px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 6px;
-    strong { color: $color-pdf; font-weight: 700; }
-  }
-  &__list {
-    margin: 8px 0 0 18px; padding: 0;
-    li { font-size: 12px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 2px;
-      &::marker { color: $color-pdf; }
-    }
-  }
-  &__close {
-    position: absolute; top: 12px; right: 12px;
-    width: 28px; height: 28px; border: none; border-radius: 6px;
-    background: transparent; color: var(--color-text-dim);
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all $transition-fast;
-    &:hover { background: var(--color-surface-hover); color: var(--color-text); }
-  }
-}
-
-// --- Header ---
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 24px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--glass-bg-strong);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  position: relative;
-  z-index: 60;
-
-  &__brand {
-    display: flex; align-items: center; gap: 14px;
-    text-decoration: none; color: inherit;
-  }
-
-  &__logo {
-    width: 44px; height: 44px;
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-    &::after {
-      content: ''; position: absolute; inset: -4px; border-radius: 14px;
-      background: $color-pdf-glow; filter: blur(10px); opacity: 0.6;
-    }
-  }
-
-  &__logo-svg { width: 34px; height: 34px; position: relative; z-index: 1; }
-
-  &__title {
-    font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--color-text);
-  }
-
-  &__title-accent {
-    background: linear-gradient(135deg, $color-pdf-light, $color-pdf);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
-
-  &__subtitle { font-size: 12px; color: var(--color-text-dim); margin-top: 2px; letter-spacing: 0.2px; }
-
-  &__actions { display: flex; align-items: center; gap: 8px; }
-}
-
-// --- Language Toggle ---
-.lang-toggle {
-  display: flex; align-items: center; justify-content: center;
-  width: 40px; height: 36px;
-  border: 1px solid var(--color-border); border-radius: $radius-sm;
-  background: rgba(255, 255, 255, 0.03); cursor: pointer; transition: all $transition;
-  text-decoration: none;
-
-  &:hover {
-    background: var(--color-surface-hover);
-    border-color: rgba(239, 68, 68, 0.3);
-    transform: translateY(-1px);
-  }
-
-  &__flag {
-    font-size: 12px; font-weight: 800; font-family: $font-body;
-    color: var(--color-text-muted); letter-spacing: 0.5px; transition: color $transition-fast;
-  }
-
-  &:hover &__flag { color: $color-pdf-light; }
-}
-
-// --- Theme Toggle ---
-.theme-toggle {
-  display: flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px;
-  border: 1px solid var(--color-border); border-radius: $radius-sm;
-  background: var(--color-surface); cursor: pointer;
-  transition: all $transition; color: var(--color-text-muted);
-
-  &:hover {
-    color: $color-pdf;
-    border-color: rgba(239, 68, 68, 0.3);
-    transform: translateY(-1px);
-  }
-
-  &__sun { display: none; }
-  &__moon { display: block; }
-
-  [data-theme="dark"] & {
-    .theme-toggle__sun { display: block; }
-    .theme-toggle__moon { display: none; }
-  }
-}
-
 // ============================================
 // PDF Tab Bar
 // ============================================
 .pdf-tabs {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 2px;
   padding: 8px 24px;
   border-bottom: 1px solid var(--color-border);
@@ -792,41 +687,9 @@ html, body { height: 100%; }
 }
 
 // ============================================
+// Layout: PDF-specific panel extensions
 // ============================================
-// Layout: left-right panels
-// ============================================
-.workspace {
-  flex: 1; display: flex; overflow: hidden;
-}
-
-.panel {
-  flex: 1; display: flex; flex-direction: column; overflow: hidden;
-
-  &__header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 20px; border-bottom: 1px solid var(--color-border);
-    background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  }
-
-  &__header-left { display: flex; align-items: center; gap: 10px; }
-
-  &__dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    &--green { background: $color-success; box-shadow: 0 0 8px rgba(34, 197, 94, 0.4); }
-    &--red { background: $color-pdf; box-shadow: 0 0 8px $color-pdf-glow; }
-  }
-
-  &__title {
-    font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--color-text-muted);
-  }
-
-  &__badge {
-    font-size: 11px; color: var(--color-text-dim); font-family: $font-body;
-    padding: 3px 10px; background: rgba(255, 255, 255, 0.03);
-    border-radius: 20px; border: 1px solid var(--color-border-subtle);
-  }
-}
+.panel__dot--red { background: $color-pdf; box-shadow: 0 0 8px $color-pdf-glow; }
 
 .input-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
 
@@ -864,55 +727,10 @@ html, body { height: 100%; }
   50% { transform: translateY(-6px); }
 }
 
-// --- Divider ---
-.divider {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  width: 52px; background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border-left: 1px solid var(--color-border); border-right: 1px solid var(--color-border);
-  cursor: pointer;
-
-  &__line { flex: 1; width: 1px; background: linear-gradient(to bottom, transparent, var(--color-border), transparent); }
-
-  &__icon {
-    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, $color-pdf, $color-pdf-dark);
-    border-radius: 50%; flex-shrink: 0; box-shadow: 0 4px 16px $color-pdf-glow-strong;
-    position: relative;
-    transition: transform $transition, box-shadow $transition;
-
-    &::after {
-      content: ''; position: absolute; inset: -3px; border-radius: 50%;
-      border: 1px solid rgba(239, 68, 68, 0.2); animation: dividerPulse 3s ease-in-out infinite;
-    }
-  }
-
-  &:hover .divider__icon {
-    transform: scale(1.15);
-    box-shadow: 0 6px 24px $color-pdf-glow-strong;
-  }
-
-  &:active .divider__icon { transform: scale(0.95); }
-}
-
-.divider--loading .divider__icon {
-  svg { display: none; }
-  &::before {
-    content: ''; width: 18px; height: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.3); border-top-color: #fff;
-    border-radius: 50%; animation: dividerSpin 0.8s linear infinite;
-  }
-}
-
-@keyframes dividerPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0; }
-}
-
+// PDF-specific divider disabled state
 .divider--disabled {
   opacity: 0.35; pointer-events: none;
 }
-
-@keyframes dividerSpin { to { transform: rotate(360deg); } }
 
 .file-list-wrapper {
   display: flex; flex-direction: column;
@@ -1254,26 +1072,42 @@ html, body { height: 100%; }
 
   &__canvas-wrap {
     position: relative;
-    display: inline-block;
+    flex: 1; min-height: 0;
     border: 1px solid var(--color-border);
     border-radius: $radius-sm;
-    overflow: hidden;
+    overflow: auto;
     line-height: 0;
-    max-width: 100%;
+    display: flex; align-items: flex-start; justify-content: center;
+  }
+
+  &__canvas-inner {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
   }
 
   &__canvas {
-    display: block; max-width: 100%;
+    display: block;
   }
 
   &__overlay {
-    position: absolute; inset: 0;
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
     cursor: crosshair;
+
+    &--pan { cursor: grab; }
+    &--panning { cursor: grabbing; }
   }
 
   &__options {
-    display: flex; align-items: center; gap: 12px; margin-top: 8px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 10px 0; margin-top: auto;
     flex-wrap: wrap;
+    position: sticky; bottom: 0;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    z-index: 2;
   }
 }
 
@@ -1493,29 +1327,6 @@ html, body { height: 100%; }
   &__actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: center; }
 }
 
-// ============================================
-// Button overrides for red accent
-// ============================================
-.header__actions {
-  .btn--primary {
-    background: linear-gradient(135deg, $color-pdf, $color-pdf-dark);
-    box-shadow: 0 2px 8px $color-pdf-glow, inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-    &:hover {
-      box-shadow: 0 4px 20px $color-pdf-glow-strong, inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    }
-
-    &:disabled {
-      opacity: 0.5; cursor: not-allowed;
-      &:hover { transform: none; box-shadow: 0 2px 8px $color-pdf-glow; }
-    }
-  }
-
-  .btn--ghost:disabled {
-    opacity: 0.5; cursor: not-allowed;
-    &:hover { transform: none; background: var(--color-surface); color: var(--color-text-muted); }
-  }
-}
 
 // ============================================
 // Mobile Sticky Bar
@@ -1555,29 +1366,12 @@ html, body { height: 100%; }
   body { overflow: auto; }
   .app { height: auto; min-height: 100vh; overflow: visible; }
 
-  .workspace { flex-direction: column; }
-
-  .divider {
-    flex-direction: row; width: 100%; height: 44px;
-    border-left: none; border-right: none;
-    border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);
-
-    &__line { flex: 1; height: 1px; width: auto; background: linear-gradient(to right, transparent, var(--color-border), transparent); }
-  }
-
   .panel { min-height: 200px; }
   .panel--output { min-height: 300px; }
 
-  .header {
-    flex-direction: column; gap: 12px; padding: 12px 16px;
-
-    &__actions {
-      width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-
-      .about-trigger, .lang-toggle, .theme-toggle { flex: 0 0 auto; }
-
-      .btn { justify-content: center; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
-    }
+  .header__actions {
+    .about-trigger, .lang-toggle, .theme-toggle { flex: 0 0 auto; }
+    .btn { justify-content: center; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
   }
 
   .pdf-tabs {
@@ -1635,14 +1429,6 @@ html, body { height: 100%; }
       flex: 1; justify-content: center;
     }
 
-    .btn--primary {
-      background: linear-gradient(135deg, $color-pdf, $color-pdf-dark);
-      box-shadow: 0 2px 8px $color-pdf-glow;
-
-      &:disabled { opacity: 0.5; cursor: not-allowed; }
-    }
-
-    .btn--ghost:disabled { opacity: 0.5; cursor: not-allowed; }
   }
 }
 

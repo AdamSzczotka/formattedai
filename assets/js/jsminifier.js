@@ -118,6 +118,8 @@
 
       codeOutput.value = result;
       updateStats(input, result);
+      flashSuccess(processBtn, 'Gotowe!');
+      flashSuccess(mobileProcessBtn, 'Gotowe!');
     } catch (err) {
       codeOutput.value = '// Error: ' + (err.message || String(err));
       updateStats(input, '');
@@ -308,12 +310,30 @@
     });
   }
 
+  // --- Flash success helper ---
+  function flashSuccess(btn, successText) {
+    if (!btn) return;
+    var span = btn.querySelector('span');
+    if (!span) return;
+    var origText = span.textContent;
+    btn.classList.add('btn--success');
+    span.textContent = successText;
+    setTimeout(function() {
+      btn.classList.remove('btn--success');
+      span.textContent = origText;
+    }, 2000);
+  }
+
   // --- Event Listeners ---
   processBtn.addEventListener('click', processCode);
 
   if (copyBtn) copyBtn.addEventListener('click', copyOutput);
   if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
   if (clearBtn) clearBtn.addEventListener('click', clearAll);
+
+  // Mobile bar
+  var mobileProcessBtn = document.getElementById('mobileProcessBtn');
+  if (mobileProcessBtn) mobileProcessBtn.addEventListener('click', processCode);
 
   modeMinifyBtn.addEventListener('click', function() { setMode('minify'); });
   modePrettifyBtn.addEventListener('click', function() { setMode('prettify'); });
