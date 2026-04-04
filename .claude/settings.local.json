@@ -32,7 +32,10 @@
       "Bash(rm -rf /tmp/package /tmp/jsquash-avif-2.1.1.tgz)",
       "WebFetch(domain:css-tricks.com)",
       "Bash(git merge:*)",
-      "Bash(node scripts/build-i18n.js)"
+      "Bash(node scripts/build-i18n.js)",
+      "Bash(node:*)",
+      "Bash(npx sass:*)",
+      "Bash(ls:*)"
     ]
   }
 }
