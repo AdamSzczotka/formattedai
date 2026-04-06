@@ -25,6 +25,7 @@ const translations = {
     metaInfo: 'Metadane EXIF zostan\u0105 usuni\u0119te',
     emptyText: 'Tu pojawi\u0105 si\u0119 skonwertowane obrazki',
     emptyHint: 'Dodaj pliki po lewej stronie',
+    conversionDone: 'Gotowe! Pliki skonwertowane pomy\u015Blnie',
     toastConverted: 'Konwersja zako\u0144czona!',
     toastDownload: 'Pobrano!',
     toastError: 'B\u0142\u0105d konwersji',
@@ -100,6 +101,7 @@ const translations = {
     metaInfo: 'EXIF metadata will be removed',
     emptyText: 'Converted images will appear here',
     emptyHint: 'Add files on the left side',
+    conversionDone: 'Done! Files converted successfully',
     toastConverted: 'Conversion complete!',
     toastDownload: 'Downloaded!',
     toastError: 'Conversion error',
@@ -192,7 +194,7 @@ const mobileConvertBtn = document.getElementById('mobileConvertBtn');
 const mobileDownloadBtn = document.getElementById('mobileDownloadBtn');
 
 // --- Preset buttons ---
-const presetBtns = document.querySelectorAll('.quality-bar__preset');
+const presetBtns = document.querySelectorAll('.tool-bar__preset');
 
 // --- i18n Engine ---
 function t(key) {
@@ -262,6 +264,20 @@ function showToast(message) {
   toast.querySelector('.toast__text').textContent = message || t('toastConverted');
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// --- Flash success helper ---
+function flashSuccess(btn, successText) {
+  if (!btn) return;
+  var span = btn.querySelector('span');
+  if (!span) return;
+  var origText = span.textContent;
+  btn.classList.add('btn--success');
+  span.textContent = successText;
+  setTimeout(function() {
+    btn.classList.remove('btn--success');
+    span.textContent = origText;
+  }, 2000);
 }
 
 // --- Handle Files ---
@@ -383,15 +399,9 @@ async function convertToAvif(file, q) {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   // Encode with jSquash
-  const encodeOptions = {
-    quality: q,
-    speed: 6,         // 0-10, higher = faster
-    subsample: 1,     // 4:2:0 chroma subsampling
-  };
-
-  if (q === 100) {
-    encodeOptions.lossless = true;
-  }
+  const encodeOptions = q === 100
+    ? { lossless: true, speed: 2, subsample: 1 }
+    : { quality: q, speed: 6, subsample: 1 };
 
   const avifBuffer = await avifEncode(imageData, encodeOptions);
   return new Blob([avifBuffer], { type: 'image/avif' });
@@ -472,6 +482,8 @@ async function convertAll() {
   renderResults();
   updateUI();
   showToast(t('toastConverted'));
+  flashSuccess(convertAllBtn, t('toastConverted'));
+  flashSuccess(mobileConvertBtn, t('toastConverted'));
 }
 
 // --- Render Results ---
@@ -498,6 +510,13 @@ function renderResults() {
   summaryAvif.textContent = formatSize(totalAvif);
   summarySavings.textContent = `-${savingsPercent}%`;
 
+  // Done banner with download-all button
+  const doneBanner = document.createElement('div');
+  doneBanner.className = 'results-done-banner';
+  doneBanner.innerHTML = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 9.5l2 2 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> <span>${t('conversionDone')}</span> <button type="button" class="results-done-banner__btn">${t('downloadAll')}</button>`;
+  doneBanner.querySelector('.results-done-banner__btn').addEventListener('click', downloadAllZip);
+  resultsList.appendChild(doneBanner);
+
   // Render each result
   successResults.forEach(result => {
     const savings = result.originalSize > 0
@@ -519,9 +538,6 @@ function renderResults() {
         <div class="result-item__stats">
           <span class="result-item__sizes">${formatSize(result.originalSize)} &rarr; ${formatSize(result.avifSize)}</span>
           <span class="result-item__savings">-${savings}%</span>
-        </div>
-        <div class="result-item__bar">
-          <div class="result-item__bar-fill" style="width: ${barWidth}%"></div>
         </div>
       </div>
       <button class="btn btn--ghost result-item__download" type="button" data-id="${result.id}" title="${t('downloadSingle')}">
@@ -614,7 +630,7 @@ function setQuality(q) {
   qualityValue.textContent = q;
 
   presetBtns.forEach(btn => {
-    btn.classList.toggle('quality-bar__preset--active', Number(btn.dataset.quality) === q);
+    btn.classList.toggle('tool-bar__preset--active', Number(btn.dataset.quality) === q);
   });
 }
 
@@ -658,11 +674,8 @@ clearBtn.addEventListener('click', clearAll);
 convertAllBtn.addEventListener('click', convertAll);
 downloadAllBtn.addEventListener('click', downloadAllZip);
 
-// Divider as convert button
+// Divider click shortcut (no longer a button, but click still works)
 divider.addEventListener('click', convertAll);
-divider.addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); convertAll(); }
-});
 
 browseBtn.addEventListener('click', () => fileInput.click());
 dropZoneCompact.addEventListener('click', () => fileInput.click());
@@ -682,7 +695,7 @@ qualitySlider.addEventListener('input', () => {
 
   // Update preset active state
   presetBtns.forEach(btn => {
-    btn.classList.toggle('quality-bar__preset--active', Number(btn.dataset.quality) === val);
+    btn.classList.toggle('tool-bar__preset--active', Number(btn.dataset.quality) === val);
   });
 });
 

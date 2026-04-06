@@ -996,3 +996,74 @@
     gap: 8px;
   }
 }
+
+// ==================
+// Article Tables
+// ==================
+
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  th {
+    background: var(--color-surface);
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  td {
+    color: var(--color-text-muted);
+  }
+
+  // First column bold
+  td:first-child {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  // Highlight the "our tool" column
+  th:nth-child(2),
+  td:nth-child(2) {
+    color: var(--color-text);
+    background: rgba(124, 108, 240, 0.06);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  // Zebra striping
+  tbody tr:nth-child(even) {
+    background: rgba(var(--color-surface-rgb, 128, 128, 128), 0.03);
+  }
+}
+
+@media (max-width: 640px) {
+  .article-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    font-size: 13px;
+
+    th, td {
+      padding: 8px 10px;
+    }
+  }
+}

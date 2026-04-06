@@ -156,6 +156,11 @@
           <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
         </button>
+      </div>
+    </header>
+
+    <div class="tool-bar" id="toolBar">
+      <div class="tool-bar__actions">
         <button class="btn btn--ghost" id="clearBtn" type="button">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4m2 0v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span data-i18n="clear">Clear</span>
@@ -175,7 +180,7 @@
           <span data-i18n="process">Process</span>
         </button>
       </div>
-    </header>
+    </div>
 
     <!-- About Modal -->
     <div class="about-modal-overlay" id="aboutModal" hidden>
@@ -268,6 +273,13 @@
         ></textarea>
       </section>
     </main>
+
+    <div class="mobile-bar" id="mobileBar">
+      <button class="btn btn--primary mobile-bar__btn" id="mobileProcessBtn" type="button">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8h14M11 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="process">Process</span>
+      </button>
+    </div>
 
     <footer class="footer" role="contentinfo">
       <p class="footer__text">

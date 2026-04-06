@@ -12,10 +12,14 @@ $color-css-dark: #16a34a;
 $color-css-glow: rgba(34, 197, 94, 0.15);
 $color-css-glow-strong: rgba(34, 197, 94, 0.35);
 
-// Override accent CSS custom properties for about modal & shared components
+// Override accent CSS custom properties for CSS Minifier (green)
 :root {
   --color-accent: #{$color-css};
+  --color-accent-light: #{$color-css-light};
+  --color-accent-dark: #{$color-css-dark};
   --color-accent-glow: #{$color-css-glow};
+  --color-accent-glow-strong: #{$color-css-glow-strong};
+  --color-accent-subtle: rgba(34, 197, 94, 0.04);
   --color-accent-border: rgba(34, 197, 94, 0.3);
 }
 
@@ -38,251 +42,10 @@ body {
 
 [hidden] { display: none !important; }
 
-// --- About Banner ---
-.about-banner {
-  display: flex; gap: 16px; padding: 16px 24px;
-  background: rgba(34, 197, 94, 0.04);
-  border-bottom: 1px solid rgba(34, 197, 94, 0.15);
-  position: relative;
-
-  &__content { flex: 1; }
-  &__title { font-size: 15px; font-weight: 700; color: var(--color-text); margin-bottom: 8px; }
-  p { font-size: 13px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 6px;
-    strong { color: $color-css-light; font-weight: 700; }
-  }
-  &__list {
-    margin: 8px 0 0 18px; padding: 0;
-    li { font-size: 12px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 2px;
-      &::marker { color: $color-css-light; }
-    }
-  }
-  &__close {
-    position: absolute; top: 12px; right: 12px;
-    width: 28px; height: 28px; border: none; border-radius: 6px;
-    background: transparent; color: var(--color-text-dim);
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all $transition-fast;
-    &:hover { background: var(--color-surface-hover); color: var(--color-text); }
-  }
-}
-
-// --- Header ---
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 24px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--glass-bg-strong);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  position: relative;
-  z-index: 60;
-
-  &__brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  &__logo {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 14px;
-      background: $color-css-glow;
-      filter: blur(10px);
-      opacity: 0.6;
-    }
-  }
-
-  &__logo-svg {
-    width: 34px;
-    height: 34px;
-    position: relative;
-    z-index: 1;
-  }
-
-  &__title {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--color-text);
-  }
-
-  &__title-accent {
-    background: linear-gradient(135deg, $color-css-light, $color-css);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  &__subtitle {
-    font-size: 12px;
-    color: var(--color-text-dim);
-    margin-top: 2px;
-    letter-spacing: 0.2px;
-  }
-
-  &__actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-}
-
-// --- Language Toggle ---
-.lang-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 36px;
-  border: 1px solid var(--color-border);
-  border-radius: $radius-sm;
-  background: rgba(255, 255, 255, 0.03);
-  cursor: pointer;
-  text-decoration: none;
-  transition: all $transition;
-
-  &:hover {
-    background: var(--color-surface-hover);
-    border-color: rgba(34, 197, 94, 0.3);
-    transform: translateY(-1px);
-  }
-
-  &__flag {
-    font-size: 12px;
-    font-weight: 800;
-    font-family: $font-body;
-    color: var(--color-text-muted);
-    letter-spacing: 0.5px;
-    transition: color $transition-fast;
-  }
-
-  &:hover &__flag {
-    color: $color-css-light;
-  }
-}
-
-// --- Dropdown ---
-.dropdown {
-  position: relative;
-
-  &__chevron {
-    transition: transform $transition;
-    opacity: 0.6;
-  }
-
-  &.open &__chevron { transform: rotate(180deg); }
-
-  &__menu {
-    position: absolute;
-    top: calc(100% + 6px);
-    right: 0;
-    min-width: 220px;
-    padding: 6px;
-    border-radius: $radius-md;
-    border: 1px solid var(--color-border);
-    background: var(--glass-bg-strong);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px) scale(0.96);
-    transition: all $transition;
-    z-index: 200;
-  }
-
-  &.open &__menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    padding: 10px 12px;
-    border: none;
-    border-radius: $radius-sm;
-    background: transparent;
-    color: var(--color-text-muted);
-    font-family: $font-body;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all $transition-fast;
-    text-align: left;
-
-    svg { flex-shrink: 0; opacity: 0.6; }
-
-    &:hover {
-      background: rgba(34, 197, 94, 0.1);
-      color: var(--color-text);
-      svg { opacity: 1; }
-      .dropdown__item-title { color: $color-css-light; }
-    }
-  }
-
-  &__item-text { display: flex; flex-direction: column; gap: 1px; }
-  &__item-title { font-weight: 600; color: var(--color-text); font-size: 13px; transition: color $transition-fast; }
-  &__item-desc { font-size: 11px; color: var(--color-text-dim); }
-}
-
-// --- Workspace ---
-.workspace { display: flex; flex: 1; overflow: hidden; }
-
-// --- Panel ---
-.panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    border-bottom: 1px solid var(--color-border);
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
-
-  &__header-left { display: flex; align-items: center; gap: 10px; }
-
-  &__dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    &--green { background: $color-success; box-shadow: 0 0 8px rgba(34, 197, 94, 0.4); }
-    &--orange { background: $color-css; box-shadow: 0 0 8px $color-css-glow; }
-    &--blue { background: $color-primary-light; box-shadow: 0 0 8px $color-primary-glow; }
-  }
-
-  &__title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--color-text-muted); }
-
-  &__badge {
-    font-size: 11px; color: var(--color-text-dim); font-family: $font-mono;
-    padding: 3px 10px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid var(--color-border-subtle);
-  }
-
-  &__controls {
-    display: flex; gap: 2px; background: rgba(255, 255, 255, 0.03);
-    border-radius: $radius-sm; padding: 3px; border: 1px solid var(--color-border-subtle);
-  }
+// --- Panel Controls (cssminifier-specific) ---
+.panel__controls {
+  display: flex; gap: 2px; background: rgba(255, 255, 255, 0.03);
+  border-radius: $radius-sm; padding: 3px; border: 1px solid var(--color-border-subtle);
 }
 
 // --- Style Toggle (Minify / Prettify) ---
@@ -384,31 +147,6 @@ body {
   50% { transform: translateY(-8px); }
 }
 
-// --- Divider ---
-.divider {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  width: 52px; background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border-left: 1px solid var(--color-border); border-right: 1px solid var(--color-border);
-
-  &__line { flex: 1; width: 1px; background: linear-gradient(to bottom, transparent, var(--color-border), transparent); }
-
-  &__icon {
-    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, $color-css, $color-css-dark);
-    border-radius: 50%; flex-shrink: 0; box-shadow: 0 4px 16px $color-css-glow-strong;
-    position: relative;
-    &::after {
-      content: ''; position: absolute; inset: -3px; border-radius: 50%;
-      border: 1px solid rgba(34, 197, 94, 0.2); animation: dividerPulse 3s ease-in-out infinite;
-    }
-  }
-}
-
-@keyframes dividerPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0; }
-}
-
 // --- Drop Zone ---
 .drop-zone {
   position: absolute;
@@ -486,45 +224,16 @@ body {
   to { transform: rotate(360deg); }
 }
 
-// --- CSS-accent overrides for shared btn --primary ---
-.btn--primary {
-  background: linear-gradient(135deg, $color-css, $color-css-dark);
-  box-shadow: 0 2px 8px $color-css-glow, inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-  &:hover {
-    box-shadow: 0 4px 20px $color-css-glow-strong, inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  }
-}
-
-.btn--ghost {
-  &:hover {
-    border-color: rgba(34, 197, 94, 0.3);
-  }
-}
-
 // --- Responsive ---
 @media (max-width: 768px) {
-  .workspace { flex-direction: column; }
-
-  .divider {
-    flex-direction: row; width: 100%; height: 44px;
-    border-left: none; border-right: none;
-    border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);
-    &__line { height: 1px; width: auto; flex: 1; background: linear-gradient(to right, transparent, var(--color-border), transparent); }
-  }
-
-  .header {
-    flex-direction: column; gap: 12px; padding: 12px 16px;
-    &__actions {
-      width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-      .about-trigger, .lang-toggle, .theme-toggle { flex: 0 0 auto; }
-      #clearBtn { margin-left: auto; }
-      .panel__controls { flex: 1 1 100%; order: 1; display: flex;
-        .style-toggle { flex: 1; justify-content: center; }
-      }
-      #processBtn { flex: 1 1 100%; order: 2; }
-      .btn { justify-content: center; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
+  .header__actions {
+    .about-trigger, .lang-toggle, .theme-toggle { flex: 0 0 auto; }
+    #clearBtn { margin-left: auto; }
+    .panel__controls { flex: 1 1 100%; order: 1; display: flex;
+      .style-toggle { flex: 1; justify-content: center; }
     }
+    #processBtn { flex: 1 1 100%; order: 2; }
+    .btn { justify-content: center; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
   }
 
   .stats-bar {
