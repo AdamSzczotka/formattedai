@@ -127,6 +127,7 @@ function releaseSlot() {
 let browser;
 
 async function initBrowser() {
+  const isWindows = process.platform === 'win32';
   browser = await puppeteer.launch({
     headless: 'new',
     executablePath: CHROMIUM_PATH,
@@ -139,7 +140,8 @@ async function initBrowser() {
       '--disable-background-networking',
       '--disable-webgl',
       '--disable-3d-apis',
-      '--single-process',
+      // --single-process crashes on Windows; only use in Docker (Linux)
+      ...(isWindows ? [] : ['--single-process']),
     ],
   });
 
