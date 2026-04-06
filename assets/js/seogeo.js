@@ -870,6 +870,8 @@ function copyAll() {
   const parts = [outputSeoCode, outputOgCode, outputTwitterCode, outputSchemaCode, outputLlmsCode, outputRobotsCode]
     .map(el => el.textContent).filter(Boolean);
   copyText(parts.join('\n\n'));
+  flashSuccess(copyAllBtn, t('toastCopied'));
+  flashSuccess(document.getElementById('mobileCopyAllBtn'), t('toastCopied'));
 }
 
 // --- Clear ---
@@ -949,11 +951,29 @@ function renderCrawlerList() {
   });
 }
 
+// --- Flash success helper ---
+function flashSuccess(btn, successText) {
+  if (!btn) return;
+  var span = btn.querySelector('span');
+  if (!span) return;
+  var origText = span.textContent;
+  btn.classList.add('btn--success');
+  span.textContent = successText;
+  setTimeout(function() {
+    btn.classList.remove('btn--success');
+    span.textContent = origText;
+  }, 2000);
+}
+
 // --- Event Listeners ---
 if (langToggle) langToggle.addEventListener('click', toggleLanguage);
 themeToggle.addEventListener('click', toggleTheme);
 clearBtn.addEventListener('click', clearAll);
 copyAllBtn.addEventListener('click', copyAll);
+
+// Mobile bar
+var mobileCopyAllBtn = document.getElementById('mobileCopyAllBtn');
+if (mobileCopyAllBtn) mobileCopyAllBtn.addEventListener('click', copyAll);
 
 // Copy per section
 document.querySelectorAll('.btn--copy').forEach(btn => {
