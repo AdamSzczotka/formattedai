@@ -169,7 +169,7 @@ const translations = {
 };
 
 // --- Preloaded Example HTML ---
-const EXAMPLE_HTML = `<!DOCTYPE html>
+const EXAMPLE_HTML_PL = `<!DOCTYPE html>
 <html>
 <head>
   <style>
@@ -196,6 +196,38 @@ const EXAMPLE_HTML = `<!DOCTYPE html>
   <div class="footer">FormattedAI \u2022 formattedai.pl \u2022 NIP: 000-000-00-00</div>
 </body>
 </html>`;
+
+const EXAMPLE_HTML_EN = `<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #1a1a2e; }
+    h1 { color: #0891b2; margin-bottom: 8px; }
+    .subtitle { color: #666; margin-bottom: 32px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e5e5e5; }
+    th { background: #f8f9fa; font-weight: 600; }
+    .total { font-size: 20px; font-weight: 700; color: #0891b2; text-align: right; margin-top: 24px; }
+    .footer { margin-top: 48px; font-size: 13px; color: #999; border-top: 1px solid #e5e5e5; padding-top: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Invoice #2024-001</h1>
+  <p class="subtitle">Date: April 3, 2026</p>
+  <table>
+    <tr><th>Service</th><th>Quantity</th><th>Price</th></tr>
+    <tr><td>UI/UX Design</td><td>40h</td><td>$2,000</td></tr>
+    <tr><td>Frontend Development</td><td>60h</td><td>$3,000</td></tr>
+    <tr><td>Testing & Deployment</td><td>16h</td><td>$800</td></tr>
+  </table>
+  <p class="total">Total: $5,800</p>
+  <div class="footer">FormattedAI \u2022 formattedai.pl</div>
+</body>
+</html>`;
+
+function getExampleHtml() {
+  return currentLang === 'en' ? EXAMPLE_HTML_EN : EXAMPLE_HTML_PL;
+}
 
 // --- Constants ---
 const LIVE_PREVIEW_SIZE_LIMIT = 50 * 1024; // 50 KB
@@ -822,7 +854,7 @@ applyLanguage();
 readOptions();
 
 // Preload example HTML
-htmlEditor.value = EXAMPLE_HTML;
+htmlEditor.value = getExampleHtml();
 
 // Initial preview
 updatePreview();
