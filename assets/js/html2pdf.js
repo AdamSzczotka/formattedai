@@ -3,6 +3,11 @@
 // Client-side HTML editor with live preview + PDF export
 // ============================================
 
+// Dev: point to local PDF service; prod: relative paths (handled by proxy)
+const API_BASE = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+  ? 'http://localhost:3001'
+  : '';
+
 // --- i18n Translations ---
 const translations = {
   pl: {
@@ -202,6 +207,7 @@ let activeTab = 'html';
 let wordWrap = false;
 let livePreviewEnabled = true;
 let urlPdfBlob = null;
+let pdfPreviewUrl = null;
 let debounceTimer = null;
 let serverAvailable = false;
 
@@ -404,7 +410,7 @@ function buildPageStyle() {
 }
 
 function buildSecureSrcdoc(html) {
-  const csp = '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; img-src data: blob:; font-src data:; script-src \'none\'; connect-src \'none\'; form-action \'none\';">';
+  const csp = '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\' https: http:; img-src data: blob: https: http:; font-src data: https: http:; script-src \'none\'; connect-src \'none\'; form-action \'none\'; frame-src \'none\';">';
   const pageStyle = buildPageStyle();
   return '<!DOCTYPE html><html><head><meta charset="UTF-8">' + csp + '<style>' + pageStyle + '</style></head><body>' + html + '</body></html>';
 }
@@ -421,6 +427,11 @@ function switchTab(tab) {
 
   tabHtmlEl.hidden = tab !== 'html';
   tabUrlEl.hidden = tab !== 'url';
+
+  if (tab === 'html') {
+    hidePdfPreview();
+    updatePreview();
+  }
 }
 
 // --- HTML Editor ---
@@ -586,7 +597,7 @@ async function exportHtml() {
 
   showExportLoading(true);
   try {
-    const res = await fetch('/api/pdf/from-html', {
+    const res = await fetch(API_BASE + '/api/pdf/from-html', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ html: html, options: getOptions() }),
@@ -633,6 +644,35 @@ function showUrlResult(url, size) {
   urlFileSize.textContent = formatSize(size);
 }
 
+function showPdfPreview(blob) {
+  if (pdfPreviewUrl) URL.revokeObjectURL(pdfPreviewUrl);
+  pdfPreviewUrl = URL.createObjectURL(blob);
+  previewEmpty.hidden = true;
+  previewFrame.hidden = true;
+  let pdfEmbed = document.getElementById('pdfPreviewEmbed');
+  if (!pdfEmbed) {
+    pdfEmbed = document.createElement('embed');
+    pdfEmbed.id = 'pdfPreviewEmbed';
+    pdfEmbed.type = 'application/pdf';
+    pdfEmbed.style.cssText = 'width:100%;flex:1;border:none;background:#fff';
+    previewArea.appendChild(pdfEmbed);
+  }
+  pdfEmbed.hidden = false;
+  pdfEmbed.src = pdfPreviewUrl;
+}
+
+function hidePdfPreview() {
+  const pdfEmbed = document.getElementById('pdfPreviewEmbed');
+  if (pdfEmbed) {
+    pdfEmbed.hidden = true;
+    pdfEmbed.src = '';
+  }
+  if (pdfPreviewUrl) {
+    URL.revokeObjectURL(pdfPreviewUrl);
+    pdfPreviewUrl = null;
+  }
+}
+
 async function generateFromUrl() {
   const url = urlInput.value.trim();
   if (!url || (!url.startsWith('http://') && !url.startsWith('https://'))) {
@@ -643,7 +683,7 @@ async function generateFromUrl() {
   showUrlLoading(true);
   urlResult.hidden = true;
   try {
-    const res = await fetch('/api/pdf/from-url', {
+    const res = await fetch(API_BASE + '/api/pdf/from-url', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: url, options: getOptions() }),
@@ -652,6 +692,7 @@ async function generateFromUrl() {
     const blob = await res.blob();
     urlPdfBlob = blob;
     showUrlResult(url, blob.size);
+    showPdfPreview(blob);
   } catch (err) {
     console.error('URL generation failed:', err);
     showToast(t('errorGeneric'));
@@ -669,7 +710,7 @@ function downloadUrlPdf() {
 // --- API Health Check ---
 async function checkApiHealth() {
   try {
-    const res = await fetch('/api/pdf/health', { method: 'GET' });
+    const res = await fetch(API_BASE + '/api/pdf/health', { method: 'GET' });
     serverAvailable = res.ok;
   } catch {
     serverAvailable = false;

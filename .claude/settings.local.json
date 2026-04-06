@@ -35,7 +35,20 @@
       "Bash(node scripts/build-i18n.js)",
       "Bash(node:*)",
       "Bash(npx sass:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(npm install:*)",
+      "Bash(docker compose:*)",
+      "Bash(docker info:*)",
+      "Bash(docker --version)",
+      "Bash(PUPPETEER_EXECUTABLE_PATH=\"C:/Program Files/Google/Chrome/Application/chrome.exe\" ALLOWED_ORIGINS=\"http://127.0.0.1:5500,http://localhost:5500,http://localhost:3000,http://127.0.0.1:3000\" NODE_ENV=development node server.js)",
+      "Bash(curl -s http://localhost:3001/api/pdf/health)",
+      "Bash(curl:*)",
+      "Read(//tmp/**)",
+      "Bash(taskkill //F //FI \"WINDOWTITLE eq *pdf*\")",
+      "Bash(lsof -ti:3001)",
+      "Bash(xargs kill:*)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill:*)"
     ]
   }
 }

@@ -84,7 +84,7 @@
   <meta name="mobile-web-app-capable" content="yes">
 
   <!-- Fonts & Styles -->
-  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/css/fonts.css">
   <link rel="stylesheet" href="../assets/css/html2pdf.css">
 </head>
 <body>
@@ -325,7 +325,7 @@
             </svg>
             <p data-i18n="previewEmpty">Wklej kod HTML po lewej stronie, a podglad pojawi sie tutaj</p>
           </div>
-          <iframe id="previewFrame" class="preview-frame" sandbox="allow-same-origin"></iframe>
+          <iframe id="previewFrame" class="preview-frame" sandbox="allow-same-origin allow-modals"></iframe>
           <div class="preview-bar" id="previewBar"></div>
         </div>
 
@@ -422,6 +422,6 @@
     </div>
   </section>
 
-  <script type="module" src="../assets/js/html2pdf.min.js"></script>
+  <script type="module" src="../assets/js/html2pdf.js"></script>
 </body>
 </html>
