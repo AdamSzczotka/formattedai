@@ -4985,11 +4985,8 @@
     cacheDom();
     applyTheme();
 
-    // Detect lang from localStorage or html attribute
-    var savedLang = localStorage.getItem('formattedai-lang');
-    if (savedLang && (savedLang === 'pl' || savedLang === 'en')) {
-      currentLang = savedLang;
-    }
+    // Use lang from HTML attribute (set per-page), ignore localStorage override
+    currentLang = document.documentElement.lang || 'pl';
     applyLanguage();
 
     bindEvents();
