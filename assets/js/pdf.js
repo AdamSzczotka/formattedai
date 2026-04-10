@@ -85,6 +85,21 @@
       dropTextAnnotate: 'Przeciągnij plik PDF do adnotacji',
       annotateBtnText: 'Zapisz PDF',
       annotateResult: 'PDF z adnotacjami',
+      // Rotate
+      tabRotate: 'Obróć',
+      dropRotate: 'Przeciągnij plik PDF do obrócenia',
+      rotateBtnText: 'Obróć PDF',
+      rotateResult: 'Obrócony PDF',
+      rotateAngleLabel: 'Kąt obrotu',
+      rotateNoFile: 'Dodaj plik PDF aby kontynuować',
+      // PDF to JPG
+      tabPdf2Jpg: 'PDF → JPG',
+      dropPdf2Jpg: 'Przeciągnij plik PDF do konwersji',
+      pdf2JpgBtnText: 'Konwertuj na JPG',
+      pdf2JpgResult: 'Strony jako JPG',
+      pdf2jpgQuality: 'Jakość JPG',
+      pdf2jpgDpi: 'Rozdzielczość (DPI)',
+      pdf2JpgSinglePage: 'Pobierz JPG',
       annotateTool_cursor: 'Kursor',
       annotateTool_text: 'Tekst',
       annotateTool_pen: 'Pióro',
@@ -258,6 +273,21 @@
       dropTextAnnotate: 'Drag & drop a PDF to annotate',
       annotateBtnText: 'Save PDF',
       annotateResult: 'Annotated PDF',
+      // Rotate
+      tabRotate: 'Rotate',
+      dropRotate: 'Drag & drop a PDF to rotate',
+      rotateBtnText: 'Rotate PDF',
+      rotateResult: 'Rotated PDF',
+      rotateAngleLabel: 'Rotation angle',
+      rotateNoFile: 'Add a PDF file to continue',
+      // PDF to JPG
+      tabPdf2Jpg: 'PDF → JPG',
+      dropPdf2Jpg: 'Drag & drop a PDF to convert',
+      pdf2JpgBtnText: 'Convert to JPG',
+      pdf2JpgResult: 'Pages as JPG',
+      pdf2jpgQuality: 'JPG quality',
+      pdf2jpgDpi: 'Resolution (DPI)',
+      pdf2JpgSinglePage: 'Download JPG',
       annotateTool_cursor: 'Cursor',
       annotateTool_text: 'Text',
       annotateTool_pen: 'Pen',
@@ -365,7 +395,7 @@
   var ACCEPTED_PDF = ['application/pdf'];
   var ACCEPTED_IMAGES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
   var THUMBNAIL_HEIGHT = 150;
-  var TAB_IDS = ['merge', 'split', 'compress', 'img2pdf', 'crop', 'forms', 'annotate'];
+  var TAB_IDS = ['merge', 'split', 'compress', 'img2pdf', 'rotate', 'pdf2jpg', 'crop', 'forms', 'annotate'];
 
   // ==================
   // State
@@ -406,6 +436,11 @@
     annotateAnnotations: {},  // { pageIndex: [ { type, points/rect/text, color, stroke, ... } ] }
     annotateUndoStack: [],
     annotateRedoStack: [],
+    // Rotate state
+    rotateAngle: 90,
+    // PDF to JPG state
+    pdf2JpgQuality: 90,
+    pdf2JpgDpi: 150,
   };
 
   // ==================
@@ -550,7 +585,7 @@
 
     // Compress-specific
     dom.compressControls = document.getElementById('compressOptions');
-    dom.compressPresetBtns = document.querySelectorAll('.options-panel__preset');
+    dom.compressPresetBtns = document.querySelectorAll('#compressOptions .options-panel__preset');
     dom.compressQualitySlider = document.getElementById('qualitySlider');
     dom.compressQualityValue = document.getElementById('qualityValue');
     dom.compressStripMeta = document.getElementById('stripMetadata');
@@ -653,6 +688,7 @@
 
     // Only clear files when switching between incompatible types (img2pdf <-> pdf tabs)
     var imgTabs = ['img2pdf'];
+    var pdfTabs = ['merge', 'split', 'compress', 'rotate', 'pdf2jpg', 'crop', 'forms', 'annotate'];
     var switchingFileType = (imgTabs.indexOf(prevTab) >= 0) !== (imgTabs.indexOf(tabId) >= 0);
     if (switchingFileType) {
       clearFiles();
@@ -681,6 +717,10 @@
     if (formsContainer) formsContainer.hidden = tabId !== 'forms';
     var annotateContainer = document.getElementById('annotateContainer');
     if (annotateContainer) annotateContainer.hidden = tabId !== 'annotate';
+    var rotateOptions = document.getElementById('rotateOptions');
+    if (rotateOptions) rotateOptions.hidden = tabId !== 'rotate';
+    var pdf2jpgOptions = document.getElementById('pdf2jpgOptions');
+    if (pdf2jpgOptions) pdf2jpgOptions.hidden = tabId !== 'pdf2jpg';
 
     // Auto-load previews for new tab if files already present
     if (state.files.length > 0) {
@@ -713,6 +753,7 @@
 
     // Multi vs single
     var isMulti = state.activeTab === 'merge' || state.activeTab === 'img2pdf';
+    // rotate and pdf2jpg are explicitly single-file
     if (dom.dropZoneInput) {
       if (isMulti) dom.dropZoneInput.setAttribute('multiple', '');
       else dom.dropZoneInput.removeAttribute('multiple');
@@ -733,6 +774,8 @@
       'crop': 'dropCrop',
       'forms': 'dropForms',
       'annotate': 'dropAnnotate',
+      'rotate': 'dropRotate',
+      'pdf2jpg': 'dropPdf2Jpg',
     };
     dom.dropZoneText.textContent = t(textMap[state.activeTab] || 'dropMerge');
   }
@@ -748,6 +791,8 @@
         'crop': 'cropBtnText',
         'forms': 'formsBtnText',
         'annotate': 'annotateBtnText',
+        'rotate': 'rotateBtnText',
+        'pdf2jpg': 'pdf2JpgBtnText',
       };
       dom.divider.title = t(titleMap[state.activeTab] || 'mergeBtnText');
       dom.divider.setAttribute('aria-label', dom.divider.title);
@@ -1850,6 +1895,10 @@
     if (formsContainer) formsContainer.hidden = !(state.activeTab === 'forms' && hasFiles);
     var annotateContainer = document.getElementById('annotateContainer');
     if (annotateContainer) annotateContainer.hidden = !(state.activeTab === 'annotate' && hasFiles);
+    var rotateOptions2 = document.getElementById('rotateOptions');
+    if (rotateOptions2) rotateOptions2.hidden = !(state.activeTab === 'rotate' && hasFiles);
+    var pdf2jpgOptions2 = document.getElementById('pdf2jpgOptions');
+    if (pdf2jpgOptions2) pdf2jpgOptions2.hidden = !(state.activeTab === 'pdf2jpg' && hasFiles);
 
     // Hide split-only UI elements when in merge page mode
     if (dom.splitControls && state.activeTab === 'merge' && state.mergePageMode) {
@@ -4746,6 +4795,137 @@
   }
 
   // ==================
+  // ROTATE
+  // ==================
+  async function rotatePDF() {
+    if (state.files.length === 0) {
+      showToast(t('errorNoFiles'));
+      return;
+    }
+
+    state.processing = true;
+    updateUI();
+    hideResult();
+
+    try {
+      showProgress(10, t('processing'));
+
+      var pdfDoc = await PDFLib.PDFDocument.load(state.files[0].data, { ignoreEncryption: true });
+      var pages = pdfDoc.getPages();
+      var angle = state.rotateAngle;
+
+      showProgress(40, t('processing'));
+
+      pages.forEach(function (page) {
+        var current = page.getRotation().angle;
+        page.setRotation(PDFLib.degrees((current + angle) % 360));
+      });
+
+      showProgress(80, t('processing'));
+      var rotatedBytes = await pdfDoc.save();
+      showProgress(100, t('processing'));
+
+      var baseName = getBaseName(state.files[0].name);
+      showResult(rotatedBytes, baseName + '_rotated.pdf', 'application/pdf', state.files[0].size);
+      showToast(t('toastSuccess'));
+    } catch (err) {
+      console.error('Rotate error:', err);
+      showToast(t('errorGeneric'));
+    }
+
+    state.processing = false;
+    hideProgress();
+    updateUI();
+  }
+
+  // ==================
+  // PDF TO JPG
+  // ==================
+  async function pdfToJpg() {
+    if (state.files.length === 0) {
+      showToast(t('errorNoFiles'));
+      return;
+    }
+
+    state.processing = true;
+    updateUI();
+    hideResult();
+
+    try {
+      showProgress(0, t('processing'));
+
+      var fileData = state.files[0].data;
+      var lib = await loadPdfjs();
+      var loadingTask = lib.getDocument({ data: fileData.slice() });
+      var pdfDoc = await loadingTask.promise;
+      var numPages = pdfDoc.numPages;
+      var scale = state.pdf2JpgDpi / 72;
+      var quality = state.pdf2JpgQuality / 100;
+      var baseName = getBaseName(state.files[0].name);
+
+      if (numPages === 1) {
+        // Single page — download as JPG directly
+        var page = await pdfDoc.getPage(1);
+        var viewport = page.getViewport({ scale: scale });
+        var canvas = document.createElement('canvas');
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        var ctx = canvas.getContext('2d');
+
+        showProgress(30, t('processingPage') + ' 1 ' + t('splitPageOf') + ' 1');
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+        var dataUrl = canvas.toDataURL('image/jpeg', quality);
+        var jpgBytes = dataUrlToUint8Array(dataUrl);
+
+        showProgress(100, t('processing'));
+        showResult(jpgBytes, baseName + '_page_1.jpg', 'image/jpeg', state.files[0].size);
+      } else {
+        // Multiple pages — ZIP all JPGs
+        var zipFiles = {};
+
+        for (var i = 1; i <= numPages; i++) {
+          showProgress(
+            (i / numPages) * 90,
+            t('processingPage') + ' ' + i + ' ' + t('splitPageOf') + ' ' + numPages
+          );
+
+          var page2 = await pdfDoc.getPage(i);
+          var viewport2 = page2.getViewport({ scale: scale });
+          var canvas2 = document.createElement('canvas');
+          canvas2.width = Math.floor(viewport2.width);
+          canvas2.height = Math.floor(viewport2.height);
+          var ctx2 = canvas2.getContext('2d');
+
+          await page2.render({ canvasContext: ctx2, viewport: viewport2 }).promise;
+
+          var dataUrl2 = canvas2.toDataURL('image/jpeg', quality);
+          var pageBytes = dataUrlToUint8Array(dataUrl2);
+          var padded = i < 10 ? '0' + i : '' + i;
+          zipFiles[baseName + '_page_' + padded + '.jpg'] = pageBytes;
+
+          await yieldToMain();
+        }
+
+        showProgress(95, t('processing'));
+        var zipped = fflate.zipSync(zipFiles);
+        showProgress(100, t('processing'));
+
+        showResult(zipped, baseName + '_images.zip', 'application/zip', state.files[0].size);
+      }
+
+      showToast(t('toastSuccess'));
+    } catch (err) {
+      console.error('PDF to JPG error:', err);
+      showToast(t('errorGeneric'));
+    }
+
+    state.processing = false;
+    hideProgress();
+    updateUI();
+  }
+
+  // ==================
   // Action dispatcher
   // ==================
   function executeAction() {
@@ -4759,6 +4939,8 @@
       case 'crop': cropPDF(); break;
       case 'forms': saveFormPDF(); break;
       case 'annotate': saveAnnotatedPDF(); break;
+      case 'rotate': rotatePDF(); break;
+      case 'pdf2jpg': pdfToJpg(); break;
     }
   }
 
@@ -4946,6 +5128,35 @@
     if (dom.compressStripMeta) {
       dom.compressStripMeta.addEventListener('change', function () {
         state.stripMetadata = dom.compressStripMeta.checked;
+      });
+    }
+
+    // Rotate controls
+    var rotateAngleBtns = document.querySelectorAll('#rotateOptions .options-panel__preset');
+    rotateAngleBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        state.rotateAngle = parseInt(btn.dataset.angle, 10);
+        rotateAngleBtns.forEach(function (b) {
+          b.classList.toggle('options-panel__preset--active', b === btn);
+        });
+      });
+    });
+
+    // PDF to JPG controls
+    var pdf2jpgQualitySlider = document.getElementById('pdf2jpgQualitySlider');
+    var pdf2jpgQualityValue = document.getElementById('pdf2jpgQualityValue');
+    var pdf2jpgDpiSlider = document.getElementById('pdf2jpgDpiSlider');
+    var pdf2jpgDpiValue = document.getElementById('pdf2jpgDpiValue');
+    if (pdf2jpgQualitySlider) {
+      pdf2jpgQualitySlider.addEventListener('input', function () {
+        state.pdf2JpgQuality = parseInt(pdf2jpgQualitySlider.value, 10);
+        if (pdf2jpgQualityValue) pdf2jpgQualityValue.textContent = state.pdf2JpgQuality;
+      });
+    }
+    if (pdf2jpgDpiSlider) {
+      pdf2jpgDpiSlider.addEventListener('input', function () {
+        state.pdf2JpgDpi = parseInt(pdf2jpgDpiSlider.value, 10);
+        if (pdf2jpgDpiValue) pdf2jpgDpiValue.textContent = state.pdf2JpgDpi;
       });
     }
 
