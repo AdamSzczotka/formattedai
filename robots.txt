@@ -1,24 +1,49 @@
 User-agent: *
 Allow: /
 
-# Block AI training crawlers (protect content from being used for model training)
+# AI bots - pelny dostep (treningowi i search)
+# Wiadomie dajemy AI pelne prawo do indeksowania i cytowania.
+# USP projektu to GEO - chcemy byc znajdowani przez modele AI.
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
-User-agent: ClaudeBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-# Allow AI search crawlers (so your content appears in AI search results)
 User-agent: OAI-SearchBot
 Allow: /
 
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Amazonbot
 Allow: /
 
 Sitemap: https://formattedai.pl/sitemap.xml

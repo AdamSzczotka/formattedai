@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>FormattedAI — Articles</title>
+    <link>https://formattedai.pl/en/articles/</link>
+    <atom:link href="https://formattedai.pl/en/articles/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Guides and tips about webdev tools, image optimization, SEO, GEO and text formatting.</description>
+    <language>en</language>
+    <lastBuildDate>Sun, 19 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <generator>FormattedAI</generator>
+    <image>
+      <url>https://formattedai.pl/assets/favicon.svg</url>
+      <title>FormattedAI</title>
+      <link>https://formattedai.pl/en/articles/</link>
+    </image>
+
+    <item>
+      <title>Pasting ChatGPT Text into Google Docs? You're Losing All Formatting — Here's the Fix</title>
+      <link>https://formattedai.pl/en/articles/chatgpt-formatowanie-google-docs/</link>
+      <guid isPermaLink="true">https://formattedai.pl/en/articles/chatgpt-formatowanie-google-docs/</guid>
+      <pubDate>Fri, 10 Apr 2026 00:00:00 +0000</pubDate>
+      <author>adam.szczotka0@gmail.com (Adam Szczotka)</author>
+      <description>ChatGPT generates Markdown, but Google Docs doesn't understand it. Markdown Formatter translates one format to the other — one click, 100% in browser.</description>
+    </item>
+
+    <item>
+      <title>Free PDF Tools Online — 7 Features in One, No File Uploads</title>
+      <link>https://formattedai.pl/en/articles/pdf-darmowe-narzedzia-online/</link>
+      <guid isPermaLink="true">https://formattedai.pl/en/articles/pdf-darmowe-narzedzia-online/</guid>
+      <pubDate>Mon, 06 Apr 2026 00:00:00 +0000</pubDate>
+      <author>adam.szczotka0@gmail.com (Adam Szczotka)</author>
+      <description>Merge, split, compress, crop PDF, convert images, fill forms and add signatures — all in your browser.</description>
+    </item>
+
+    <item>
+      <title>GEO — How to Optimize Your Website for AI Search Engines? 2026 Guide</title>
+      <link>https://formattedai.pl/en/articles/geo-optymalizacja-pod-ai/</link>
+      <guid isPermaLink="true">https://formattedai.pl/en/articles/geo-optymalizacja-pod-ai/</guid>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 +0000</pubDate>
+      <author>adam.szczotka0@gmail.com (Adam Szczotka)</author>
+      <description>Generative Engine Optimization — how to make your website appear in ChatGPT, Perplexity and Gemini answers. With code examples.</description>
+    </item>
+
+    <item>
+      <title>How to Speed Up Image Loading on Your Website? Complete AVIF Guide</title>
+      <link>https://formattedai.pl/en/articles/optymalizacja-zdjec-avif/</link>
+      <guid isPermaLink="true">https://formattedai.pl/en/articles/optymalizacja-zdjec-avif/</guid>
+      <pubDate>Wed, 25 Mar 2026 00:00:00 +0000</pubDate>
+      <author>adam.szczotka0@gmail.com (Adam Szczotka)</author>
+      <description>Learn why AVIF is the best image format in 2026 and how to convert images without losing quality.</description>
+    </item>
+
+  </channel>
+</rss>
