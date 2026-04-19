@@ -40,6 +40,8 @@ jobs:
           printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          # Sanity: confirm key parses before we try to use it
+          ssh-keygen -y -f ~/.ssh/deploy_key >/dev/null || { echo "::error::SSH_KEY secret is malformed or corrupted"; exit 1; }
 
       - name: Deploy via rsync
         env:
@@ -48,7 +50,7 @@ jobs:
           SSH_PATH: ${{ secrets.SSH_PATH }}
         run: |
           rsync -avz --delete --stats \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -o IdentitiesOnly=yes -o BatchMode=yes" \
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='.claude/' \
