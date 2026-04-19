@@ -39,7 +39,6 @@ Każde narzędzie ma osobny entry SCSS (`assets/scss/<tool>.scss`) i osobny `bui
 ├── assets/
 │   ├── scss/ css/ js/ vendor/ screenshots/
 │   └── favicon.svg
-├── templates/             # Szablony HTML (aktualizowane ręcznie)
 ├── sitemap.xml            # Ręcznie utrzymywany
 ├── robots.txt
 ├── llms.txt               # Opis dla LLM-ów
@@ -73,7 +72,7 @@ Kolory (dark-first, glass morphism):
 
 Logo: heksagon z checkmarkiem. SVG inline w każdym navbarze — nie wyciągaj do zewnętrznego pliku.
 
-Theme toggle czyta/zapisuje `localStorage['formattedai-theme']` (`light` | `dark`). Każdy template ma ten sam inline-script na dole `<body>`.
+Theme toggle czyta/zapisuje `localStorage['formattedai-theme']` (`light` | `dark`). Każda strona ma ten sam inline-script na dole `<body>`.
 
 ## Git flow
 
@@ -88,7 +87,7 @@ Skille projektowe (`.claude/skills/`) automatyzują flow — komunikaty zawsze p
 
 - **`robots.txt` blokuje trening LLM-ów** (GPTBot, ClaudeBot, anthropic-ai, Google-Extended). AI search bots (OAI-SearchBot, PerplexityBot) są `Allow`. Jeżeli ma być cytowana strona przez Claude/ChatGPT w odpowiedziach — trzeba zdjąć `Disallow` dla search botów odpowiedniego modelu; blokada samego trenowania nie wyklucza cytowania przez search variant.
 - **Sitemap trzymamy ręcznie** — po dodaniu strony/artykułu wpis trzeba dopisać do `sitemap.xml` (PL + EN).
-- **`articles/<slug>/index.html` jest ~600+ linii** — szablon pochodzi z poprzedniego artykułu, nie z `templates/`. Przy nowym artykule kopiujemy poprzedni i podmieniamy treść.
+- **`articles/<slug>/index.html` jest ~600+ linii** — kopiujemy z poprzedniego artykułu i podmieniamy treść.
 - **Numeracja artykułów** (`article_N_*.jpg`) — kolejna wolna liczba od ostatniego artykułu. Aktualnie #4 = `chatgpt-formatowanie-google-docs`.
 - **Wspólny SCSS artykułów**: `assets/scss/articles.scss` → `assets/css/articles.css`. Nie twórz osobnego SCSS per artykuł.
 - **Emoji**: logo/UI bez emoji, SVG inline. Copy w artykułach — polska/angielska, bez emoji.
