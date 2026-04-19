@@ -67,7 +67,6 @@ jobs:
             --exclude='tests/' \
             --exclude='docs/' \
             --exclude='stats/' \
-            --exclude='templates/' \
             --exclude='package.json' \
             --exclude='package-lock.json' \
             --exclude='README.md' \
