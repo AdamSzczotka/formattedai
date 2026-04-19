@@ -52,6 +52,10 @@ jobs:
           rsync -avz --delete --stats \
             -e "ssh -o StrictHostKeyChecking=yes" \
             --omit-dir-times \
+            --no-perms \
+            --no-owner \
+            --no-group \
+            --chmod=D775,F664 \
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='.claude/' \
