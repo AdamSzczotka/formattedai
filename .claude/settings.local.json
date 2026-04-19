@@ -1,7 +1,33 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(git push:*)",
+      "Bash(git branch:*)",
+      "Bash(git pull:*)",
+      "Bash(ls -d \"C:\\\\Users\\\\Euforia\\\\Documents\\\\GitHub\\\\formattedai\"/*/)",
+      "Bash(git checkout:*)",
+      "Bash(node -e ':*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git merge:*)",
+      "Bash(git stash:*)",
+      "Bash(grep -v \"^\\\\.$\\\\|^\\\\.\\\\.$\\\\|^\\\\.\\\\|assets\\\\|api\\\\|docs\\\\|locales\\\\|scripts\\\\|node_modules\\\\|\\\\.git\")",
+      "Bash(npm view:*)",
+      "Bash(npm search:*)",
+      "Bash(python -c \"import sys,json; data=json.load\\(sys.stdin\\); [print\\(f\\\\\"{p['name']} v{p['version']} - {p.get\\('description',''\\)}\\\\\"\\) for p in data[:15]]\")",
+      "Bash(npm weekly:*)",
+      "Bash(python -c \"import sys,json; print\\('heic2any weekly:', json.load\\(sys.stdin\\).get\\('dist-tags',{}\\)\\)\")",
+      "WebSearch",
+      "Bash(npx sass:*)",
+      "Bash(npx esbuild:*)",
+      "Bash(node scripts/build-i18n.js)",
+      "Bash(ls:*)",
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/npm/heic-to@1.4.2/dist/esm/index.js\")",
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/npm/heic-to@1/+esm\")",
+      "Bash(curl -s \"https://data.jsdelivr.com/v1/packages/npm/heic-to\")",
+      "Bash(curl:*)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(f['name']\\) for f in d.get\\('files',[]\\)]\")"
     ]
   }
 }
