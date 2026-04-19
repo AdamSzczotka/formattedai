@@ -172,7 +172,6 @@ Po stworzeniu wszystkich plikow:
 ## WAŻNE
 
 - Wszystkie komunikaty do uzytkownika **po polsku**.
-- Nie modyfikuj `templates/` — to szablony historyczne, nie zrodlo artykulow.
 - Jesli cos nie pasuje do istniejacej konwencji (np. inna struktura Schema.org, inne klasy CSS) — **zatrzymaj sie i zapytaj**, zamiast improwizowac.
 - Draft powinien byc **napisany po polsku natywnie** (nie tlumaczony z angielskiego) — ton konwersacyjny, konkretne przyklady, bez korporacyjnego zargonu.
 - Tresc EN to **rownoleglosc, nie translacja** — moze uzyc innych idiomow, tych samych przykladow.
