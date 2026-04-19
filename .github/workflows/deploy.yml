@@ -31,14 +31,16 @@ jobs:
       - name: Build CSS and JS
         run: npm run build
 
-      - name: Setup SSH
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Add VPS to known_hosts
         env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
           mkdir -p ~/.ssh
-          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
       - name: Deploy via rsync
@@ -48,7 +50,7 @@ jobs:
           SSH_PATH: ${{ secrets.SSH_PATH }}
         run: |
           rsync -avz --delete --stats \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
+            -e "ssh -o StrictHostKeyChecking=yes" \
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='.claude/' \
@@ -69,7 +71,3 @@ jobs:
             --exclude='*.log' \
             --exclude='articles/*/article-draft.md' \
             ./ "$SSH_USER@$SSH_HOST:$SSH_PATH/"
-
-      - name: Cleanup SSH key
-        if: always()
-        run: rm -f ~/.ssh/deploy_key
