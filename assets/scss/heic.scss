@@ -1,0 +1,529 @@
+// ============================================
+// FormattedAI — HEIC Converter Styles
+// ============================================
+
+@use 'variables' as *;
+@use 'base';
+
+// --- HEIC accent colors (orange) ---
+$color-heic: #f97316;
+$color-heic-light: #fb923c;
+$color-heic-dark: #ea580c;
+$color-heic-glow: rgba(249, 115, 22, 0.15);
+$color-heic-glow-strong: rgba(249, 115, 22, 0.35);
+
+// Override accent CSS custom properties for HEIC (orange)
+:root {
+  --color-accent: #{$color-heic};
+  --color-accent-light: #{$color-heic-light};
+  --color-accent-dark: #{$color-heic-dark};
+  --color-accent-glow: #{$color-heic-glow};
+  --color-accent-glow-strong: #{$color-heic-glow-strong};
+  --color-accent-subtle: rgba(249, 115, 22, 0.04);
+  --color-accent-border: rgba(249, 115, 22, 0.3);
+}
+
+body { overflow: hidden; transition: none; }
+
+// Disable all transitions during theme change
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+.app { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+// Global: respect hidden attribute on elements with explicit display
+[hidden] { display: none !important; }
+
+// --- Checkerboard pattern for transparency ---
+.checkerboard {
+  background-image:
+    linear-gradient(45deg, #e0e0e0 25%, transparent 25%),
+    linear-gradient(-45deg, #e0e0e0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e0e0e0 75%),
+    linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  background-color: #fff;
+
+  [data-theme="dark"] & {
+    background-image:
+      linear-gradient(45deg, #2a2a3a 25%, transparent 25%),
+      linear-gradient(-45deg, #2a2a3a 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #2a2a3a 75%),
+      linear-gradient(-45deg, transparent 75%, #2a2a3a 75%);
+    background-color: #1a1a24;
+  }
+}
+
+// --- Format Tabs (HEIC-specific: JPG / PNG / AVIF) ---
+.format-tabs {
+  display: flex; gap: 4px;
+  padding: 3px;
+  background: var(--color-surface-hover);
+  border-radius: $radius-sm;
+  border: 1px solid var(--color-border);
+
+  &__item {
+    padding: 6px 16px;
+    border: none; border-radius: 6px;
+    background: transparent;
+    color: var(--color-text-dim);
+    font-family: $font-body; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all $transition;
+    text-transform: uppercase; letter-spacing: 0.5px;
+
+    &:hover {
+      color: var(--color-text-muted);
+      background: var(--color-bg);
+    }
+
+    &--active {
+      background: $color-heic; color: #fff;
+      box-shadow: 0 2px 8px $color-heic-glow;
+
+      &:hover { background: $color-heic-dark; color: #fff; }
+    }
+  }
+}
+
+// --- PNG Warning Badge ---
+.png-warning {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  border-radius: $radius-sm;
+  font-size: 11px; color: #ca8a04; font-weight: 500;
+
+  svg { flex-shrink: 0; }
+
+  [data-theme="dark"] & {
+    background: rgba(234, 179, 8, 0.08);
+    border-color: rgba(234, 179, 8, 0.2);
+    color: #facc15;
+  }
+}
+
+// --- HEIC Tool Bar (extends .tool-bar from _base) ---
+.tool-bar--heic {
+  gap: 16px;
+  padding: 10px 24px;
+
+  .tool-bar__presets { display: flex; gap: 4px; }
+
+  .tool-bar__preset {
+    padding: 6px 14px; border: 1px solid var(--color-border); border-radius: $radius-sm;
+    background: transparent; color: var(--color-text-dim);
+    font-family: $font-body; font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all $transition;
+
+    &:hover {
+      color: var(--color-text-muted);
+      background: var(--color-surface-hover);
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    &--active {
+      background: $color-heic; color: #fff;
+      border-color: $color-heic;
+      box-shadow: 0 2px 8px $color-heic-glow;
+
+      &:hover { background: $color-heic-dark; color: #fff; }
+    }
+  }
+
+  .tool-bar__slider { display: flex; align-items: center; gap: 10px; }
+
+  .tool-bar__label {
+    font-size: 12px; font-weight: 600; color: var(--color-text-muted);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  .tool-bar__input {
+    width: 140px; height: 4px; -webkit-appearance: none; appearance: none;
+    background: var(--color-border); border-radius: 2px; outline: none;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+      background: $color-heic; cursor: pointer;
+      box-shadow: 0 0 8px $color-heic-glow-strong;
+    }
+
+    &::-moz-range-thumb {
+      width: 16px; height: 16px; border-radius: 50%; border: none;
+      background: $color-heic; cursor: pointer;
+    }
+  }
+
+  .tool-bar__value {
+    font-size: 14px; font-weight: 700; color: $color-heic;
+    min-width: 28px; text-align: center; font-family: $font-body;
+  }
+
+  .tool-bar__actions {
+    padding-left: 16px;
+    border-left: 1px solid var(--color-border);
+
+    .btn { padding: 6px 12px; font-size: 12px; }
+  }
+}
+
+
+// --- Input Area ---
+.input-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+// --- Drop Zone ---
+.drop-zone {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; flex: 1; padding: 40px 24px;
+  border: 2px dashed var(--color-border); border-radius: $radius-md;
+  margin: 16px; cursor: pointer;
+  transition: all $transition;
+
+  &__icon { color: var(--color-text-dim); opacity: 0.5; }
+  &__text { font-size: 15px; color: var(--color-text-muted); font-weight: 500; }
+  &__formats { font-size: 12px; color: var(--color-text-dim); }
+  &__meta-info { font-size: 11px; color: var(--color-text-dim); opacity: 0.7; font-style: italic; }
+
+  &:hover, &--active {
+    border-color: $color-heic;
+    background: rgba(249, 115, 22, 0.05);
+
+    .drop-zone__icon { color: $color-heic; opacity: 1; }
+  }
+
+  &--active { box-shadow: 0 0 24px $color-heic-glow; }
+
+  // Compact variant
+  &--compact {
+    flex: 0; flex-direction: row; gap: 8px;
+    padding: 10px 16px; margin: 12px 16px 0;
+    border-radius: $radius-sm;
+    font-size: 13px; color: var(--color-text-muted);
+
+    svg { opacity: 0.6; }
+    &:hover svg { opacity: 1; }
+  }
+}
+
+// --- File List ---
+.file-list {
+  flex: 1; overflow-y: auto; padding: 8px 16px;
+
+  &::-webkit-scrollbar { width: 5px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; }
+}
+
+// --- File Item ---
+.file-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 10px; border-radius: $radius-sm;
+  transition: background $transition-fast;
+
+  &:hover { background: var(--color-surface-hover); }
+
+  &__thumb {
+    width: 40px; height: 40px; border-radius: 6px; overflow: hidden; flex-shrink: 0;
+
+    img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  }
+
+  &__info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+  &__name {
+    font-size: 13px; font-weight: 500; color: var(--color-text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  &__size { font-size: 11px; color: var(--color-text-dim); }
+
+  &__remove {
+    width: 28px; height: 28px; border: none; border-radius: 6px;
+    background: transparent; color: var(--color-text-dim);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all $transition-fast; flex-shrink: 0;
+
+    &:hover { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+  }
+}
+
+
+// --- Summary Bar ---
+.summary-bar {
+  display: flex; align-items: center; justify-content: center; gap: 24px;
+  padding: 10px 20px; border-bottom: 1px solid var(--color-border);
+  background: rgba(249, 115, 22, 0.04);
+
+  &__stat { display: flex; align-items: center; gap: 6px; }
+
+  &__label { font-size: 11px; color: var(--color-text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  &__value { font-size: 13px; font-weight: 700; color: var(--color-text); }
+
+  &__stat--highlight &__value { color: $color-success; font-size: 15px; }
+}
+
+// --- Results ---
+.results {
+  flex: 1; overflow-y: auto; background: var(--color-bg);
+
+  &::-webkit-scrollbar { width: 5px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; }
+
+  &__empty {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; gap: 16px; user-select: none;
+  }
+
+  &__empty-visual { opacity: 0.35; svg { animation: docBounce 4s ease-in-out infinite; } }
+  &__empty-text { font-size: 15px; color: var(--color-text-dim); font-weight: 500; }
+  &__empty-hint { font-size: 12px; color: var(--color-text-dim); opacity: 0.7; }
+
+  // Conversion progress
+  &__progress {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; gap: 20px; padding: 40px; user-select: none;
+  }
+
+  &__progress-info {
+    display: flex; align-items: baseline; gap: 12px;
+  }
+
+  &__progress-text {
+    font-size: 16px; font-weight: 600; color: var(--color-text-muted);
+  }
+
+  &__progress-percent {
+    font-size: 28px; font-weight: 800; color: $color-heic;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__progress-bar {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    width: 100%;
+    max-width: 360px;
+    height: 10px;
+    display: block;
+  }
+
+  &__progress-bar::-webkit-progress-bar {
+    background-color: var(--color-border);
+    border-radius: 5px;
+  }
+
+  &__progress-bar::-webkit-progress-value {
+    background: linear-gradient(90deg, $color-heic, $color-heic-light);
+    border-radius: 5px;
+  }
+
+  &__progress-bar::-moz-progress-bar {
+    background: linear-gradient(90deg, $color-heic, $color-heic-light);
+    border-radius: 5px;
+  }
+
+  &__progress-file {
+    font-size: 13px; color: var(--color-text-dim);
+    max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  &__list { padding: 8px 16px; }
+}
+
+@keyframes docBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+// --- Result Item ---
+.result-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px; border-radius: $radius-sm;
+  transition: background $transition-fast;
+
+  &:hover { background: var(--color-surface-hover); }
+
+  &__thumb {
+    width: 60px; height: 60px; border-radius: 8px; overflow: hidden;
+    flex-shrink: 0; cursor: pointer;
+    transition: transform $transition;
+
+    img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    &:hover { transform: scale(1.05); }
+  }
+
+  &__info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+
+  &__name {
+    font-size: 13px; font-weight: 600; color: var(--color-text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  &__stats { display: flex; align-items: center; gap: 10px; }
+
+  &__sizes { font-size: 12px; color: var(--color-text-muted); }
+
+  &__savings {
+    font-size: 12px; font-weight: 700; color: $color-success;
+    padding: 1px 6px; background: rgba(34, 197, 94, 0.1); border-radius: 4px;
+  }
+
+  &__download {
+    flex-shrink: 0; padding: 8px;
+  }
+}
+
+// --- Done Banner ---
+.results-done-banner {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; margin-bottom: 8px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: $radius-sm;
+  color: #16a34a;
+  font-size: 13px; font-weight: 600;
+
+  svg { flex-shrink: 0; }
+
+  &__btn {
+    margin-left: auto;
+    padding: 5px 14px;
+    background: #16a34a; color: #fff;
+    border: none; border-radius: $radius-sm;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.15s ease;
+
+    &:hover { background: #15803d; }
+  }
+
+  [data-theme="dark"] & {
+    background: rgba(34, 197, 94, 0.08);
+    border-color: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+
+    .results-done-banner__btn {
+      background: #22c55e;
+      color: #052e16;
+      &:hover { background: #16a34a; }
+    }
+  }
+}
+
+// --- HEIC Warning (WASM load failed) ---
+.heic-warning {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-bg);
+
+  &__content {
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    text-align: center; max-width: 480px; padding: 40px;
+  }
+
+  &__icon { color: #f59e0b; opacity: 0.8; }
+
+  &__title {
+    font-size: 20px; font-weight: 700; color: var(--color-text);
+  }
+
+  &__text { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
+
+  &__back { margin-top: 8px; }
+}
+
+// --- Image Modal ---
+.image-modal {
+  position: fixed; inset: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: center;
+
+  &__backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+  }
+
+  &__content {
+    position: relative; z-index: 1;
+    max-width: 90vw; max-height: 90vh;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+
+  &__close {
+    position: absolute; top: -40px; right: 0;
+    width: 32px; height: 32px; border: none; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1); color: #fff;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background $transition-fast;
+    &:hover { background: rgba(255, 255, 255, 0.2); }
+  }
+
+  &__image-wrap {
+    @extend .checkerboard;
+    border-radius: $radius-md; overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+  }
+
+  &__img {
+    display: block; max-width: 85vw; max-height: 75vh; object-fit: contain;
+  }
+
+  &__info {
+    font-size: 13px; color: rgba(255, 255, 255, 0.7); font-weight: 500;
+  }
+}
+
+// --- Responsive ---
+@media (max-width: 768px) {
+  body { overflow: auto; }
+  .app { height: auto; min-height: 100vh; overflow: visible; }
+
+  .tool-bar--heic {
+    flex-direction: column; gap: 10px; padding: 10px 16px;
+
+    .tool-bar__presets { flex-wrap: wrap; justify-content: center; }
+    .tool-bar__slider { width: 100%; }
+    .tool-bar__input { flex: 1; }
+    .tool-bar__actions {
+      width: 100%; justify-content: center;
+      margin-left: 0; padding-left: 0; border-left: none;
+      border-top: 1px solid var(--color-border); padding-top: 8px;
+    }
+  }
+
+  .format-tabs {
+    align-self: center;
+  }
+
+  .drop-zone {
+    padding: 24px 16px;
+
+    &__text { font-size: 14px; }
+  }
+
+  .panel { min-height: 300px; }
+
+  .summary-bar {
+    flex-wrap: wrap; gap: 12px; padding: 8px 16px;
+  }
+
+  .mobile-bar {
+    display: flex; gap: 8px; padding: 12px 16px;
+    position: sticky; bottom: 0; z-index: 50;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--color-border);
+
+    &__btn {
+      flex: 1; justify-content: center;
+    }
+  }
+}
