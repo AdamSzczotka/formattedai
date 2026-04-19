@@ -1067,3 +1067,63 @@
     }
   }
 }
+
+// ============================================
+// RELATED ARTICLES (internal linking)
+// ============================================
+
+.article-related {
+  max-width: 840px;
+  margin: 64px auto 0;
+  padding: 0 24px;
+
+  &__title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 20px;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  &__card {
+    display: block;
+    padding: 18px 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+
+    &:hover {
+      border-color: var(--color-accent-border);
+      background: var(--color-surface-raised);
+      transform: translateY(-2px);
+      box-shadow: var(--card-shadow-hover);
+    }
+  }
+
+  &__card-tag {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-accent-light);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  &__card-title {
+    display: block;
+    color: var(--color-text);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+}
+
