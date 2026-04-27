@@ -54,3 +54,10 @@
   font-display: swap;
   src: url('../fonts/jetbrains-mono-500.ttf') format('truetype');
 }
+
+/*
+ * DM Sans / DM Mono — used by redesigned tool pages (light-first system).
+ * TODO: replace Google Fonts CDN with local .ttf files in assets/fonts/
+ * to keep 100% offline / no third-party requests (matches project ethos).
+ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
