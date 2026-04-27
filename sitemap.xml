@@ -3,7 +3,7 @@
   <!-- PL (root) -->
   <url>
     <loc>https://formattedai.pl/</loc>
-    <lastmod>2026-03-26</lastmod>
+    <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -57,7 +57,7 @@
   </url>
   <url>
     <loc>https://formattedai.pl/articles/</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -101,7 +101,7 @@
   <!-- EN -->
   <url>
     <loc>https://formattedai.pl/en/</loc>
-    <lastmod>2026-03-26</lastmod>
+    <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -155,7 +155,7 @@
   </url>
   <url>
     <loc>https://formattedai.pl/en/articles/</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
