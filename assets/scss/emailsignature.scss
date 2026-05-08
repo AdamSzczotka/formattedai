@@ -1,0 +1,1290 @@
+// ============================================
+// FormattedAI - Email Signature Builder (v2)
+// Per-tool accent: orange
+// ============================================
+
+@use 'design-v2' as *;
+
+:root {
+  --accent: #f97316;
+  --accent-light: #fb923c;
+  --accent-dark: #ea580c;
+  --accent-glow: rgba(249, 115, 22, 0.12);
+  --accent-border: rgba(249, 115, 22, 0.25);
+}
+
+// --- Workspace 3-panel: palette | canvas | inspector ---
+.workspace--builder {
+  grid-template-columns: 232px 1fr 296px;
+  grid-template-rows: minmax(0, 1fr); // critical: lets children scroll instead of forcing the page
+
+  .panel {
+    border-right: 1px solid var(--border);
+    min-height: 0;
+
+    &:last-child { border-right: none; }
+  }
+}
+
+// Hide default 3px divider for builder layout
+.workspace--builder .divider { display: none; }
+
+// --- Palette (left panel) ---
+.builder__palette {
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+
+  &-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  }
+}
+
+.palette-section {
+  margin-bottom: 18px;
+
+  &__title {
+    font-size: 10.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.9px;
+    color: var(--text-dim);
+    padding: 0 4px 8px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+}
+
+.palette-item {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px; font-weight: 600;
+  cursor: grab;
+  transition: all 0.15s ease;
+  user-select: none;
+
+  &:hover {
+    border-color: var(--accent-border);
+    color: var(--accent);
+    background: var(--accent-glow);
+    transform: translateY(-1px);
+  }
+
+  &:active, &.dragging {
+    cursor: grabbing;
+    opacity: 0.6;
+  }
+
+  svg { flex-shrink: 0; opacity: 0.85; }
+}
+
+.palette-templates {
+  display: flex; flex-direction: column;
+  gap: 6px;
+}
+
+.palette-template {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  font-family: inherit;
+  width: 100%;
+
+  &:hover {
+    border-color: var(--accent-border);
+    background: var(--accent-glow);
+
+    .palette-template__name { color: var(--accent); }
+  }
+
+  &__thumb {
+    width: 36px; height: 28px;
+    border-radius: 5px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-dim);
+    font-size: 10px; font-weight: 700;
+  }
+
+  &__info { flex: 1; min-width: 0; }
+
+  &__name {
+    font-size: 12.5px; font-weight: 600;
+    color: var(--text);
+    transition: color 0.15s;
+  }
+
+  &__sub {
+    font-size: 10.5px; color: var(--text-dim);
+    margin-top: 1px;
+  }
+}
+
+// --- Canvas (center panel) ---
+.builder__canvas-wrap {
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  background: var(--surface-raised);
+  min-height: 0;
+}
+
+.builder__canvas-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 16px;
+  min-height: 49px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.builder__canvas-toolbar-group {
+  display: flex; align-items: center; gap: 6px;
+}
+
+.builder__canvas-area {
+  flex: 1;
+  overflow: auto;
+  padding: 12px 24px 56px; // extra bottom space for overflow warning label
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+
+  &::-webkit-scrollbar { width: 6px; height: 6px; }
+  &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
+}
+
+// Persistent canvas toolbar (mode / width / minH / maxH / valign).
+// Always visible; replaces the "deselect to see signature settings" flow.
+.canvas-toolbar {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+
+  &__group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--text-muted);
+  }
+
+  &__num {
+    width: 60px;
+    height: 26px;
+    padding: 0 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--surface-raised);
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent-border);
+      background: var(--accent-glow);
+    }
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button { opacity: 0.5; }
+  }
+
+  &__unit {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: -2px;
+  }
+}
+
+// Compact variant of toggle-group used inside the canvas toolbar.
+.toggle-group--mini {
+  .toggle-group__btn {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+}
+
+// --- Zoom control (in canvas panel header) ---
+.zoom-control {
+  display: flex; align-items: center; gap: 4px;
+
+  &__btn {
+    width: 24px; height: 24px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s ease;
+
+    &:hover {
+      border-color: var(--accent-border);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+  }
+
+  &__label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    min-width: 46px;
+    text-align: center;
+    transition: all 0.15s ease;
+
+    &:hover {
+      color: var(--accent);
+      border-color: var(--accent-border);
+    }
+  }
+}
+
+.canvas-frame {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--border);
+  // No padding here: what you see on canvas == what email renders.
+  // Block-level padding (paddingTop/Right/Bottom/Left) controls inner spacing.
+  padding: 0;
+  min-height: 80px;
+  position: relative;
+  overflow: hidden; // clip rounded corners when columns have full-bleed bg
+
+  &.is-empty {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 200px;
+    padding: 24px; // empty state needs breathing room around the hint text
+  }
+
+  // Shown when the actual content height exceeds the user's max-height setting.
+  // Red bottom edge + a label below the frame: "Exceeds max: 350 / 200px"
+  &--overflow {
+    box-shadow: 0 4px 24px rgba(239, 68, 68, 0.18), 0 0 0 1px #ef4444;
+
+    &::after {
+      content: attr(data-warn);
+      position: absolute;
+      left: 0; right: 0; bottom: -26px;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 10.5px; font-weight: 700;
+      color: #ef4444;
+      letter-spacing: 0.3px;
+      pointer-events: none;
+    }
+  }
+}
+
+.canvas-empty {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 10px;
+  color: #9ca3af;
+  text-align: center;
+  padding: 24px;
+
+  &__icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(249, 115, 22, 0.08);
+    border: 1px dashed var(--accent-border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+  }
+
+  &__title {
+    font-size: 13.5px; font-weight: 600;
+    color: #4b5563;
+  }
+
+  &__sub {
+    font-size: 12px; color: #9ca3af;
+    line-height: 1.5;
+  }
+}
+
+// --- Canvas blocks (rendered model elements) ---
+.canvas-block {
+  position: relative;
+  cursor: pointer;
+  outline: 1px solid transparent;
+  outline-offset: 2px;
+  border-radius: 3px;
+  transition: outline-color 0.12s ease, opacity 0.15s ease;
+  max-width: 100%;
+  min-width: 0;
+
+  &.is-selected {
+    cursor: move;
+  }
+
+  &:hover {
+    outline-color: var(--accent-border);
+  }
+
+  &.is-selected {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  // Ghost outline shown on ancestors (columns block) of the current selection,
+  // so the user sees the path: orange = selected, lavender dashed = parent layer.
+  &.is-parent-of-selected {
+    outline: 1px dashed rgba(124, 108, 240, 0.55);
+    outline-offset: 2px;
+  }
+
+  &.is-dragging {
+    opacity: 0.4;
+  }
+
+  // Drop indicators (set during dragover)
+  &.drop-above::before,
+  &.drop-below::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+    border-radius: 2px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  &.drop-above::before { top: -3px; }
+  &.drop-below::after  { bottom: -3px; }
+
+  &__handle {
+    position: absolute;
+    top: -22px; left: 0;
+    display: inline-flex;
+    align-items: center; gap: 4px;
+    padding: 3px 8px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    z-index: 5;
+    cursor: grab;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+
+    &:active { cursor: grabbing; }
+  }
+
+  &:hover &__handle { opacity: 0.55; }
+  &.is-selected &__handle { opacity: 1; }
+
+  &__delete {
+    margin-left: 4px;
+    padding: 0; border: none; background: none;
+    color: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    width: 14px; height: 14px;
+    border-radius: 3px;
+
+    &:hover { background: rgba(255, 255, 255, 0.18); }
+  }
+
+  // Resize handles (visible only on selected block)
+  &__resize {
+    position: absolute;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 4;
+
+    &--top, &--bottom {
+      left: 50%; transform: translateX(-50%);
+      width: 40px; height: 6px;
+      border-radius: 3px;
+      cursor: ns-resize;
+    }
+    &--top    { top: -3px; }
+    &--bottom { bottom: -3px; }
+
+    &--left, &--right {
+      top: 50%; transform: translateY(-50%);
+      width: 6px; height: 40px;
+      border-radius: 3px;
+      cursor: ew-resize;
+    }
+    &--left  { left: -3px; }
+    &--right { right: -3px; }
+
+    &:hover { opacity: 0.95; }
+  }
+
+  &.is-selected &__resize { opacity: 0.55; }
+  &.is-selected &__resize:hover { opacity: 1; }
+}
+
+// Floating label that follows the resize/move cursor
+.resize-label {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+// While free-dragging a block, force move cursor everywhere + suppress text selection
+body.is-moving-block,
+body.is-moving-block * {
+  cursor: move !important;
+  user-select: none !important;
+}
+
+// Palette item being dragged
+.palette-item--dragging {
+  opacity: 0.4;
+  transform: scale(0.95);
+}
+
+// Canvas frame as drop target (when dragging from palette over empty area)
+.canvas-frame--drop-target {
+  outline: 2px dashed var(--accent);
+  outline-offset: -10px;
+  background: linear-gradient(rgba(249, 115, 22, 0.04), rgba(249, 115, 22, 0.04)), #ffffff;
+}
+
+// --- Free mode (Paint-like) ---
+// A frame is an absolutely-positioned region drawn by the user.
+.canvas-frame-block {
+  position: absolute;
+  cursor: move;
+  outline: 1px solid rgba(16, 185, 129, 0.45);
+  outline-offset: -1px;
+  user-select: none;
+
+  &:hover { outline: 1px solid #10b981; }
+  // Distinct green outline so the user can see this is a free-mode frame
+  // (different layer than orange stack blocks or blue columns).
+  &.is-selected {
+    outline: 2px solid #10b981;
+    outline-offset: -2px;
+    z-index: 2;
+  }
+
+  // Reuse the same handle bar as stack blocks
+  .canvas-block__handle {
+    position: absolute;
+    top: -22px; left: 0;
+    display: inline-flex;
+    opacity: 0;
+    z-index: 5;
+  }
+  &:hover .canvas-block__handle    { opacity: 0.55; }
+  &.is-selected .canvas-block__handle { opacity: 1; }
+}
+
+// Frame corner resize handles (free mode)
+.canvas-frame-resize {
+  position: absolute;
+  width: 10px; height: 10px;
+  background: #ffffff;
+  border: 1.5px solid var(--accent);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  z-index: 6;
+
+  &--nw { top: -6px; left: -6px;     cursor: nwse-resize; }
+  &--ne { top: -6px; right: -6px;    cursor: nesw-resize; }
+  &--sw { bottom: -6px; left: -6px;  cursor: nesw-resize; }
+  &--se { bottom: -6px; right: -6px; cursor: nwse-resize; }
+
+  &:hover { background: var(--accent); }
+}
+
+// Live preview rectangle while drawing a new frame
+.frame-draw-ghost {
+  position: absolute;
+  background: rgba(249, 115, 22, 0.08);
+  border: 2px dashed var(--accent);
+  pointer-events: none;
+  z-index: 10;
+}
+
+// Inline-editable text (TextBlock when its block is selected)
+.canvas-text--editable {
+  cursor: text;
+
+  &:focus {
+    outline: none;
+    background: linear-gradient(rgba(249, 115, 22, 0.06), rgba(249, 115, 22, 0.06));
+    border-radius: 3px;
+  }
+}
+
+// --- Image block: shell, placeholder, corner resize handles ---
+.image-shell {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  user-select: none;
+  max-width: 100%; // never push the column / canvas wider than its container
+}
+
+.image-placeholder {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 6px;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    #f8fafc,
+    #f8fafc 6px,
+    #f1f5f9 6px,
+    #f1f5f9 12px
+  );
+  border: 1px dashed #cbd5e1;
+  border-radius: 4px;
+  color: #94a3b8;
+  font-family: 'DM Sans', sans-serif;
+
+  &__icon { color: #cbd5e1; flex-shrink: 0; }
+
+  &__size {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    color: #64748b;
+  }
+
+  &__hint {
+    font-size: 10px; color: #ef4444;
+  }
+}
+
+// Corner resize handles - visible on selected image block
+.canvas-block:not(.is-selected) .image-resize { display: none; }
+.canvas-block:not(.is-selected) .image-size-badge { display: none; }
+
+.image-resize {
+  position: absolute;
+  width: 10px; height: 10px;
+  background: #ffffff;
+  border: 1.5px solid var(--accent);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  z-index: 6;
+
+  &--nw { top: -6px; left: -6px;     cursor: nwse-resize; }
+  &--ne { top: -6px; right: -6px;    cursor: nesw-resize; }
+  &--sw { bottom: -6px; left: -6px;  cursor: nesw-resize; }
+  &--se { bottom: -6px; right: -6px; cursor: nwse-resize; }
+
+  &:hover { background: var(--accent); }
+}
+
+.image-size-badge {
+  position: absolute;
+  bottom: -22px; right: 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px; font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  padding: 2px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 6;
+}
+
+// --- Columns container (inside canvas-block) ---
+.canvas-col {
+  position: relative;
+  transition: outline-color 0.15s ease;
+  outline: 1px dashed transparent;
+  outline-offset: -1px;
+  min-height: 40px;
+  // Anything wider than the column is a layout error - clip it so the canvas
+  // doesn't grow horizontally and hide the actual problem behind a scrollbar.
+  overflow: hidden;
+  max-width: 100%;
+
+  &:hover { outline-color: rgba(249, 115, 22, 0.35); }
+
+  // Distinct blue outline so the user can see they're editing the column
+  // itself (different layer than the orange "block" selection).
+  &.is-selected {
+    outline: 2px solid #3b82f6;
+    outline-style: solid;
+    outline-offset: -2px;
+  }
+
+  // Ghost outline when a child block of this column is selected.
+  &.is-parent-of-selected {
+    outline: 1px dashed rgba(124, 108, 240, 0.55);
+    outline-offset: -1px;
+  }
+
+  &--drop-target {
+    outline-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  &__empty {
+    padding: 14px 10px;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px;
+    color: #94a3b8;
+    border: 1px dashed #cbd5e1;
+    border-radius: 6px;
+    background: rgba(249, 115, 22, 0.03);
+    margin: 4px;
+  }
+
+  // Edge handle to drag-resize this column vs. its right neighbour.
+  // Sits on the right edge of every column except the last.
+  &__resize {
+    position: absolute;
+    top: 0; bottom: 0;
+    right: -3px;
+    width: 6px;
+    cursor: ew-resize;
+    z-index: 5;
+    background: transparent;
+    transition: background 0.12s ease;
+
+    &:hover {
+      background: var(--accent);
+    }
+  }
+}
+
+// --- Social list inspector ---
+.social-list {
+  display: flex; flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 24px;
+    gap: 4px;
+    align-items: center;
+  }
+
+  &__platform,
+  &__url {
+    min-width: 0;
+  }
+
+  &__del {
+    width: 24px; height: 24px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--surface);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s ease;
+
+    &:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.08);
+    }
+  }
+
+  &__add {
+    width: 100%;
+    justify-content: center;
+    font-size: 11.5px;
+    padding: 6px 10px;
+  }
+}
+
+// --- Inspector (right panel) ---
+.builder__inspector {
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  height: 100%;
+
+  &-body {
+    flex: 1 1 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 14px;
+    min-height: 0;
+
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    &::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+  }
+}
+
+.inspector-empty {
+  height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; padding: 24px;
+  text-align: center;
+  color: var(--text-dim);
+
+  &__icon {
+    width: 44px; height: 44px; border-radius: 11px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--border);
+  }
+
+  &__title {
+    font-size: 12.5px; font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  &__sub {
+    font-size: 11.5px; color: var(--text-dim);
+    line-height: 1.5;
+  }
+}
+
+.inspector-info {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 8px 10px;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent-border);
+  border-radius: 7px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+// Selection breadcrumb at the top of the inspector
+.inspector-bc-wrap {
+  margin: -4px -2px 14px;
+  padding: 10px 8px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+
+  &__label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+}
+
+.inspector-bc {
+  display: flex; align-items: center; gap: 2px;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+
+  &__sep {
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    user-select: none;
+  }
+
+  &__btn {
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+    border-radius: 5px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.12s ease;
+    white-space: nowrap;
+
+    &:hover { background: var(--surface-hover); color: var(--text); }
+
+    &--active {
+      background: var(--accent);
+      color: #fff;
+      cursor: default;
+
+      &:hover { background: var(--accent); color: #fff; }
+    }
+  }
+}
+
+.inspector-tips {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex; flex-direction: column;
+  gap: 6px;
+
+  li {
+    position: relative;
+    padding-left: 14px;
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--text-muted);
+
+    &::before {
+      content: '';
+      position: absolute; left: 4px; top: 7px;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+  }
+}
+
+// Size badge in canvas panel header
+.size-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px; font-weight: 600;
+  color: var(--text-dim);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  padding: 3px 8px;
+  border-radius: 5px;
+  letter-spacing: 0.2px;
+  margin-left: 8px;
+}
+
+.inspector-section {
+  margin-bottom: 16px;
+
+  &__title {
+    font-size: 10.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.9px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  // Per-column section: distinct visual block so user knows the fields
+  // below scope to that single column, not the whole columns wrapper.
+  &--col {
+    border-left: 2px solid var(--accent-border);
+    padding: 4px 0 4px 10px;
+    margin-top: 16px;
+
+    .inspector-section__title { color: var(--accent); }
+  }
+}
+
+// Tabs that switch which column the inspector edits (instead of stacking 4 sections).
+.col-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  margin: 14px 0 12px;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar { height: 0; }
+
+  &__tab {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 6px 8px;
+    border: none;
+    background: transparent;
+    border-radius: 5px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px; font-weight: 600;
+    color: var(--text-dim);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.12s ease;
+
+    &:hover { color: var(--text-muted); background: var(--surface-hover); }
+
+    &.is-active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+  }
+}
+
+.inspector-field {
+  margin-bottom: 10px;
+
+  &__label {
+    display: block;
+    font-size: 11px; font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+
+  &__row {
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  &__input,
+  &__select,
+  &__textarea {
+    width: 100%;
+    padding: 7px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    outline: none;
+    transition: border-color 0.15s ease;
+
+    &:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    &::placeholder { color: var(--text-dim); }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 56px;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+  }
+}
+
+// Color picker (input type=color + hex text input)
+.color-control {
+  display: flex; align-items: center; gap: 6px;
+
+  &__swatch {
+    width: 28px; height: 28px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    padding: 0;
+    background: transparent;
+
+    // Reset native color input
+    &::-webkit-color-swatch-wrapper { padding: 2px; }
+    &::-webkit-color-swatch { border: none; border-radius: 4px; }
+    &::-moz-color-swatch { border: none; border-radius: 4px; }
+  }
+
+  &__hex {
+    flex: 1;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    outline: none;
+
+    &:focus { border-color: var(--accent); }
+  }
+}
+
+// Range slider + number input combo
+.range-control {
+  display: flex; align-items: center; gap: 6px;
+
+  &__slider {
+    flex: 1; min-width: 0;
+    -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 2px;
+    background: var(--border);
+    outline: none; cursor: pointer;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    &::-moz-range-thumb {
+      width: 14px; height: 14px; border-radius: 50%; border: none;
+      background: var(--accent); cursor: pointer;
+    }
+  }
+
+  &__num {
+    width: 50px; flex-shrink: 0;
+    padding: 5px 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px; font-weight: 500;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--surface);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.15s ease;
+
+    &:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    // Hide native spin buttons
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none; margin: 0;
+    }
+    -moz-appearance: textfield;
+  }
+
+  &__unit {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px; font-weight: 500;
+    color: var(--text-dim);
+    min-width: 14px;
+  }
+
+  &--mini {
+    gap: 4px;
+    .range-control__num {
+      width: 42px; padding: 3px 4px; font-size: 10.5px;
+    }
+  }
+}
+
+// Padding 4-direction grid
+.padding-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+
+  .inspector-field { margin-bottom: 0; }
+}
+
+.inspector-field--mini {
+  .inspector-field__label { font-size: 10px; margin-bottom: 3px; }
+}
+
+// Toggle group (segmented buttons)
+.toggle-group {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  overflow: hidden;
+  background: var(--surface-raised);
+
+  &__btn {
+    flex: 1;
+    padding: 6px 8px;
+    border: none; background: none;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border-right: 1px solid var(--border);
+
+    &:last-child { border-right: none; }
+
+    &:hover { color: var(--text-muted); background: var(--surface-hover); }
+
+    &.is-active {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    svg { display: block; margin: 0 auto; }
+  }
+}
+
+// --- Preview pane (modal-like overlay) ---
+.preview-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  &.show { opacity: 1; }
+  &[hidden] { display: none !important; }
+}
+
+.preview-dialog {
+  width: 100%; max-width: 900px; height: min(90vh, 720px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-hover);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+.preview-dialog__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.preview-dialog__tabs {
+  display: flex; gap: 2px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 2px;
+}
+
+.preview-dialog__tab {
+  padding: 5px 14px;
+  border: none; background: none;
+  border-radius: 5px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover { color: var(--text-muted); }
+  &.is-active {
+    background: var(--surface);
+    color: var(--accent);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.preview-dialog__body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  background: #e5e7eb;
+}
+
+.preview-frame-wrap {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+  overflow: auto;
+  background: #f4f4f5;
+
+  &--mobile {
+    .preview-frame {
+      max-width: 375px;
+      width: 375px;
+      flex: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--border);
+      border-radius: 14px;
+    }
+  }
+}
+
+.preview-frame {
+  width: 100%; height: 100%;
+  border: none;
+  background: #ffffff;
+  flex: 1;
+  min-height: 480px;
+}
+
+.preview-code {
+  flex: 1;
+  margin: 0; padding: 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--surface-raised);
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+// --- Mobile gate (builder needs desktop) ---
+.builder-mobile-gate {
+  display: none;
+  flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12px;
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--text-muted);
+
+  &__icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: var(--accent-glow);
+    border: 1px solid var(--accent-border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+  }
+
+  &__title {
+    font-size: 16px; font-weight: 700;
+    color: var(--text);
+  }
+
+  &__sub {
+    font-size: 13px; color: var(--text-muted);
+    line-height: 1.55; max-width: 360px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .workspace--builder { display: none; }
+  .builder-mobile-gate { display: flex; flex: 1; }
+}

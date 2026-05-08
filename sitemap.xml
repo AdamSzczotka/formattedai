@@ -62,6 +62,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://formattedai.pl/email-signature/</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://formattedai.pl/articles/</loc>
     <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -161,6 +167,12 @@
   </url>
   <url>
     <loc>https://formattedai.pl/en/ocr/</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formattedai.pl/en/email-signature/</loc>
     <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
