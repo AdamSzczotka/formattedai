@@ -130,6 +130,8 @@
       <a href="/en/articles/" class="fa-nav__link">Journal</a>
       <a href="/en/about/" class="fa-nav__link is-active">About</a>
     </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
     <div class="fa-nav__right">
       <a href="/about/" class="fa-nav__lang" hreflang="pl">PL</a>
       <button class="fa-nav__theme" id="themeToggle" type="button" aria-label="Toggle theme">
@@ -294,6 +296,24 @@
       };
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
+      // Mobile hamburger toggle
+      var burger = document.getElementById("navBurger");
+      var navEl = document.getElementById("faNav");
+      if (burger && navEl) {
+        burger.addEventListener("click", function() {
+          var open = navEl.classList.toggle("is-menu-open");
+          burger.classList.toggle("is-open", open);
+          burger.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        navEl.querySelectorAll(".fa-nav__link, .fa-nav__lang").forEach(function(a) {
+          a.addEventListener("click", function() {
+            navEl.classList.remove("is-menu-open");
+            burger.classList.remove("is-open");
+            burger.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
     })();
   </script>
 </body>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pl" data-theme="light">
+<html lang="pl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Markdown Formatter — Skopiuj tekst z ChatGPT do Google Docs i Word | FormattedAI</title>
-  <meta name="description" content="Darmowe narzedzie online do konwersji tekstu Markdown z ChatGPT na sformatowany dokument. Wklej, sformatuj i skopiuj do Google Docs lub Microsoft Word jednym kliknieciem.">
+  <meta name="description" content="Darmowe narzędzie online do konwersji tekstu Markdown z ChatGPT na sformatowany dokument. Wklej, sformatuj i skopiuj do Google Docs lub Microsoft Word jednym kliknięciem.">
   <meta name="keywords" content="ChatGPT do Word, ChatGPT do Google Docs, markdown converter, formatowanie tekstu, kopiuj formatowanie, markdown to docs, paste formatting tool, ChatGPT formatting, AI text formatter, FormattedAI">
   <meta name="author" content="Adam Szczotka">
   <meta name="robots" content="index, follow">
@@ -57,176 +57,278 @@
     "@context": "https://schema.org", "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
-      { "@type": "ListItem", "position": 2, "name": "Markdown Formatter", "item": "https://formattedai.pl/formatter/" }
+      { "@type": "ListItem", "position": 2, "name": "Narzędzia", "item": "https://formattedai.pl/narzedzia/" },
+      { "@type": "ListItem", "position": 3, "name": "Markdown Formatter", "item": "https://formattedai.pl/formatter/" }
     ]
   }
   </script>
 
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
   <link rel="apple-touch-icon" href="../assets/favicon.svg">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#08080c">
   <meta name="mobile-web-app-capable" content="yes">
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="../assets/css/fonts.css">
   <link rel="stylesheet" href="../assets/css/formatter.css">
 </head>
 <body>
 
-  <nav class="nav">
-    <a href="/" class="nav__brand">
-      <svg class="nav__logo" viewBox="0 0 32 32" fill="none">
-        <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#lg1)" stroke-width="1.5" fill="url(#lf1)"/>
-        <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <defs>
-          <linearGradient id="lg1" x1="4" y1="2" x2="28" y2="30"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient>
-          <linearGradient id="lf1" x1="4" y1="2" x2="28" y2="30"><stop stop-color="rgba(108,92,231,0.25)"/><stop offset="1" stop-color="rgba(167,139,250,0.08)"/></linearGradient>
-        </defs>
-      </svg>
-      <span class="nav__name">Formatted<em>AI</em></span>
-    </a>
-    <div class="nav__center">
-      <span class="nav__sep">/</span>
-      <div class="nav__tool-badge"><span class="nav__tool-dot"></span>Markdown Formatter</div>
-    </div>
-    <div class="nav__actions">
-      <div class="nav__links">
-        <a href="/narzedzia/" class="nav__link" data-i18n="navTools">Narzedzia</a>
-        <a href="/articles/" class="nav__link" data-i18n="navArticles">Artykuly</a>
-      </div>
-      <button class="about-trigger" id="aboutTrigger" type="button" aria-label="Pomoc" title="Pomoc">?</button>
-      <a href="https://formattedai.pl/en/formatter/" class="nav__icon-btn" title="English version" aria-label="English version">
-        <span class="nav__lang">EN</span>
-      </a>
-      <button class="nav__icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
-        <svg id="iconMoon" width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        <svg id="iconSun" width="15" height="15" viewBox="0 0 16 16" fill="none" style="display:none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.5 1.5M11.5 11.5L13 13M3 13l1.5-1.5M11.5 4.5L13 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-  </nav>
+  <div class="tool-shell">
 
-  <div class="tool-header">
-    <div class="tool-header__left">
-      <div class="tool-header__icon">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/" class="fa-nav__brand" aria-label="FormattedAI — strona główna">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+      </a>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/narzedzia/" class="fa-nav__crumb-link" data-i18n="navTools">Narzędzia</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">Markdown Formatter</span>
+      </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/en/formatter/" class="fa-nav__lang" hreflang="en" title="English version">EN</a>
+        <button class="fa-nav__icon-btn" id="themeToggle" type="button" aria-label="Przełącz motyw">
+          <svg class="fa-theme__moon" id="iconMoon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="fa-theme__sun" id="iconSun" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <button class="fa-nav__icon-btn" id="aboutTrigger" type="button" title="Pomoc" aria-label="Pomoc">?</button>
+        <a href="/narzedzia/" class="fa-nav__cta">Wszystkie narzędzia →</a>
       </div>
-      <span class="tool-header__title">Markdown &rarr; Docs / Word</span>
-      <span class="tool-header__desc" data-i18n="toolHeaderDesc">wklej tekst z ChatGPT lub Claude · skopiuj z formatowaniem</span>
-    </div>
-    <div class="tool-header__right">
-      <div class="style-tabs" role="radiogroup" aria-label="Preview style">
-        <button class="style-tab active" data-style="docs" id="styleDocsBtn" type="button" role="radio" aria-checked="true">
+    </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ NARZĘDZIE · Markdown → Docs / Word</span>
+          <h1 class="tool-head__title">Markdown Formatter</h1>
+          <p class="tool-head__sub" data-i18n="toolHeaderDesc">Wklej tekst z ChatGPT, Claude lub Gemini. Skopiuj jako sformatowany dokument do Word lub Google Docs.</p>
+        </div>
+        <div class="tool-head__status">
+          <span class="tool-head__status-dot" id="statusDot"></span>
+          <span id="statusLabel">czeka na input</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="tool-sub" role="toolbar" aria-label="Format i akcje">
+      <span class="tool-sub__label">STYL PODGLĄDU</span>
+      <div class="tool-sub__btns" role="radiogroup" aria-label="Preview style">
+        <button class="tool-sub__btn is-active" id="styleDocsBtn" data-style="docs" type="button" role="radio" aria-checked="true">
           <span data-i18n="styleDocs">Docs</span>
         </button>
-        <button class="style-tab" data-style="word" id="styleWordBtn" type="button" role="radio" aria-checked="false">
+        <button class="tool-sub__btn" id="styleWordBtn" data-style="word" type="button" role="radio" aria-checked="false">
           <span data-i18n="styleWord">Word</span>
         </button>
       </div>
-      <button class="hdr-btn hdr-btn--ghost" id="clearBtn" type="button">
-        <span data-i18n="clear">Wyczysc</span>
-      </button>
-      <button class="hdr-btn hdr-btn--primary" id="copyBtn" type="button">
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 11H2.5a1 1 0 01-1-1v-7a1 1 0 011-1h7a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        <span data-i18n="copyFormatted">Kopiuj sformatowany</span>
-      </button>
-      <div class="dl-wrap" id="downloadDropdown">
-        <button class="hdr-btn hdr-btn--ghost" id="downloadBtn" type="button">
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span data-i18n="export">Pobierz</span>
-          <svg class="dl-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2.5 4L5 6.5L7.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+
+      <div style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <button class="tool-act" id="clearBtn" type="button">
+          <span data-i18n="clear">Wyczyść</span>
+          <kbd>⌘⇧X</kbd>
         </button>
-        <div class="dl-menu" id="downloadMenu">
-          <button class="dl-item" id="dlHtml" type="button" data-fmt="html">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 3l2.5 10h1L8 5l2.5 8h1L14 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-            <div class="dl-item__text">
-              <span class="dl-item__label">HTML</span>
-              <span class="dl-item__sub" data-i18n="dlHtmlDesc">Otworz w przegladarce</span>
-            </div>
+        <button class="tool-act tool-act--primary" id="copyBtn" type="button">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M3.5 11H2.5a1 1 0 01-1-1v-7a1 1 0 011-1h7a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <span data-i18n="copyFormatted">Kopiuj sformatowany</span>
+          <kbd>⌘⇧C</kbd>
+        </button>
+        <div class="dl-wrap" id="downloadDropdown">
+          <button class="tool-act" id="downloadBtn" type="button">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-i18n="export">Pobierz</span>
+            <svg class="dl-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
           </button>
-          <button class="dl-item" id="dlDocx" type="button" data-fmt="docx">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="1.5" width="12" height="13" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 6h6M5 8.5h6M5 11h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-            <div class="dl-item__text">
-              <span class="dl-item__label">DOCX</span>
-              <span class="dl-item__sub" data-i18n="dlDocxDesc">Microsoft Word</span>
-            </div>
-          </button>
-          <button class="dl-item" id="dlMd" type="button" data-fmt="md">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 10V6l2 2.5L8 6v4M10.5 8.5L12 10l1.5-1.5M12 10V6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-            <div class="dl-item__text">
-              <span class="dl-item__label">Markdown</span>
-              <span class="dl-item__sub" data-i18n="dlMdDesc">Plik .md</span>
-            </div>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="workspace">
-    <div class="panel">
-      <div class="panel__header">
-        <div class="panel__header-left">
-          <div class="panel__dot panel__dot--green"></div>
-          <span class="panel__title" data-i18n="inputTitle">Wejscie</span>
-        </div>
-        <span class="panel__badge" id="charCount">0 znakow</span>
-      </div>
-      <textarea class="editor" id="markdownInput" spellcheck="false" data-i18n-placeholder="inputPlaceholder" placeholder="Wklej tekst Markdown z ChatGPT, Claude, Gemini..." aria-label="Markdown input"></textarea>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="panel">
-      <div class="panel__header">
-        <div class="panel__header-left">
-          <div class="panel__dot panel__dot--accent"></div>
-          <span class="panel__title" data-i18n="outputTitle">Podglad</span>
-        </div>
-      </div>
-      <div class="preview style-docs" id="preview">
-        <div class="preview-empty" id="previewEmpty">
-          <div class="preview-empty__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div class="dl-menu" id="downloadMenu">
+            <button class="dl-item" id="dlHtml" type="button" data-fmt="html">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3l2.5 10h1L8 5l2.5 8h1L14 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <div class="dl-item__text">
+                <span class="dl-item__label">HTML</span>
+                <span class="dl-item__sub" data-i18n="dlHtmlDesc">Otwórz w przeglądarce</span>
+              </div>
+            </button>
+            <button class="dl-item" id="dlDocx" type="button" data-fmt="docx">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="1.5" width="12" height="13" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 6h6M5 8.5h6M5 11h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <div class="dl-item__text">
+                <span class="dl-item__label">DOCX</span>
+                <span class="dl-item__sub" data-i18n="dlDocxDesc">Microsoft Word</span>
+              </div>
+            </button>
+            <button class="dl-item" id="dlMd" type="button" data-fmt="md">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 10V6l2 2.5L8 6v4M10.5 8.5L12 10l1.5-1.5M12 10V6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              <div class="dl-item__text">
+                <span class="dl-item__label">Markdown</span>
+                <span class="dl-item__sub" data-i18n="dlMdDesc">Plik .md</span>
+              </div>
+            </button>
           </div>
-          <div class="preview-empty__title" data-i18n="emptyTitle">Tu pojawi sie podglad</div>
-          <div class="preview-empty__hint" data-i18n="emptyHint">Wklej tekst po lewej (<span class="preview-empty__kbd">Ctrl + V</span>)</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <footer class="footer">
-    <div class="footer__left">
-      <a href="/" class="footer__brand">Formatted<em>AI</em></a>
-      <span class="footer__privacy"><span class="footer__privacy-dot"></span><span data-i18n="footerBadge">Zero uploadow</span></span>
-    </div>
-    <div class="footer__links">
-      <a href="/narzedzia/" class="footer__link" data-i18n="navTools">Narzedzia</a>
-      <a href="/articles/" class="footer__link" data-i18n="navArticles">Artykuly</a>
-      <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
-      <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatnosc</a>
-      <a href="mailto:adam.szczotka0@gmail.com" class="footer__link" data-i18n="navContact">Kontakt</a>
-      <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="footer__link">GitHub</a>
-      <a href="https://adamszczotka.dev" target="_blank" rel="noopener" class="footer__link">adamszczotka.dev</a>
-    </div>
-  </footer>
+    <main class="ws">
+      <section class="pane">
+        <header class="pane__head">
+          <div class="pane__head-left">
+            <span class="pane__label" data-i18n="inputTitle">Wejście · Markdown</span>
+            <span class="pane__extra mf-stats" id="charCount">0 znaków</span>
+          </div>
+          <div class="pane__actions">
+            <button class="tool-act" id="pasteBtn" type="button" title="Wklej ze schowka">
+              <span>Wklej</span><kbd>⌘V</kbd>
+            </button>
+          </div>
+        </header>
+        <div class="pane__body">
+          <textarea class="editor" id="markdownInput" spellcheck="false" data-i18n-placeholder="inputPlaceholder" placeholder="Wklej markdown lub zacznij pisać…" aria-label="Markdown input"></textarea>
+
+          <div class="input-hint" id="inputHint" aria-hidden="true">
+            <div class="input-hint__cta">
+              <div class="input-hint__cta-eyebrow">/ ZACZNIJ TUTAJ</div>
+              <h2 class="input-hint__cta-title">Wklej tekst markdown z ChatGPT, Claude lub Gemini</h2>
+              <p class="input-hint__cta-sub">Sformatowany podgląd pojawi się po prawej. Skopiuj i wklej do Word lub Google Docs — formatowanie zostanie zachowane.</p>
+              <div class="input-hint__cta-shortcuts">
+                <span><kbd class="fa-kbd">⌘V</kbd> wklej</span>
+                <span><kbd class="fa-kbd">⌘⇧C</kbd> kopiuj</span>
+                <span><kbd class="fa-kbd">⌘⇧X</kbd> wyczyść</span>
+              </div>
+            </div>
+            <div class="input-hint__label">Albo wczytaj przykład:</div>
+            <div class="input-hint__list">
+              <button class="input-hint__btn" data-example="article" type="button">
+                <span>Artykuł z ChatGPT</span>
+                <span>nagłówki, listy, pogrubienia</span>
+              </button>
+              <button class="input-hint__btn" data-example="table" type="button">
+                <span>Tabela porównawcza</span>
+                <span>tabela 4×4 + wstęp</span>
+              </button>
+              <button class="input-hint__btn" data-example="code" type="button">
+                <span>Code review</span>
+                <span>fragmenty kodu + opisy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="ws__divider" aria-hidden="true"></div>
+
+      <section class="pane">
+        <header class="pane__head">
+          <div class="pane__head-left">
+            <span class="pane__label" data-i18n="outputTitle">Wyjście · Podgląd</span>
+            <span class="pane__extra"><span id="convInfo">oczekuje na input</span></span>
+          </div>
+        </header>
+        <div class="pane__body">
+          <div class="preview style-docs" id="preview">
+            <div class="preview-empty" id="previewEmpty">
+              <div class="out-empty">
+                <div class="out-empty__mark">↘</div>
+                <div class="out-empty__text" data-i18n="emptyTitle">Wynik pojawi się tutaj automatycznie po wpisaniu lub wklejeniu markdown po lewej.</div>
+                <div class="out-empty__hints">
+                  <span class="out-empty__hint"><kbd class="fa-kbd">⌘V</kbd> wklej</span>
+                  <span class="out-empty__hint"><kbd class="fa-kbd">⌘⇧C</kbd> kopiuj</span>
+                  <span class="out-empty__hint"><kbd class="fa-kbd">⌘⇧X</kbd> wyczyść</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="faq" aria-labelledby="faqTitle">
+      <div class="faq__label">/ FAQ</div>
+      <h2 class="faq__title" id="faqTitle">Często zadawane pytania</h2>
+      <details>
+        <summary>Jak skopiować tekst z ChatGPT do Google Docs z formatowaniem?</summary>
+        <p>Wklej tekst markdown z ChatGPT w lewy panel. Sformatowany podgląd pojawi się po prawej. Kliknij „Kopiuj sformatowany", a następnie wklej do Google Docs — wszystkie nagłówki, pogrubienia, listy, tabele i bloki kodu zostaną zachowane.</p>
+      </details>
+      <details>
+        <summary>Czy narzędzie wysyła moje dane na serwer?</summary>
+        <p>Nie. Wszystko działa w przeglądarce dzięki JavaScript (Marked + DOMPurify). Twój tekst nigdy nie jest wysyłany w żadne miejsce.</p>
+      </details>
+      <details>
+        <summary>Jakie formaty eksportu są dostępne?</summary>
+        <p>HTML (do otwarcia w przeglądarce), DOCX (Microsoft Word) lub Markdown (.md) — wszystkie generowane lokalnie.</p>
+      </details>
+    </section>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploadów · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Narzędzia</span>
+          <a href="/narzedzia/" class="fa-footer__link">Wszystkie</a>
+          <a href="/avif/" class="fa-footer__link">AVIF</a>
+          <a href="/heic/" class="fa-footer__link">HEIC</a>
+          <a href="/pdf/" class="fa-footer__link">PDF Tools</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Treść</span>
+          <a href="/articles/" class="fa-footer__link" data-i18n="navArticles">Artykuły</a>
+          <a href="/about/" class="fa-footer__link" data-i18n="navAbout">O nas</a>
+          <a href="/privacy/" class="fa-footer__link" data-i18n="navPrivacy">Prywatność</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Kontakt</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link" data-i18n="navContact">Email</a>
+          <a href="https://formattedai.pl/en/formatter/" class="fa-footer__link" hreflang="en">English</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>Markdown Formatter · 100% client-side</span>
+      </div>
+    </footer>
+
+  </div>
 
   <div class="toast" id="toast" role="alert" aria-live="assertive">
     <div class="toast__dot"></div>
     <span class="toast__text" id="toastText" data-i18n="copySuccess">Skopiowano z formatowaniem!</span>
   </div>
 
-  <section class="seo-content" aria-hidden="true">
-    <h2>Markdown Formatter — z ChatGPT do Google Docs i Word</h2>
-    <p>Markdown Formatter pozwala wkleic tekst wygenerowany przez ChatGPT, Claude lub Gemini i skopiowac go do Google Docs lub Microsoft Word z zachowanym formatowaniem. Naglowki, pogrubienia, listy, kod, tabele — wszystko zachowane.</p>
-    <h3>Jak to dziala?</h3>
-    <p>Wklej Markdown po lewej, narzedzie renderuje podglad po prawej. Klikasz "Kopiuj sformatowany" i wklejasz do Docs/Word — formatowanie zachowane.</p>
-    <h3>Czy moj tekst jest wysylany?</h3>
-    <p>Nie. Wszystko dzieje sie w przegladarce (Marked + DOMPurify). Tekst nie opuszcza urzadzenia.</p>
-    <h3>Jakie formaty eksportu?</h3>
-    <p>HTML (do otwarcia w przegladarce), DOCX (Microsoft Word) lub Markdown (.md).</p>
-  </section>
-
-  <!-- About / Help Modal -->
   <div class="about-modal-overlay" id="aboutModal" hidden>
     <div class="about-modal">
       <div class="about-modal__header">
@@ -241,26 +343,25 @@
         </button>
       </div>
       <div class="about-modal__body">
-        <p class="about-modal__desc" data-i18n="modalDesc"><strong>Markdown Formatter</strong> konwertuje tekst z ChatGPT, Claude i innych asystentow AI na sformatowany dokument gotowy do wklejenia w Google Docs lub Microsoft Word. Wszystko dziala w przegladarce — Twoje dane nigdy nie opuszczaja urzadzenia.</p>
-        <h3 class="about-modal__section-title" data-i18n="modalHowTitle">Jak uzywac</h3>
+        <p class="about-modal__desc" data-i18n="modalDesc"><strong>Markdown Formatter</strong> konwertuje tekst z ChatGPT, Claude i innych asystentów AI na sformatowany dokument gotowy do wklejenia w Google Docs lub Microsoft Word. Wszystko działa w przeglądarce — Twoje dane nigdy nie opuszczają urządzenia.</p>
+        <h3 class="about-modal__section-title" data-i18n="modalHowTitle">Jak używać</h3>
         <ol class="about-modal__steps">
           <li data-i18n="modalStep1">Wklej tekst markdown w lewym panelu</li>
-          <li data-i18n="modalStep2">Zobacz sformatowany podglad po prawej</li>
-          <li data-i18n="modalStep3">Kliknij "Kopiuj sformatowany" i wklej do Docs / Word</li>
+          <li data-i18n="modalStep2">Zobacz sformatowany podgląd po prawej</li>
+          <li data-i18n="modalStep3">Kliknij „Kopiuj sformatowany" i wklej do Docs / Word</li>
         </ol>
         <h3 class="about-modal__section-title" data-i18n="modalFeaturesTitle">Kluczowe funkcje</h3>
         <ul class="about-modal__features">
           <li data-i18n="modalFeat1">Konwersja markdown na sformatowany tekst w czasie rzeczywistym</li>
           <li data-i18n="modalFeat2">Kopiowanie z zachowaniem formatowania do Google Docs i Word</li>
           <li data-i18n="modalFeat3">Eksport do HTML, DOCX i Markdown</li>
-          <li data-i18n="modalFeat4">Presety stylow Google Docs i Word</li>
-          <li data-i18n="modalFeat5">100% client-side — Twoje dane nigdy nie opuszczaja urzadzenia</li>
+          <li data-i18n="modalFeat4">Presety stylów Google Docs i Word</li>
+          <li data-i18n="modalFeat5">100% client-side — Twoje dane nigdy nie opuszczają urządzenia</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- Legacy JS compat placeholders (langToggle/langFlag/mobileCopyBtn) -->
   <a id="langToggle" hidden aria-hidden="true" style="display:none !important"><span id="langFlag">PL</span></a>
   <button id="mobileCopyBtn" type="button" hidden aria-hidden="true" style="display:none !important"></button>
 
@@ -269,32 +370,32 @@
     'use strict';
     var translations = {
       pl: {
-        navTools: 'Narzedzia', navArticles: 'Artykuly', navAbout: 'O nas', navPrivacy: 'Prywatnosc', navContact: 'Kontakt',
-        toolHeaderDesc: 'wklej tekst z ChatGPT lub Claude · skopiuj z formatowaniem',
+        navTools: 'Narzędzia', navArticles: 'Artykuły', navAbout: 'O nas', navPrivacy: 'Prywatność', navContact: 'Kontakt',
+        toolHeaderDesc: 'Wklej tekst z ChatGPT, Claude lub Gemini. Skopiuj jako sformatowany dokument do Word lub Google Docs.',
         styleDocs: 'Docs', styleWord: 'Word',
-        clear: 'Wyczysc', copyFormatted: 'Kopiuj sformatowany', export: 'Pobierz',
-        dlHtmlDesc: 'Otworz w przegladarce', dlDocxDesc: 'Microsoft Word', dlMdDesc: 'Plik .md',
-        inputTitle: 'Wejscie', outputTitle: 'Podglad',
-        inputPlaceholder: 'Wklej tekst Markdown z ChatGPT, Claude, Gemini...',
-        emptyTitle: 'Tu pojawi sie podglad',
-        emptyHint: 'Wklej tekst po lewej',
+        clear: 'Wyczyść', copyFormatted: 'Kopiuj sformatowany', export: 'Pobierz',
+        dlHtmlDesc: 'Otwórz w przeglądarce', dlDocxDesc: 'Microsoft Word', dlMdDesc: 'Plik .md',
+        inputTitle: 'Wejście · Markdown', outputTitle: 'Wyjście · Podgląd',
+        inputPlaceholder: 'Wklej markdown lub zacznij pisać…',
+        emptyTitle: 'Wynik pojawi się tutaj automatycznie po wpisaniu lub wklejeniu markdown po lewej.',
         copySuccess: 'Skopiowano z formatowaniem!',
-        footerBadge: 'Zero uploadow',
-        chars: 'znakow'
+        chars: 'znaków', words: 'słów', lines: 'linii',
+        statusWaiting: 'czeka na input', statusReady: 'gotowe',
+        convInfoWaiting: 'oczekuje na input', convInfoReady: 'konwersja lokalna'
       },
       en: {
         navTools: 'Tools', navArticles: 'Articles', navAbout: 'About', navPrivacy: 'Privacy', navContact: 'Contact',
-        toolHeaderDesc: 'paste from ChatGPT or Claude · copy with formatting',
+        toolHeaderDesc: 'Paste text from ChatGPT, Claude or Gemini. Copy formatted document to Word or Google Docs.',
         styleDocs: 'Docs', styleWord: 'Word',
         clear: 'Clear', copyFormatted: 'Copy formatted', export: 'Export',
         dlHtmlDesc: 'Open in browser', dlDocxDesc: 'Microsoft Word', dlMdDesc: '.md file',
-        inputTitle: 'Input', outputTitle: 'Preview',
-        inputPlaceholder: 'Paste markdown from ChatGPT, Claude, Gemini...',
-        emptyTitle: 'Preview will appear here',
-        emptyHint: 'Paste text on the left',
+        inputTitle: 'Input · Markdown', outputTitle: 'Output · Preview',
+        inputPlaceholder: 'Paste markdown or start typing…',
+        emptyTitle: 'Output will appear here automatically when you type or paste markdown on the left.',
         copySuccess: 'Copied with formatting!',
-        footerBadge: 'Zero uploads',
-        chars: 'chars'
+        chars: 'chars', words: 'words', lines: 'lines',
+        statusWaiting: 'waiting for input', statusReady: 'ready',
+        convInfoWaiting: 'awaiting input', convInfoReady: 'local conversion'
       }
     };
     var currentLang = (document.documentElement.lang || 'pl').toLowerCase().startsWith('en') ? 'en' : 'pl';
@@ -312,17 +413,8 @@
     applyT();
     window.t = function(k) { return translations[currentLang][k] || k; };
 
-    // Theme
     var theme = localStorage.getItem('formattedai-theme') || 'light';
-    function applyTheme(v) {
-      document.documentElement.setAttribute('data-theme', v);
-      var moon = document.getElementById('iconMoon');
-      var sun = document.getElementById('iconSun');
-      if (sun && moon) {
-        sun.style.display = v === 'dark' ? 'block' : 'none';
-        moon.style.display = v === 'dark' ? 'none' : 'block';
-      }
-    }
+    function applyTheme(v) { document.documentElement.setAttribute('data-theme', v); }
     applyTheme(theme);
     var tt = document.getElementById('themeToggle');
     if (tt) tt.addEventListener('click', function() {
@@ -331,8 +423,86 @@
       applyTheme(theme);
     });
 
-    // Style tabs (Docs/Word), download dropdown, char count and preview rendering
-    // are handled by app.js loaded below — avoid duplicate handlers here.
+    var sd = document.getElementById('styleDocsBtn'),
+        sw = document.getElementById('styleWordBtn');
+    function syncStyleTabs() {
+      if (!sd || !sw) return;
+      sd.classList.toggle('is-active', sd.classList.contains('active'));
+      sw.classList.toggle('is-active', sw.classList.contains('active'));
+    }
+    if (sd && sw) {
+      new MutationObserver(syncStyleTabs).observe(sd, { attributes: true, attributeFilter: ['class'] });
+      new MutationObserver(syncStyleTabs).observe(sw, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    var input = document.getElementById('markdownInput');
+    var stats = document.getElementById('charCount');
+    var dot = document.getElementById('statusDot');
+    var label = document.getElementById('statusLabel');
+    var convInfo = document.getElementById('convInfo');
+    var hint = document.getElementById('inputHint');
+    function updateStats() {
+      if (!input || !stats) return;
+      var v = input.value;
+      var ch = v.length;
+      var wd = v.trim() ? v.trim().split(/\s+/).length : 0;
+      var ln = v ? v.split('\n').length : 0;
+      var T = translations[currentLang];
+      stats.textContent = ch + ' ' + T.chars + ' · ' + wd + ' ' + T.words + ' · ' + ln + ' ' + T.lines;
+      var has = !!v.trim();
+      if (dot) dot.classList.toggle('is-active', has);
+      if (label) label.textContent = has ? T.statusReady : T.statusWaiting;
+      if (convInfo) convInfo.textContent = has ? '< 20ms · ' + T.convInfoReady : T.convInfoWaiting;
+      if (hint) hint.style.display = v ? 'none' : '';
+    }
+    if (input) {
+      input.addEventListener('input', updateStats);
+      updateStats();
+    }
+
+    var pasteBtn = document.getElementById('pasteBtn');
+    if (pasteBtn) pasteBtn.addEventListener('click', function() {
+      if (!navigator.clipboard || !navigator.clipboard.readText) return;
+      navigator.clipboard.readText().then(function(text) {
+        if (!input) return;
+        input.value = text;
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.focus();
+      }).catch(function() {});
+    });
+
+    var EXAMPLES = {
+      article: '# Jak pisać dobre prompty\n\nPisanie dobrych promptów to **rzemiosło**, nie magia.\n\n## 1. Bądź konkretny\n\nZamiast „napisz mi coś o marketingu", napisz:\n\n- temat: marketing B2B w SaaS\n- format: lista 7 punktów\n- ton: praktyczny, bez korpomowy\n\n## 2. Daj kontekst\n\nModel nie czyta w myślach. Daj mu kontekst.\n\n## 3. Iteruj\n\nPierwsza odpowiedź to *draft*, nie *finał*.',
+      table:   '# Porównanie formatów obrazów\n\n| Format | Rozmiar | Wsparcie | Najlepsze do |\n|--------|---------|----------|--------------|\n| JPEG   | duży    | wszędzie | zdjęcia      |\n| PNG    | bardzo duży | wszędzie | grafika z przezroczystością |\n| WebP   | mały    | nowoczesne przeglądarki | web ogólnie |\n| AVIF   | **najmniejszy** | 95% przeglądarek | nowoczesny web |\n\n**Rekomendacja:** AVIF + WebP fallback.',
+      code:    '# Code review — funkcja parseDate\n\n```js\nfunction parseDate(s) {\n  const d = new Date(s);\n  if (isNaN(d)) return null;\n  return d;\n}\n```\n\nProblemy:\n1. `new Date(string)` jest **niedeterministyczne**\n2. Brak walidacji formatu\n3. `null` jako error — lepszy byłby Result type'
+    };
+    document.querySelectorAll('.input-hint__btn').forEach(function(b) {
+      b.addEventListener('click', function() {
+        var k = b.getAttribute('data-example');
+        if (!input || !EXAMPLES[k]) return;
+        input.value = EXAMPLES[k];
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.focus();
+      });
+    });
+      // Mobile hamburger toggle
+      var burger = document.getElementById("navBurger");
+      var navEl = document.getElementById("faNav");
+      if (burger && navEl) {
+        burger.addEventListener("click", function() {
+          var open = navEl.classList.toggle("is-menu-open");
+          burger.classList.toggle("is-open", open);
+          burger.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        navEl.querySelectorAll(".fa-nav__link, .fa-nav__lang").forEach(function(a) {
+          a.addEventListener("click", function() {
+            navEl.classList.remove("is-menu-open");
+            burger.classList.remove("is-open");
+            burger.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
   })();
   </script>
 

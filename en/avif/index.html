@@ -51,22 +51,38 @@
   }
   </script>
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/en/" },
-    { "@type": "ListItem", "position": 2, "name": "AVIF Converter", "item": "https://formattedai.pl/en/avif/" }
-  ] }
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://formattedai.pl/en/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "AVIF Converter", "item": "https://formattedai.pl/en/avif/" }
+    ]
+  }
   </script>
 
   <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
   <link rel="apple-touch-icon" href="../../assets/favicon.svg">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#08080c">
   <meta name="mobile-web-app-capable" content="yes">
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="../../assets/css/fonts.css">
   <link rel="stylesheet" href="../../assets/css/avif.css">
 </head>
 <body>
 
+  <!-- AVIF unsupported banner (hidden by default; toggled by avif.js) -->
   <div class="avif-warning" id="avifWarning" role="alert" hidden>
     <div class="avif-warning__content">
       <div class="avif-warning__icon">
@@ -78,184 +94,250 @@
     </div>
   </div>
 
-  <nav class="nav">
-    <a href="/en/" class="nav__brand">
-      <svg class="nav__logo" viewBox="0 0 32 32" fill="none">
-        <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#lg1)" stroke-width="1.5" fill="url(#lf1)"/>
-        <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <defs>
-          <linearGradient id="lg1" x1="4" y1="2" x2="28" y2="30"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient>
-          <linearGradient id="lf1" x1="4" y1="2" x2="28" y2="30"><stop stop-color="rgba(108,92,231,0.25)"/><stop offset="1" stop-color="rgba(167,139,250,0.08)"/></linearGradient>
-        </defs>
-      </svg>
-      <span class="nav__name">Formatted<em>AI</em></span>
-    </a>
-    <div class="nav__center">
-      <span class="nav__sep">/</span>
-      <div class="nav__tool-badge"><span class="nav__tool-dot"></span>AVIF Converter</div>
-    </div>
-    <div class="nav__actions">
-      <div class="nav__links">
-        <a href="/en/tools/" class="nav__link" data-i18n="navTools">Tools</a>
-        <a href="/en/articles/" class="nav__link" data-i18n="navArticles">Articles</a>
-      </div>
-      <button class="about-trigger" id="aboutTrigger" type="button" aria-label="Help" title="Help">?</button>
-      <a href="https://formattedai.pl/avif/" class="nav__icon-btn" title="Polska wersja" aria-label="Polish version">
-        <span class="nav__lang">PL</span>
+  <div class="tool-shell" id="app">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/en/" class="fa-nav__brand" aria-label="FormattedAI — home">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
       </a>
-      <button class="nav__icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
-        <svg id="iconMoon" width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        <svg id="iconSun" width="15" height="15" viewBox="0 0 16 16" fill="none" style="display:none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.5 1.5M11.5 11.5L13 13M3 13l1.5-1.5M11.5 4.5L13 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-  </nav>
 
-  <div class="tool-header">
-    <div class="tool-header__left">
-      <div class="tool-header__icon">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/en/tools/" class="fa-nav__crumb-link" data-i18n="navTools">Tools</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">AVIF Converter</span>
+      </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/avif/" class="fa-nav__lang" hreflang="pl" title="Polska wersja">PL</a>
+        <button class="fa-nav__icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="fa-theme__moon" id="iconMoon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="fa-theme__sun" id="iconSun" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <button class="fa-nav__icon-btn" id="aboutTrigger" type="button" title="Help" aria-label="Help">?</button>
+        <a href="/en/tools/" class="fa-nav__cta">All tools →</a>
       </div>
-      <span class="tool-header__title">PNG / JPG / WebP &rarr; AVIF</span>
-      <span class="tool-header__desc" data-i18n="toolHeaderDesc">100% in-browser · WebAssembly</span>
-    </div>
-    <div class="tool-header__right">
-      <div class="quality-wrap">
-        <span class="quality-label" data-i18n="quality">Quality</span>
-        <div class="presets">
-          <button class="tool-bar__preset" data-quality="40" type="button" data-i18n="presetLow">Low</button>
-          <button class="tool-bar__preset tool-bar__preset--active" data-quality="65" type="button" data-i18n="presetMedium">Medium</button>
-          <button class="tool-bar__preset" data-quality="80" type="button" data-i18n="presetHigh">High</button>
-          <button class="tool-bar__preset" data-quality="100" type="button" data-i18n="presetLossless">Lossless</button>
+    </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ TOOL · PNG/JPG/WebP → AVIF</span>
+          <h1 class="tool-head__title">AVIF Converter</h1>
+          <p class="tool-head__sub" data-i18n="toolHeaderDesc">Convert PNG/JPG/WebP images to modern AVIF format with better compression. 100% in browser, batch + ZIP.</p>
         </div>
-        <div class="quality-slider-wrap">
-          <input type="range" class="quality-slider" id="qualitySlider" min="1" max="100" value="65">
-          <span class="quality-val" id="qualityValue">65</span>
+        <div class="tool-head__status">
+          <span class="tool-head__status-dot" id="statusDot"></span>
+          <span id="statusLabel">waiting for files</span>
         </div>
       </div>
-      <button class="hdr-btn hdr-btn--ghost" id="clearBtn" type="button" disabled>
-        <span data-i18n="clear">Clear</span>
-      </button>
-      <button class="hdr-btn hdr-btn--ghost" id="downloadAllBtn" type="button" disabled>
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span data-i18n="downloadAll">Download ZIP</span>
-      </button>
-      <button class="hdr-btn hdr-btn--primary" id="convertAllBtn" type="button" disabled>
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M1 8h14M11 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span data-i18n="convertAll">Convert all</span>
-      </button>
+    </section>
+
+    <div class="tool-sub" role="toolbar" aria-label="Quality and actions">
+      <span class="tool-sub__label" data-i18n="quality">QUALITY</span>
+      <div class="presets" role="radiogroup" aria-label="Quality presets">
+        <button class="tool-bar__preset" data-quality="40" type="button" data-i18n="presetLow">Low</button>
+        <button class="tool-bar__preset tool-bar__preset--active" data-quality="65" type="button" data-i18n="presetMedium">Medium</button>
+        <button class="tool-bar__preset" data-quality="80" type="button" data-i18n="presetHigh">High</button>
+        <button class="tool-bar__preset" data-quality="100" type="button" data-i18n="presetLossless">Lossless</button>
+      </div>
+      <div class="quality-slider-wrap">
+        <input type="range" class="quality-slider" id="qualitySlider" min="1" max="100" value="65" aria-label="Quality">
+        <span class="quality-val" id="qualityValue">65</span>
+      </div>
+
+      <div style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <button class="tool-act" id="clearBtn" type="button" disabled>
+          <span data-i18n="clear">Clear</span>
+        </button>
+        <button class="tool-act" id="downloadAllBtn" type="button" disabled>
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="downloadAll">Download ZIP</span>
+          <kbd>⌘⇧C</kbd>
+        </button>
+        <button class="tool-act tool-act--primary" id="convertAllBtn" type="button" disabled>
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 8h14M11 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="convertAll">Convert all</span>
+        </button>
+      </div>
     </div>
+
+    <main class="ws">
+      <!-- LEFT: input pane (drop-zone + file list) -->
+      <section class="pane">
+        <header class="pane__head">
+          <div class="pane__head-left">
+            <span class="pane__label" data-i18n="inputTitle">Input · images</span>
+            <span class="pane__extra" id="fileCount">0 / 20</span>
+          </div>
+        </header>
+        <div class="pane__body">
+          <div class="input-area" id="inputArea">
+            <div class="drop-zone" id="dropZone">
+              <div class="drop-zone__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="drop-zone__title" data-i18n="dropText">Drop images here</div>
+              <div class="drop-zone__sub" data-i18n="metaInfo">EXIF metadata will be removed</div>
+              <div class="drop-zone__formats">
+                <span class="fmt-tag">PNG</span>
+                <span class="fmt-tag">JPG</span>
+                <span class="fmt-tag">WebP</span>
+              </div>
+              <button class="drop-zone__browse" id="browseBtn" type="button" data-i18n="browseFiles">Browse files</button>
+            </div>
+
+            <div class="drop-zone drop-zone--compact" id="dropZoneCompact" hidden>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span data-i18n="addMore">Add more files</span>
+            </div>
+
+            <div class="file-list" id="fileList"></div>
+
+            <input type="file" id="fileInput" multiple accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp" hidden>
+          </div>
+        </div>
+      </section>
+
+      <div class="ws__divider" aria-hidden="true"></div>
+
+      <!-- RIGHT: output pane (results + summary) -->
+      <section class="pane">
+        <header class="pane__head">
+          <div class="pane__head-left">
+            <span class="pane__label" data-i18n="outputTitle">Output · converted</span>
+            <span class="pane__extra" id="resultCount">0</span>
+          </div>
+        </header>
+        <div class="pane__body">
+
+          <div class="convert-progress" id="resultsProgress" hidden>
+            <div class="convert-progress__top">
+              <span class="convert-progress__label" id="progressText" data-i18n="converting">Converting...</span>
+              <span class="convert-progress__pct" id="progressPercent">0%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill" style="width:0%"></div>
+            </div>
+            <div class="convert-progress__file" id="progressFile"></div>
+          </div>
+
+          <div class="results">
+            <div class="results__list" id="resultsList"></div>
+
+            <div class="results-empty" id="resultsEmpty">
+              <div class="out-empty">
+                <div class="out-empty__mark">↘</div>
+                <div class="out-empty__text" data-i18n="emptyText">Pick or drag images, set quality, then hit Convert</div>
+                <div class="out-empty__hints">
+                  <span class="out-empty__hint" data-i18n="emptyHint">Add files on the left</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-bar" id="summaryBar" hidden>
+            <div class="summary-stat">
+              <span class="summary-stat__label" data-i18n="totalFiles">Files</span>
+              <span class="summary-stat__val" id="summaryFiles">0</span>
+            </div>
+            <div class="summary-stat">
+              <span class="summary-stat__label" data-i18n="originalSize">Original</span>
+              <span class="summary-stat__val" id="summaryOriginal">0 KB</span>
+            </div>
+            <div class="summary-stat">
+              <span class="summary-stat__label">AVIF</span>
+              <span class="summary-stat__val" id="summaryAvif">0 KB</span>
+            </div>
+            <div class="summary-stat summary-stat--savings">
+              <span class="summary-stat__label" data-i18n="savings">Savings</span>
+              <span class="summary-stat__val" id="summarySavings">0%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="tool-faq" aria-labelledby="faqTitle">
+      <div class="tool-faq__label">/ FAQ</div>
+      <h2 class="tool-faq__title" id="faqTitle">Frequently asked questions</h2>
+      <details>
+        <summary>What is AVIF format and why should I use it?</summary>
+        <p>AVIF is a next-generation image format based on the AV1 codec. It offers significantly better compression than JPEG, PNG or WebP — a typical JPEG can be reduced by 50-70% with no visible quality loss.</p>
+      </details>
+      <details>
+        <summary>How do I convert PNG to AVIF?</summary>
+        <p>Drag your PNG files into the converter, set quality (65 recommended), click Convert. Everything runs in your browser via WebAssembly. Download .avif files individually or as a ZIP.</p>
+      </details>
+      <details>
+        <summary>Is AVIF better than WebP?</summary>
+        <p>Yes. AVIF is typically 20-30% smaller than WebP at the same visual quality, with better support for color, HDR and transparency.</p>
+      </details>
+    </section>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/en/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploads · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Tools</span>
+          <a href="/en/tools/" class="fa-footer__link">All</a>
+          <a href="/en/formatter/" class="fa-footer__link">Markdown</a>
+          <a href="/en/heic/" class="fa-footer__link">HEIC</a>
+          <a href="/en/pdf/" class="fa-footer__link">PDF Tools</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Content</span>
+          <a href="/en/articles/" class="fa-footer__link" data-i18n="navArticles">Articles</a>
+          <a href="/en/about/" class="fa-footer__link" data-i18n="navAbout">About</a>
+          <a href="/en/privacy/" class="fa-footer__link" data-i18n="navPrivacy">Privacy</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Contact</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link" data-i18n="navContact">Email</a>
+          <a href="https://formattedai.pl/avif/" class="fa-footer__link" hreflang="pl">Polski</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>AVIF Converter · 100% client-side</span>
+      </div>
+    </footer>
+
   </div>
-
-  <div class="workspace workspace--avif" id="workspace">
-
-    <div class="panel" id="inputPanel">
-      <div class="panel__header">
-        <div class="panel__header-left">
-          <div class="panel__dot panel__dot--green"></div>
-          <span class="panel__title" data-i18n="inputTitle">Input</span>
-        </div>
-        <span class="panel__badge" id="fileCount">0 / 20</span>
-      </div>
-      <div class="input-area" id="inputArea">
-        <div class="drop-zone" id="dropZone">
-          <div class="drop-zone__icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="drop-zone__title" data-i18n="dropText">Drop images here</div>
-          <div class="drop-zone__sub" data-i18n="metaInfo">EXIF metadata will be removed</div>
-          <div class="drop-zone__formats">
-            <span class="fmt-tag">PNG</span>
-            <span class="fmt-tag">JPG</span>
-            <span class="fmt-tag">WebP</span>
-          </div>
-          <button class="drop-zone__browse" id="browseBtn" type="button" data-i18n="browseFiles">Browse files</button>
-        </div>
-
-        <div class="drop-zone drop-zone--compact" id="dropZoneCompact" hidden>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span data-i18n="addMore">Add more files</span>
-        </div>
-
-        <div class="file-list" id="fileList"></div>
-
-        <input type="file" id="fileInput" multiple accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp" hidden>
-      </div>
-    </div>
-
-    <div class="panel" id="outputPanel">
-      <div class="panel__header">
-        <div class="panel__header-left">
-          <div class="panel__dot panel__dot--accent"></div>
-          <span class="panel__title" data-i18n="outputTitle">Output</span>
-        </div>
-        <span class="panel__badge" id="resultCount">0</span>
-      </div>
-
-      <div class="summary-bar" id="summaryBar" hidden>
-        <div class="summary-stat">
-          <span class="summary-stat__label" data-i18n="totalFiles">Files</span>
-          <span class="summary-stat__val" id="summaryFiles">0</span>
-        </div>
-        <div class="summary-stat">
-          <span class="summary-stat__label" data-i18n="originalSize">Original</span>
-          <span class="summary-stat__val" id="summaryOriginal">0 KB</span>
-        </div>
-        <div class="summary-stat">
-          <span class="summary-stat__label">AVIF</span>
-          <span class="summary-stat__val" id="summaryAvif">0 KB</span>
-        </div>
-        <div class="summary-stat summary-stat--savings">
-          <span class="summary-stat__label" data-i18n="savings">Savings</span>
-          <span class="summary-stat__val" id="summarySavings">0%</span>
-        </div>
-      </div>
-
-      <div class="convert-progress" id="resultsProgress" hidden>
-        <div class="convert-progress__top">
-          <span class="convert-progress__label" id="progressText" data-i18n="converting">Converting...</span>
-          <span class="convert-progress__pct" id="progressPercent">0%</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill" id="progressFill" style="width:0%"></div>
-        </div>
-        <div class="convert-progress__file" id="progressFile"></div>
-      </div>
-
-      <div class="results">
-        <div class="results-empty" id="resultsEmpty">
-          <div class="results-empty__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          </div>
-          <div class="results-empty__title" data-i18n="emptyText">Converted images will appear here</div>
-          <div class="results-empty__sub" data-i18n="emptyHint">Add files on the left side</div>
-        </div>
-        <div class="results__list" id="resultsList"></div>
-      </div>
-    </div>
-
-  </div>
-
-  <footer class="footer">
-    <div class="footer__left">
-      <a href="/en/" class="footer__brand">Formatted<em>AI</em></a>
-      <span class="footer__privacy"><span class="footer__privacy-dot"></span><span data-i18n="footerBadge">Zero uploads</span></span>
-    </div>
-    <div class="footer__links">
-      <a href="/en/tools/" class="footer__link" data-i18n="navTools">Tools</a>
-      <a href="/en/articles/" class="footer__link" data-i18n="navArticles">Articles</a>
-      <a href="/en/about/" class="footer__link" data-i18n="navAbout">About</a>
-      <a href="/en/privacy/" class="footer__link" data-i18n="navPrivacy">Privacy</a>
-      <a href="mailto:adam.szczotka0@gmail.com" class="footer__link" data-i18n="navContact">Contact</a>
-      <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="footer__link">GitHub</a>
-      <a href="https://adamszczotka.dev" target="_blank" rel="noopener" class="footer__link">adamszczotka.dev</a>
-    </div>
-  </footer>
 
   <div class="toast" id="toast" role="alert" aria-live="assertive">
     <div class="toast__dot"></div>
     <span class="toast__text" id="toastText" data-i18n="toastConverted">Conversion complete!</span>
   </div>
 
+  <!-- About / Help Modal -->
   <div class="about-modal-overlay" id="aboutModal" hidden>
     <div class="about-modal">
       <div class="about-modal__header">
@@ -289,6 +371,7 @@
     </div>
   </div>
 
+  <!-- Image preview modal (zoom on click) -->
   <div class="image-modal" id="imageModal" hidden>
     <div class="image-modal__backdrop" id="modalBackdrop"></div>
     <div class="image-modal__content">
@@ -302,11 +385,13 @@
     </div>
   </div>
 
+  <!-- SEO Content (bots only) -->
   <section class="seo-content" aria-hidden="true">
     <h1 data-i18n="seoH1">Free AVIF Converter — PNG, JPG, WebP to AVIF Online</h1>
     <p data-i18n="seoDesc">Convert images to modern AVIF format directly in your browser. AVIF offers up to 50% better compression than JPEG and 20% better than WebP — same visual quality at significantly smaller file sizes.</p>
   </section>
 
+  <!-- Legacy JS placeholders (langToggle/langFlag/mobile bar/divider) -->
   <a id="langToggle" hidden aria-hidden="true" style="display:none !important"><span id="langFlag">EN</span></a>
   <div id="mobileBar" hidden aria-hidden="true" style="display:none !important">
     <button id="mobileConvertBtn" type="button"></button>
@@ -314,17 +399,61 @@
   </div>
   <div id="divider" hidden aria-hidden="true" style="display:none !important"></div>
 
+  <!-- Theme + i18n + UI bootstrap -->
   <script>
   (function() {
+    'use strict';
+    var translations = {
+      pl: {
+        navTools: 'Narzędzia', navArticles: 'Artykuły', navAbout: 'O nas', navPrivacy: 'Prywatność', navContact: 'Kontakt',
+        toolHeaderDesc: 'Konwertuj obrazki PNG/JPG/WebP na nowoczesny format AVIF z lepszą kompresją. 100% w przeglądarce, batch + ZIP.',
+        quality: 'JAKOŚĆ',
+        presetLow: 'Niska', presetMedium: 'Średnia', presetHigh: 'Wysoka', presetLossless: 'Bezstratna',
+        clear: 'Wyczyść', convertAll: 'Konwertuj wszystkie', downloadAll: 'Pobierz ZIP', converting: 'Konwertowanie...',
+        inputTitle: 'Wejście · obrazki', outputTitle: 'Wyjście · skonwertowane',
+        dropText: 'Przeciągnij i upuść obrazki tutaj', browseFiles: 'Przeglądaj pliki', addMore: 'Dodaj więcej plików',
+        metaInfo: 'Metadane EXIF zostaną usunięte',
+        emptyText: 'Wybierz lub przeciągnij obrazki, ustaw jakość i kliknij Konwertuj',
+        emptyHint: 'Dodaj pliki po lewej stronie',
+        totalFiles: 'Pliki', originalSize: 'Oryginał', savings: 'Oszczędność',
+        toastConverted: 'Konwersja zakończona!',
+        statusWaiting: 'czeka na pliki', statusReady: 'gotowe'
+      },
+      en: {
+        navTools: 'Tools', navArticles: 'Articles', navAbout: 'About', navPrivacy: 'Privacy', navContact: 'Contact',
+        toolHeaderDesc: 'Convert PNG/JPG/WebP images to modern AVIF format with better compression. 100% in browser, batch + ZIP.',
+        quality: 'QUALITY',
+        presetLow: 'Low', presetMedium: 'Medium', presetHigh: 'High', presetLossless: 'Lossless',
+        clear: 'Clear', convertAll: 'Convert all', downloadAll: 'Download ZIP', converting: 'Converting...',
+        inputTitle: 'Input · images', outputTitle: 'Output · converted',
+        dropText: 'Drop images here', browseFiles: 'Browse files', addMore: 'Add more files',
+        metaInfo: 'EXIF metadata will be removed',
+        emptyText: 'Pick or drag images, set quality, then hit Convert',
+        emptyHint: 'Add files on the left',
+        totalFiles: 'Files', originalSize: 'Original', savings: 'Savings',
+        toastConverted: 'Conversion complete!',
+        statusWaiting: 'waiting for files', statusReady: 'ready'
+      }
+    };
+    var currentLang = (document.documentElement.lang || 'pl').toLowerCase().startsWith('en') ? 'en' : 'pl';
+    function applyT() {
+      var t = translations[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var k = el.getAttribute('data-i18n');
+        if (t[k] !== undefined) el.textContent = t[k];
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+        var k = el.getAttribute('data-i18n-placeholder');
+        if (t[k] !== undefined) el.placeholder = t[k];
+      });
+    }
+    applyT();
+    window.t = function(k) { return translations[currentLang][k] || k; };
+
+    // === Theme toggle ===
     var theme = localStorage.getItem('formattedai-theme') || 'light';
     function applyTheme(v) {
       document.documentElement.setAttribute('data-theme', v);
-      var moon = document.getElementById('iconMoon');
-      var sun = document.getElementById('iconSun');
-      if (sun && moon) {
-        sun.style.display = v === 'dark' ? 'block' : 'none';
-        moon.style.display = v === 'dark' ? 'none' : 'block';
-      }
     }
     applyTheme(theme);
     var tt = document.getElementById('themeToggle');
@@ -333,6 +462,101 @@
       localStorage.setItem('formattedai-theme', theme);
       applyTheme(theme);
     });
+
+    // === Status indicator (waits for files) ===
+    var statusDot = document.getElementById('statusDot');
+    var statusLabel = document.getElementById('statusLabel');
+    var fileCountEl = document.getElementById('fileCount');
+    function syncStatus() {
+      if (!fileCountEl) return;
+      var txt = fileCountEl.textContent || '0 / 20';
+      var n = parseInt(txt, 10) || 0;
+      var has = n > 0;
+      if (statusDot) statusDot.classList.toggle('is-active', has);
+      if (statusLabel) {
+        var T = translations[currentLang];
+        statusLabel.textContent = has ? T.statusReady : T.statusWaiting;
+      }
+    }
+    if (fileCountEl) {
+      var mo = new MutationObserver(syncStatus);
+      mo.observe(fileCountEl, { childList: true, characterData: true, subtree: true });
+      syncStatus();
+    }
+
+    // === Quality preset sync (mirror class/active state on click) ===
+    // avif.js handles full preset logic incl. tool-bar__preset--active sync,
+    // but we keep an early fallback so the visual switch happens immediately
+    // before the WASM module finishes loading.
+    var presetBtns = document.querySelectorAll('.tool-bar__preset');
+    var slider = document.getElementById('qualitySlider');
+    var qVal = document.getElementById('qualityValue');
+    presetBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var q = btn.getAttribute('data-quality');
+        presetBtns.forEach(function(b) {
+          b.classList.toggle('tool-bar__preset--active', b === btn);
+        });
+        if (slider && q) slider.value = q;
+        if (qVal && q) qVal.textContent = q;
+      });
+    });
+    if (slider && qVal) {
+      slider.addEventListener('input', function() {
+        qVal.textContent = slider.value;
+        var v = Number(slider.value);
+        presetBtns.forEach(function(b) {
+          b.classList.toggle('tool-bar__preset--active', Number(b.dataset.quality) === v);
+        });
+      });
+    }
+
+    // === Drop zone visual feedback (drag-over class) ===
+    var dz = document.getElementById('dropZone');
+    if (dz) {
+      ['dragover', 'dragenter'].forEach(function(ev) {
+        dz.addEventListener(ev, function(e) {
+          e.preventDefault();
+          dz.classList.add('drop-zone--active');
+        });
+      });
+      ['dragleave', 'drop'].forEach(function(ev) {
+        dz.addEventListener(ev, function(e) {
+          if (ev === 'dragleave' && dz.contains(e.relatedTarget)) return;
+          dz.classList.remove('drop-zone--active');
+        });
+      });
+    }
+
+    // === Keyboard shortcut: Cmd/Ctrl+Shift+C → downloadAll (when enabled) ===
+    document.addEventListener('keydown', function(e) {
+      var mod = e.metaKey || e.ctrlKey;
+      if (mod && e.shiftKey && (e.key === 'c' || e.key === 'C')) {
+        var dl = document.getElementById('downloadAllBtn');
+        if (dl && !dl.disabled) {
+          e.preventDefault();
+          dl.click();
+        }
+      }
+    });
+      // Mobile hamburger toggle
+      var burger = document.getElementById("navBurger");
+      var navEl = document.getElementById("faNav");
+      if (burger && navEl) {
+        burger.addEventListener("click", function() {
+          var open = navEl.classList.toggle("is-menu-open");
+          burger.classList.toggle("is-open", open);
+          burger.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        navEl.querySelectorAll(".fa-nav__link, .fa-nav__lang").forEach(function(a) {
+          a.addEventListener("click", function() {
+            navEl.classList.remove("is-menu-open");
+            burger.classList.remove("is-open");
+            burger.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
   })();
   </script>
 
