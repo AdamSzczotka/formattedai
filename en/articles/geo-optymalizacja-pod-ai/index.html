@@ -41,6 +41,7 @@
     "description": "Learn why AVIF is the best image format in 2026 and how to convert images without losing quality.",
     "url": "https://formattedai.pl/en/articles/geo-optymalizacja-pod-ai/",
     "datePublished": "2026-03-25",
+    "dateModified": "2026-05-10",
     "author": {
       "@type": "Person",
       "name": "Adam Szczotka",
@@ -52,7 +53,16 @@
       "url": "https://formattedai.pl/"
     },
     "inLanguage": "en",
-    "mainEntityOfPage": "https://formattedai.pl/en/articles/geo-optymalizacja-pod-ai/"
+    "mainEntityOfPage": "https://formattedai.pl/en/articles/geo-optymalizacja-pod-ai/",
+    "wordCount": 1300,
+    "keywords": ["GEO", "Generative Engine Optimization", "SEO for AI", "ChatGPT Search", "llms.txt", "Schema.org", "AI search optimization"],
+    "articleSection": "SEO",
+    "isAccessibleForFree": true,
+    "image": ["https://formattedai.pl/assets/screenshots/screen_web.png"],
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".article-header__title", ".article-tldr"]
+    }
   }
   </script>
 
@@ -65,6 +75,56 @@
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/en/" },
       { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://formattedai.pl/en/articles/" },
       { "@type": "ListItem", "position": 3, "name": "How to Speed Up Image Loading on Your Website? Complete AVIF Guide", "item": "https://formattedai.pl/en/articles/geo-optymalizacja-pod-ai/" }
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is GEO (Generative Engine Optimization)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GEO (Generative Engine Optimization) is the set of practices that make your site's content cited and used by generative AI search engines like ChatGPT Search, Perplexity, Google AI Overviews, and Claude. It covers content structure, structured data (Schema.org), the llms.txt file, and bot access policy for AI crawlers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is GEO different from SEO?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Classic SEO optimizes for ranking in Google's link-based results. GEO focuses on getting an AI engine to treat your content as a trustworthy source and quote it in a generated answer. That requires concrete answers, clear structure (FAQ, lists, definitions), full Schema.org coverage, and AI-bot allowlisting in robots.txt."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How to optimize a site for ChatGPT Search?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "First, allow OAI-SearchBot in robots.txt (it is a different bot than GPTBot, which only trains the model). Second, add Schema.org (Article, FAQPage, BreadcrumbList) and clear Q&A sections. Third, write concretely — definitions at the start of paragraphs, short answers to questions, hard numbers. Also publish an llms.txt describing your site."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is llms.txt required?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No — llms.txt is an informal proposed standard, not yet endorsed by OpenAI or Anthropic. Still, it is worth adding, because some AI crawlers already read it, the file costs nothing, and lets you briefly describe what your site is and which sections matter most."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How to add Schema.org for AI?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In <head>, add <script type=\"application/ld+json\"> blocks with types Article (or other appropriate types), BreadcrumbList, and FAQPage. For articles, extend Article with wordCount, keywords, articleSection, isAccessibleForFree, and image. Schema.org helps both classic SEO and AI search engines understand context and trustworthiness of your content."
+        }
+      }
     ]
   }
   </script>
@@ -108,7 +168,7 @@
         </div>
       </a>
       <div class="navbar__nav">
-        <a href="/en/" class="navbar__link">Tools</a>
+        <a href="/en/tools/" class="navbar__link">Tools</a>
         <a href="/en/articles/" class="navbar__link navbar__link--active">Articles</a>
         <a href="/en/about/" class="navbar__link">About</a>
         <a href="https://formattedai.pl/articles/geo-optymalizacja-pod-ai/" class="navbar__link">PL</a>

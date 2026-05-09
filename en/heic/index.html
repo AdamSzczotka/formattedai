@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,7 +75,63 @@
   ] }
   </script>
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to convert iPhone HEIC photos to JPG/PNG/AVIF",
+    "description": "Open HEIC photos from any iPhone on any device — the tool runs locally in your browser.",
+    "totalTime": "PT1M",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Pick the target format",
+        "text": "Choose JPG (max compatibility), PNG (lossless) or AVIF (smallest file size).",
+        "url": "https://formattedai.pl/en/heic/#step-1"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Drag your HEIC photos in",
+        "text": "Drop .heic or .heif files into the drop zone. Add as many photos as you need.",
+        "url": "https://formattedai.pl/en/heic/#step-2"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Set quality",
+        "text": "Pick a quality preset or use the slider for fine-grained control over file size.",
+        "url": "https://formattedai.pl/en/heic/#step-3"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "Convert and download",
+        "text": "Hit Convert all and grab single files or the full ZIP archive.",
+        "url": "https://formattedai.pl/en/heic/#step-4"
+      }
+    ]
+  }
+  </script>
+
   <!-- Favicon -->
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "name": "HEIC (High Efficiency Image Container)",
+    "description": "HEIC is the default image format on Apple devices since iOS 11 (iPhone 7 and later). Based on the HEVC codec, it offers better compression than JPEG, but isn't natively supported on Windows/Android — requires conversion to JPG/PNG/AVIF.",
+    "url": "https://formattedai.pl/en/heic/",
+    "inDefinedTermSet": {
+      "@type": "DefinedTermSet",
+      "name": "FormattedAI Glossary",
+      "url": "https://formattedai.pl/"
+    }
+  }
+  </script>
+
   <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
   <link rel="apple-touch-icon" href="../../assets/favicon.svg">
 
@@ -83,219 +139,178 @@
   <meta name="theme-color" content="#08080c">
   <meta name="mobile-web-app-capable" content="yes">
 
-  <!-- Fonts & Styles -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
   <link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
   <link rel="stylesheet" href="../../assets/css/heic.css">
 </head>
 <body>
-  <div class="bg-effects" aria-hidden="true">
-    <div class="bg-effects__orb bg-effects__orb--1"></div>
-    <div class="bg-effects__orb bg-effects__orb--2"></div>
-    <div class="bg-effects__orb bg-effects__orb--3"></div>
-    <div class="bg-effects__grid"></div>
-  </div>
 
-  <!-- HEIC WASM Load Failed Banner -->
+  <!-- HEIC WASM Load Failed Banner (toggled by heic.js) -->
   <div class="heic-warning" id="heicWarning" role="alert" hidden>
     <div class="heic-warning__content">
       <div class="heic-warning__icon" aria-hidden="true">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 4L4 42h40L24 4z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 18v10M24 34h.02" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="40" height="40" viewBox="0 0 48 48" fill="none"><path d="M24 4L4 42h40L24 4z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 18v10M24 34h.02" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <h2 class="heic-warning__title" data-i18n="noSupportTitle">Failed to load HEIC decoder</h2>
       <p class="heic-warning__text" data-i18n="noSupportText">Check your internet connection and refresh the page. The HEIC decoder requires a WASM module download.</p>
-      <a href="/en/" class="btn btn--ghost heic-warning__back" data-i18n="backHome">Back to home</a>
+      <a href="/en/" class="heic-warning__back" data-i18n="backHome">Back to home</a>
     </div>
   </div>
 
-  <div class="app" id="app">
-    <header class="header" role="banner">
-      <a href="/en/" class="header__brand">
-        <div class="header__logo" aria-hidden="true">
-          <svg class="header__logo-svg" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
-            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30">
-                <stop stop-color="#a78bfa"/>
-                <stop offset="1" stop-color="#6c5ce7"/>
-              </linearGradient>
-              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30">
-                <stop stop-color="rgba(108,92,231,0.3)"/>
-                <stop offset="1" stop-color="rgba(167,139,250,0.1)"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <div class="header__text">
-          <h1 class="header__title">Formatted<span class="header__title-accent">AI</span></h1>
-          <p class="header__subtitle" data-i18n="subtitle">Convert HEIC photos to JPG, PNG, AVIF</p>
-        </div>
+  <div class="tool-shell" id="app">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/en/" class="fa-nav__brand" aria-label="FormattedAI — home">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
       </a>
-      <div class="header__actions">
-        <button class="about-trigger" id="aboutTrigger" type="button" aria-label="About" title="About">?</button>
-        <a href="https://formattedai.pl/heic/" class="lang-toggle" title="Wersja polska" aria-label="Wersja polska">
-          <span class="lang-toggle__flag">PL</span>
-        </a>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
-          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/en/tools/" class="fa-nav__crumb-link" data-i18n="navTools">Tools</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">HEIC Converter</span>
+      </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/heic/" class="fa-nav__lang" hreflang="pl" title="Wersja polska">PL</a>
+        <button class="fa-nav__icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="fa-theme__moon" id="iconMoon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="fa-theme__sun" id="iconSun" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
         </button>
+        <button class="fa-nav__icon-btn" id="aboutTrigger" type="button" title="Help" aria-label="Help">?</button>
+        <a href="/en/tools/" class="fa-nav__cta">All tools →</a>
       </div>
     </header>
 
-    <!-- About Modal -->
-    <div class="about-modal-overlay" id="aboutModal" hidden>
-      <div class="about-modal">
-        <div class="about-modal__header">
-          <div class="about-modal__title">
-            <div class="about-modal__icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM9 12.75V9M9 5.25h.008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <span data-i18n="modalTitle">HEIC Converter</span>
-          </div>
-          <button class="about-modal__close" id="aboutModalClose" type="button" aria-label="Close">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </button>
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ TOOL · HEIC → JPG / PNG / AVIF</span>
+          <h1 class="tool-head__title">HEIC Converter</h1>
+          <p class="tool-head__sub" data-i18n="subtitle">Convert HEIC/HEIF photos from iPhone to JPG, PNG or AVIF. WebAssembly, 100% in browser.</p>
         </div>
-        <div class="about-modal__body">
-          <p class="about-modal__desc" data-i18n="modalDesc"><strong>HEIC/HEIF</strong> is the image format used by Apple devices. Convert iPhone photos directly in your browser to JPG, PNG or AVIF — your files never leave your device.</p>
-          <h3 class="about-modal__section-title" data-i18n="modalHowTitle">How to use</h3>
-          <ol class="about-modal__steps">
-            <li data-i18n="modalStep1">Drag HEIC/HEIF photos onto the page</li>
-            <li data-i18n="modalStep2">Choose output format (JPG, PNG, AVIF) and set quality</li>
-            <li data-i18n="modalStep3">Download converted files or ZIP archive</li>
-          </ol>
-          <h3 class="about-modal__section-title" data-i18n="modalFeaturesTitle">Key features</h3>
-          <ul class="about-modal__features">
-            <li data-i18n="modalFeat1">Convert to 3 formats: JPG, PNG, AVIF</li>
-            <li data-i18n="modalFeat2">Quality presets: Low, Medium, High, Maximum</li>
-            <li data-i18n="modalFeat3">Batch conversion of multiple files at once</li>
-            <li data-i18n="modalFeat4">Download individually or as ZIP</li>
-            <li data-i18n="modalFeat5">100% client-side — your files never leave your device</li>
-          </ul>
+        <div class="tool-head__status">
+          <span class="tool-head__status-dot" id="statusDot"></span>
+          <span id="statusLabel">waiting for files</span>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Tool Bar: format selector + quality + actions -->
-    <div class="tool-bar tool-bar--heic" id="toolBar">
+    <div class="tool-sub" role="toolbar" aria-label="Format, quality and actions">
       <div class="format-tabs" id="formatTabs">
         <button class="format-tabs__item format-tabs__item--active" data-format="jpg" type="button">JPG</button>
         <button class="format-tabs__item" data-format="png" type="button">PNG</button>
         <button class="format-tabs__item" data-format="avif" type="button">AVIF</button>
       </div>
-      <div class="tool-bar__presets" id="presetsArea">
+
+      <span class="tool-sub__label" data-i18n="quality">QUALITY</span>
+
+      <div class="presets" id="presetsArea" role="radiogroup" aria-label="Quality presets">
         <button class="tool-bar__preset" data-quality="40" type="button" data-i18n="presetLow">Low</button>
         <button class="tool-bar__preset" data-quality="65" type="button" data-i18n="presetMedium">Medium</button>
         <button class="tool-bar__preset tool-bar__preset--active" data-quality="85" type="button" data-i18n="presetHigh">High</button>
         <button class="tool-bar__preset" data-quality="100" type="button" data-i18n="presetMax">Maximum</button>
       </div>
-      <div class="tool-bar__slider" id="sliderArea">
-        <label class="tool-bar__label" for="qualitySlider" data-i18n="quality">Quality</label>
-        <input type="range" class="tool-bar__input" id="qualitySlider" min="1" max="100" value="85">
-        <span class="tool-bar__value" id="qualityValue">85</span>
+
+      <div class="quality-slider-wrap" id="sliderArea">
+        <input type="range" class="quality-slider" id="qualitySlider" min="1" max="100" value="85" aria-label="Quality">
+        <span class="quality-val" id="qualityValue">85</span>
       </div>
+
       <div class="png-warning" id="pngWarning" hidden>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L1 13h12L7 1z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 5v3M7 10h.005" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1L1 13h12L7 1z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 5v3M7 10h.005" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="pngWarning">PNG: files will be large (lossless compression)</span>
       </div>
-      <div class="tool-bar__actions">
-        <button class="btn btn--ghost" id="clearBtn" type="button">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4m2 0v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+      <div class="png-warning" id="avifSlowWarning" hidden>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span>Lossless AVIF is slow — ~30s per 4K photo. Quality 80–90 is enough for most images.</span>
+      </div>
+
+      <div style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <button class="tool-act" id="clearBtn" type="button">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4m2 0v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span data-i18n="clear">Clear</span>
         </button>
-        <button class="btn btn--primary" id="convertAllBtn" type="button" disabled>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 8h14M11 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span data-i18n="convertAll">Convert all</span>
-        </button>
-        <button class="btn btn--ghost" id="downloadAllBtn" type="button" disabled>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8.5M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button class="tool-act" id="downloadAllBtn" type="button" disabled>
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span data-i18n="downloadAll">Download ZIP</span>
+          <kbd>⌘⇧C</kbd>
+        </button>
+        <button class="tool-act tool-act--primary" id="convertAllBtn" type="button" disabled>
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 8h14M11 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="convertAll">Convert all</span>
         </button>
       </div>
     </div>
 
-    <main class="workspace" role="main">
-      <section class="panel panel--input" aria-label="Image input">
-        <div class="panel__header">
-          <div class="panel__header-left">
-            <div class="panel__dot panel__dot--green" aria-hidden="true"></div>
-            <h2 class="panel__title" data-i18n="inputTitle">Input</h2>
+    <main class="ws">
+      <!-- LEFT: input pane (drop-zone + file list) -->
+      <section class="pane">
+        <header class="pane__head">
+          <div class="pane__head-left">
+            <span class="pane__label" data-i18n="inputTitle">Input · HEIC photos</span>
+            <span class="pane__extra" id="fileCount">0 / 20</span>
           </div>
-          <span class="panel__badge" id="fileCount">0 / 20</span>
-        </div>
-
-        <div class="input-area" id="inputArea">
-          <div class="drop-zone" id="dropZone">
-            <div class="drop-zone__icon" aria-hidden="true">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="36" height="36" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="3" stroke="currentColor" stroke-width="2"/><path d="M42 30l-10-10L8 42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 6v12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/></svg>
+        </header>
+        <div class="pane__body">
+          <div class="input-area" id="inputArea">
+            <div class="drop-zone" id="dropZone">
+              <div class="drop-zone__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="drop-zone__title" data-i18n="dropText">Drop HEIC/HEIF photos here</div>
+              <div class="drop-zone__sub" data-i18n="metaInfo">EXIF metadata will be removed</div>
+              <div class="drop-zone__formats">
+                <span class="fmt-tag">.HEIC</span>
+                <span class="fmt-tag">.HEIF</span>
+              </div>
+              <button class="drop-zone__browse" id="browseBtn" type="button" data-i18n="browseFiles">Browse files</button>
             </div>
-            <p class="drop-zone__text" data-i18n="dropText">Drag & drop HEIC/HEIF photos here</p>
-            <p class="drop-zone__formats">.HEIC, .HEIF</p>
-            <button class="btn btn--ghost drop-zone__browse" id="browseBtn" type="button" data-i18n="browseFiles">Browse files</button>
-            <p class="drop-zone__meta-info" data-i18n="metaInfo">EXIF metadata will be removed</p>
-          </div>
 
-          <div class="drop-zone drop-zone--compact" id="dropZoneCompact" hidden>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <span data-i18n="addMore">Add more files</span>
-          </div>
+            <div class="drop-zone drop-zone--compact" id="dropZoneCompact" hidden>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span data-i18n="addMore">Add more files</span>
+            </div>
 
-          <div class="file-list" id="fileList"></div>
-          <input type="file" id="fileInput" multiple accept=".heic,.heif,image/heic,image/heif" hidden>
+            <div class="file-list" id="fileList"></div>
+
+            <input type="file" id="fileInput" multiple accept=".heic,.heif,image/heic,image/heif" hidden>
+          </div>
         </div>
       </section>
 
-      <div class="divider" id="divider" aria-hidden="true">
-        <div class="divider__line"></div>
-        <div class="divider__icon">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-            <path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="divider__line"></div>
-      </div>
+      <div class="ws__divider" aria-hidden="true"></div>
 
-      <section class="panel panel--output" aria-label="Conversion results">
-        <div class="panel__header">
-          <div class="panel__header-left">
-            <div class="panel__dot panel__dot--blue" aria-hidden="true"></div>
-            <h2 class="panel__title" data-i18n="outputTitle">Output</h2>
+      <!-- RIGHT: output pane (results + summary) -->
+      <section class="pane">
+        <header class="pane__head">
+          <div class="pane__head-left">
+            <span class="pane__label" data-i18n="outputTitle">Output · converted</span>
+            <span class="pane__extra" id="resultCount">0</span>
           </div>
-          <span class="panel__badge" id="resultCount">0</span>
-        </div>
+        </header>
+        <div class="pane__body">
 
-        <div class="summary-bar" id="summaryBar" hidden>
-          <div class="summary-bar__stat">
-            <span class="summary-bar__label" data-i18n="totalFiles">Files:</span>
-            <span class="summary-bar__value" id="summaryFiles">0</span>
-          </div>
-          <div class="summary-bar__stat">
-            <span class="summary-bar__label" data-i18n="originalSize">Original:</span>
-            <span class="summary-bar__value" id="summaryOriginal">0 KB</span>
-          </div>
-          <div class="summary-bar__stat">
-            <span class="summary-bar__label" data-i18n="outputFormat">Output:</span>
-            <span class="summary-bar__value" id="summaryOutput">0 KB</span>
-          </div>
-          <div class="summary-bar__stat summary-bar__stat--highlight">
-            <span class="summary-bar__label" data-i18n="savings">Savings:</span>
-            <span class="summary-bar__value" id="summarySavings">0%</span>
-          </div>
-        </div>
-
-        <div class="results" id="results">
-          <div class="results__empty" id="resultsEmpty">
-            <div class="results__empty-visual" aria-hidden="true">
-              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                <rect x="12" y="8" width="40" height="48" rx="4" stroke="#d0d0d8" stroke-width="2"/>
-                <circle cx="24" cy="24" r="4" stroke="#e0e0e8" stroke-width="2"/>
-                <path d="M52 38L42 28 12 56" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <p class="results__empty-text" data-i18n="emptyText">Converted photos will appear here</p>
-            <p class="results__empty-hint" data-i18n="emptyHint">Add files on the left side</p>
-          </div>
           <div class="results__progress" id="resultsProgress" hidden>
             <div class="results__progress-info">
               <span class="results__progress-text" id="progressText" data-i18n="converting">Converting...</span>
@@ -304,106 +319,462 @@
             <progress class="results__progress-bar" id="progressFill" max="100" value="0"></progress>
             <p class="results__progress-file" id="progressFile"></p>
           </div>
-          <div class="results__list" id="resultsList"></div>
+
+          <div class="results">
+            <div class="results__list" id="resultsList"></div>
+
+            <div class="results-empty" id="resultsEmpty">
+              <div class="out-empty">
+                <div class="out-empty__mark">↘</div>
+                <div class="out-empty__text" data-i18n="emptyText">Converted photos will appear here</div>
+                <div class="out-empty__hints">
+                  <span class="out-empty__hint" data-i18n="emptyHint">Add files on the left side</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-bar" id="summaryBar" hidden>
+            <div class="summary-bar__stat">
+              <span class="summary-bar__label" data-i18n="totalFiles">Files</span>
+              <span class="summary-bar__value" id="summaryFiles">0</span>
+            </div>
+            <div class="summary-bar__stat">
+              <span class="summary-bar__label" data-i18n="originalSize">Original</span>
+              <span class="summary-bar__value" id="summaryOriginal">0 KB</span>
+            </div>
+            <div class="summary-bar__stat">
+              <span class="summary-bar__label" data-i18n="outputFormat">Output</span>
+              <span class="summary-bar__value" id="summaryOutput">0 KB</span>
+            </div>
+            <div class="summary-bar__stat summary-bar__stat--highlight">
+              <span class="summary-bar__label" data-i18n="savings">Savings</span>
+              <span class="summary-bar__value" id="summarySavings">0%</span>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
-    <footer class="footer" role="contentinfo">
-      <p class="footer__text">
-        <span data-i18n="madeBy">Created by</span>
-        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
-          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Adam Szczotka
-        </a>
-      </p>
-      <div class="footer__badge">
-        <span class="footer__badge__dot"></span>
-        <span data-i18n="footerBadge">100% client-side</span>
+    <section class="related-tools" aria-labelledby="relatedTitle">
+      <div class="related-tools__inner">
+        <div class="related-tools__label">/ RELATED TOOLS</div>
+        <h2 class="related-tools__title" id="relatedTitle">Other FormattedAI tools</h2>
+        <div class="related-tools__grid">
+          <a href="/en/avif/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ AVIF ]</div>
+            <div class="related-tools__card-name">AVIF Converter</div>
+            <p class="related-tools__card-desc">Compress PNG/JPG into AVIF for smaller, faster web images.</p>
+          </a>
+          <a href="/en/ocr/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ OCR ]</div>
+            <div class="related-tools__card-name">OCR</div>
+            <p class="related-tools__card-desc">Extract text from images and PDF scans locally in the browser.</p>
+          </a>
+          <a href="/en/pdf/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ PDF ]</div>
+            <div class="related-tools__card-name">PDF Tools</div>
+            <p class="related-tools__card-desc">Turn a batch of photos into a single PDF or merge documents.</p>
+          </a>
+        </div>
       </div>
-      <div class="footer__links">
-        <a href="/en/articles/" class="footer__link" data-i18n="navArticles">Articles</a>
-        <a href="/en/about/" class="footer__link" data-i18n="navAbout">About</a>
-        <a href="/en/privacy/" class="footer__link" data-i18n="navPrivacy">Privacy</a>
-        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link" data-i18n="navContact">Contact</a>
-        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+    </section>
+
+    <section class="tool-faq" aria-labelledby="faqTitle">
+      <div class="tool-faq__label">/ FAQ</div>
+      <h2 class="tool-faq__title" id="faqTitle">Frequently Asked Questions</h2>
+      <details>
+        <summary>What is HEIC format and why do I need to convert it?</summary>
+        <p>HEIC (High Efficiency Image Container) is an image format used by default on Apple devices since iOS 11. It offers better compression than JPEG but is not supported by most browsers, image editors, and Windows/Android devices. Converting to JPG ensures universal compatibility.</p>
+      </details>
+      <details>
+        <summary>How do I convert HEIC to JPG?</summary>
+        <p>Drag your HEIC files into the converter, select JPG format, set quality (85 recommended for quality preservation), and click Convert. The tool processes everything in your browser via WebAssembly — no server upload needed. Download files individually or as a ZIP.</p>
+      </details>
+      <details>
+        <summary>Does the HEIC conversion happen on a server?</summary>
+        <p>No. All conversion happens locally in your browser using WebAssembly (WASM) technology. Your photos never leave your device — zero upload, zero server storage, full privacy.</p>
+      </details>
+    </section>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/en/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploads · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Tools</span>
+          <a href="/en/tools/" class="fa-footer__link">All</a>
+          <a href="/en/formatter/" class="fa-footer__link">Markdown</a>
+          <a href="/en/avif/" class="fa-footer__link">AVIF</a>
+          <a href="/en/pdf/" class="fa-footer__link">PDF Tools</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Content</span>
+          <a href="/en/articles/" class="fa-footer__link" data-i18n="navArticles">Articles</a>
+          <a href="/en/about/" class="fa-footer__link" data-i18n="navAbout">About</a>
+          <a href="/en/privacy/" class="fa-footer__link" data-i18n="navPrivacy">Privacy</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Contact</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link" data-i18n="navContact">Email</a>
+          <a href="https://formattedai.pl/heic/" class="fa-footer__link" hreflang="pl">Polski</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>HEIC Converter · 100% client-side</span>
       </div>
     </footer>
 
-    <div class="toast" id="toast" role="alert" aria-live="assertive">
-      <div class="toast__icon" aria-hidden="true">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <span class="toast__text" data-i18n="toastConverted">Conversion complete!</span>
-    </div>
+  </div>
 
-    <div class="image-modal" id="imageModal" hidden>
-      <div class="image-modal__backdrop" id="modalBackdrop"></div>
-      <div class="image-modal__content">
-        <button class="image-modal__close" id="modalClose" type="button" aria-label="Close">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
-        <div class="image-modal__image-wrap">
-          <img class="image-modal__img" id="modalImg" src="" alt="">
+  <div class="toast" id="toast" role="alert" aria-live="assertive">
+    <div class="toast__dot"></div>
+    <span class="toast__text" id="toastText" data-i18n="toastConverted">Conversion complete!</span>
+  </div>
+
+  <!-- About / Help Modal -->
+  <div class="about-modal-overlay" id="aboutModal" hidden>
+    <div class="about-modal">
+      <div class="about-modal__header">
+        <div class="about-modal__title">
+          <div class="about-modal__icon">
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM9 12.75V9M9 5.25h.008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span data-i18n="modalTitle">HEIC Converter</span>
         </div>
-        <div class="image-modal__info" id="modalInfo"></div>
+        <button class="about-modal__close" id="aboutModalClose" type="button" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="about-modal__body">
+        <p class="about-modal__desc" data-i18n="modalDesc"><strong>HEIC/HEIF</strong> is the image format used by Apple devices. Convert iPhone photos directly in your browser to JPG, PNG or AVIF — your files never leave your device.</p>
+        <h3 class="about-modal__section-title" data-i18n="modalHowTitle">How to use</h3>
+        <ol class="about-modal__steps">
+          <li data-i18n="modalStep1">Drag HEIC/HEIF photos onto the page</li>
+          <li data-i18n="modalStep2">Choose output format (JPG, PNG, AVIF) and set quality</li>
+          <li data-i18n="modalStep3">Download converted files or ZIP archive</li>
+        </ol>
+        <h3 class="about-modal__section-title" data-i18n="modalFeaturesTitle">Key features</h3>
+        <ul class="about-modal__features">
+          <li data-i18n="modalFeat1">Convert to 3 formats: JPG, PNG, AVIF</li>
+          <li data-i18n="modalFeat2">Quality presets: Low, Medium, High, Maximum</li>
+          <li data-i18n="modalFeat3">Batch conversion of multiple files at once</li>
+          <li data-i18n="modalFeat4">Download individually or as ZIP</li>
+          <li data-i18n="modalFeat5">100% client-side — your files never leave your device</li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- Mobile Sticky Bar -->
+  <!-- Image preview modal (zoom on click) -->
+  <div class="image-modal" id="imageModal" hidden>
+    <div class="image-modal__backdrop" id="modalBackdrop"></div>
+    <div class="image-modal__content">
+      <button class="image-modal__close" id="modalClose" type="button" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div class="image-modal__image-wrap">
+        <img class="image-modal__img" id="modalImg" src="" alt="">
+      </div>
+      <div class="image-modal__info" id="modalInfo"></div>
+    </div>
+  </div>
+
+  <!-- SEO Content (bots only) -->
+  <section class="seo-content" aria-hidden="true">
+    <h1 data-i18n="seoH1">Free HEIC Converter — Convert HEIC/HEIF Photos to JPG, PNG, AVIF Online</h1>
+    <p data-i18n="seoDesc">Convert iPhone and iPad photos to popular formats directly in your browser. HEIC (High Efficiency Image Container) is Apple's default photo format, but it's not supported by most apps on Windows and Android. Our converter changes HEIC/HEIF to JPG, PNG or modern AVIF — fast, free, and without uploading to any server. Your photos never leave your device.</p>
+
+    <h2 data-i18n="seoHowTitle">How it works</h2>
+    <ol>
+      <li data-i18n="seoHow1">Drag HEIC/HEIF photos or click to browse — up to 20 files, max 50MB each</li>
+      <li data-i18n="seoHow2">Choose output format: JPG (universal), PNG (lossless) or AVIF (modern, small)</li>
+      <li data-i18n="seoHow3">Set quality using presets (Low 40, Medium 65, High 85, Maximum 100) or the slider</li>
+      <li data-i18n="seoHow4">Click Convert — download files individually or all at once as a ZIP archive</li>
+    </ol>
+
+    <h2 data-i18n="seoFeaturesTitle">Features</h2>
+    <ul>
+      <li data-i18n="seoFeat1">Convert HEIC/HEIF to 3 formats: JPG, PNG, AVIF</li>
+      <li data-i18n="seoFeat2">Batch conversion — convert up to 20 photos at once</li>
+      <li data-i18n="seoFeat3">Quality presets: Low (40), Medium (65), High (85), Maximum (100)</li>
+      <li data-i18n="seoFeat4">Real-time progress bar with per-file status</li>
+      <li data-i18n="seoFeat5">Download individual files or batch as ZIP</li>
+      <li data-i18n="seoFeat6">Click-to-zoom image preview with transparency checkerboard</li>
+      <li data-i18n="seoFeat7">Works in all modern browsers via WebAssembly</li>
+      <li data-i18n="seoFeat8">100% client-side — your files never leave your device</li>
+    </ul>
+
+    <h2 data-i18n="seoFaqTitle">Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3 data-i18n="seoFaq1q">What is HEIC format and why do I need to convert it?</h3>
+      <p data-i18n="seoFaq1a">HEIC (High Efficiency Image Container) is an image format used by default on Apple devices since iOS 11. It offers better compression than JPEG but is not supported by most browsers, image editors, and Windows/Android devices. Converting to JPG ensures universal compatibility.</p>
+    </div>
+    <div class="faq-item">
+      <h3 data-i18n="seoFaq2q">How do I convert HEIC to JPG?</h3>
+      <p data-i18n="seoFaq2a">Drag your HEIC files into the converter, select JPG format, set quality (85 recommended for quality preservation), and click Convert. The tool processes everything in your browser via WebAssembly — no server upload needed. Download files individually or as a ZIP.</p>
+    </div>
+    <div class="faq-item">
+      <h3 data-i18n="seoFaq3q">Does the HEIC conversion happen on a server?</h3>
+      <p data-i18n="seoFaq3a">No. All conversion happens locally in your browser using WebAssembly (WASM) technology. Your photos never leave your device — zero upload, zero server storage, full privacy.</p>
+    </div>
+  </section>
+
+  <!-- Mobile Sticky Bar (shown <768px by JS) -->
   <div class="mobile-bar" id="mobileBar" hidden>
-    <button class="btn btn--primary mobile-bar__btn" id="mobileConvertBtn" type="button" disabled>
+    <button class="mobile-bar__btn" id="mobileConvertBtn" type="button" disabled>
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8h14M11 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span data-i18n="convertAll">Convert all</span>
     </button>
-    <button class="btn btn--ghost mobile-bar__btn" id="mobileDownloadBtn" type="button" disabled>
+    <button class="mobile-bar__btn" id="mobileDownloadBtn" type="button" disabled>
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8.5M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span data-i18n="downloadAll">Download ZIP</span>
     </button>
   </div>
 
-  <!-- SEO Content Section -->
-  <section class="seo-content">
-    <div class="seo-content__inner">
-      <h1 data-i18n="seoH1">Free HEIC Converter — Convert HEIC/HEIF Photos to JPG, PNG, AVIF Online</h1>
-      <p data-i18n="seoDesc">Convert iPhone and iPad photos to popular formats directly in your browser. HEIC (High Efficiency Image Container) is Apple's default photo format, but it's not supported by most apps on Windows and Android. Our converter changes HEIC/HEIF to JPG, PNG or modern AVIF — fast, free, and without uploading to any server. Your photos never leave your device.</p>
+  <!-- Legacy JS placeholder for #divider (heic.js attaches click handler & toggles --loading class) -->
+  <div id="divider" hidden aria-hidden="true" style="display:none !important"></div>
+  <span data-i18n="madeBy" hidden aria-hidden="true" style="display:none !important">Created by</span>
+  <span data-i18n="footerBadge" hidden aria-hidden="true" style="display:none !important">100% client-side</span>
 
-      <h2 data-i18n="seoHowTitle">How it works</h2>
-      <ol>
-        <li data-i18n="seoHow1">Drag HEIC/HEIF photos or click to browse — up to 20 files, max 50MB each</li>
-        <li data-i18n="seoHow2">Choose output format: JPG (universal), PNG (lossless) or AVIF (modern, small)</li>
-        <li data-i18n="seoHow3">Set quality using presets (Low 40, Medium 65, High 85, Maximum 100) or the slider</li>
-        <li data-i18n="seoHow4">Click Convert — download files individually or all at once as a ZIP archive</li>
-      </ol>
+  <!-- Theme + i18n + UI bootstrap -->
+  <script>
+  (function() {
+    'use strict';
+    var translations = {
+      pl: {
+        navTools: 'Narzędzia', navArticles: 'Artykuły', navAbout: 'O nas', navPrivacy: 'Prywatność', navContact: 'Kontakt',
+        subtitle: 'Konwertuj zdjęcia HEIC/HEIF z iPhone na JPG, PNG lub AVIF. WebAssembly, 100% w przeglądarce.',
+        quality: 'JAKOŚĆ',
+        presetLow: 'Niska', presetMedium: 'Średnia', presetHigh: 'Wysoka', presetMax: 'Maksymalna',
+        clear: 'Wyczyść', convertAll: 'Konwertuj wszystkie', downloadAll: 'Pobierz ZIP', converting: 'Konwertowanie...',
+        inputTitle: 'Wejście · zdjęcia HEIC', outputTitle: 'Wyjście · skonwertowane',
+        dropText: 'Przeciągnij i upuść zdjęcia HEIC/HEIF tutaj', browseFiles: 'Przeglądaj pliki', addMore: 'Dodaj więcej plików',
+        metaInfo: 'Metadane EXIF zostaną usunięte',
+        emptyText: 'Tu pojawią się przekonwertowane zdjęcia',
+        emptyHint: 'Dodaj pliki po lewej stronie',
+        totalFiles: 'Pliki', originalSize: 'Oryginał', outputFormat: 'Wynik', savings: 'Oszczędność',
+        toastConverted: 'Konwersja zakończona!',
+        pngWarning: 'PNG: pliki będą duże (bezstratna kompresja)',
+        noSupportTitle: 'Nie udało się załadować dekodera HEIC',
+        noSupportText: 'Sprawdź połączenie z internetem i odśwież stronę. Dekoder HEIC wymaga pobrania modułu WASM.',
+        backHome: 'Wróć do strony głównej',
+        modalTitle: 'HEIC Converter',
+        modalDesc: 'HEIC/HEIF to format obrazów używany przez urządzenia Apple. Konwertuj zdjęcia z iPhone bezpośrednio w przeglądarce na JPG, PNG lub AVIF — Twoje pliki nigdy nie opuszczają urządzenia.',
+        modalHowTitle: 'Jak używać',
+        modalStep1: 'Przeciągnij zdjęcia HEIC/HEIF na stronę',
+        modalStep2: 'Wybierz format wyjściowy (JPG, PNG, AVIF) i ustaw jakość',
+        modalStep3: 'Pobierz przekonwertowane pliki lub cały ZIP',
+        modalFeaturesTitle: 'Kluczowe funkcje',
+        modalFeat1: 'Konwersja na 3 formaty: JPG, PNG, AVIF',
+        modalFeat2: 'Presety jakości: Niska, Średnia, Wysoka, Maksymalna',
+        modalFeat3: 'Konwersja wielu plików jednocześnie (batch)',
+        modalFeat4: 'Pobieranie pojedynczo lub jako ZIP',
+        modalFeat5: '100% client-side — Twoje pliki nigdy nie opuszczają urządzenia',
+        statusWaiting: 'czeka na pliki', statusReady: 'gotowe',
+        madeBy: 'Stworzone przez', footerBadge: '100% client-side'
+      },
+      en: {
+        navTools: 'Tools', navArticles: 'Articles', navAbout: 'About', navPrivacy: 'Privacy', navContact: 'Contact',
+        subtitle: 'Convert HEIC/HEIF photos from iPhone to JPG, PNG or AVIF. WebAssembly, 100% in browser.',
+        quality: 'QUALITY',
+        presetLow: 'Low', presetMedium: 'Medium', presetHigh: 'High', presetMax: 'Maximum',
+        clear: 'Clear', convertAll: 'Convert all', downloadAll: 'Download ZIP', converting: 'Converting...',
+        inputTitle: 'Input · HEIC photos', outputTitle: 'Output · converted',
+        dropText: 'Drop HEIC/HEIF photos here', browseFiles: 'Browse files', addMore: 'Add more files',
+        metaInfo: 'EXIF metadata will be removed',
+        emptyText: 'Converted photos will appear here',
+        emptyHint: 'Add files on the left',
+        totalFiles: 'Files', originalSize: 'Original', outputFormat: 'Output', savings: 'Savings',
+        toastConverted: 'Conversion complete!',
+        pngWarning: 'PNG: files will be large (lossless compression)',
+        noSupportTitle: 'Failed to load HEIC decoder',
+        noSupportText: 'Check your internet connection and refresh the page. The HEIC decoder requires a WASM module download.',
+        backHome: 'Back to home',
+        modalTitle: 'HEIC Converter',
+        modalDesc: 'HEIC/HEIF is the image format used by Apple devices. Convert iPhone photos directly in your browser to JPG, PNG or AVIF — your files never leave your device.',
+        modalHowTitle: 'How to use',
+        modalStep1: 'Drag HEIC/HEIF photos onto the page',
+        modalStep2: 'Choose output format (JPG, PNG, AVIF) and set quality',
+        modalStep3: 'Download converted files or ZIP archive',
+        modalFeaturesTitle: 'Key features',
+        modalFeat1: 'Convert to 3 formats: JPG, PNG, AVIF',
+        modalFeat2: 'Quality presets: Low, Medium, High, Maximum',
+        modalFeat3: 'Batch conversion of multiple files at once',
+        modalFeat4: 'Download individually or as ZIP',
+        modalFeat5: '100% client-side — your files never leave your device',
+        statusWaiting: 'waiting for files', statusReady: 'ready',
+        madeBy: 'Created by', footerBadge: '100% client-side'
+      }
+    };
+    var currentLang = (document.documentElement.lang || 'pl').toLowerCase().startsWith('en') ? 'en' : 'pl';
+    function applyT() {
+      var t = translations[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var k = el.getAttribute('data-i18n');
+        if (t[k] !== undefined) el.textContent = t[k];
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+        var k = el.getAttribute('data-i18n-placeholder');
+        if (t[k] !== undefined) el.placeholder = t[k];
+      });
+    }
+    applyT();
+    window.t = function(k) { return translations[currentLang][k] || k; };
 
-      <h2 data-i18n="seoFeaturesTitle">Features</h2>
-      <ul>
-        <li data-i18n="seoFeat1">Convert HEIC/HEIF to 3 formats: JPG, PNG, AVIF</li>
-        <li data-i18n="seoFeat2">Batch conversion — convert up to 20 photos at once</li>
-        <li data-i18n="seoFeat3">Quality presets: Low (40), Medium (65), High (85), Maximum (100)</li>
-        <li data-i18n="seoFeat4">Real-time progress bar with per-file status</li>
-        <li data-i18n="seoFeat5">Download individual files or batch as ZIP</li>
-        <li data-i18n="seoFeat6">Click-to-zoom image preview with transparency checkerboard</li>
-        <li data-i18n="seoFeat7">Works in all modern browsers via WebAssembly</li>
-        <li data-i18n="seoFeat8">100% client-side — your files never leave your device</li>
-      </ul>
+    // === Theme toggle ===
+    var theme = localStorage.getItem('formattedai-theme') || 'light';
+    function applyTheme(v) {
+      document.documentElement.setAttribute('data-theme', v);
+    }
+    applyTheme(theme);
+    var tt = document.getElementById('themeToggle');
+    if (tt) tt.addEventListener('click', function() {
+      theme = theme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('formattedai-theme', theme);
+      applyTheme(theme);
+    });
 
-      <h2 data-i18n="seoFaqTitle">Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3 data-i18n="seoFaq1q">What is HEIC format and why do I need to convert it?</h3>
-        <p data-i18n="seoFaq1a">HEIC (High Efficiency Image Container) is an image format used by default on Apple devices since iOS 11. It offers better compression than JPEG but is not supported by most browsers, image editors, and Windows/Android devices. Converting to JPG ensures universal compatibility.</p>
-      </div>
-      <div class="faq-item">
-        <h3 data-i18n="seoFaq2q">How do I convert HEIC to JPG?</h3>
-        <p data-i18n="seoFaq2a">Drag your HEIC files into the converter, select JPG format, set quality (85 recommended for quality preservation), and click Convert. The tool processes everything in your browser via WebAssembly — no server upload needed. Download files individually or as a ZIP.</p>
-      </div>
-      <div class="faq-item">
-        <h3 data-i18n="seoFaq3q">Does the HEIC conversion happen on a server?</h3>
-        <p data-i18n="seoFaq3a">No. All conversion happens locally in your browser using WebAssembly (WASM) technology. Your photos never leave your device — zero upload, zero server storage, full privacy.</p>
-      </div>
-    </div>
-  </section>
+    // === Status indicator (waits for files) ===
+    var statusDot = document.getElementById('statusDot');
+    var statusLabel = document.getElementById('statusLabel');
+    var fileCountEl = document.getElementById('fileCount');
+    function syncStatus() {
+      if (!fileCountEl) return;
+      var txt = fileCountEl.textContent || '0 / 20';
+      var n = parseInt(txt, 10) || 0;
+      var has = n > 0;
+      if (statusDot) statusDot.classList.toggle('is-active', has);
+      if (statusLabel) {
+        var T = translations[currentLang];
+        statusLabel.textContent = has ? T.statusReady : T.statusWaiting;
+      }
+    }
+    if (fileCountEl) {
+      var mo = new MutationObserver(syncStatus);
+      mo.observe(fileCountEl, { childList: true, characterData: true, subtree: true });
+      syncStatus();
+    }
+
+    // === Format-tabs click sync (heic.js handles real format switch via WASM,
+    // but we mirror the active class instantly for visual feedback) ===
+    var formatBtns = document.querySelectorAll('.format-tabs__item');
+    var avifSlowWarn = document.getElementById('avifSlowWarning');
+    function syncAvifWarning() {
+      if (!avifSlowWarn) return;
+      var activeFmt = document.querySelector('.format-tabs__item--active');
+      var fmt = activeFmt ? activeFmt.getAttribute('data-format') : 'jpg';
+      var sliderEl = document.getElementById('qualitySlider');
+      var q = sliderEl ? Number(sliderEl.value) : 0;
+      avifSlowWarn.hidden = !(fmt === 'avif' && q >= 95);
+    }
+    formatBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        formatBtns.forEach(function(b) {
+          b.classList.toggle('format-tabs__item--active', b === btn);
+        });
+        syncAvifWarning();
+      });
+    });
+
+    // === Quality preset / slider sync (mirrors heic.js but instantly) ===
+    var presetBtns = document.querySelectorAll('.tool-bar__preset');
+    var slider = document.getElementById('qualitySlider');
+    var qVal = document.getElementById('qualityValue');
+    presetBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var q = btn.getAttribute('data-quality');
+        presetBtns.forEach(function(b) {
+          b.classList.toggle('tool-bar__preset--active', b === btn);
+        });
+        if (slider && q) slider.value = q;
+        if (qVal && q) qVal.textContent = q;
+        syncAvifWarning();
+      });
+    });
+    if (slider && qVal) {
+      slider.addEventListener('input', function() {
+        qVal.textContent = slider.value;
+        var v = Number(slider.value);
+        presetBtns.forEach(function(b) {
+          b.classList.toggle('tool-bar__preset--active', Number(b.dataset.quality) === v);
+        });
+        syncAvifWarning();
+      });
+    }
+    syncAvifWarning();
+
+    // === Drop zone visual feedback (drag-over class) ===
+    var dz = document.getElementById('dropZone');
+    if (dz) {
+      ['dragover', 'dragenter'].forEach(function(ev) {
+        dz.addEventListener(ev, function(e) {
+          e.preventDefault();
+          dz.classList.add('drop-zone--active');
+        });
+      });
+      ['dragleave', 'drop'].forEach(function(ev) {
+        dz.addEventListener(ev, function(e) {
+          if (ev === 'dragleave' && dz.contains(e.relatedTarget)) return;
+          dz.classList.remove('drop-zone--active');
+        });
+      });
+    }
+
+    // === Mobile sticky bar (<768px) ===
+    var mobileBar = document.getElementById('mobileBar');
+    function syncMobileBar() {
+      if (!mobileBar) return;
+      mobileBar.hidden = window.innerWidth >= 768;
+    }
+    syncMobileBar();
+    window.addEventListener('resize', syncMobileBar);
+
+    // === Keyboard shortcut: Cmd/Ctrl+Shift+C → downloadAll (when enabled) ===
+    document.addEventListener('keydown', function(e) {
+      var mod = e.metaKey || e.ctrlKey;
+      if (mod && e.shiftKey && (e.key === 'c' || e.key === 'C')) {
+        var dl = document.getElementById('downloadAllBtn');
+        if (dl && !dl.disabled) {
+          e.preventDefault();
+          dl.click();
+        }
+      }
+    });
+
+    // === Mobile hamburger toggle ===
+    var burger = document.getElementById('navBurger');
+    var navEl = document.getElementById('faNav');
+    if (burger && navEl) {
+      burger.addEventListener('click', function() {
+        var open = navEl.classList.toggle('is-menu-open');
+        burger.classList.toggle('is-open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      navEl.querySelectorAll('.fa-nav__link, .fa-nav__lang').forEach(function(a) {
+        a.addEventListener('click', function() {
+          navEl.classList.remove('is-menu-open');
+          burger.classList.remove('is-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+  })();
+  </script>
 
   <script src="../../assets/vendor/jszip.min.js"></script>
   <script type="module" src="../../assets/js/heic.min.js"></script>
