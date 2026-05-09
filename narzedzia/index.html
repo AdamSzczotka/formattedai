@@ -533,9 +533,18 @@
           mid.appendChild(el('div', 't-pal__item-name', t.name));
           mid.appendChild(el('div', 't-pal__item-desc', t.desc));
           a.appendChild(mid);
-          if (i === sel) a.appendChild(el('span', 't-pal__item-enter', '↵'));
-          else a.appendChild(el('span'));
-          a.addEventListener('mouseenter', function() { sel = i; renderItems(list); });
+          a.appendChild(el('span', 't-pal__item-enter', '↵'));
+          // Hover only updates active class — do NOT re-render (would destroy <a> mid-click)
+          a.addEventListener('mouseenter', function() {
+            sel = i;
+            results.querySelectorAll('.t-pal__item').forEach(function(el2, j) {
+              el2.classList.toggle('is-active', j === i);
+            });
+          });
+          // Explicit click handler — close palette, then navigate (safe with hash links)
+          a.addEventListener('click', function(e) {
+            close();
+          });
           results.appendChild(a);
         });
       }
