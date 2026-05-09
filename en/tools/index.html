@@ -519,7 +519,13 @@
           a.appendChild(mid);
           if (i === sel) a.appendChild(el('span', 't-pal__item-enter', '↵'));
           else a.appendChild(el('span'));
-          a.addEventListener('mouseenter', function() { sel = i; renderItems(list); });
+          a.addEventListener('mouseenter', function() {
+            sel = i;
+            results.querySelectorAll('.t-pal__item').forEach(function(el2, j) {
+              el2.classList.toggle('is-active', j === i);
+            });
+          });
+          a.addEventListener('click', function() { close(); });
           results.appendChild(a);
         });
       }
