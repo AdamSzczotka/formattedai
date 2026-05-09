@@ -2,3 +2,4 @@ node_modules/
 nginx.conf
 stats/
 .idea/
+*.css.map
