@@ -11,12 +11,22 @@ const translations = {
     download: 'Pobierz',
     preview: 'Podgl\u0105d',
     placeholder: 'Wklej tutaj tekst z ChatGPT...',
-    emptyText: 'Tu pojawi si\u0119 sformatowany tekst',
-    emptyHint: 'szybkie kopiowanie',
     toast: 'Skopiowano! Wklej do Docs / Word',
     toastDownload: 'Pobrano!',
     madeBy: 'Stworzone przez',
     footerBadge: '100% client-side',
+    navTools: 'Narz\u0119dzia',
+    toolHeaderDesc: 'wklej tekst z ChatGPT lub Claude \u2014 skopiuj z formatowaniem',
+    styleDocs: 'Docs',
+    styleWord: 'Word',
+    copyFormatted: 'Kopiuj sformatowany',
+    export: 'Pobierz',
+    inputTitle: 'Wej\u015bcie',
+    outputTitle: 'Podgl\u0105d',
+    inputPlaceholder: 'Wklej tekst Markdown z ChatGPT, Claude, Gemini...',
+    emptyTitle: 'Tu pojawi si\u0119 podgl\u0105d',
+    emptyHint: 'Wklej tekst po lewej',
+    copySuccess: 'Skopiowano z formatowaniem!',
     navArticles: 'Artyku\u0142y',
     navAbout: 'O nas',
     navPrivacy: 'Prywatno\u015B\u0107',
@@ -67,17 +77,27 @@ const translations = {
     download: 'Download',
     preview: 'Preview',
     placeholder: 'Paste ChatGPT text here...',
-    emptyText: 'Formatted text will appear here',
-    emptyHint: 'quick copy',
     toast: 'Copied! Paste into Docs / Word',
     toastDownload: 'Downloaded!',
     madeBy: 'Created by',
     footerBadge: '100% client-side',
+    navTools: 'Tools',
     navArticles: 'Articles',
     navAbout: 'About',
     navPrivacy: 'Privacy',
     navContact: 'Contact',
     chars: 'chars',
+    toolHeaderDesc: 'paste from ChatGPT or Claude — copy with formatting',
+    styleDocs: 'Docs',
+    styleWord: 'Word',
+    copyFormatted: 'Copy formatted',
+    export: 'Export',
+    inputTitle: 'Input',
+    outputTitle: 'Preview',
+    inputPlaceholder: 'Paste markdown from ChatGPT, Claude, Gemini...',
+    emptyTitle: 'Preview will appear here',
+    emptyHint: 'Paste text on the left',
+    copySuccess: 'Copied with formatting!',
     pageTitle: 'FormattedAI \u2014 Copy ChatGPT text to Google Docs & Word with perfect formatting',
     dlHtmlDesc: 'Open in browser',
     dlDocxDesc: 'Microsoft Word',
@@ -173,25 +193,20 @@ function renderMarkdown() {
 
   if (!text.trim()) {
     preview.innerHTML = `
-      <div class="preview__empty">
-        <div class="preview__empty-visual">
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-            <rect x="12" y="8" width="40" height="48" rx="4" stroke="#d0d0d8" stroke-width="2"/>
-            <line x1="20" y1="20" x2="44" y2="20" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
-            <line x1="20" y1="28" x2="38" y2="28" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
-            <line x1="20" y1="36" x2="42" y2="36" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
-            <line x1="20" y1="44" x2="34" y2="44" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
-          </svg>
+      <div class="preview-empty">
+        <div class="preview-empty__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </div>
-        <p class="preview__empty-text">${t('emptyText')}</p>
-        <p class="preview__empty-hint">Ctrl + Shift + C &mdash; ${t('emptyHint')}</p>
+        <div class="preview-empty__title">${t('emptyTitle')}</div>
+        <div class="preview-empty__hint">${t('emptyHint')} (<span class="preview-empty__kbd">Ctrl + V</span>)</div>
       </div>`;
     preview.className = 'preview';
     return;
   }
 
-  preview.innerHTML = DOMPurify.sanitize(marked.parse(text));
-  preview.className = `preview style-${currentStyle}`;
+  const html = DOMPurify.sanitize(marked.parse(text));
+  preview.innerHTML = `<article class="preview-page style-${currentStyle}">${html}</article>`;
+  preview.className = 'preview';
 
   preview.querySelectorAll('li').forEach(li => {
     if (li.querySelector('input[type="checkbox"]')) {
