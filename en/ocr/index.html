@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO: Primary -->
+  <title>OCR online — Extract text from image and PDF | FormattedAI</title>
+  <meta name="description" content="Free online OCR. Extract text from images, scans, and PDF files — your files never leave your device. No signup, no limits, 100% client-side in your browser.">
+  <meta name="keywords" content="ocr online free, image to text, pdf to text, screenshot to text, extract text from image, private ocr, offline ocr browser, free ocr, FormattedAI">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/en/ocr/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/ocr/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/ocr/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/ocr/">
+  <meta http-equiv="content-language" content="en">
+
+  <!-- SEO: Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OCR online — Image and PDF to text | FormattedAI">
+  <meta property="og:description" content="Free OCR online. Extract text from images, scans and PDF files — your files never leave your device. 100% client-side, no signup, no limits.">
+  <meta property="og:url" content="https://formattedai.pl/en/ocr/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_desktop_ocr_1.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="pl_PL">
+
+  <!-- SEO: Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="OCR online — Image and PDF to text | FormattedAI">
+  <meta name="twitter:description" content="Extract text from images, scans, and PDF files directly in your browser. Free, instant, no upload required.">
+
+  <!-- SEO: Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "FormattedAI OCR",
+    "headline": "OCR online — Extract text from images and PDF",
+    "description": "Free online OCR tool. Extract text from images, scans, and PDF files. 100% client-side — your files never leave your device.",
+    "url": "https://formattedai.pl/en/ocr/",
+    "applicationCategory": "Utility",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "inLanguage": ["en", "pl"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Are my documents safe?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The entire OCR process runs only in your browser. Files are not sent to any server — they never leave your device. This matters for scans of contracts, ID documents, or receipts." } },
+      { "@type": "Question", "name": "Which languages are supported?", "acceptedAnswer": { "@type": "Answer", "text": "English and Polish are built-in by default. You can add German, Ukrainian, French, Spanish and 100+ more — language models download on demand and are cached in the browser." } },
+      { "@type": "Question", "name": "Does it support PDF files?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can upload multi-page PDFs — the tool renders each page and runs OCR sequentially. The output is combined text from all pages." } },
+      { "@type": "Question", "name": "How long does the first run take?", "acceptedAnswer": { "@type": "Answer", "text": "The first run downloads the OCR engine (~4 MB) and language model (~10-15 MB per language). Files are cached — subsequent runs are instant." } },
+      { "@type": "Question", "name": "Can I crop a region of the image before OCR?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. In selection mode you can crop a region — useful when extracting only one paragraph from a scan or data from a specific row." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/en/" },
+    { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://formattedai.pl/en/tools/" },
+    { "@type": "ListItem", "position": 3, "name": "OCR", "item": "https://formattedai.pl/en/ocr/" }
+  ] }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to extract text from image or PDF",
+    "description": "Run OCR on any image or PDF scan — fully offline in your browser.",
+    "totalTime": "PT2M",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Pick recognition languages",
+        "text": "Select the languages on the image (for example English + German). Tesseract models are downloaded once.",
+        "url": "https://formattedai.pl/en/ocr/#step-1"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Drag in an image or PDF",
+        "text": "Drop a PNG, JPG, WebP or PDF into the drop zone. Multi-page scans are supported.",
+        "url": "https://formattedai.pl/en/ocr/#step-2"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Choose a mode: Fast or Accurate",
+        "text": "Use Fast for most notes, or Accurate for document scans and multi-column layouts.",
+        "url": "https://formattedai.pl/en/ocr/#step-3"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "Click Recognize text",
+        "text": "Hit the recognize button — the OCR runs locally in your browser.",
+        "url": "https://formattedai.pl/en/ocr/#step-4"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "Copy or download the text",
+        "text": "Copy the recognized text or download it as a .txt file.",
+        "url": "https://formattedai.pl/en/ocr/#step-5"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Favicon -->
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "name": "OCR (Optical Character Recognition)",
+    "description": "OCR is the technology for recognizing text in images (scans, photos, screenshots, PDFs). It converts pixel-based images into editable Unicode text. FormattedAI uses Tesseract.js — Google's open-source OCR engine, running in your browser via WebAssembly, supporting 100+ languages.",
+    "url": "https://formattedai.pl/en/ocr/",
+    "inDefinedTermSet": {
+      "@type": "DefinedTermSet",
+      "name": "FormattedAI Glossary",
+      "url": "https://formattedai.pl/"
+    }
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/favicon.svg">
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#08080c">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Theme bootstrap (light-first) -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <!-- Fonts & Styles -->
+  <link rel="stylesheet" href="../../assets/css/fonts.css">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+  <link rel="stylesheet" href="../../assets/css/ocr.css">
+</head>
+<body>
+
+  <div class="tool-shell" id="app">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/en/" class="fa-nav__brand" aria-label="FormattedAI — homepage">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+      </a>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/en/tools/" class="fa-nav__crumb-link" data-i18n="navTools">Tools</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">OCR</span>
+      </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/ocr/" class="fa-nav__lang" hreflang="pl" title="Polska wersja">PL</a>
+        <button class="fa-nav__icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="fa-theme__moon" id="iconMoon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="fa-theme__sun" id="iconSun" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <button class="fa-nav__icon-btn" id="aboutTrigger" type="button" title="Help" aria-label="Help">?</button>
+        <a href="/en/tools/" class="fa-nav__cta">All tools →</a>
+      </div>
+    </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ TOOL · image / PDF → text</span>
+          <h1 class="tool-head__title">OCR</h1>
+          <p class="tool-head__sub" data-i18n="toolHeaderDesc">Extract text from images and PDF files. Tesseract.js in your browser, 100+ languages, TXT/DOCX export. 100% client-side.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Modal -->
+    <div class="about-modal-overlay" id="aboutModal" hidden>
+      <div class="about-modal">
+        <div class="about-modal__header">
+          <div class="about-modal__title">
+            <div class="about-modal__icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM9 12.75V9M9 5.25h.008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span data-i18n="modalTitle">OCR — Image to text</span>
+          </div>
+          <button class="about-modal__close" id="aboutModalClose" type="button" aria-label="Close">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="about-modal__body">
+          <p class="about-modal__desc" data-i18n="modalDesc"><strong>OCR</strong> (Optical Character Recognition) extracts text from images, scans, and PDF files. Everything happens in your browser — files never leave your device.</p>
+          <h3 class="about-modal__section-title" data-i18n="modalHowTitle">How to use</h3>
+          <ol class="about-modal__steps">
+            <li data-i18n="modalStep1">Drag an image or PDF — or paste a screenshot (Ctrl+V)</li>
+            <li data-i18n="modalStep2">Pick languages (English + Polish enabled by default)</li>
+            <li data-i18n="modalStep3">Copy the text or download as .txt</li>
+          </ol>
+          <h3 class="about-modal__section-title" data-i18n="modalFeaturesTitle">Key features</h3>
+          <ul class="about-modal__features">
+            <li data-i18n="modalFeat1">English + Polish built-in, more languages on demand</li>
+            <li data-i18n="modalFeat2">Images (JPG, PNG, WebP) and multi-page PDF</li>
+            <li data-i18n="modalFeat3">Paste screenshots from clipboard</li>
+            <li data-i18n="modalFeat4">Fast / Accurate mode</li>
+            <li data-i18n="modalFeat5">100% client-side — files never leave your device</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tool Bar -->
+    <div class="tool-bar tool-bar--ocr" id="toolBar">
+      <div class="tool-bar__group">
+        <span class="tool-bar__label" data-i18n="languages">Languages</span>
+        <div class="lang-picker" id="langPicker" role="group" aria-label="OCR languages">
+          <button class="lang-chip lang-chip--active" data-lang="eng" type="button">EN</button>
+          <button class="lang-chip lang-chip--active" data-lang="pol" type="button">PL</button>
+          <button class="lang-chip" data-lang="deu" type="button">DE</button>
+          <button class="lang-chip" data-lang="ukr" type="button">UA</button>
+          <button class="lang-chip" data-lang="fra" type="button">FR</button>
+          <button class="lang-chip" data-lang="spa" type="button">ES</button>
+        </div>
+      </div>
+      <div class="tool-bar__group">
+        <span class="tool-bar__label" data-i18n="mode">Mode</span>
+        <div class="mode-picker" role="radiogroup" aria-label="OCR mode">
+          <button class="mode-btn mode-btn--active" data-mode="fast" type="button" data-i18n="modeFast" data-i18n-title="modeFastTitle" title="Faster, fine for good quality scans and screenshots">Fast</button>
+          <button class="mode-btn" data-mode="accurate" type="button" data-i18n="modeAccurate" data-i18n-title="modeAccurateTitle" title="Slower but better for rotated, skewed, or low-quality scans">Accurate</button>
+        </div>
+      </div>
+      <div class="tool-bar__actions">
+        <button class="btn btn--ghost" id="clearBtn" type="button">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4m2 0v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="clear">Clear</span>
+        </button>
+        <button class="btn btn--primary" id="recognizeBtn" type="button" disabled>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h12M10 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="recognize">Recognize text</span>
+        </button>
+      </div>
+    </div>
+
+    <main class="workspace" role="main">
+      <section class="panel panel--input" aria-label="Image input">
+        <div class="panel__header">
+          <div class="panel__header-left">
+            <div class="panel__dot panel__dot--green" aria-hidden="true"></div>
+            <h2 class="panel__title" data-i18n="inputTitle">Input</h2>
+          </div>
+          <span class="panel__badge" id="fileCount">0</span>
+        </div>
+
+        <div class="input-area" id="inputArea">
+          <div class="drop-zone" id="dropZone">
+            <div class="drop-zone__icon" aria-hidden="true">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="36" height="36" rx="4" stroke="currentColor" stroke-width="2"/><path d="M14 18h20M14 24h20M14 30h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <p class="drop-zone__text" data-i18n="dropText">Drag &amp; drop an image or PDF</p>
+            <p class="drop-zone__formats">JPG, PNG, WebP, PDF</p>
+            <button class="btn btn--ghost drop-zone__browse" id="browseBtn" type="button" data-i18n="browseFiles">Browse files</button>
+            <p class="drop-zone__paste-hint" data-i18n="pasteHint">or paste a screenshot (Ctrl+V)</p>
+          </div>
+
+          <div class="drop-zone drop-zone--compact" id="dropZoneCompact" hidden>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span data-i18n="addMore">Add more files</span>
+          </div>
+
+          <div class="file-list" id="fileList"></div>
+
+          <input type="file" id="fileInput" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.bmp,.tiff,.pdf,image/png,image/jpeg,image/webp,image/gif,image/bmp,image/tiff,application/pdf" hidden>
+        </div>
+      </section>
+
+      <div class="divider" id="divider" aria-hidden="true">
+        <div class="divider__line"></div>
+        <div class="divider__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M3.75 9h10.5M10.5 5.25L14.25 9l-3.75 3.75" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="divider__line"></div>
+      </div>
+
+      <section class="panel panel--output" aria-label="Recognized text">
+        <div class="panel__header">
+          <div class="panel__header-left">
+            <div class="panel__dot panel__dot--blue" aria-hidden="true"></div>
+            <h2 class="panel__title" data-i18n="outputTitle">Output</h2>
+          </div>
+          <div class="panel__badges">
+            <span class="panel__badge panel__badge--confidence" id="confidenceBadge" hidden>
+              <span data-i18n="confidence">Confidence</span>: <strong id="confidenceValue">0%</strong>
+            </span>
+            <span class="panel__badge" id="wordCount" hidden>
+              <strong id="wordCountValue">0</strong> <span data-i18n="words">words</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="results" id="results">
+          <div class="results__empty" id="resultsEmpty">
+            <div class="results__empty-visual" aria-hidden="true">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <rect x="12" y="8" width="40" height="48" rx="4" stroke="#d0d0d8" stroke-width="2"/>
+                <path d="M20 22h24M20 30h24M20 38h16" stroke="#e0e0e8" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <p class="results__empty-text" data-i18n="emptyText">Recognized text will appear here</p>
+            <p class="results__empty-hint" data-i18n="emptyHint">Add a file on the left, click Recognize</p>
+          </div>
+
+          <div class="results__progress" id="resultsProgress" hidden>
+            <div class="results__progress-info">
+              <span class="results__progress-text" id="progressText" data-i18n="processing">Processing...</span>
+              <span class="results__progress-percent" id="progressPercent">0%</span>
+            </div>
+            <progress class="results__progress-bar" id="progressFill" max="100" value="0"></progress>
+            <p class="results__progress-file" id="progressFile"></p>
+            <button class="btn btn--ghost results__cancel" id="cancelBtn" type="button" hidden>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span data-i18n="cancel">Cancel</span>
+            </button>
+          </div>
+
+          <div class="results__output" id="resultsOutput" hidden>
+            <textarea class="results__textarea" id="textOutput" spellcheck="false" placeholder=""></textarea>
+            <div class="results__actions">
+              <button class="btn btn--ghost results__action" id="copyBtn" type="button">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5A1.5 1.5 0 014.5 2h6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                <span data-i18n="copy">Copy</span>
+              </button>
+              <button class="btn btn--ghost results__action" id="downloadTxtBtn" type="button">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v8.5M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>.txt</span>
+              </button>
+              <button class="btn btn--ghost results__action" id="downloadDocxBtn" type="button">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v8.5M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>.docx</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Mobile Sticky Bar -->
+    <div class="mobile-bar" id="mobileBar" hidden>
+      <button class="btn btn--primary mobile-bar__btn" id="mobileRecognizeBtn" type="button" disabled>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M10 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="recognize">Recognize text</span>
+      </button>
+    </div>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/en/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploads · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Tools</span>
+          <a href="/en/tools/" class="fa-footer__link">All</a>
+          <a href="/en/formatter/" class="fa-footer__link">Markdown</a>
+          <a href="/en/avif/" class="fa-footer__link">AVIF</a>
+          <a href="/en/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Content</span>
+          <a href="/en/articles/" class="fa-footer__link" data-i18n="navArticles">Articles</a>
+          <a href="/en/about/" class="fa-footer__link" data-i18n="navAbout">About</a>
+          <a href="/en/privacy/" class="fa-footer__link" data-i18n="navPrivacy">Privacy</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Contact</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link" data-i18n="navContact">Email</a>
+          <a href="https://formattedai.pl/ocr/" class="fa-footer__link" hreflang="pl">Polski</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>OCR · 100% client-side</span>
+      </div>
+    </footer>
+
+    <div class="toast" id="toast" role="alert" aria-live="assertive">
+      <div class="toast__icon" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="toast__text" data-i18n="toastDone">Done!</span>
+    </div>
+  </div>
+
+  <section class="related-tools" aria-labelledby="relatedTitle">
+    <div class="related-tools__inner">
+      <div class="related-tools__label">/ RELATED TOOLS</div>
+      <h2 class="related-tools__title" id="relatedTitle">Other FormattedAI tools</h2>
+      <div class="related-tools__grid">
+        <a href="/en/avif/" class="related-tools__card">
+          <div class="related-tools__card-icon">[ AVIF ]</div>
+          <div class="related-tools__card-name">AVIF Converter</div>
+          <p class="related-tools__card-desc">Compress source photos before OCR — faster runs and smaller files.</p>
+        </a>
+        <a href="/en/heic/" class="related-tools__card">
+          <div class="related-tools__card-icon">[ HEIC ]</div>
+          <div class="related-tools__card-name">HEIC Converter</div>
+          <p class="related-tools__card-desc">Convert iPhone HEIC photos into a format the OCR engine accepts.</p>
+        </a>
+        <a href="/en/pdf/" class="related-tools__card">
+          <div class="related-tools__card-icon">[ PDF ]</div>
+          <div class="related-tools__card-name">PDF Tools</div>
+          <p class="related-tools__card-desc">Split a large scanned PDF into pages before running text recognition.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEO Content Section -->
+  <section class="seo-content">
+    <div class="seo-content__inner">
+      <h1 data-i18n="seoH1">Free OCR online — Extract text from images, scans, and PDF</h1>
+      <p data-i18n="seoDesc">OCR (Optical Character Recognition) is the technology that turns image content into machine-readable text. Drop a photo of a receipt, a contract scan, a screenshot of a spreadsheet, or a PDF — and this tool will extract the text so you can copy it, save as .txt, or .docx. Everything runs 100% in your browser via Tesseract.js compiled to WebAssembly. Your documents never leave your device.</p>
+
+      <h2 data-i18n="seoHowTitle">How it works</h2>
+      <ol>
+        <li data-i18n="seoHow1">Drop an image (JPG, PNG, WebP) or PDF, click Browse, or paste a screenshot from clipboard (Ctrl+V)</li>
+        <li data-i18n="seoHow2">Pick languages — English and Polish are built-in, add more (DE, UA, FR, ES) with one click</li>
+        <li data-i18n="seoHow3">Choose Fast mode (seconds) or Accurate (better for low-quality scans and small fonts)</li>
+        <li data-i18n="seoHow4">Copy the text or download as .txt or .docx</li>
+      </ol>
+
+      <h2 data-i18n="seoFeaturesTitle">Features</h2>
+      <ul>
+        <li data-i18n="seoFeat1">English + Polish built-in, additional languages on demand</li>
+        <li data-i18n="seoFeat2">Images (JPG, PNG, WebP, GIF, BMP, TIFF) and multi-page PDF</li>
+        <li data-i18n="seoFeat3">Paste screenshots from clipboard (Ctrl+V) — essential when working with Snipping Tool</li>
+        <li data-i18n="seoFeat4">Fast mode for everyday use, Accurate for low-quality scans with small fonts</li>
+        <li data-i18n="seoFeat5">Confidence score and word count for every output</li>
+        <li data-i18n="seoFeat6">Export to .txt and .docx, copy to clipboard with one click</li>
+        <li data-i18n="seoFeat7">Works in all modern browsers via WebAssembly</li>
+        <li data-i18n="seoFeat8">100% client-side — your files never leave your device</li>
+      </ul>
+
+      <h2 data-i18n="seoFaqTitle">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq1q">Are my documents safe?</h3>
+        <p data-i18n="seoFaq1a">Yes. The entire OCR process runs only in your browser. Files are not sent to any server — they never leave your device. This matters for scans of contracts, ID documents, receipts, or medical records. No upload-based online OCR can give you that guarantee.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq2q">Which languages are supported?</h3>
+        <p data-i18n="seoFaq2a">English and Polish are built-in. Other languages (German, Ukrainian, French, Spanish, and 100+ more available via Tesseract) download on demand — language models weigh ~10-15 MB and are cached in the browser, so subsequent uses are instant.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq3q">How well does it handle Polish diacritics?</h3>
+        <p data-i18n="seoFaq3a">Excellent. The built-in Polish model (pol.traineddata) recognizes all Polish characters. For best quality use Accurate mode and make sure the image is sharp — high-quality scans give 95%+ confidence, phone photos typically 85-90%.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq4q">Does it support multi-page PDFs?</h3>
+        <p data-i18n="seoFaq4a">Yes. You can upload a multi-page PDF — each page is rendered and processed sequentially. The output is combined text from all pages with page separators.</p>
+      </div>
+      <div class="faq-item">
+        <h3 data-i18n="seoFaq5q">How long does the first run take?</h3>
+        <p data-i18n="seoFaq5a">The first run downloads the OCR engine (~4 MB) and language model (~10-15 MB per language). Files are cached by the browser — subsequent uses with the same language are instant. You can use it offline after the first download.</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="../../assets/vendor/tesseract.min.js"></script>
+  <script type="module" src="../../assets/js/ocr.min.js"></script>
+
+  <!-- Mobile hamburger toggle -->
+  <script>
+  (function() {
+    var burger = document.getElementById("navBurger");
+    var navEl = document.getElementById("faNav");
+    if (burger && navEl) {
+      burger.addEventListener("click", function() {
+        var open = navEl.classList.toggle("is-menu-open");
+        burger.classList.toggle("is-open", open);
+        burger.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

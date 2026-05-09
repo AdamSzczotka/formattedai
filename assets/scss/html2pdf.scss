@@ -1,427 +1,217 @@
 // ============================================
-// FormattedAI — HTML to PDF Converter Styles
+// FormattedAI — HTML to PDF (v2 redesign)
+// Per-tool accent: rose / coral
 // ============================================
 
-@use 'variables' as *;
-@use 'base';
+@use 'design-v2' as *;
+@use 'tool-shell' as *;
 
-// --- Teal accent colors ---
-$color-teal: #0891b2;
-$color-teal-light: #06b6d4;
-$color-teal-dark: #0e7490;
-$color-teal-glow: rgba(8, 145, 178, 0.15);
-$color-teal-glow-strong: rgba(8, 145, 178, 0.35);
-
-body { overflow: hidden; transition: none; }
-
-// Disable all transitions during theme change
-.theme-switching,
-.theme-switching *,
-.theme-switching *::before,
-.theme-switching *::after {
-  transition: none !important;
-}
-.app { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-
-// Global: respect hidden attribute on elements with explicit display
-[hidden] { display: none !important; }
-
-// --- Header ---
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 24px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--glass-bg-strong);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  position: relative;
-  z-index: 60;
-
-  &__brand {
-    display: flex; align-items: center; gap: 14px;
-    text-decoration: none; color: inherit;
-  }
-
-  &__logo {
-    width: 44px; height: 44px;
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-    &::after {
-      content: ''; position: absolute; inset: -4px; border-radius: 14px;
-      background: $color-teal-glow; filter: blur(10px); opacity: 0.6;
-    }
-  }
-
-  &__logo-svg { width: 34px; height: 34px; position: relative; z-index: 1; }
-
-  &__title {
-    font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--color-text);
-  }
-
-  &__title-accent {
-    background: linear-gradient(135deg, $color-teal-light, $color-teal);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
-
-  &__subtitle { font-size: 12px; color: var(--color-text-dim); margin-top: 2px; letter-spacing: 0.2px; }
-
-  &__actions { display: flex; align-items: center; gap: 8px; }
+:root {
+  --accent: #fb7185;
+  --accent-light: #fda4af;
+  --accent-dark: #e11d48;
+  --accent-glow: rgba(251, 113, 133, 0.12);
+  --accent-border: rgba(251, 113, 133, 0.28);
 }
 
-// --- Language Toggle ---
-.lang-toggle {
-  display: flex; align-items: center; justify-content: center;
-  width: 40px; height: 36px;
-  border: 1px solid var(--color-border); border-radius: $radius-sm;
-  background: rgba(255, 255, 255, 0.03); cursor: pointer; transition: all $transition;
-  text-decoration: none;
+// Page scrolls naturally; workspace stays internally scrollable
+html, body { overflow-x: hidden; }
+body { overflow-y: auto; }
 
-  &:hover {
-    background: var(--color-surface-hover);
-    border-color: rgba(8, 145, 178, 0.3);
-    transform: translateY(-1px);
-  }
-
-  &__flag {
-    font-size: 12px; font-weight: 800; font-family: $font-body;
-    color: var(--color-text-muted); letter-spacing: 0.5px; transition: color $transition-fast;
-  }
-
-  &:hover &__flag { color: $color-teal-light; }
+.ws { min-height: calc(100vh - 240px); }
+@media (max-width: 900px) {
+  .ws { min-height: auto; }
+  .pane { min-height: 60vh; }
 }
+.pane__body { background: var(--bg); }
 
-// --- Theme Toggle ---
-.theme-toggle {
-  &:hover {
-    color: $color-teal;
-    border-color: rgba(8, 145, 178, 0.3);
-  }
-}
+// ============================================
+// HTML to PDF — tool-specific bits
+// (preserve all IDs/classes used by html2pdf.js)
+// ============================================
 
-// --- Tool Bar ---
-.tool-bar {
-  display: flex; align-items: center; justify-content: center;
-  padding: 10px 24px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-
-  &__actions { display: flex; align-items: center; gap: 12px; }
-}
-
-// --- Tab Pills ---
-.tab-pills {
-  display: flex; gap: 4px;
-  background: var(--color-surface-raised);
-  border: 1px solid var(--color-border);
-  border-radius: $radius-sm;
-  padding: 3px;
-}
-
+// --- Tab pills inside tool-sub (input source switcher) ---
 .tab-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 7px 16px; border: none; border-radius: 6px;
-  background: transparent; color: var(--color-text-dim);
-  font-family: $font-body; font-size: 12px; font-weight: 600;
-  cursor: pointer; transition: all $transition;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 5px;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
 
-  svg { opacity: 0.6; }
+  svg { opacity: 0.7; }
 
-  &:hover {
-    color: var(--color-text-muted);
-    background: var(--color-surface-hover);
-    svg { opacity: 0.8; }
-  }
+  &:hover { color: var(--text); }
 
+  &.is-active,
   &--active {
-    background: $color-teal; color: #fff;
-    box-shadow: 0 2px 8px $color-teal-glow;
-
-    svg { opacity: 1; }
-
-    &:hover { background: $color-teal-dark; color: #fff; }
+    background: var(--accent-glow);
+    color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent-border);
   }
 }
 
-// --- Workspace ---
-.workspace { display: flex; flex: 1; overflow: hidden; }
-
-// --- Panel ---
-.panel {
-  flex: 1; display: flex; flex-direction: column; overflow: hidden;
-
-  &__header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 20px; border-bottom: 1px solid var(--color-border);
-    background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  }
-
-  &__header-left { display: flex; align-items: center; gap: 10px; }
-
-  &__dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    &--accent { background: $color-teal-light; box-shadow: 0 0 8px $color-teal-glow; }
-  }
-
-  &__title {
-    font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--color-text-muted);
-  }
-}
-
-// --- Divider ---
-.divider {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  width: 52px; background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border-left: 1px solid var(--color-border); border-right: 1px solid var(--color-border);
-
-  &__line { flex: 1; width: 1px; background: linear-gradient(to bottom, transparent, var(--color-border), transparent); }
-
-  &__icon {
-    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, $color-teal, $color-teal-dark);
-    border-radius: 50%; flex-shrink: 0; box-shadow: 0 4px 16px $color-teal-glow-strong;
-    position: relative;
-
-    &::after {
-      content: ''; position: absolute; inset: -3px; border-radius: 50%;
-      border: 1px solid rgba(8, 145, 178, 0.2); animation: dividerPulse 3s ease-in-out infinite;
-    }
-  }
-}
-
-@keyframes dividerPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0; }
-}
-
-// --- Editor Area ---
-.editor-area {
-  flex: 1; display: flex; flex-direction: column; overflow: hidden;
-}
-
-.editor-toolbar {
-  display: flex; align-items: center; gap: 4px;
-  padding: 6px 12px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--glass-bg);
-}
-
-.editor-textarea {
-  flex: 1; width: 100%; resize: none;
-  padding: 16px; border: none; outline: none;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: $font-mono;
-  font-size: 13px; line-height: 1.6;
+// --- HTML editor (textarea) ---
+.code-editor {
+  flex: 1 1 auto;
+  width: 100%;
+  resize: none;
+  padding: 18px 22px;
+  border: 0;
+  outline: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.65;
   tab-size: 2;
+  white-space: pre;
 
-  &::placeholder {
-    color: var(--color-text-dim); opacity: 0.6;
-  }
+  &::placeholder { color: var(--text-dim); opacity: 0.65; }
 
-  &::-webkit-scrollbar { width: 5px; }
-  &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; }
+  &::-webkit-scrollbar { width: 6px; height: 6px; }
+  &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
 }
 
-// Word wrap toggle state
-.editor-textarea--wrap {
+.code-editor--wrap {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
 
-// --- Privacy Badge ---
-.privacy-badge {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 16px;
-  border-top: 1px solid var(--color-border);
-  background: rgba(8, 145, 178, 0.04);
-  font-size: 11px; color: $color-teal; font-weight: 500;
+// --- URL input pane ---
+.url-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 18px;
+  padding: 32px 28px;
 
-  svg { color: $color-teal; opacity: 0.7; }
-}
+  &__label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
 
-// --- Tab Content ---
-.tab-content {
-  flex: 1; display: flex; flex-direction: column; overflow: hidden;
-
-  &[hidden] { display: none !important; }
-}
-
-// --- URL Input Area ---
-.url-input-area {
-  flex: 1; display: flex; flex-direction: column; justify-content: center;
-  padding: 40px 24px; gap: 16px;
-
-  label {
-    font-size: 14px; font-weight: 600; color: var(--color-text-muted);
+  &__row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
   }
 }
 
-.url-input-group {
-  display: flex; gap: 8px;
-}
-
-.url-input {
-  flex: 1; padding: 12px 16px;
-  border: 1px solid var(--color-border); border-radius: $radius-sm;
-  background: var(--color-surface); color: var(--color-text);
-  font-family: $font-body; font-size: 14px;
-  outline: none; transition: all $transition;
+.fa-input {
+  flex: 1 1 240px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  outline: 0;
+  transition: border-color 0.15s, box-shadow 0.15s;
 
   &:focus {
-    border-color: $color-teal;
-    box-shadow: 0 0 0 3px $color-teal-glow;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
   }
 
-  &::placeholder { color: var(--color-text-dim); }
+  &::placeholder { color: var(--text-dim); }
 }
 
-// --- URL Result ---
 .url-result {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 24px; margin: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 16px 28px;
+  padding: 14px 16px;
   background: rgba(34, 197, 94, 0.06);
-  border: 1px solid rgba(34, 197, 94, 0.2);
-  border-radius: $radius-sm;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 8px;
 
   &__success {
-    display: flex; align-items: center; gap: 10px;
-    color: $color-success;
-    svg { flex-shrink: 0; }
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #22c55e;
   }
 
   &__filename {
-    font-size: 13px; font-weight: 600; color: var(--color-text);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
   }
 
   &__size {
-    font-size: 12px; color: var(--color-text-dim);
+    font-size: 12px;
+    color: var(--text-dim);
   }
 }
 
-// --- URL Loader ---
 .url-loader {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  flex: 1; gap: 16px;
-  font-size: 14px; color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 32px;
+  color: var(--text-muted);
+  font-size: 13px;
 
   &__spinner {
-    width: 32px; height: 32px;
-    border: 3px solid var(--color-border);
-    border-top-color: $color-teal;
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
     border-radius: 50%;
-    animation: loaderSpin 0.8s linear infinite;
+    animation: h2pSpin 0.8s linear infinite;
   }
 }
 
-@keyframes loaderSpin {
-  to { transform: rotate(360deg); }
-}
+@keyframes h2pSpin { to { transform: rotate(360deg); } }
 
-// --- PDF Options ---
-.pdf-options {
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--glass-bg);
-
-  &__row {
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  }
-
-  &__select {
-    padding: 7px 12px; border: 1px solid var(--color-border); border-radius: 6px;
-    background: var(--color-surface); color: var(--color-text);
-    font-family: $font-body; font-size: 12px; font-weight: 500;
-    cursor: pointer; outline: none; transition: all $transition;
-
-    &:focus { border-color: $color-teal; box-shadow: 0 0 0 3px $color-teal-glow; }
-    &:hover { border-color: rgba(8, 145, 178, 0.3); }
-  }
-
-  &__advanced {
-    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
-    padding-top: 10px; margin-top: 10px;
-    border-top: 1px solid var(--color-border-subtle);
-
-    &[hidden] { display: none !important; }
-  }
-
-  &__field {
-    display: flex; align-items: center; gap: 8px;
-
-    label {
-      font-size: 11px; font-weight: 600; color: var(--color-text-dim);
-      text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
-    }
-  }
-
-  &__slider {
-    width: 100px; height: 4px; -webkit-appearance: none; appearance: none;
-    background: var(--color-border); border-radius: 2px; outline: none;
-
-    &::-webkit-slider-thumb {
-      -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
-      background: $color-teal; cursor: pointer;
-      box-shadow: 0 0 8px $color-teal-glow-strong;
-    }
-
-    &::-moz-range-thumb {
-      width: 16px; height: 16px; border-radius: 50%; border: none;
-      background: $color-teal; cursor: pointer;
-    }
-  }
-
-  &__checkbox {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; color: var(--color-text-muted); cursor: pointer;
-
-    input[type="checkbox"] {
-      accent-color: $color-teal;
-    }
-  }
-
-  #scaleValue {
-    font-size: 12px; font-weight: 700; color: $color-teal;
-    min-width: 36px; text-align: center; font-family: $font-body;
-  }
-}
-
-// --- Preview Area ---
+// --- Output preview area (iframe / embed wrapper) ---
 .preview-area {
-  flex: 1; display: flex; flex-direction: column;
-  position: relative; overflow: hidden;
-  background: var(--color-bg);
+  flex: 1 1 auto;
+  position: relative;
+  min-height: 0;
+  background: var(--surface);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.preview-empty {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  height: 100%; gap: 16px; user-select: none;
-
-  svg { opacity: 0.35; animation: docBounce 4s ease-in-out infinite; }
-  p { font-size: 14px; color: var(--color-text-dim); font-weight: 500; text-align: center; max-width: 260px; }
-}
-
-@keyframes docBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.preview-frame {
-  width: 100%; height: 100%; border: none;
+.preview-frame,
+#pdfPreviewEmbed {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
   background: #fff;
-  display: none; // shown via JS when content is loaded
+  // Visibility controlled by JS via the [hidden] attribute (do not force display:none here)
+  &[hidden] { display: none !important; }
 }
 
 .preview-bar {
-  position: absolute; bottom: 0; left: 0;
-  height: 3px; width: 0;
-  background: linear-gradient(90deg, $color-teal, $color-teal-light);
-  border-radius: 0 2px 0 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
   transition: width 0.3s ease;
 
   &--active { animation: previewBarPulse 1.5s ease-in-out; }
@@ -433,103 +223,128 @@ body { overflow: hidden; transition: none; }
   100% { width: 100%; opacity: 0; }
 }
 
-// --- Export Actions ---
-.export-actions {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 16px;
-  border-top: 1px solid var(--color-border);
-  background: var(--glass-bg);
+// --- PDF options chrome (above preview pane) ---
+.pdf-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-left: auto;
 
-  .btn--primary {
-    background: linear-gradient(135deg, $color-teal, $color-teal-dark);
-    box-shadow: 0 2px 8px $color-teal-glow, inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  &__label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
 
-    &:hover {
-      box-shadow: 0 4px 20px $color-teal-glow-strong, inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  &__select {
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: 0;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:hover { border-color: var(--accent-border); }
+
+    &:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
     }
+  }
+
+  &__advanced {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 10px 16px;
+    margin-top: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+
+    &[hidden] { display: none !important; }
+  }
+
+  &__field {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    label {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+  }
+
+  &__slider {
+    width: 110px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  &__checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+
+    input[type="checkbox"] { accent-color: var(--accent); }
+  }
+
+  #scaleValue {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 38px;
+    text-align: right;
   }
 }
 
-// --- Button small variant ---
-.btn--sm {
-  padding: 6px 10px; font-size: 11px;
+// Tool-sub layout: tabs left, options right
+.tool-sub {
+  align-items: center;
+
+  > .pdf-options {
+    margin-left: auto;
+  }
 }
 
-// --- Mobile Sticky Bar ---
+// --- Mobile floating bar ---
 .mobile-bar {
   display: none;
 }
 
-// --- Responsive ---
 @media (max-width: 768px) {
-  body { overflow: auto; }
-  .app { height: auto; min-height: 100vh; overflow: visible; }
-
-  .workspace { flex-direction: column; }
-
-  .divider {
-    flex-direction: row; width: 100%; height: 44px;
-    border-left: none; border-right: none;
-    border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);
-    &__line { height: 1px; width: auto; flex: 1; background: linear-gradient(to right, transparent, var(--color-border), transparent); }
-  }
-
-  .header {
-    flex-direction: column; gap: 12px; padding: 12px 16px;
-
-    &__actions {
-      width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-      justify-content: center;
-    }
-  }
-
-  .tool-bar {
-    padding: 8px 16px;
-  }
-
-  .tab-pills {
-    width: 100%; justify-content: center;
-  }
-
-  .tab-pill {
-    flex: 1; justify-content: center;
-  }
-
-  .panel { min-height: 300px; }
-
-  .editor-textarea {
-    min-height: 200px;
-    font-size: 12px;
-  }
-
-  .pdf-options {
-    &__row { flex-wrap: wrap; }
-    &__advanced { flex-direction: column; align-items: flex-start; }
-  }
-
-  .preview-area { min-height: 300px; }
-
-  .export-actions {
-    flex-wrap: wrap;
-
-    // Hide desktop export on mobile (use sticky bar)
-    #exportBtn { display: none; }
-  }
-
   .mobile-bar {
-    display: flex; gap: 8px; padding: 12px 16px;
-    position: sticky; bottom: 0; z-index: 50;
-    background: var(--glass-bg-strong);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--color-border);
+    position: sticky;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(10px);
 
-    &__btn {
-      flex: 1; justify-content: center;
-    }
-
-    .btn--primary {
-      background: linear-gradient(135deg, $color-teal, $color-teal-dark);
-      box-shadow: 0 2px 8px $color-teal-glow;
-    }
+    .tool-act { flex: 1; justify-content: center; }
   }
 }
+
+// --- Hide elements with [hidden] attribute reliably ---
+[hidden] { display: none !important; }

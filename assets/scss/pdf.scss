@@ -4,6 +4,24 @@
 
 @use 'variables' as *;
 @use 'base';
+@use 'design-v2' as *;
+@use 'tool-shell' as *;
+
+// --- Responsive overflow handling (tool-shell compat) ---
+html, body { overflow-x: hidden; }
+body { overflow-y: auto; }
+.pane__body { background: var(--bg); }
+
+// --- Workspace layout fix ---
+// design-v2 .workspace = CSS Grid (1fr 3px 1fr). For editor mode (crop/forms/annotate)
+// switch to single full-width column.
+.workspace--editor {
+  grid-template-columns: 1fr !important;
+
+  .panel--input  { width: 100% !important; max-width: none !important; }
+  .divider       { display: none !important; }
+  .panel--output { display: none !important; }
+}
 
 // --- PDF accent colors (red/coral for PDF identity) ---
 $color-pdf: #ef4444;
