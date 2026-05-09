@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO -->
   <title>Privacy Policy — FormattedAI</title>
   <meta name="description" content="FormattedAI is a set of tools that run 100% client-side. We do not collect, store, or process any personal data. Your files and data never leave your device.">
+  <meta name="keywords" content="FormattedAI, privacy policy, GDPR, client-side, zero data">
+  <meta name="author" content="Adam Szczotka">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://formattedai.pl/en/privacy/">
   <link rel="alternate" hreflang="pl" href="https://formattedai.pl/privacy/">
@@ -14,162 +15,204 @@
   <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/privacy/">
   <meta http-equiv="content-language" content="en">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Privacy Policy — FormattedAI">
   <meta property="og:description" content="FormattedAI is a set of tools that run 100% client-side. We do not collect, store, or process any personal data. Your files and data never leave your device.">
   <meta property="og:url" content="https://formattedai.pl/en/privacy/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
   <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="en">
+  <meta property="og:locale:alternate" content="pl">
 
-  <!-- Structured Data: BreadcrumbList -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Privacy Policy — FormattedAI">
+  <meta name="twitter:description" content="FormattedAI is a set of tools that run 100% client-side. We do not collect, store, or process any personal data. Your files and data never leave your device.">
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/en/" },
       { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": "https://formattedai.pl/en/privacy/" }
     ]
   }
   </script>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/favicon.svg">
   <meta name="theme-color" content="#08080c">
 
-  <!-- Fonts & Styles -->
-  <link rel="stylesheet" href="assets/css/fonts.css">
-  <link rel="stylesheet" href="../../assets/css/home.css">
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme');
+      if (!t) t = 'dark';
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../assets/css/articles-list.css">
   <style>
-    .page { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
-    .page__title { font-size: 32px; font-weight: 800; color: var(--color-text); margin-bottom: 8px; }
-    .page__subtitle { font-size: 14px; color: var(--color-text-dim); margin-bottom: 40px; }
-    .page__section { margin-bottom: 32px; }
-    .page__heading { font-size: 20px; font-weight: 700; color: var(--color-text); margin-bottom: 12px; }
-    .page__text { font-size: 15px; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 12px; }
-    .page__list { margin: 8px 0 12px 24px; padding: 0; }
-    .page__list li { font-size: 15px; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 4px; }
-    .page__link { color: #7c6cf0; text-decoration: none; font-weight: 600; }
-    .page__link:hover { text-decoration: underline; }
+    .page { max-width: 820px; margin: 0 auto; padding: 64px 32px 100px; }
+    .page__eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent-light); letter-spacing: 0.18em; margin-bottom: 20px; text-transform: uppercase; }
+    .page__title { font-family: 'Space Grotesk', sans-serif; font-size: 56px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.04; color: var(--text); margin: 0 0 20px; }
+    .page__subtitle { font-size: 17px; color: var(--text-muted); margin-bottom: 56px; line-height: 1.6; max-width: 640px; }
+    .page__section { margin-bottom: 48px; padding-top: 36px; border-top: 1px solid var(--border-soft); }
+    .page__section:first-of-type { padding-top: 0; border-top: 0; }
+    .page__heading { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 500; letter-spacing: -0.015em; color: var(--text); margin: 0 0 16px; }
+    .page__text { font-size: 16px; color: var(--text-muted); line-height: 1.7; margin: 0 0 14px; }
+    .page__text strong { color: var(--text); font-weight: 600; }
+    .page__list { margin: 12px 0 16px 24px; padding: 0; }
+    .page__list li { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 6px; }
+    .page__list li strong { color: var(--text); }
+    .page__link { color: var(--accent-light); text-decoration: none; border-bottom: 1px solid rgba(167, 139, 250, 0.30); }
+    .page__link:hover { border-bottom-color: var(--accent-light); }
   </style>
 </head>
 <body>
-  <div class="bg-effects" aria-hidden="true">
-    <div class="bg-effects__orb bg-effects__orb--1"></div>
-    <div class="bg-effects__orb bg-effects__orb--2"></div>
-    <div class="bg-effects__orb bg-effects__orb--3"></div>
-    <div class="bg-effects__grid"></div>
-  </div>
 
-  <div class="app">
-    <nav class="navbar" role="navigation">
-      <a href="/en/" class="navbar__brand">
-        <div class="navbar__logo" aria-hidden="true">
-          <svg class="navbar__logo-svg" viewBox="0 0 32 32" fill="none">
-            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
-            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30">
-                <stop stop-color="#a78bfa"/>
-                <stop offset="1" stop-color="#6c5ce7"/>
-              </linearGradient>
-              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30">
-                <stop stop-color="rgba(108,92,231,0.3)"/>
-                <stop offset="1" stop-color="rgba(167,139,250,0.1)"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <div>
-          <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
-          <p class="navbar__subtitle">Webdev tools • 100% client-side</p>
-        </div>
-      </a>
-      <div class="navbar__nav">
-        <a href="/en/" class="navbar__link">Tools</a>
-        <a href="/en/articles/" class="navbar__link">Articles</a>
-        <a href="/en/about/" class="navbar__link">About</a>
-        <a href="https://formattedai.pl/privacy/" class="navbar__link">PL</a>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
-          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        </button>
-      </div>
+  <header class="fa-nav" id="faNav" role="banner">
+    <a href="/en/" class="fa-nav__brand" aria-label="FormattedAI — home">
+      <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#a78bfa"/>
+            <stop offset="1" stop-color="#5b4bd4"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+        <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+        <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+      </svg>
+      <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+    </a>
+    <nav class="fa-nav__links">
+      <a href="/en/tools/" class="fa-nav__link">Tools</a>
+      <a href="/en/articles/" class="fa-nav__link">Journal</a>
+      <a href="/en/about/" class="fa-nav__link">About</a>
     </nav>
+    <div class="fa-nav__right">
+      <a href="/privacy/" class="fa-nav__lang" hreflang="pl">PL</a>
+      <button class="fa-nav__theme" id="themeToggle" type="button" aria-label="Toggle theme">
+        <svg class="fa-theme__moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="fa-theme__sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <a href="https://github.com/AdamSzczotka/formattedai" class="fa-nav__gh" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
 
-    <main>
-      <div class="page">
-        <h1 class="page__title">Privacy Policy</h1>
-        <p class="page__subtitle">Last updated: March 23, 2026</p>
+  <main>
+    <article class="page" aria-current="page">
+      <div class="page__eyebrow">/ PRIVACY POLICY</div>
+      <h1 class="page__title">Privacy Policy</h1>
+      <p class="page__subtitle">Last updated: March 23, 2026</p>
 
-        <div class="page__section">
-          <h2 class="page__heading">Summary</h2>
-          <p class="page__text">FormattedAI is a set of tools that run 100% client-side. We do not collect, store, or process any personal data. Your files and data never leave your device.</p>
-        </div>
+      <section class="page__section">
+        <h2 class="page__heading">Summary</h2>
+        <p class="page__text">FormattedAI is a set of tools that run 100% client-side. We do not collect, store, or process any personal data. Your files and data never leave your device.</p>
+      </section>
 
-        <div class="page__section">
-          <h2 class="page__heading">What data do we collect?</h2>
-          <p class="page__text"><strong>None.</strong> We have no backend server, don't log visits, and don't use cookies or analytics tools.</p>
-        </div>
+      <section class="page__section">
+        <h2 class="page__heading">What data do we collect?</h2>
+        <p class="page__text"><strong>None.</strong> We have no backend server, don't log visits, and don't use cookies or analytics tools.</p>
+      </section>
 
-        <div class="page__section">
-          <h2 class="page__heading">localStorage</h2>
-          <p class="page__text">The only data saved on your device are user preferences in browser localStorage:</p>
-          <ul class="page__list">
-            <li>Selected language (Polish/English)</li>
-            <li>Selected theme (light/dark)</li>
-            <li>Tool form data (e.g. SEO Tag Generator) — for autofill convenience</li>
-          </ul>
-          <p class="page__text">You can delete this data at any time by clearing your browser localStorage or clicking the "Clear" button in any tool.</p>
-        </div>
+      <section class="page__section">
+        <h2 class="page__heading">localStorage</h2>
+        <p class="page__text">The only data saved on your device are user preferences in browser localStorage:</p>
+        <ul class="page__list">
+          <li>Selected language (Polish/English)</li>
+          <li>Selected theme (light/dark)</li>
+          <li>Tool form data (e.g. SEO Tag Generator) — for autofill convenience</li>
+        </ul>
+        <p class="page__text">You can delete this data at any time by clearing your browser localStorage or clicking the "Clear" button in any tool.</p>
+      </section>
 
-        <div class="page__section">
-          <h2 class="page__heading">Your files</h2>
-          <p class="page__text">Files you upload to tools (e.g. images in AVIF Converter) are processed exclusively in your browser. They are never sent to any server.</p>
-        </div>
+      <section class="page__section">
+        <h2 class="page__heading">Your files</h2>
+        <p class="page__text">Files you upload to tools (e.g. images in AVIF Converter) are processed exclusively in your browser. They are never sent to any server.</p>
+      </section>
 
-        <div class="page__section">
-          <h2 class="page__heading">External resources</h2>
-          <p class="page__text">The site loads fonts from Google Fonts and (in AVIF Converter) a WASM module from esm.sh. These services may log HTTP requests.</p>
-        </div>
+      <section class="page__section">
+        <h2 class="page__heading">External resources</h2>
+        <p class="page__text">The site loads fonts from Google Fonts and (in AVIF Converter) a WASM module from esm.sh. These services may log HTTP requests.</p>
+      </section>
 
-        <div class="page__section">
-          <h2 class="page__heading">Contact</h2>
-          <p class="page__text">Privacy questions? Contact us via <a href="https://github.com/AdamSzczotka/formattedai/issues" class="page__link" target="_blank" rel="noopener">GitHub Issues</a>.</p>
-        </div>
-      </div>
-    </main>
+      <section class="page__section">
+        <h2 class="page__heading">Contact</h2>
+        <p class="page__text">Privacy questions? Contact us via <a href="https://github.com/AdamSzczotka/formattedai/issues" class="page__link" target="_blank" rel="noopener">GitHub Issues</a> or email: <a href="mailto:adam.szczotka0@gmail.com" class="page__link">adam.szczotka0@gmail.com</a>.</p>
+      </section>
+    </article>
+  </main>
 
-    <footer class="footer" role="contentinfo">
-      <p class="footer__text">
-        <span>Created by</span>
-        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
-          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Adam Szczotka
+  <footer class="fa-footer" role="contentinfo">
+    <div class="fa-footer__cols">
+      <div>
+        <a href="/en/" style="display:inline-flex;align-items:center;gap:12px;text-decoration:none">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+            <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+            <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+          </svg>
+          <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
         </a>
-      </p>
-      <div class="footer__links">
-        <a href="/en/" class="footer__link">Tools</a>
-        <a href="/en/articles/" class="footer__link">Articles</a>
-        <a href="/en/about/" class="footer__link">About</a>
-        <a href="/en/privacy/" class="footer__link">Privacy</a>
-        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link">Contact</a>
-        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+        <p class="fa-footer__byline">Created by <a href="https://adamszczotka.dev" target="_blank" rel="noopener">Adam Szczotka ↗</a></p>
       </div>
-    </footer>
-  </div>
+      <div>
+        <div class="fa-footer__col-label">Tools</div>
+        <a href="/en/tools/" class="fa-footer__link">All tools</a>
+        <a href="/en/formatter/" class="fa-footer__link">Markdown Formatter</a>
+        <a href="/en/avif/" class="fa-footer__link">AVIF Converter</a>
+        <a href="/en/pdf/" class="fa-footer__link">PDF Tools</a>
+        <a href="/en/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Content</div>
+        <a href="/en/articles/" class="fa-footer__link">Journal</a>
+        <a href="/en/about/" class="fa-footer__link">About</a>
+        <a href="/llms.txt" class="fa-footer__link">llms.txt</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Code &amp; contact</div>
+        <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+        <a href="/en/privacy/" class="fa-footer__link">Privacy</a>
+        <a href="/privacy/" class="fa-footer__link" hreflang="pl">Polski</a>
+      </div>
+    </div>
+    <div class="fa-footer__bottom">
+      <span>© 2026 Adam Szczotka · MIT</span>
+      <span>zero data on server · zero cookies · zero tracking</span>
+    </div>
+  </footer>
 
   <script>
-  (function() {
-    var theme = localStorage.getItem('formattedai-theme') || 'light';
-    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-    document.getElementById('themeToggle').addEventListener('click', function() {
-      theme = theme === 'light' ? 'dark' : 'light';
-      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-      else document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('formattedai-theme', theme);
-    });
-  })();
+    (function() {
+      var html = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      btn && btn.addEventListener('click', function() {
+        var current = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        var next = current === 'light' ? 'dark' : 'light';
+        if (next === 'light') html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+        try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      });
+      var nav = document.getElementById('faNav');
+      var onScroll = function() {
+        if (window.scrollY > 8) nav.classList.add('fa-nav--scrolled');
+        else nav.classList.remove('fa-nav--scrolled');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
   </script>
 </body>
 </html>

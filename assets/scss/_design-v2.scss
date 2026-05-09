@@ -1,6 +1,8 @@
 // ============================================
-// FormattedAI — Design System v2 (light-first, OKLCH, DM Sans)
-// Shared foundation for all redesigned tool/page styles.
+// FormattedAI — Design System v2
+// (Hybrid Console palette, Inter + JetBrains Mono, dual theme)
+// Shared foundation for all tool pages.
+// ============================================
 // Per-tool SCSS files override `--accent*` and add tool-specific rules.
 //
 // Usage in tool SCSS:
@@ -38,19 +40,21 @@
 }
 
 [data-theme="dark"] {
-  --bg: oklch(10% 0.022 270);
-  --surface: oklch(13.5% 0.026 270);
-  --surface-raised: oklch(17% 0.026 270);
-  --surface-hover: oklch(20% 0.028 270);
-  --border: oklch(24% 0.028 270);
-  --border-subtle: oklch(19% 0.022 270);
-  --text: oklch(94% 0.01 270);
-  --text-muted: oklch(68% 0.016 270);
-  --text-dim: oklch(48% 0.016 270);
-  --glass: rgba(16, 15, 26, 0.92);
+  // v3 Hybrid Console palette — deeper ink, cleaner panels
+  --bg: #08080c;
+  --surface: #0c0c14;
+  --surface-raised: #11111a;
+  --surface-hover: #15151f;
+  --border: rgba(255, 255, 255, 0.10);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --text: #f0f0f4;
+  --text-muted: rgba(240, 240, 244, 0.65);
+  --text-dim: rgba(240, 240, 244, 0.45);
+  --glass: rgba(8, 8, 12, 0.85);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.4);
-  --shadow-hover: 0 10px 32px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-hover: 0 10px 32px rgba(0, 0, 0, 0.55);
+  color-scheme: dark;
 }
 
 // --- Reset ---
@@ -58,7 +62,7 @@
 html { -webkit-font-smoothing: antialiased; }
 
 body {
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -210,7 +214,7 @@ body {
 .mode-tab {
   padding: 5px 14px; border-radius: 6px;
   border: none; background: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 12.5px; font-weight: 600;
   color: var(--text-dim);
   cursor: pointer;
@@ -233,7 +237,7 @@ body {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 7px 14px; border-radius: 7px;
   border: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 13px; font-weight: 600;
   cursor: pointer;
   transition: all 0.18s ease;
@@ -332,7 +336,7 @@ body {
   }
 
   &__badge {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
     font-size: 11px; color: var(--text-dim);
     padding: 2px 8px;
     background: var(--surface-raised);
@@ -376,7 +380,7 @@ body {
   resize: none;
   border: none; outline: none;
   padding: 20px;
-  font-family: 'DM Mono', 'JetBrains Mono', monospace;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 13px; line-height: 1.7;
   background: var(--bg);
   color: var(--text);
@@ -566,7 +570,7 @@ body {
     border: 1px solid var(--accent-border);
     background: var(--accent-glow);
     color: var(--accent);
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 13px; font-weight: 600;
     cursor: pointer;
     transition: all 0.18s ease;
@@ -594,7 +598,7 @@ body {
     gap: 7px;
     border-width: 1.5px;
     color: var(--text-dim);
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 13px; font-weight: 500;
     background: transparent;
     border-radius: 9px;
@@ -614,7 +618,7 @@ body {
   background: var(--surface-raised);
   border: 1px solid var(--border);
   color: var(--text-dim);
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 // --- File list (shared) ---
@@ -659,7 +663,7 @@ body {
 
   &__meta {
     font-size: 11.5px; color: var(--text-dim);
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
     margin-top: 2px;
   }
 
@@ -752,7 +756,7 @@ body {
   &__val {
     font-size: 16px; font-weight: 800;
     color: var(--text);
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
     letter-spacing: -0.5px;
   }
 
@@ -771,11 +775,11 @@ body {
   }
 
   &__label { font-size: 12.5px; font-weight: 600; color: var(--text-muted); }
-  &__pct { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--accent); font-weight: 500; }
+  &__pct { font-size: 12px; font-family: 'JetBrains Mono', ui-monospace, monospace; color: var(--accent); font-weight: 500; }
 
   &__file {
     font-size: 11px; color: var(--text-dim);
-    margin-top: 6px; font-family: 'DM Mono', monospace;
+    margin-top: 6px; font-family: 'JetBrains Mono', ui-monospace, monospace;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 }
@@ -804,7 +808,7 @@ body {
   border: 1px solid var(--border); border-radius: 7px;
   background: var(--surface); color: var(--text-muted);
   cursor: pointer; transition: all 0.18s ease;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 14px; font-weight: 700;
 
   &:hover {

@@ -18,7 +18,7 @@
 .style-tab {
   padding: 5px 12px; border-radius: 6px;
   border: none; background: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 12px; font-weight: 600;
   color: var(--text-dim);
   cursor: pointer;
@@ -80,7 +80,7 @@
   padding: 9px 11px;
   border-radius: 7px;
   border: none; background: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 13px;
   color: var(--text-muted);
   cursor: pointer;
@@ -139,7 +139,7 @@
 
   // --- Style: Docs ---
   &.style-docs {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 15px; line-height: 1.75;
     color: var(--text);
 
@@ -151,7 +151,7 @@
     li { margin-bottom: 5px; color: var(--text-muted); }
     strong { color: var(--text); font-weight: 700; }
     code {
-      font-family: 'DM Mono', monospace; font-size: 0.875em;
+      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.875em;
       background: var(--accent-glow);
       border: 1px solid var(--accent-border);
       color: var(--accent-light);
@@ -203,7 +203,7 @@
 
   // --- Style: Word ---
   &.style-word {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 14px; line-height: 1.8;
     color: var(--text);
 
@@ -220,7 +220,7 @@
     li { margin-bottom: 4px; color: var(--text-muted); }
     strong { color: var(--text); }
     code {
-      font-family: 'DM Mono', monospace; font-size: 0.875em;
+      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.875em;
       background: var(--surface-raised);
       padding: 1px 5px; border-radius: 3px;
       word-break: break-all;
@@ -284,7 +284,7 @@
 
   &__kbd {
     display: inline-flex; align-items: center; gap: 3px;
-    font-family: 'DM Mono', monospace; font-size: 11px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px;
     background: var(--surface-raised);
     border: 1px solid var(--border);
     padding: 2px 6px; border-radius: 4px;
