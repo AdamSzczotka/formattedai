@@ -27,7 +27,7 @@ Available in Polish (default at root) and English (under /en/). Theme: light + d
 
 - [PDF Tools](https://formattedai.pl/pdf/) ([EN](https://formattedai.pl/en/pdf/)): Merge, split, compress PDFs and convert images to PDF. PDF.js + pdf-lib.
 - [HTML to PDF](https://formattedai.pl/html-to-pdf/) ([EN](https://formattedai.pl/en/html-to-pdf/)): Paste HTML code or URL — download a ready PDF file. html2pdf.js.
-- [Email Signature Builder](https://formattedai.pl/email-signature/) ([EN](https://formattedai.pl/en/email-signature/)): Email signature builder with HTML export for Outlook/Gmail/Thunderbird.
+<!-- - [Email Signature Builder](https://formattedai.pl/email-signature/) ([EN](https://formattedai.pl/en/email-signature/)): Email signature builder with HTML export for Outlook/Gmail/Thunderbird. (temporarily hidden) -->
 
 ## Tools — SEO
 
