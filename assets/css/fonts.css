@@ -56,8 +56,29 @@
 }
 
 /*
- * DM Sans / DM Mono — used by redesigned tool pages (light-first system).
- * TODO: replace Google Fonts CDN with local .ttf files in assets/fonts/
- * to keep 100% offline / no third-party requests (matches project ethos).
+ * Hybrid Console v3 — Space Grotesk (display) + Fraunces (serif logo wordmark).
+ * Self-hosted .woff2 (variable fonts). No third-party requests.
  */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/space-grotesk.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('../fonts/fraunces.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/fraunces-italic.woff') format('woff');
+}
