@@ -24,6 +24,7 @@
   <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
   <meta property="og:site_name" content="FormattedAI">
   <meta property="og:locale" content="pl">
+  <meta property="og:locale:alternate" content="en">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -74,249 +75,532 @@
   <!-- PWA -->
   <meta name="theme-color" content="#08080c">
 
-  <!-- Fonts & Styles -->
+  <!-- Theme bootstrap (no flash) -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme');
+      if (!t) t = 'dark';
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+
+  <!-- Fonts -->
   <link rel="stylesheet" href="assets/css/fonts.css">
+<!-- Styles -->
   <link rel="stylesheet" href="assets/css/home.css">
 </head>
 <body>
-  <div class="bg-effects" aria-hidden="true">
-    <div class="bg-effects__orb bg-effects__orb--1"></div>
-    <div class="bg-effects__orb bg-effects__orb--2"></div>
-    <div class="bg-effects__orb bg-effects__orb--3"></div>
-    <div class="bg-effects__grid"></div>
-  </div>
 
-  <div class="app">
-    <nav class="navbar" role="navigation">
-      <a href="/" class="navbar__brand">
-        <div class="navbar__logo" aria-hidden="true">
-          <svg class="navbar__logo-svg" viewBox="0 0 32 32" fill="none">
-            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
-            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30">
-                <stop stop-color="#a78bfa"/>
-                <stop offset="1" stop-color="#6c5ce7"/>
-              </linearGradient>
-              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30">
-                <stop stop-color="rgba(108,92,231,0.3)"/>
-                <stop offset="1" stop-color="rgba(167,139,250,0.1)"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <div>
-          <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
-          <p class="navbar__subtitle">Narzędzia webdev • 100% client-side</p>
-        </div>
-      </a>
-      <div class="navbar__nav">
-        <a href="/" class="navbar__link navbar__link--active">Narzędzia</a>
-        <a href="/articles/" class="navbar__link">Artykuły</a>
-        <a href="/about/" class="navbar__link">O nas</a>
-        <a href="https://formattedai.pl/en/" class="navbar__link">EN</a>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
-          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        </button>
-        <a href="https://github.com/AdamSzczotka/formattedai" class="navbar__link" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-      </div>
+  <!-- ====== NAV ====== -->
+  <header class="fa-nav" id="faNav" role="banner">
+    <a href="/" class="fa-nav__brand" aria-label="FormattedAI — strona główna">
+      <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#a78bfa"/>
+            <stop offset="1" stop-color="#5b4bd4"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+        <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+        <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+      </svg>
+      <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+    </a>
+
+    <nav class="fa-nav__links" role="navigation">
+      <a href="/narzedzia/" class="fa-nav__link">Narzędzia</a>
+      <a href="#how" class="fa-nav__link">Jak to działa</a>
+      <a href="/articles/" class="fa-nav__link">Dziennik</a>
+      <a href="/about/" class="fa-nav__link">O projekcie</a>
     </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
 
-    <main>
-      <section class="hero">
+
+    <div class="fa-nav__right">
+      <a href="/en/" class="fa-nav__lang" hreflang="en">EN</a>
+      <button class="fa-nav__theme" id="themeToggle" type="button" aria-label="Przełącz motyw jasny/ciemny">
+        <svg class="fa-theme__moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="fa-theme__sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <a href="https://github.com/AdamSzczotka/formattedai" class="fa-nav__gh" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ====== HERO ====== -->
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__bg-mesh"></div>
+        <div class="hero__bg-grid"></div>
+        <div class="hero__bg-orb"></div>
+      </div>
+
+      <div class="hero__left">
         <div class="hero__badge">
           <span class="hero__badge-dot"></span>
-          100% client-side
+          100% client-side · zero uploadu
         </div>
-        <h1 class="hero__title">Twoje dane <span>nigdy</span> nie opuszczają urządzenia</h1>
-        <p class="hero__desc">Darmowe narzędzia dla web developerów. Wszystko działa w przeglądarce — zero uploadu na serwer, pełna prywatność.</p>
-        <div class="hero__security">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L3 3.5V7c0 3.5 2.1 6.3 5 7.5 2.9-1.2 5-4 5-7.5V3.5L8 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 8l1.5 1.5L10 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>Zero danych wysyłanych na serwer</span>
+        <h1 class="hero__title">
+          Narzędzia, które<br>
+          nie widzą<br>
+          <span class="hero__title-hl">Twoich danych.</span>
+        </h1>
+        <p class="hero__desc">
+          Markdown formatter, konwertery obrazów, narzędzia PDF, generator SEO &amp; GEO.
+          Wszystko działa w przeglądarce — bez kont, bez cookies, bez śledzenia.
+        </p>
+        <div class="hero__ctas">
+          <a href="/formatter/" class="fa-btn fa-btn--primary">
+            Otwórz Markdown Formatter
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="/narzedzia/" class="fa-btn fa-btn--ghost">Wszystkie narzędzia →</a>
         </div>
-      </section>
-
-      <section class="tools">
-        <div class="tools__header">
-          <h2 class="tools__title">Narzędzia</h2>
-          <span class="tools__count">8 aktywnych • 2 w przygotowaniu</span>
+        <div class="hero__proof">
+          <span class="hero__proof-k">10</span> aktywnych ·
+          <span class="hero__proof-k">0</span> bajtów na serwerze ·
+          <span class="hero__proof-k">MIT</span> open source
         </div>
-        <div class="tools__grid">
+      </div>
 
-          <!-- Formatter — LIVE -->
-          <a href="/formatter/" class="tool-card">
-            <div class="tool-card__icon tool-card__icon--purple">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="tool-card__name">Markdown Formatter</h3>
-            <p class="tool-card__desc">Wklej tekst z ChatGPT lub Claude i skopiuj idealnie sformatowany dokument do Google Docs lub Microsoft Word.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--live">Dostępne</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
+      <div class="hero__right">
+        <div class="demo-tabs" role="tablist" aria-label="Wybierz demo narzędzia">
+          <button class="demo-tab is-active" data-demo="markdown" type="button" role="tab" aria-selected="true">Markdown Formatter</button>
+          <button class="demo-tab" data-demo="avif" type="button" role="tab" aria-selected="false">AVIF Converter</button>
+          <button class="demo-tab" data-demo="pdf" type="button" role="tab" aria-selected="false">PDF Tools</button>
+        </div>
 
-          <!-- AVIF Converter — LIVE -->
-          <a href="/avif/" class="tool-card">
-            <div class="tool-card__icon tool-card__icon--blue">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="demo">
+          <div class="demo__chrome">
+            <div class="demo__dots">
+              <span class="demo__dot" style="background:#ff5f57"></span>
+              <span class="demo__dot" style="background:#febc2e"></span>
+              <span class="demo__dot" style="background:#28c840"></span>
             </div>
-            <h3 class="tool-card__name">AVIF Converter</h3>
-            <p class="tool-card__desc">Konwertuj obrazki PNG, JPG i WebP na nowoczesny format AVIF. Kompresja bezpośrednio w przeglądarce.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--live">Dostępne</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
-
-          <!-- CSS Minifier — LIVE -->
-          <a href="/css-minifier/" class="tool-card">
-            <div class="tool-card__icon tool-card__icon--green">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="tool-card__name">CSS Minifier</h3>
-            <p class="tool-card__desc">Minifikuj i formatuj CSS. Zmniejsz rozmiar plików stylów bez utraty funkcjonalności.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--live">Dostępne</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
-
-          <!-- PDF Tools — LIVE -->
-          <a href="/pdf/" class="tool-card">
-            <div class="tool-card__icon tool-card__icon--red">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 13h2a1 1 0 010 2H9v2m0-4v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="tool-card__name">PDF Tools</h3>
-            <p class="tool-card__desc">Łącz, dziel, kompresuj pliki PDF i konwertuj obrazki na PDF. 100% w przeglądarce — zero uploadu na serwer.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--live">Dostępne</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
-
-          <!-- JSON Formatter — COMING SOON -->
-          <div class="tool-card tool-card--coming-soon">
-            <div class="tool-card__icon tool-card__icon--orange">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 3H7a2 2 0 00-2 2v5a2 2 0 01-2 2 2 2 0 012 2v5a2 2 0 002 2h1M16 3h1a2 2 0 012 2v5a2 2 0 002 2 2 2 0 00-2 2v5a2 2 0 01-2 2h-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="tool-card__name">JSON Formatter</h3>
-            <p class="tool-card__desc">Formatuj, waliduj i minifikuj JSON. Podświetlanie składni i wykrywanie błędów w czasie rzeczywistym.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--soon">Wkrótce</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
+            <div class="demo__url" id="demoUrl">formattedai.pl/formatter/</div>
+            <div class="demo__secure">● client-side</div>
           </div>
 
-          <!-- SEO & GEO Tag Generator — LIVE -->
-          <a href="/seo-geo/" class="tool-card">
-            <div class="tool-card__icon tool-card__icon--pink">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="tool-card__name">SEO &amp; GEO Tag Generator</h3>
-            <p class="tool-card__desc">Generuj meta tagi SEO, Open Graph, Schema.org i optymalizuj pod AI wyszukiwarki (GEO).</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--live">Dostępne</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
+          <div class="demo__body">
+            <!-- Markdown demo -->
+            <div class="demo__pane is-active" data-demo="markdown">
+              <div class="demo__panel">
+                <div class="demo__panel-head"><span>INPUT · Markdown z ChatGPT</span></div>
+                <pre class="demo__code"># Plan tygodnia
 
-          <!-- JS Minifier — LIVE -->
-          <a href="/js-minifier/" class="tool-card">
-            <div class="tool-card__icon tool-card__icon--orange">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="tool-card__name">JS Minifier</h3>
-            <p class="tool-card__desc">Minifikuj i formatuj JavaScript. Zmniejsz rozmiar plików JS lub sformatuj zminifikowany kod.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--live">Dostępne</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
+## Poniedziałek
+- [ ] Briefing redakcyjny
+- [ ] **Spotkanie** o 14:00
+- [x] Code review
 
-          <!-- HTML to PDF — LIVE -->
-          <a href="/html-to-pdf/" class="tool-card">
-            <div class="tool-card__icon tool-card__icon--cyan">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18v-6M9 15l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="tool-card__name">HTML to PDF</h3>
-            <p class="tool-card__desc">Konwertuj kod HTML na PDF. Wklej kod lub podaj URL i pobierz gotowy plik PDF.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--live">Dostępne</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
+&gt; „Dobre formatowanie to oszczędność
+&gt; czasu." — Adam
 
-          <!-- HEIC Converter — LIVE -->
-          <a href="/heic/" class="tool-card">
-            <div class="tool-card__icon tool-card__icon--orange">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="8.5" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M21 15l-5-5L4 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 3v3h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/></svg>
+| Dzień | Status |
+|-------|--------|
+| Pn    | gotowe |
+| Wt    | trwa   |</pre>
+              </div>
+              <div class="demo__arrow" aria-hidden="true">→</div>
+              <div class="demo__panel">
+                <div class="demo__panel-head">
+                  <span>OUTPUT · Word / Docs</span>
+                  <span style="color:var(--accent-light)">⌘C kopia</span>
+                </div>
+                <div class="demo__paper">
+                  <h3>Plan tygodnia</h3>
+                  <h4>Poniedziałek</h4>
+                  <ul>
+                    <li>☐ Briefing redakcyjny</li>
+                    <li>☐ <strong>Spotkanie</strong> o 14:00</li>
+                    <li>☑ Code review</li>
+                  </ul>
+                  <blockquote>„Dobre formatowanie to oszczędność czasu." — Adam</blockquote>
+                  <table>
+                    <tbody>
+                      <tr><th>Dzień</th><th>Status</th></tr>
+                      <tr><td>Pn</td><td>gotowe</td></tr>
+                      <tr><td>Wt</td><td>trwa</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <h3 class="tool-card__name">HEIC Converter</h3>
-            <p class="tool-card__desc">Konwertuj zdjęcia HEIC/HEIF z iPhone na JPG, PNG lub AVIF. 100% w przeglądarce — zero uploadu.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--live">Dostępne</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
 
-          <!-- Color Palette — COMING SOON -->
-          <div class="tool-card tool-card--coming-soon">
-            <div class="tool-card__icon tool-card__icon--cyan">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9z" stroke="currentColor" stroke-width="1.5"/><circle cx="6.5" cy="11.5" r="1.5" fill="currentColor"/><circle cx="9.5" cy="7.5" r="1.5" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.5" fill="currentColor"/><circle cx="17.5" cy="11.5" r="1.5" fill="currentColor"/></svg>
+            <!-- AVIF demo -->
+            <div class="demo__pane" data-demo="avif">
+              <div class="demo__panel">
+                <div class="demo__panel-head"><span>INPUT · 4 pliki PNG · 12.4 MB</span></div>
+                <div class="demo__files">
+                  <div class="demo__file"><div class="demo__file-icon">·</div><div class="demo__file-name">hero-shot.png</div><div class="demo__file-size">4.2 MB</div></div>
+                  <div class="demo__file"><div class="demo__file-icon">·</div><div class="demo__file-name">product-01.png</div><div class="demo__file-size">3.1 MB</div></div>
+                  <div class="demo__file"><div class="demo__file-icon">·</div><div class="demo__file-name">product-02.png</div><div class="demo__file-size">2.8 MB</div></div>
+                  <div class="demo__file"><div class="demo__file-icon">·</div><div class="demo__file-name">lifestyle.png</div><div class="demo__file-size">2.3 MB</div></div>
+                </div>
+              </div>
+              <div class="demo__arrow" aria-hidden="true">→</div>
+              <div class="demo__panel">
+                <div class="demo__panel-head"><span>OUTPUT · AVIF · 3.1 MB · −75%</span><span style="color:var(--accent-light)">⌘D pobierz</span></div>
+                <div class="demo__files">
+                  <div class="demo__file"><div class="demo__file-icon">✓</div><div class="demo__file-name">hero-shot.avif</div><div class="demo__file-size">1.0 MB</div><div class="demo__file-delta">−76%</div></div>
+                  <div class="demo__file"><div class="demo__file-icon">✓</div><div class="demo__file-name">product-01.avif</div><div class="demo__file-size">0.8 MB</div><div class="demo__file-delta">−74%</div></div>
+                  <div class="demo__file"><div class="demo__file-icon">✓</div><div class="demo__file-name">product-02.avif</div><div class="demo__file-size">0.7 MB</div><div class="demo__file-delta">−75%</div></div>
+                  <div class="demo__file"><div class="demo__file-icon">✓</div><div class="demo__file-name">lifestyle.avif</div><div class="demo__file-size">0.6 MB</div><div class="demo__file-delta">−74%</div></div>
+                </div>
+              </div>
             </div>
-            <h3 class="tool-card__name">Color Palette</h3>
-            <p class="tool-card__desc">Generuj harmonijne palety kolorów. Konwertuj między HEX, RGB, HSL. Sprawdzaj kontrast WCAG.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--soon">Wkrótce</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+            <!-- PDF demo -->
+            <div class="demo__pane" data-demo="pdf">
+              <div class="demo__panel">
+                <div class="demo__panel-head"><span>INPUT · 3 pliki PDF</span></div>
+                <div class="demo__files">
+                  <div class="demo__file"><div class="demo__file-icon">·</div><div class="demo__file-name">raport-q1.pdf</div><div class="demo__file-size">2.1 MB · 42 strony</div></div>
+                  <div class="demo__file"><div class="demo__file-icon">·</div><div class="demo__file-name">raport-q2.pdf</div><div class="demo__file-size">2.6 MB · 51 stron</div></div>
+                  <div class="demo__file"><div class="demo__file-icon">·</div><div class="demo__file-name">zalaczniki.pdf</div><div class="demo__file-size">1.8 MB · 31 stron</div></div>
+                </div>
+              </div>
+              <div class="demo__arrow" aria-hidden="true">→</div>
+              <div class="demo__panel">
+                <div class="demo__panel-head"><span>OUTPUT · merged.pdf · 124 strony</span></div>
+                <div class="demo__files">
+                  <div class="demo__file"><div class="demo__file-icon">✓</div><div class="demo__file-name">merged-2026-04.pdf</div><div class="demo__file-size">6.2 MB · 124 strony</div><div class="demo__file-delta">ready</div></div>
+                  <div class="demo__log">
+                    <div>· łączenie zachowuje zakładki</div>
+                    <div>· kompresja: 6.5 MB → 6.2 MB</div>
+                    <div>· numeracja stron: spójna</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
-          <!-- Feedback — SUGGEST A TOOL -->
-          <a href="mailto:adam.szczotka0@gmail.com?subject=Pomys%C5%82%20na%20narz%C4%99dzie%20FormattedAI" class="tool-card tool-card--feedback" id="feedbackCard">
-            <div class="tool-card__icon tool-card__icon--amber">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V17a1 1 0 001 1h6a1 1 0 001-1v-2.3A7 7 0 0012 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <h3 class="tool-card__name">Nie widzisz czego szukasz?</h3>
-            <p class="tool-card__desc">Zaproponuj nowe narzędzie lub zgłoś błąd. Bez formularzy, bez cookies — piszesz bezpośrednio.</p>
-            <div class="tool-card__footer">
-              <span class="tool-card__tag tool-card__tag--amber">Napisz do nas</span>
-              <svg class="tool-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
-
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <footer class="footer" role="contentinfo">
-      <p class="footer__text">
-        <span>Stworzone przez</span>
-        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
-          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Adam Szczotka
+    <!-- ====== TRUST BAR ====== -->
+    <section class="trust" aria-label="Liczby">
+      <div class="trust__item">
+        <div class="trust__k">0</div>
+        <div class="trust__l">bajtów wysłanych na serwer</div>
+      </div>
+      <div class="trust__item">
+        <div class="trust__k">10/12</div>
+        <div class="trust__l">narzędzi w produkcji</div>
+      </div>
+      <div class="trust__item">
+        <div class="trust__k">100%</div>
+        <div class="trust__l">otwarty kod na GitHubie</div>
+      </div>
+      <div class="trust__item">
+        <div class="trust__k">WASM</div>
+        <div class="trust__l">natywna szybkość lokalnie</div>
+      </div>
+    </section>
+
+    <!-- ====== TOOLS (4 categories with tabs) ====== -->
+    <section class="tools-sec" id="tools">
+      <header class="tools-sec__head">
+        <span class="fa-eyebrow">/ NARZĘDZIA · 10 / 12 aktywnych</span>
+        <h2 class="tools-sec__title">Cztery rejestry. Jeden manifest.</h2>
+        <p class="tools-sec__sub">Pogrupowane tematycznie — wybierz kategorię, żeby zawęzić listę.</p>
+      </header>
+
+      <div class="tabs" role="tablist" aria-label="Kategorie narzędzi">
+        <button class="tab is-active" data-cat="text" role="tab" aria-selected="true" type="button">
+          <span class="tab__n">01</span><span class="tab__name">Tekst</span><span class="tab__count">4</span>
+        </button>
+        <button class="tab" data-cat="img" role="tab" aria-selected="false" type="button">
+          <span class="tab__n">02</span><span class="tab__name">Obrazy</span><span class="tab__count">4</span>
+        </button>
+        <button class="tab" data-cat="doc" role="tab" aria-selected="false" type="button">
+          <span class="tab__n">03</span><span class="tab__name">Dokumenty</span><span class="tab__count">3</span>
+        </button>
+        <button class="tab" data-cat="seo" role="tab" aria-selected="false" type="button">
+          <span class="tab__n">04</span><span class="tab__name">SEO</span><span class="tab__count">1</span>
+        </button>
+      </div>
+
+      <div class="cat-body">
+        <!-- TEXT -->
+        <div class="cat-body__pane is-active" data-cat="text">
+          <aside class="cat-aside">
+            <div class="cat-aside__n">01 · Text</div>
+            <h3 class="cat-aside__title">Tekst</h3>
+            <p class="cat-aside__desc">Markdown, kod, dane tekstowe.</p>
+            <div class="cat-aside__stat"><span>3 aktywne</span><span style="color:var(--text-dim)">·</span><span>1 w przygotowaniu</span></div>
+          </aside>
+          <div class="cat-list">
+            <a href="/formatter/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head">
+                  <span class="tool-row__name">Markdown Formatter</span>
+                  <span class="tool-row__badge">najczęściej używane</span>
+                </div>
+                <p class="tool-row__desc">Wklej tekst z ChatGPT lub Claude — skopiuj idealny dokument do Word lub Docs.</p>
+              </div>
+              <div class="tool-row__side">
+                <span class="tool-row__status tool-row__status--live">● dostępne</span>
+                <span class="tool-row__arrow" aria-hidden="true">→</span>
+              </div>
+            </a>
+            <a href="/js-minifier/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head">
+                  <span class="tool-row__name">JS Minifier</span>
+                </div>
+                <p class="tool-row__desc">Esbuild + Terser w przeglądarce. Minifikacja, formatowanie, podgląd różnic.</p>
+              </div>
+              <div class="tool-row__side">
+                <span class="tool-row__status tool-row__status--live">● dostępne</span>
+                <span class="tool-row__arrow" aria-hidden="true">→</span>
+              </div>
+            </a>
+            <a href="/css-minifier/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head">
+                  <span class="tool-row__name">CSS Minifier</span>
+                </div>
+                <p class="tool-row__desc">CSSO + js-beautify. Zachowuje source map, sprawdza składnię.</p>
+              </div>
+              <div class="tool-row__side">
+                <span class="tool-row__status tool-row__status--live">● dostępne</span>
+                <span class="tool-row__arrow" aria-hidden="true">→</span>
+              </div>
+            </a>
+            <div class="tool-row tool-row--soon">
+              <div class="tool-row__main">
+                <div class="tool-row__head">
+                  <span class="tool-row__name">JSON Formatter</span>
+                </div>
+                <p class="tool-row__desc">Walidacja, drzewo, wyszukiwanie po kluczu. W przygotowaniu.</p>
+              </div>
+              <div class="tool-row__side">
+                <span class="tool-row__status tool-row__status--soon">○ wkrótce</span>
+                <span class="tool-row__arrow" aria-hidden="true">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IMAGES -->
+        <div class="cat-body__pane" data-cat="img">
+          <aside class="cat-aside">
+            <div class="cat-aside__n">02 · Images</div>
+            <h3 class="cat-aside__title">Obrazy</h3>
+            <p class="cat-aside__desc">Konwersja, kompresja, OCR — przez WebAssembly.</p>
+            <div class="cat-aside__stat"><span>3 aktywne</span><span style="color:var(--text-dim)">·</span><span>1 w przygotowaniu</span></div>
+          </aside>
+          <div class="cat-list">
+            <a href="/avif/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head">
+                  <span class="tool-row__name">AVIF Converter</span>
+                  <span class="tool-row__badge">WASM</span>
+                </div>
+                <p class="tool-row__desc">PNG / JPG / WebP → AVIF. Batch, presety jakości, eksport ZIP.</p>
+              </div>
+              <div class="tool-row__side"><span class="tool-row__status tool-row__status--live">● dostępne</span><span class="tool-row__arrow" aria-hidden="true">→</span></div>
+            </a>
+            <a href="/heic/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head"><span class="tool-row__name">HEIC Converter</span></div>
+                <p class="tool-row__desc">Zdjęcia z iPhone na JPG, PNG lub AVIF. Bez instalacji.</p>
+              </div>
+              <div class="tool-row__side"><span class="tool-row__status tool-row__status--live">● dostępne</span><span class="tool-row__arrow" aria-hidden="true">→</span></div>
+            </a>
+            <a href="/ocr/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head"><span class="tool-row__name">OCR</span></div>
+                <p class="tool-row__desc">Rozpoznawanie tekstu z obrazu. Tesseract.js, 100+ języków.</p>
+              </div>
+              <div class="tool-row__side"><span class="tool-row__status tool-row__status--live">● dostępne</span><span class="tool-row__arrow" aria-hidden="true">→</span></div>
+            </a>
+            <div class="tool-row tool-row--soon">
+              <div class="tool-row__main">
+                <div class="tool-row__head"><span class="tool-row__name">Color Palette</span></div>
+                <p class="tool-row__desc">Generator harmonijnych palet, HEX/RGB/HSL, kontrast WCAG.</p>
+              </div>
+              <div class="tool-row__side"><span class="tool-row__status tool-row__status--soon">○ wkrótce</span><span class="tool-row__arrow" aria-hidden="true">→</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCUMENTS -->
+        <div class="cat-body__pane" data-cat="doc">
+          <aside class="cat-aside">
+            <div class="cat-aside__n">03 · Documents</div>
+            <h3 class="cat-aside__title">Dokumenty</h3>
+            <p class="cat-aside__desc">PDF, HTML, eksport gotowy do wysłania.</p>
+            <div class="cat-aside__stat"><span>3 aktywne</span></div>
+          </aside>
+          <div class="cat-list">
+            <a href="/pdf/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head">
+                  <span class="tool-row__name">PDF Tools</span>
+                  <span class="tool-row__badge">najpopularniejsze</span>
+                </div>
+                <p class="tool-row__desc">Łącz, dziel, kompresuj, konwertuj obrazki na PDF.</p>
+              </div>
+              <div class="tool-row__side"><span class="tool-row__status tool-row__status--live">● dostępne</span><span class="tool-row__arrow" aria-hidden="true">→</span></div>
+            </a>
+            <a href="/html-to-pdf/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head"><span class="tool-row__name">HTML to PDF</span></div>
+                <p class="tool-row__desc">Wklej kod lub URL — pobierz gotowy plik PDF.</p>
+              </div>
+              <div class="tool-row__side"><span class="tool-row__status tool-row__status--live">● dostępne</span><span class="tool-row__arrow" aria-hidden="true">→</span></div>
+            </a>
+            <!-- Email Signature — tymczasowo ukryte przed publikacją
+            <a href="/email-signature/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head"><span class="tool-row__name">Email Signature</span></div>
+                <p class="tool-row__desc">Kreator stopek mailowych, eksport HTML do Outlook/Gmail.</p>
+              </div>
+              <div class="tool-row__side"><span class="tool-row__status tool-row__status--live">● dostępne</span><span class="tool-row__arrow" aria-hidden="true">→</span></div>
+            </a>
+            -->
+          </div>
+        </div>
+
+        <!-- SEO -->
+        <div class="cat-body__pane" data-cat="seo">
+          <aside class="cat-aside">
+            <div class="cat-aside__n">04 · Search</div>
+            <h3 class="cat-aside__title">SEO</h3>
+            <p class="cat-aside__desc">Klasyczny SEO + GEO pod AI wyszukiwarki.</p>
+            <div class="cat-aside__stat"><span>1 aktywne</span></div>
+          </aside>
+          <div class="cat-list">
+            <a href="/seo-geo/" class="tool-row tool-row--live">
+              <div class="tool-row__main">
+                <div class="tool-row__head">
+                  <span class="tool-row__name">SEO &amp; GEO Generator</span>
+                  <span class="tool-row__badge">GEO ready</span>
+                </div>
+                <p class="tool-row__desc">Meta + Open Graph + Twitter + Schema.org + llms.txt + robots.txt.</p>
+              </div>
+              <div class="tool-row__side"><span class="tool-row__status tool-row__status--live">● dostępne</span><span class="tool-row__arrow" aria-hidden="true">→</span></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== HOW IT WORKS ====== -->
+    <section class="how" id="how">
+      <div class="how__inner">
+        <div class="how__label">/ JAK TO DZIAŁA</div>
+        <h2 class="how__title">Twój plik nigdy nie wychodzi<br>poza tę kartę przeglądarki.</h2>
+
+        <div class="how__steps">
+          <div class="step">
+            <div class="step__n">01</div>
+            <h3 class="step__title">Wczytujesz</h3>
+            <p class="step__body">Drag &amp; drop, paste lub file picker. Pliki ładują się do pamięci przeglądarki — nigdzie więcej.</p>
+          </div>
+          <div class="step">
+            <div class="step__n">02</div>
+            <h3 class="step__title">Przetwarzamy lokalnie</h3>
+            <p class="step__body">JavaScript + WebAssembly robi robotę procesora natywnie. Zero żądań sieciowych.</p>
+          </div>
+          <div class="step">
+            <div class="step__n">03</div>
+            <h3 class="step__title">Pobierasz wynik</h3>
+            <p class="step__body">Jeden klik, pełna jakość, nazewnictwo zachowane. Możesz zamknąć kartę bez śladów.</p>
+          </div>
+        </div>
+
+        <div class="how__net">
+          <div class="how__net-title">Co wysyłamy na serwer:</div>
+          <div class="how__net-big">nic.</div>
+          <div class="how__net-sub">Dosłownie. Devtools → Network: jedyne requesty to pierwsze załadowanie strony i fontów Google.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== BLOG STRIP ====== -->
+    <section class="blog-strip">
+      <div class="blog-strip__head">
+        <div>
+          <div class="blog-strip__label">/ DZIENNIK · 4 wpisy</div>
+          <h2 class="blog-strip__title">Co się ostatnio działo</h2>
+        </div>
+        <a href="/articles/" class="blog-strip__all">Wszystkie wpisy →</a>
+      </div>
+
+      <div class="blog-strip__grid">
+        <a href="/articles/chatgpt-formatowanie-google-docs/" class="blog-feature">
+          <div class="blog-feature__img">
+            <span class="blog-feature__tag">Markdown</span>
+          </div>
+          <div class="blog-feature__body">
+            <div class="blog-feature__meta">04 / 2026 · 6 min czytania</div>
+            <h3 class="blog-feature__title">ChatGPT i formatowanie w Google Docs</h3>
+            <p class="blog-feature__desc">Dlaczego markdown z AI psuje się w Word i jak to naprawić w jednym kliknięciu.</p>
+            <span class="blog-feature__more">Czytaj artykuł →</span>
+          </div>
         </a>
-      </p>
-      <div class="footer__badge">
-        <span class="footer__badge__dot"></span>
-        <span>100% client-side — zero danych na serwerze</span>
-      </div>
-      <div class="footer__links">
-        <a href="/articles/" class="footer__link">Artykuły</a>
-        <a href="/about/" class="footer__link">O nas</a>
-        <a href="/privacy/" class="footer__link">Prywatność</a>
-        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link">Kontakt</a>
-        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
-      </div>
-    </footer>
-  </div>
 
-  <!-- SEO Content Section -->
+        <ul class="blog-list">
+          <li><a href="/articles/geo-optymalizacja-pod-ai/" class="blog-list__item">
+            <div class="blog-list__meta">03 / 2026 · 8 min</div>
+            <div class="blog-list__title">GEO — optymalizacja pod AI wyszukiwarki</div>
+            <p class="blog-list__desc">Schema.org, llms.txt, robots.txt — co naprawdę robi różnicę dla ChatGPT Search i Perplexity.</p>
+            <span class="blog-list__tag">SEO</span>
+          </a></li>
+          <li><a href="/articles/optymalizacja-zdjec-avif/" class="blog-list__item">
+            <div class="blog-list__meta">02 / 2026 · 5 min</div>
+            <div class="blog-list__title">Optymalizacja zdjęć w formacie AVIF</div>
+            <p class="blog-list__desc">50% mniejsze pliki przy tej samej jakości. Praktyczny przewodnik.</p>
+            <span class="blog-list__tag">Obrazy</span>
+          </a></li>
+          <li><a href="/articles/pdf-darmowe-narzedzia-online/" class="blog-list__item">
+            <div class="blog-list__meta">01 / 2026 · 7 min</div>
+            <div class="blog-list__title">PDF — darmowe narzędzia online bez serwera</div>
+            <p class="blog-list__desc">Łączenie, dzielenie i kompresja PDF w przeglądarce. Test 7 alternatyw.</p>
+            <span class="blog-list__tag">Dokumenty</span>
+          </a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ====== MANIFEST ====== -->
+    <section class="manifest">
+      <div class="manifest__inner">
+        <div class="manifest__label">/ MANIFEST</div>
+        <h2 class="manifest__title">
+          Tradycyjne narzędzia online widzą wszystko.<br>
+          <span class="manifest__title-hl">Nasze nie widzą niczego.</span>
+        </h2>
+        <div class="manifest__cols">
+          <div>
+            <div class="manifest__col-label">01 — DLACZEGO</div>
+            <p class="manifest__col-body">Każde uploadowane dziś narzędzie online to potencjalny wyciek danych. Dokumenty, faktury, zdjęcia — wszystko ląduje na cudzych dyskach.</p>
+          </div>
+          <div>
+            <div class="manifest__col-label">02 — JAK</div>
+            <p class="manifest__col-body">WebAssembly i nowoczesne API przeglądarki pozwalają zrobić lokalnie to, co kiedyś wymagało serwera. Bez kompromisu w jakości i szybkości.</p>
+          </div>
+          <div>
+            <div class="manifest__col-label">03 — CO</div>
+            <p class="manifest__col-body">Jedno miejsce, otwarty kod na GitHubie. Brak telemetrii, cookies i plotek o Tobie u trzecich stron.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====== SEO CONTENT (preserved) ====== -->
   <section class="seo-content">
     <div class="seo-content__inner">
       <h2>Darmowe narzędzia webdev — 100% client-side, pełna prywatność</h2>
@@ -325,31 +609,143 @@
       <h2>Dostępne narzędzia</h2>
       <p><strong>Markdown Formatter</strong> — Wklej tekst z ChatGPT, Claude lub innego asystenta AI i skopiuj idealnie sformatowany dokument do Google Docs lub Microsoft Word. Obsługuje tabele, bloki kodu, listy zadań. Eksport do HTML, DOCX i Markdown.</p>
       <p><strong>AVIF Converter</strong> — Konwertuj obrazki PNG, JPG i WebP na nowoczesny format AVIF z do 50% lepszą kompresją. Konwersja wielu plików z presetami jakości i pobieraniem ZIP. WebAssembly dla uniwersalnego wsparcia przeglądarek.</p>
-      <p><strong>SEO & GEO Tag Generator</strong> — Generuj meta tagi SEO, Open Graph, Twitter Cards, Schema.org JSON-LD, llms.txt i robots.txt. Pierwsze narzędzie łączące klasyczne SEO z Generative Engine Optimization (GEO).</p>
+      <p><strong>SEO &amp; GEO Tag Generator</strong> — Generuj meta tagi SEO, Open Graph, Twitter Cards, Schema.org JSON-LD, llms.txt i robots.txt. Pierwsze narzędzie łączące klasyczne SEO z Generative Engine Optimization (GEO).</p>
       <p><strong>PDF Tools</strong> — Łącz, dziel, kompresuj pliki PDF i konwertuj obrazki na PDF. Wszystko działa w przeglądarce — Twoje dokumenty nigdy nie opuszczają urządzenia.</p>
       <p><strong>HTML to PDF</strong> — Konwertuj kod HTML na dokument PDF. Wklej kod źródłowy lub podaj adres URL strony i pobierz gotowy plik PDF z zachowaniem stylów i układu.</p>
-      <p><strong>HEIC Converter</strong> — Konwertuj zdjęcia HEIC/HEIF z iPhone'a i iPada na JPG, PNG lub nowoczesny AVIF. Wybierz format, ustaw jakość i pobierz pliki. Dekodowanie WASM, 100% po stronie klienta.</p>
       <p><strong>HEIC Converter</strong> — Konwertuj zdjęcia HEIC/HEIF z iPhone i iPad na JPG, PNG lub nowoczesny AVIF. Wybierz format wyjściowy, ustaw jakość i pobierz pliki. Dekodowanie przez WebAssembly, 100% client-side.</p>
+      <p><strong>OCR</strong> — Rozpoznawaj tekst z obrazów i skanów. Tesseract.js w WebAssembly, ponad 100 języków, eksport do TXT/Markdown. Pliki nie opuszczają przeglądarki.</p>
 
       <h2>Dlaczego client-side?</h2>
       <p>Tradycyjne narzędzia webowe wysyłają Twoje dane na serwer. FormattedAI działa inaczej — całe przetwarzanie odbywa się w przeglądarce przez JavaScript i WebAssembly. Twoje dokumenty, obrazki i metadane zostają na Twoim urządzeniu.</p>
 
       <h2>Czym jest GEO (Generative Engine Optimization)?</h2>
-      <p>GEO to następna ewolucja SEO. AI wyszukiwarki (ChatGPT Search, Perplexity, Google AI Overview) stają się standardem. Generator SEO & GEO Tag pomaga tworzyć dane strukturalne Schema.org, pliki llms.txt i konfigurować robots.txt pod AI crawlery.</p>
+      <p>GEO to następna ewolucja SEO. AI wyszukiwarki (ChatGPT Search, Perplexity, Google AI Overview) stają się standardem. Generator SEO &amp; GEO Tag pomaga tworzyć dane strukturalne Schema.org, pliki llms.txt i konfigurować robots.txt pod AI crawlery.</p>
     </div>
   </section>
 
+  <!-- ====== FOOTER ====== -->
+  <footer class="fa-footer" role="contentinfo">
+    <div class="fa-footer__cta">
+      <h2 class="fa-footer__cta-title">Zacznij od narzędzia,<br>którego najczęściej potrzebujesz.</h2>
+      <div class="fa-footer__cta-list">
+        <a href="/formatter/" class="fa-footer__cta-pill">Markdown Formatter</a>
+        <a href="/avif/" class="fa-footer__cta-pill">AVIF Converter</a>
+        <a href="/pdf/" class="fa-footer__cta-pill">PDF Tools</a>
+        <a href="/seo-geo/" class="fa-footer__cta-pill">SEO &amp; GEO</a>
+      </div>
+    </div>
+
+    <div class="fa-footer__cols">
+      <div>
+        <a href="/" style="display:inline-flex;align-items:center;gap:12px;text-decoration:none">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+            <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+            <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+          </svg>
+          <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+        </a>
+        <p class="fa-footer__byline">Stworzone przez <a href="https://adamszczotka.dev" target="_blank" rel="noopener">Adama Szczotkę ↗</a></p>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Narzędzia</div>
+        <a href="/formatter/" class="fa-footer__link">Markdown Formatter</a>
+        <a href="/avif/" class="fa-footer__link">AVIF Converter</a>
+        <a href="/heic/" class="fa-footer__link">HEIC Converter</a>
+        <a href="/pdf/" class="fa-footer__link">PDF Tools</a>
+        <a href="/html-to-pdf/" class="fa-footer__link">HTML to PDF</a>
+        <a href="/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Treść</div>
+        <a href="/articles/" class="fa-footer__link">Dziennik</a>
+        <a href="/about/" class="fa-footer__link">O projekcie</a>
+        <a href="/llms.txt" class="fa-footer__link">llms.txt</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Kod &amp; kontakt</div>
+        <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+        <a href="https://github.com/AdamSzczotka/formattedai/issues" target="_blank" rel="noopener" class="fa-footer__link">Issues ↗</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+        <a href="/privacy/" class="fa-footer__link">Prywatność</a>
+        <a href="/en/" class="fa-footer__link" hreflang="en">English</a>
+      </div>
+    </div>
+
+    <div class="fa-footer__bottom">
+      <span>© 2026 Adam Szczotka · MIT · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+      <span>zero danych na serwerze · zero cookies · zero śledzenia</span>
+    </div>
+  </footer>
+
+  <!-- ====== SCRIPTS ====== -->
   <script>
-  (function() {
-    var theme = localStorage.getItem('formattedai-theme') || 'light';
-    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-    document.getElementById('themeToggle').addEventListener('click', function() {
-      theme = theme === 'light' ? 'dark' : 'light';
-      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-      else document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('formattedai-theme', theme);
-    });
-  })();
+    (function() {
+      // Theme toggle
+      var html = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      btn && btn.addEventListener('click', function() {
+        var current = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        var next = current === 'light' ? 'dark' : 'light';
+        if (next === 'light') html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+        try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      });
+
+      // Nav scroll state
+      var nav = document.getElementById('faNav');
+      var onScroll = function() {
+        if (window.scrollY > 8) nav.classList.add('fa-nav--scrolled');
+        else nav.classList.remove('fa-nav--scrolled');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // Hero demo tabs
+      var demoTabs = document.querySelectorAll('.demo-tab');
+      var demoPanes = document.querySelectorAll('.demo__pane');
+      var demoUrl = document.getElementById('demoUrl');
+      var urls = { markdown: 'formattedai.pl/formatter/', avif: 'formattedai.pl/avif/', pdf: 'formattedai.pl/pdf/' };
+      demoTabs.forEach(function(t) {
+        t.addEventListener('click', function() {
+          var key = t.getAttribute('data-demo');
+          demoTabs.forEach(function(x) { x.classList.toggle('is-active', x === t); x.setAttribute('aria-selected', x === t ? 'true' : 'false'); });
+          demoPanes.forEach(function(p) { p.classList.toggle('is-active', p.getAttribute('data-demo') === key); });
+          if (demoUrl && urls[key]) demoUrl.textContent = urls[key];
+        });
+      });
+
+      // Tools category tabs
+      var catTabs = document.querySelectorAll('.tab[data-cat]');
+      var catPanes = document.querySelectorAll('.cat-body__pane');
+      catTabs.forEach(function(t) {
+        t.addEventListener('click', function() {
+          var key = t.getAttribute('data-cat');
+          catTabs.forEach(function(x) { x.classList.toggle('is-active', x === t); x.setAttribute('aria-selected', x === t ? 'true' : 'false'); });
+          catPanes.forEach(function(p) { p.classList.toggle('is-active', p.getAttribute('data-cat') === key); });
+        });
+      });
+      // Mobile hamburger toggle
+      var burger = document.getElementById("navBurger");
+      var navEl = document.getElementById("faNav");
+      if (burger && navEl) {
+        burger.addEventListener("click", function() {
+          var open = navEl.classList.toggle("is-menu-open");
+          burger.classList.toggle("is-open", open);
+          burger.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        navEl.querySelectorAll(".fa-nav__link, .fa-nav__lang").forEach(function(a) {
+          a.addEventListener("click", function() {
+            navEl.classList.remove("is-menu-open");
+            burger.classList.remove("is-open");
+            burger.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
+    })();
   </script>
 </body>
 </html>

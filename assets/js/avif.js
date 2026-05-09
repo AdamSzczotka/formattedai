@@ -34,6 +34,8 @@ const translations = {
     toastInvalidType: 'Nieobs\u0142ugiwany format pliku',
     madeBy: 'Stworzone przez',
     footerBadge: '100% client-side',
+    navTools: 'Narz\u0119dzia',
+    toolHeaderDesc: 'PNG / JPG / WebP \u2192 AVIF \u00b7 100% w przegl\u0105darce',
     navArticles: 'Artyku\u0142y',
     navAbout: 'O nas',
     navPrivacy: 'Prywatno\u015B\u0107',
@@ -110,6 +112,8 @@ const translations = {
     toastInvalidType: 'Unsupported file format',
     madeBy: 'Created by',
     footerBadge: '100% client-side',
+    navTools: 'Tools',
+    toolHeaderDesc: 'PNG / JPG / WebP → AVIF · 100% in-browser',
     navArticles: 'Articles',
     navAbout: 'About',
     navPrivacy: 'Privacy',
@@ -399,8 +403,10 @@ async function convertToAvif(file, q) {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   // Encode with jSquash
+  // speed: 6 keeps lossless in a sane time budget for large images
+  // (speed: 2 was eating multi-GB of RAM and freezing the tab on 3MB+ files)
   const encodeOptions = q === 100
-    ? { lossless: true, speed: 2, subsample: 1 }
+    ? { lossless: true, speed: 6 }
     : { quality: q, speed: 6, subsample: 1 };
 
   const avifBuffer = await avifEncode(imageData, encodeOptions);

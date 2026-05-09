@@ -1,9 +1,12 @@
 // ============================================
 // FormattedAI — SEO & GEO Tag Generator Styles
+// (v2 redesign — tool-shell nav/footer + tool-head)
+// Per-tool accent: pink
 // ============================================
 
 @use 'variables' as *;
-@use 'base';
+@use 'design-v2' as *;
+@use 'tool-shell' as *;
 
 // --- Accent colors (pink) ---
 $color-geo: #ec4899;
@@ -14,6 +17,14 @@ $color-geo-glow-strong: rgba(236, 72, 153, 0.35);
 
 // Override accent CSS custom properties for SEO & GEO (pink)
 :root {
+  --accent: #{$color-geo};
+  --accent-light: #{$color-geo-light};
+  --accent-dark: #{$color-geo-dark};
+  --accent-glow: #{$color-geo-glow};
+  --accent-glow-strong: #{$color-geo-glow-strong};
+  --accent-border: rgba(236, 72, 153, 0.3);
+
+  // Legacy tokens (used by inner form/accordion/serp/output styles)
   --color-accent: #{$color-geo};
   --color-accent-light: #{$color-geo-light};
   --color-accent-dark: #{$color-geo-dark};
@@ -23,8 +34,23 @@ $color-geo-glow-strong: rgba(236, 72, 153, 0.35);
   --color-accent-border: rgba(236, 72, 153, 0.3);
 }
 
-body { overflow: hidden; transition: none; }
-.app { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+// Responsive overflow handling (mirrors jsminifier.scss, no .ws — SEO-GEO uses panel/panel)
+html, body { overflow-x: hidden; }
+body { overflow-y: auto; }
+.pane__body { background: var(--bg); }
+
+// Legacy CSS var aliases (inner form/accordion/serp/output styles still use --color-* names)
+:root {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
+}
 
 [hidden] { display: none !important; }
 
@@ -412,26 +438,79 @@ body { overflow: hidden; transition: none; }
 }
 
 
-.btn--sm { padding: 6px 12px; font-size: 12px; }
+// --- Buttons (matching .tool-act from tool-shell for shell consistency) ---
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
 
-.btn--copy {
-  &.copied {
+  svg { flex-shrink: 0; }
+
+  &:hover:not(:disabled) {
+    color: var(--text);
+    border-color: var(--accent-border);
+    background: var(--accent-glow);
+  }
+
+  &:disabled, &.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(124, 108, 240, 0.3);
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 4px 16px rgba(124, 108, 240, 0.4);
+      transform: translateY(-1px);
+      color: #fff;
+      border-color: var(--accent-light);
+      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+    }
+  }
+
+  &--ghost {
+    background: var(--surface);
+    color: var(--text-muted);
+    border-color: var(--border);
+
+    &:hover:not(:disabled) {
+      color: var(--text);
+      border-color: var(--accent-border);
+      background: var(--accent-glow);
+    }
+  }
+
+  &--sm {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  &--copy.copied {
     background: linear-gradient(135deg, $color-success, #1ba34e) !important;
-    color: #fff !important; border-color: $color-success !important;
+    color: #fff !important;
+    border-color: $color-success !important;
   }
 }
 
 // --- Responsive ---
 @media (max-width: 768px) {
-  body { overflow: auto; }
-  .app { height: auto; min-height: 100vh; overflow: visible; }
-
-  .header__actions {
-    .about-trigger, .lang-toggle, .theme-toggle { flex: 0 0 auto; }
-    #clearBtn { margin-left: auto; }
-    #copyAllBtn { flex: 1 1 100%; order: 1; }
-    .btn { justify-content: center; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
-  }
-
   .panel { min-height: 400px; }
 }

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Narzędzia — FormattedAI · katalog 12 darmowych narzędzi webowych</title>
+  <meta name="description" content="Pełen katalog narzędzi FormattedAI: Markdown Formatter, AVIF/HEIC Converter, OCR, PDF Tools, HTML to PDF, JS/CSS Minifier, SEO &amp; GEO Generator. Wszystko 100% w przeglądarce.">
+  <meta name="keywords" content="narzędzia online, web tools, markdown, avif, heic, pdf, ocr, seo, geo, client-side">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/narzedzia/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/narzedzia/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/tools/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/narzedzia/">
+  <meta http-equiv="content-language" content="pl">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Narzędzia — FormattedAI">
+  <meta property="og:description" content="Pełen katalog narzędzi FormattedAI: 10 aktywnych narzędzi działających 100% w przeglądarce.">
+  <meta property="og:url" content="https://formattedai.pl/narzedzia/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl">
+  <meta property="og:locale:alternate" content="en">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Narzędzia — FormattedAI">
+  <meta name="twitter:description" content="Pełen katalog 10 darmowych narzędzi webowych. 100% client-side.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Narzędzia FormattedAI",
+    "url": "https://formattedai.pl/narzedzia/",
+    "description": "Katalog narzędzi webowych działających po stronie klienta.",
+    "inLanguage": "pl",
+    "isPartOf": { "@type": "WebSite", "name": "FormattedAI", "url": "https://formattedai.pl/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Strona główna", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "Narzędzia", "item": "https://formattedai.pl/narzedzia/" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme');
+      if (!t) t = 'dark';
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+<link rel="stylesheet" href="../assets/css/tools.css">
+</head>
+<body>
+
+  <header class="fa-nav" id="faNav" role="banner">
+    <a href="/" class="fa-nav__brand" aria-label="FormattedAI — strona główna">
+      <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#a78bfa"/>
+            <stop offset="1" stop-color="#5b4bd4"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+        <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+        <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+      </svg>
+      <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+    </a>
+    <nav class="fa-nav__links">
+      <a href="/narzedzia/" class="fa-nav__link is-active">Narzędzia</a>
+      <a href="/articles/" class="fa-nav__link">Dziennik</a>
+      <a href="/about/" class="fa-nav__link">O projekcie</a>
+    </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+    <div class="fa-nav__right">
+      <a href="/en/tools/" class="fa-nav__lang" hreflang="en">EN</a>
+      <button class="fa-nav__theme" id="themeToggle" type="button" aria-label="Przełącz motyw">
+        <svg class="fa-theme__moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="fa-theme__sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <a href="https://github.com/AdamSzczotka/formattedai" class="fa-nav__gh" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="t-hero">
+      <div class="t-hero__bg" aria-hidden="true">
+        <div class="t-hero__orb"></div>
+        <div class="t-hero__grid"></div>
+      </div>
+      <div class="t-hero__inner">
+        <div class="t-hero__label">/ KATALOG NARZĘDZI · 10 / 12 AKTYWNYCH</div>
+        <h1 class="t-hero__title">
+          Wszystko, czego potrzebujesz<br>
+          do <span class="t-hero__title-hl">codziennej pracy</span><br>
+          z dokumentami.
+        </h1>
+        <p class="t-hero__desc">
+          Markdown, obrazy, PDF, SEO. Każde narzędzie działa w przeglądarce — bez kont,
+          bez uploadu, bez śledzenia. Wybierz z mapy poniżej albo wciśnij <kbd class="fa-kbd">⌘K</kbd> żeby przeszukać.
+        </p>
+        <div class="t-hero__ctas">
+          <button class="fa-btn fa-btn--primary" id="palOpen" type="button">
+            <span aria-hidden="true">⌕</span>
+            <span>Szukaj narzędzia</span>
+            <kbd class="fa-kbd">⌘K</kbd>
+          </button>
+          <a href="#wszystkie" class="fa-btn fa-btn--ghost">Pełna lista ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="t-map">
+      <div class="t-map__cat">
+        <div class="t-map__cat-head">
+          <div class="t-map__cat-n" style="color:#a78bfa">01 · Text</div>
+          <h2 class="t-map__cat-title">Tekst</h2>
+          <p class="t-map__cat-body">Markdown, kod, dane tekstowe.</p>
+        </div>
+        <div class="t-map__cat-tiles">
+          <a href="/formatter/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">✎</span><span class="t-tile__badge">najczęstsze</span></div>
+            <div class="t-tile__name">Markdown Formatter</div>
+            <p class="t-tile__desc">Wklej tekst z ChatGPT lub Claude — skopiuj idealny dokument do Word lub Docs.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/js-minifier/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">{ }</span></div>
+            <div class="t-tile__name">JS Minifier</div>
+            <p class="t-tile__desc">Esbuild + Terser w przeglądarce. Minifikacja, formatowanie.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/css-minifier/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">#</span></div>
+            <div class="t-tile__name">CSS Minifier</div>
+            <p class="t-tile__desc">CSSO + js-beautify. Zachowuje source map, sprawdza składnię.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <div class="t-tile t-tile--soon">
+            <div class="t-tile__top"><span class="t-tile__icon">[ ]</span><span class="t-tile__soon">WKRÓTCE</span></div>
+            <div class="t-tile__name">JSON Formatter</div>
+            <p class="t-tile__desc">Walidacja, drzewo, wyszukiwanie po kluczu.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-map__cat">
+        <div class="t-map__cat-head">
+          <div class="t-map__cat-n" style="color:#7c6cf0">02 · Images</div>
+          <h2 class="t-map__cat-title">Obrazy</h2>
+          <p class="t-map__cat-body">Konwersja, kompresja, OCR — przez WebAssembly.</p>
+        </div>
+        <div class="t-map__cat-tiles">
+          <a href="/avif/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">◧</span><span class="t-tile__badge">WASM</span></div>
+            <div class="t-tile__name">AVIF Converter</div>
+            <p class="t-tile__desc">PNG / JPG / WebP → AVIF. Batch, presety jakości, ZIP.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/heic/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">◐</span></div>
+            <div class="t-tile__name">HEIC Converter</div>
+            <p class="t-tile__desc">Zdjęcia z iPhone na JPG, PNG lub AVIF.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/ocr/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">A</span></div>
+            <div class="t-tile__name">OCR</div>
+            <p class="t-tile__desc">Rozpoznawanie tekstu z obrazu. Tesseract.js, 100+ języków.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <div class="t-tile t-tile--soon">
+            <div class="t-tile__top"><span class="t-tile__icon">◉</span><span class="t-tile__soon">WKRÓTCE</span></div>
+            <div class="t-tile__name">Color Palette</div>
+            <p class="t-tile__desc">Generator harmonijnych palet, HEX/RGB/HSL, WCAG.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-map__cat">
+        <div class="t-map__cat-head">
+          <div class="t-map__cat-n" style="color:#9b8ff7">03 · Documents</div>
+          <h2 class="t-map__cat-title">Dokumenty</h2>
+          <p class="t-map__cat-body">PDF, HTML, eksport gotowy do wysłania.</p>
+        </div>
+        <div class="t-map__cat-tiles">
+          <a href="/pdf/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">▤</span><span class="t-tile__badge">top</span></div>
+            <div class="t-tile__name">PDF Tools</div>
+            <p class="t-tile__desc">Łącz, dziel, kompresuj, konwertuj obrazki na PDF.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/html-to-pdf/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">⤓</span></div>
+            <div class="t-tile__name">HTML to PDF</div>
+            <p class="t-tile__desc">Wklej kod lub URL — pobierz gotowy plik PDF.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <!-- Email Signature — tymczasowo ukryte przed publikacją
+          <a href="/email-signature/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">✉</span></div>
+            <div class="t-tile__name">Email Signature</div>
+            <p class="t-tile__desc">Kreator stopek mailowych, eksport HTML do Outlook/Gmail.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          -->
+
+        </div>
+      </div>
+
+      <div class="t-map__cat">
+        <div class="t-map__cat-head">
+          <div class="t-map__cat-n" style="color:#6c5ce7">04 · Search</div>
+          <h2 class="t-map__cat-title">SEO</h2>
+          <p class="t-map__cat-body">Klasyczny SEO + GEO pod AI wyszukiwarki.</p>
+        </div>
+        <div class="t-map__cat-tiles">
+          <a href="/seo-geo/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">◎</span><span class="t-tile__badge">GEO</span></div>
+            <div class="t-tile__name">SEO &amp; GEO Generator</div>
+            <p class="t-tile__desc">Meta + OG + Twitter + Schema.org + llms.txt + robots.txt.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="t-filter-anchor" id="wszystkie">
+      <div class="t-filter">
+        <span class="t-filter__label">FILTRUJ:</span>
+        <button class="t-filter__btn is-active" data-filter="all" type="button">Wszystkie</button>
+        <button class="t-filter__btn" data-filter="text" type="button">Tekst</button>
+        <button class="t-filter__btn" data-filter="img" type="button">Obrazy</button>
+        <button class="t-filter__btn" data-filter="doc" type="button">Dokumenty</button>
+        <button class="t-filter__btn" data-filter="seo" type="button">SEO</button>
+      </div>
+    </div>
+
+    <section class="t-list">
+      <header class="t-list__head">
+        <div class="t-list__label">/ PEŁNA LISTA</div>
+        <h2 class="t-list__title" id="listTitle">12 narzędzi w katalogu</h2>
+      </header>
+      <div class="t-list__rows" id="listRows">
+        <a href="/formatter/" class="t-list__row t-list__row--live" data-cat="text" data-name="markdown formatter ai chatgpt claude word docs">
+          <div class="t-list__row-n">01</div>
+          <div class="t-list__row-icon">✎</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">Markdown Formatter</span><span class="t-list__row-cat">Tekst</span><span class="t-list__row-badge">najczęstsze</span></div>
+            <p class="t-list__row-desc">Wklej tekst z ChatGPT lub Claude — skopiuj idealny dokument do Word lub Docs.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/js-minifier/" class="t-list__row t-list__row--live" data-cat="text" data-name="js javascript minify minifier esbuild terser">
+          <div class="t-list__row-n">01</div>
+          <div class="t-list__row-icon">{ }</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">JS Minifier</span><span class="t-list__row-cat">Tekst</span></div>
+            <p class="t-list__row-desc">Esbuild + Terser w przeglądarce. Minifikacja, formatowanie, podgląd różnic.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/css-minifier/" class="t-list__row t-list__row--live" data-cat="text" data-name="css minify minifier csso">
+          <div class="t-list__row-n">01</div>
+          <div class="t-list__row-icon">#</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">CSS Minifier</span><span class="t-list__row-cat">Tekst</span></div>
+            <p class="t-list__row-desc">CSSO + js-beautify. Zachowuje source map, sprawdza składnię.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <div class="t-list__row t-list__row--soon" data-cat="text" data-name="json validate tree">
+          <div class="t-list__row-n">01</div>
+          <div class="t-list__row-icon">[ ]</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">JSON Formatter</span><span class="t-list__row-cat">Tekst</span></div>
+            <p class="t-list__row-desc">Walidacja, drzewo, wyszukiwanie po kluczu. W przygotowaniu.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--soon">○ wkrótce</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </div>
+        <a href="/avif/" class="t-list__row t-list__row--live" data-cat="img" data-name="avif png jpg webp convert image batch wasm">
+          <div class="t-list__row-n">02</div>
+          <div class="t-list__row-icon">◧</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">AVIF Converter</span><span class="t-list__row-cat">Obrazy</span><span class="t-list__row-badge">WASM</span></div>
+            <p class="t-list__row-desc">PNG / JPG / WebP → AVIF. Batch, presety jakości, eksport ZIP.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/heic/" class="t-list__row t-list__row--live" data-cat="img" data-name="heic iphone jpg png avif photo">
+          <div class="t-list__row-n">02</div>
+          <div class="t-list__row-icon">◐</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">HEIC Converter</span><span class="t-list__row-cat">Obrazy</span></div>
+            <p class="t-list__row-desc">Zdjęcia z iPhone na JPG, PNG lub AVIF. Bez instalacji.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/ocr/" class="t-list__row t-list__row--live" data-cat="img" data-name="ocr tekst tesseract scan">
+          <div class="t-list__row-n">02</div>
+          <div class="t-list__row-icon">A</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">OCR</span><span class="t-list__row-cat">Obrazy</span></div>
+            <p class="t-list__row-desc">Rozpoznawanie tekstu z obrazu. Tesseract.js, 100+ języków.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <div class="t-list__row t-list__row--soon" data-cat="img" data-name="color palette hex rgb wcag">
+          <div class="t-list__row-n">02</div>
+          <div class="t-list__row-icon">◉</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">Color Palette</span><span class="t-list__row-cat">Obrazy</span></div>
+            <p class="t-list__row-desc">Generator harmonijnych palet, HEX/RGB/HSL, kontrast WCAG.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--soon">○ wkrótce</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </div>
+        <a href="/pdf/" class="t-list__row t-list__row--live" data-cat="doc" data-name="pdf merge split compress">
+          <div class="t-list__row-n">03</div>
+          <div class="t-list__row-icon">▤</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">PDF Tools</span><span class="t-list__row-cat">Dokumenty</span><span class="t-list__row-badge">top</span></div>
+            <p class="t-list__row-desc">Łącz, dziel, kompresuj, konwertuj obrazki na PDF.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/html-to-pdf/" class="t-list__row t-list__row--live" data-cat="doc" data-name="html pdf url">
+          <div class="t-list__row-n">03</div>
+          <div class="t-list__row-icon">⤓</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">HTML to PDF</span><span class="t-list__row-cat">Dokumenty</span></div>
+            <p class="t-list__row-desc">Wklej kod lub URL — pobierz gotowy plik PDF.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <!-- Email Signature — tymczasowo ukryte przed publikacją
+        <a href="/email-signature/" class="t-list__row t-list__row--live" data-cat="doc" data-name="email signature stopka outlook gmail">
+          <div class="t-list__row-n">03</div>
+          <div class="t-list__row-icon">✉</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">Email Signature</span><span class="t-list__row-cat">Dokumenty</span></div>
+            <p class="t-list__row-desc">Kreator stopek mailowych, eksport HTML do Outlook/Gmail.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        -->
+        <a href="/seo-geo/" class="t-list__row t-list__row--live" data-cat="seo" data-name="seo geo meta og schema llms robots">
+          <div class="t-list__row-n">04</div>
+          <div class="t-list__row-icon">◎</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">SEO &amp; GEO Generator</span><span class="t-list__row-cat">SEO</span><span class="t-list__row-badge">GEO</span></div>
+            <p class="t-list__row-desc">Meta + OG + Twitter + Schema.org + llms.txt + robots.txt.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="t-manifest">
+      <div class="t-manifest__inner">
+        <div class="t-manifest__label">/ MANIFEST</div>
+        <h2 class="t-manifest__title">
+          Każde narzędzie tutaj<br>
+          <span class="t-manifest__title-hl">nie wysyła Twoich plików nigdzie.</span>
+        </h2>
+        <div class="t-manifest__stats">
+          <div class="t-manifest__stat"><span class="t-manifest__stat-k">0</span><span class="t-manifest__stat-l">bajtów na serwerze</span></div>
+          <div class="t-manifest__stat"><span class="t-manifest__stat-k">WASM</span><span class="t-manifest__stat-l">natywna prędkość</span></div>
+          <div class="t-manifest__stat"><span class="t-manifest__stat-k">MIT</span><span class="t-manifest__stat-l">otwarty kod</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="fa-footer" role="contentinfo">
+    <div class="fa-footer__cols">
+      <div>
+        <a href="/" style="display:inline-flex;align-items:center;gap:12px;text-decoration:none">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+            <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+            <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+          </svg>
+          <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+        </a>
+        <p class="fa-footer__byline">Stworzone przez <a href="https://adamszczotka.dev" target="_blank" rel="noopener">Adama Szczotkę ↗</a></p>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Narzędzia</div>
+        <a href="/formatter/" class="fa-footer__link">Markdown Formatter</a>
+        <a href="/avif/" class="fa-footer__link">AVIF Converter</a>
+        <a href="/heic/" class="fa-footer__link">HEIC Converter</a>
+        <a href="/pdf/" class="fa-footer__link">PDF Tools</a>
+        <a href="/html-to-pdf/" class="fa-footer__link">HTML to PDF</a>
+        <a href="/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Treść</div>
+        <a href="/articles/" class="fa-footer__link">Dziennik</a>
+        <a href="/about/" class="fa-footer__link">O projekcie</a>
+        <a href="/llms.txt" class="fa-footer__link">llms.txt</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Kod &amp; kontakt</div>
+        <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+        <a href="/privacy/" class="fa-footer__link">Prywatność</a>
+        <a href="/en/tools/" class="fa-footer__link" hreflang="en">English</a>
+      </div>
+    </div>
+
+    <div class="fa-footer__bottom">
+      <span>© 2026 Adam Szczotka · MIT</span>
+      <span>zero danych na serwerze · zero cookies · zero śledzenia</span>
+    </div>
+  </footer>
+
+  <!-- ⌘K Palette -->
+  <div class="t-pal-overlay" id="palOverlay" role="dialog" aria-modal="true" aria-labelledby="palLabel">
+    <div class="t-pal" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+      <div class="t-pal__head">
+        <span class="t-pal__icon" aria-hidden="true">⌕</span>
+        <input class="t-pal__input" id="palInput" type="text" placeholder="markdown · avif · pdf · seo …" aria-label="Szukaj narzędzia">
+        <kbd class="fa-kbd">ESC</kbd>
+      </div>
+      <div class="t-pal__body" id="palResults" role="listbox"></div>
+      <div class="t-pal__foot">
+        <span><kbd class="fa-kbd">↑↓</kbd> nawigacja</span>
+        <span><kbd class="fa-kbd">↵</kbd> otwórz</span>
+        <span><kbd class="fa-kbd">esc</kbd> zamknij</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var html = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      btn && btn.addEventListener('click', function() {
+        var current = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        var next = current === 'light' ? 'dark' : 'light';
+        if (next === 'light') html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+        try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      });
+
+      var nav = document.getElementById('faNav');
+      var onScroll = function() {
+        if (window.scrollY > 8) nav.classList.add('fa-nav--scrolled');
+        else nav.classList.remove('fa-nav--scrolled');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // Filter
+      var filterBtns = document.querySelectorAll('.t-filter__btn');
+      var rows = document.querySelectorAll('.t-list__row');
+      var listLabel = document.querySelector('.t-list__label');
+      var listTitle = document.getElementById('listTitle');
+      var labels = { all: '/ PEŁNA LISTA', text: '/ TEKST', img: '/ OBRAZY', doc: '/ DOKUMENTY', seo: '/ SEO' };
+      var titles = { all: '12 narzędzi w katalogu', text: '4 narzędzia · Tekst', img: '4 narzędzia · Obrazy', doc: '3 narzędzia · Dokumenty', seo: '1 narzędzie · SEO' };
+      filterBtns.forEach(function(b) {
+        b.addEventListener('click', function() {
+          var f = b.getAttribute('data-filter');
+          filterBtns.forEach(function(x) { x.classList.toggle('is-active', x === b); });
+          rows.forEach(function(r) {
+            var ok = f === 'all' || r.getAttribute('data-cat') === f;
+            r.classList.toggle('is-hidden', !ok);
+          });
+          if (listLabel) listLabel.textContent = labels[f] || labels.all;
+          if (listTitle) listTitle.textContent = titles[f] || titles.all;
+        });
+      });
+
+      // Palette — DOM-construction (no innerHTML on user input)
+      var overlay = document.getElementById('palOverlay');
+      var input = document.getElementById('palInput');
+      var results = document.getElementById('palResults');
+      var openBtn = document.getElementById('palOpen');
+      var liveTools = Array.from(document.querySelectorAll('.t-list__row--live')).map(function(r) {
+        return {
+          name: r.querySelector('.t-list__row-name').textContent.trim(),
+          cat:  r.querySelector('.t-list__row-cat').textContent.trim(),
+          desc: r.querySelector('.t-list__row-desc').textContent.trim(),
+          href: r.getAttribute('href'),
+          icon: r.querySelector('.t-list__row-icon').textContent.trim(),
+          kw:   r.getAttribute('data-name') || ''
+        };
+      });
+      var sel = 0;
+
+      function el(tag, cls, text) {
+        var n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text != null) n.textContent = text;
+        return n;
+      }
+
+      function renderItems(list) {
+        while (results.firstChild) results.removeChild(results.firstChild);
+        if (!list.length) {
+          var empty = el('div', 't-pal__empty');
+          empty.textContent = 'brak wyników dla „' + (input.value || '') + '"';
+          results.appendChild(empty);
+          return;
+        }
+        list.forEach(function(t, i) {
+          var a = el('a', 't-pal__item' + (i === sel ? ' is-active' : ''));
+          a.href = t.href;
+          a.appendChild(el('span', 't-pal__item-icon', t.icon));
+          var mid = el('div');
+          mid.appendChild(el('div', 't-pal__item-name', t.name));
+          mid.appendChild(el('div', 't-pal__item-desc', t.desc));
+          a.appendChild(mid);
+          a.appendChild(el('span', 't-pal__item-enter', '↵'));
+          // Hover only updates active class — do NOT re-render (would destroy <a> mid-click)
+          a.addEventListener('mouseenter', function() {
+            sel = i;
+            results.querySelectorAll('.t-pal__item').forEach(function(el2, j) {
+              el2.classList.toggle('is-active', j === i);
+            });
+          });
+          // Explicit click handler — close palette, then navigate (safe with hash links)
+          a.addEventListener('click', function(e) {
+            close();
+          });
+          results.appendChild(a);
+        });
+      }
+
+      function search() {
+        var q = (input.value || '').toLowerCase().trim();
+        var list = q
+          ? liveTools.filter(function(t) {
+              return t.name.toLowerCase().indexOf(q) !== -1
+                || t.kw.indexOf(q) !== -1
+                || t.cat.toLowerCase().indexOf(q) !== -1;
+            })
+          : liveTools;
+        sel = 0;
+        renderItems(list);
+        return list;
+      }
+
+      function open() {
+        overlay.classList.add('is-open');
+        sel = 0;
+        renderItems(liveTools);
+        setTimeout(function() { input.focus(); }, 60);
+      }
+      function close() {
+        overlay.classList.remove('is-open');
+        input.value = '';
+      }
+
+      openBtn && openBtn.addEventListener('click', open);
+      overlay.addEventListener('click', function(e) { if (e.target === overlay) close(); });
+      input.addEventListener('input', search);
+
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+          var list = search();
+          if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, list.length - 1); renderItems(list); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); renderItems(list); }
+          else if (e.key === 'Enter' && list[sel]) { e.preventDefault(); window.location.href = list[sel].href; }
+        } else if (e.key === 'Escape') { e.preventDefault(); close(); }
+      });
+
+      window.addEventListener('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          if (overlay.classList.contains('is-open')) close(); else open();
+        } else if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+          close();
+        }
+      });
+      // Mobile hamburger toggle
+      var burger = document.getElementById("navBurger");
+      var navEl = document.getElementById("faNav");
+      if (burger && navEl) {
+        burger.addEventListener("click", function() {
+          var open = navEl.classList.toggle("is-menu-open");
+          burger.classList.toggle("is-open", open);
+          burger.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        navEl.querySelectorAll(".fa-nav__link, .fa-nav__lang").forEach(function(a) {
+          a.addEventListener("click", function() {
+            navEl.classList.remove("is-menu-open");
+            burger.classList.remove("is-open");
+            burger.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>

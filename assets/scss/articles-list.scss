@@ -1,0 +1,172 @@
+// ============================================
+// FormattedAI — Articles list page (PL + EN)
+// Uses Hybrid Console design tokens.
+// ============================================
+
+@use 'design-v3' as *;
+
+.al-hero {
+  position: relative;
+  padding: 80px 32px 48px;
+  overflow: hidden;
+  text-align: left;
+
+  &__bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  &__orb {
+    position: absolute; top: 10%; right: 10%;
+    width: 540px; height: 540px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--orb-1), transparent 60%);
+    filter: blur(80px);
+  }
+  &__grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px);
+    background-size: 100% 64px;
+  }
+
+  &__inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+
+  &__label { @extend %mono-label; margin-bottom: 24px; }
+  &__title {
+    @extend %display;
+    font-size: 64px;
+    line-height: 0.96;
+    margin: 0 0 20px;
+
+    &-hl {
+      background: linear-gradient(135deg, $accent-light, $accent-dark);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+  &__desc {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0;
+  }
+
+  @media (max-width: 800px) {
+    padding: 56px 20px 32px;
+    &__title { font-size: 40px; }
+  }
+}
+
+.al-list {
+  padding: 24px 32px 100px;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 24px;
+    margin-bottom: 28px;
+    border-top: 1px solid var(--border-soft);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  &__label {
+    font-family: $font-mono;
+    font-size: 11px;
+    color: var(--accent-light);
+    letter-spacing: 0.18em;
+  }
+  &__count {
+    font-family: $font-mono;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  &__grid { display: flex; flex-direction: column; }
+}
+
+.al-card {
+  display: grid;
+  grid-template-columns: 88px 1fr 32px;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 32px 4px;
+  border-top: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  transition: background $dur, border-color $dur;
+  position: relative;
+
+  &:last-child { border-bottom: 1px solid var(--border); }
+
+  &:hover { background: rgba(124, 108, 240, 0.04); }
+  &:hover .al-card__arrow { color: var(--accent-light); transform: translateX(4px); }
+  &:hover .al-card__title { color: var(--accent-light); }
+
+  &__date {
+    font-family: $font-mono;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.10em;
+    padding-top: 4px;
+  }
+
+  &__main { min-width: 0; }
+
+  &__head {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  &__tag {
+    padding: 3px 10px;
+    background: rgba(124, 108, 240, 0.14);
+    border: 1px solid rgba(167, 139, 250, 0.30);
+    border-radius: $r-pill;
+    font-family: $font-mono;
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    color: var(--accent-light);
+    text-transform: uppercase;
+  }
+  &__read {
+    font-family: $font-mono;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  &__title {
+    font-family: $font-display;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 8px;
+    transition: color $dur;
+  }
+  &__desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  &__arrow {
+    align-self: center;
+    font-size: 22px;
+    color: var(--text-subtle);
+    transition: transform $dur, color $dur;
+  }
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 24px 4px;
+    &__arrow { display: none; }
+    &__date { padding-top: 0; }
+    &__title { font-size: 22px; }
+  }
+}

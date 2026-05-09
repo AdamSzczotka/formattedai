@@ -424,19 +424,43 @@ function buildPageStyle() {
   const m = options.margin;
   const s = options.scale / 100;
 
+  // Visual paper simulation: defaults applied in screen view, @media print clears them.
+  // @page rules drive the exported PDF unchanged.
   return `
     @page {
       size: ${w}mm ${h}mm;
       margin: ${m}mm;
     }
+    html {
+      background: #1a1a24;
+      padding: 24px 0;
+      min-height: 100%;
+      zoom: ${s};
+      box-sizing: border-box;
+    }
+    body {
+      background: #ffffff;
+      color: #1a1a24;
+      max-width: ${w}mm;
+      min-height: ${h}mm;
+      margin: 0 auto;
+      padding: ${m}mm;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.08);
+      box-sizing: border-box;
+    }
     @media print {
+      html, body {
+        background: #ffffff !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: none !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+      }
       body {
         -webkit-print-color-adjust: ${options.printBg ? 'exact' : 'economy'};
         print-color-adjust: ${options.printBg ? 'exact' : 'economy'};
       }
-    }
-    html {
-      zoom: ${s};
     }
   `;
 }
