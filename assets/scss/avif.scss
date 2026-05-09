@@ -4,6 +4,7 @@
 // ============================================
 
 @use 'design-v2' as *;
+@use 'tool-shell' as *;
 
 :root {
   --accent: #3b82f6;
@@ -12,6 +13,15 @@
   --accent-glow: rgba(59, 130, 246, 0.12);
   --accent-border: rgba(59, 130, 246, 0.25);
 }
+
+html, body { overflow-x: hidden; }
+body { overflow-y: auto; }
+.ws { min-height: calc(100vh - 220px); }
+@media (max-width: 900px) {
+  .ws { min-height: auto; }
+  .pane { min-height: 60vh; }
+}
+.pane__body { background: var(--bg); }
 
 // --- Tool-bar preset buttons (legacy class name, matched by avif.js) ---
 .tool-bar__preset {
@@ -237,15 +247,6 @@
   min-width: 22px; text-align: right;
 }
 
-// --- Workspace adjusts: panels separated, no divider with arrow ---
-.workspace--avif {
-  grid-template-columns: 1fr 1fr;
-
-  .panel:first-child {
-    border-right: 1px solid var(--border);
-  }
-}
-
 // --- Input area scroll wrapper ---
 .input-area {
   flex: 1;
@@ -359,13 +360,6 @@
 
 // Mobile responsive
 @media (max-width: 720px) {
-  .workspace--avif {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-
-    .panel:first-child { border-right: none; border-bottom: 1px solid var(--border); }
-  }
-
   .quality-wrap {
     width: 100%; flex-wrap: wrap;
     justify-content: center;

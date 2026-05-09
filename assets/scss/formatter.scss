@@ -4,8 +4,153 @@
 // ============================================
 
 @use 'design-v2' as *;
+@use 'tool-shell' as *;
 
 // Markdown Formatter uses the default brand purple accent (no override needed)
+
+// === MF: tool-specific styles (Markdown Formatter) ===
+// Page scrolls naturally — only the workspace (.ws) is internally scrollable
+html, body { overflow-x: hidden; }
+body { overflow-y: auto; }
+
+// Workspace gets a generous min-height so the empty state breathes
+.ws {
+  min-height: calc(100vh - 220px);
+}
+
+@media (max-width: 900px) {
+  .ws { min-height: auto; }
+  .pane { min-height: 60vh; }
+}
+
+// Stats line under input (chars · words · lines)
+.mf-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+// Output preview area (re-styles existing .preview to fit new shell)
+.preview {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 32px 28px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
+  &::-webkit-scrollbar-thumb:hover { background: var(--accent-border); }
+}
+
+// Editor textarea — full pane, generous padding, readable size
+.editor {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  border: 0;
+  outline: none;
+  padding: 32px 28px;
+  background: transparent; // transparent so input-hint overlay shows through
+  color: var(--text);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  tab-size: 2;
+  position: relative;
+  z-index: 1;
+
+  &::placeholder {
+    color: var(--text-dim);
+    opacity: 0.55;
+  }
+
+  // When user focuses the editor, hide the input-hint overlay (CTA + examples)
+  // so they get a clean writing surface immediately.
+  &:focus + .input-hint { opacity: 0; pointer-events: none; }
+
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
+  &::-webkit-scrollbar-thumb:hover { background: var(--accent-border); }
+}
+
+// Pane body keeps the editor background (so transparent textarea sits on it)
+.pane__body { background: var(--bg); }
+
+// FAQ section under workspace (collapsed details/summary)
+.faq {
+  padding: 48px 28px 64px;
+  max-width: 920px;
+  margin: 0 auto;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg);
+
+  &__label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #a78bfa;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  &__title {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin: 0 0 28px;
+  }
+
+  details {
+    border-top: 1px solid var(--border-subtle);
+    padding: 16px 0;
+
+    &:last-child { border-bottom: 1px solid var(--border-subtle); }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+
+      &::-webkit-details-marker { display: none; }
+
+      &::after {
+        content: '+';
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 18px;
+        color: var(--accent);
+        transition: transform 0.2s;
+      }
+    }
+
+    &[open] summary::after { content: '−'; }
+
+    p {
+      margin: 12px 0 0;
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: var(--text-muted);
+    }
+  }
+}
 
 // --- Style tabs (Docs / Word toggle) ---
 .style-tabs {

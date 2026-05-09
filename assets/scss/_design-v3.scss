@@ -273,6 +273,110 @@ img, svg { display: block; max-width: 100%; }
 
     &:hover { border-color: var(--border-strong); background: var(--surface-2); }
   }
+
+  // Hamburger button — hidden on desktop, shown on mobile
+  &__burger {
+    display: none;
+    width: 38px;
+    height: 38px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: $r-sm;
+    color: var(--text);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+
+    span {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: currentColor;
+      position: relative;
+      transition: transform $dur, opacity $dur;
+
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: currentColor;
+        transition: transform $dur, top $dur, opacity $dur;
+      }
+      &::before { top: -6px; }
+      &::after  { top:  6px; }
+    }
+
+    &.is-open span {
+      background: transparent;
+      &::before { top: 0; transform: rotate(45deg); }
+      &::after  { top: 0; transform: rotate(-45deg); }
+    }
+  }
+
+  // === Responsive ===
+  @media (max-width: 1100px) {
+    padding: 14px 24px;
+    gap: 16px;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: auto 1fr auto;
+    padding: 12px 18px;
+    gap: 12px;
+
+    &__burger { display: inline-flex; }
+
+    // Collapse main nav links into a dropdown under the bar
+    &__links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      justify-self: stretch;
+      gap: 0;
+      padding: 0 18px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-soft);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height $dur $ease-out, padding $dur $ease-out;
+      pointer-events: none;
+    }
+
+    &.is-menu-open &__links {
+      max-height: 60vh;
+      padding: 6px 18px 16px;
+      pointer-events: auto;
+    }
+
+    &__link {
+      padding: 14px 0;
+      font-size: 16px;
+      border-bottom: 1px solid var(--border-soft);
+
+      &:last-child { border-bottom: 0; }
+    }
+
+    // Right cluster: hide GitHub button + theme on tightest, keep lang
+    &__gh { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px 14px;
+    gap: 8px;
+
+    &__brand .fa-wordmark { font-size: 15px; }
+    &__logo { width: 24px; height: 24px; }
+    &__burger { width: 34px; height: 34px; }
+    &__theme { width: 30px; height: 30px; }
+  }
 }
 
 [data-theme="light"] .fa-nav { background: rgba(244, 243, 241, 0); }

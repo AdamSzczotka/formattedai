@@ -1,102 +1,66 @@
 // ============================================
-// FormattedAI — HEIC Converter Styles
+// FormattedAI — HEIC Converter (v2 redesign)
+// Per-tool accent: orange
 // ============================================
 
-@use 'variables' as *;
-@use 'base';
+@use 'design-v2' as *;
+@use 'tool-shell' as *;
 
-// --- HEIC accent colors (orange) ---
-$color-heic: #f97316;
-$color-heic-light: #fb923c;
-$color-heic-dark: #ea580c;
-$color-heic-glow: rgba(249, 115, 22, 0.15);
-$color-heic-glow-strong: rgba(249, 115, 22, 0.35);
-
-// Override accent CSS custom properties for HEIC (orange)
 :root {
-  --color-accent: #{$color-heic};
-  --color-accent-light: #{$color-heic-light};
-  --color-accent-dark: #{$color-heic-dark};
-  --color-accent-glow: #{$color-heic-glow};
-  --color-accent-glow-strong: #{$color-heic-glow-strong};
-  --color-accent-subtle: rgba(249, 115, 22, 0.04);
-  --color-accent-border: rgba(249, 115, 22, 0.3);
+  --accent: #f97316;
+  --accent-light: #fb923c;
+  --accent-dark: #ea580c;
+  --accent-glow: rgba(249, 115, 22, 0.12);
+  --accent-border: rgba(249, 115, 22, 0.25);
+  --accent-glow-strong: rgba(249, 115, 22, 0.35);
 }
 
-body { overflow: hidden; transition: none; }
-
-// Disable all transitions during theme change
-.theme-switching,
-.theme-switching *,
-.theme-switching *::before,
-.theme-switching *::after {
-  transition: none !important;
+html, body { overflow-x: hidden; }
+body { overflow-y: auto; }
+.ws { min-height: calc(100vh - 220px); }
+@media (max-width: 900px) {
+  .ws { min-height: auto; }
+  .pane { min-height: 60vh; }
 }
-.app { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+.pane__body { background: var(--bg); }
 
-// Global: respect hidden attribute on elements with explicit display
-[hidden] { display: none !important; }
-
-// --- Checkerboard pattern for transparency ---
-.checkerboard {
-  background-image:
-    linear-gradient(45deg, #e0e0e0 25%, transparent 25%),
-    linear-gradient(-45deg, #e0e0e0 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #e0e0e0 75%),
-    linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
-  background-size: 12px 12px;
-  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
-  background-color: #fff;
-
-  [data-theme="dark"] & {
-    background-image:
-      linear-gradient(45deg, #2a2a3a 25%, transparent 25%),
-      linear-gradient(-45deg, #2a2a3a 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #2a2a3a 75%),
-      linear-gradient(-45deg, transparent 75%, #2a2a3a 75%);
-    background-color: #1a1a24;
-  }
-}
-
-// --- Format Tabs (HEIC-specific: JPG / PNG / AVIF) ---
+// --- Format tabs (HEIC-specific: JPG / PNG / AVIF) ---
 .format-tabs {
-  display: flex; gap: 4px;
+  display: inline-flex; gap: 3px;
   padding: 3px;
-  background: var(--color-surface-hover);
-  border-radius: $radius-sm;
-  border: 1px solid var(--color-border);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
 
   &__item {
-    padding: 6px 16px;
-    border: none; border-radius: 6px;
-    background: transparent;
-    color: var(--color-text-dim);
-    font-family: $font-body; font-size: 12px; font-weight: 600;
-    cursor: pointer; transition: all $transition;
+    padding: 5px 12px; border-radius: 6px;
+    border: none; background: transparent;
+    color: var(--text-muted);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 12px; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.5px;
+    cursor: pointer; transition: all 0.15s ease;
 
-    &:hover {
-      color: var(--color-text-muted);
-      background: var(--color-bg);
-    }
+    &:hover { color: var(--accent); }
 
     &--active {
-      background: $color-heic; color: #fff;
-      box-shadow: 0 2px 8px $color-heic-glow;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 1px 4px var(--accent-glow);
 
-      &:hover { background: $color-heic-dark; color: #fff; }
+      &:hover { background: var(--accent-dark); color: #fff; }
     }
   }
 }
 
-// --- PNG Warning Badge ---
+// --- PNG warning chip (lossless heads up) ---
 .png-warning {
-  display: flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 10px;
   background: rgba(234, 179, 8, 0.1);
   border: 1px solid rgba(234, 179, 8, 0.3);
-  border-radius: $radius-sm;
-  font-size: 11px; color: #ca8a04; font-weight: 500;
+  border-radius: 999px;
+  font-size: 11px; font-weight: 600; color: #ca8a04;
 
   svg { flex-shrink: 0; }
 
@@ -107,423 +71,410 @@ body { overflow: hidden; transition: none; }
   }
 }
 
-// --- HEIC Tool Bar (extends .tool-bar from _base) ---
-.tool-bar--heic {
-  gap: 16px;
-  padding: 10px 24px;
+// --- Tool-bar preset buttons (legacy class — used by heic.js) ---
+.tool-bar__preset {
+  padding: 5px 10px; border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  color: var(--text-muted);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
 
-  .tool-bar__presets { display: flex; gap: 4px; }
+  &:hover { border-color: var(--accent-border); color: var(--accent); }
 
-  .tool-bar__preset {
-    padding: 6px 14px; border: 1px solid var(--color-border); border-radius: $radius-sm;
-    background: transparent; color: var(--color-text-dim);
-    font-family: $font-body; font-size: 12px; font-weight: 500;
-    cursor: pointer; transition: all $transition;
-
-    &:hover {
-      color: var(--color-text-muted);
-      background: var(--color-surface-hover);
-      border-color: rgba(249, 115, 22, 0.3);
-    }
-
-    &--active {
-      background: $color-heic; color: #fff;
-      border-color: $color-heic;
-      box-shadow: 0 2px 8px $color-heic-glow;
-
-      &:hover { background: $color-heic-dark; color: #fff; }
-    }
-  }
-
-  .tool-bar__slider { display: flex; align-items: center; gap: 10px; }
-
-  .tool-bar__label {
-    font-size: 12px; font-weight: 600; color: var(--color-text-muted);
-    text-transform: uppercase; letter-spacing: 0.5px;
-  }
-
-  .tool-bar__input {
-    width: 140px; height: 4px; -webkit-appearance: none; appearance: none;
-    background: var(--color-border); border-radius: 2px; outline: none;
-
-    &::-webkit-slider-thumb {
-      -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
-      background: $color-heic; cursor: pointer;
-      box-shadow: 0 0 8px $color-heic-glow-strong;
-    }
-
-    &::-moz-range-thumb {
-      width: 16px; height: 16px; border-radius: 50%; border: none;
-      background: $color-heic; cursor: pointer;
-    }
-  }
-
-  .tool-bar__value {
-    font-size: 14px; font-weight: 700; color: $color-heic;
-    min-width: 28px; text-align: center; font-family: $font-body;
-  }
-
-  .tool-bar__actions {
-    padding-left: 16px;
-    border-left: 1px solid var(--color-border);
-
-    .btn { padding: 6px 12px; font-size: 12px; }
+  &--active {
+    background: var(--accent-glow);
+    border-color: var(--accent-border);
+    color: var(--accent);
   }
 }
 
+// --- Quality controls in tool-sub ---
+.presets { display: flex; gap: 3px; }
 
-// --- Input Area ---
-.input-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
-
-// --- Drop Zone ---
-.drop-zone {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 12px; flex: 1; padding: 40px 24px;
-  border: 2px dashed var(--color-border); border-radius: $radius-md;
-  margin: 16px; cursor: pointer;
-  transition: all $transition;
-
-  &__icon { color: var(--color-text-dim); opacity: 0.5; }
-  &__text { font-size: 15px; color: var(--color-text-muted); font-weight: 500; }
-  &__formats { font-size: 12px; color: var(--color-text-dim); }
-  &__meta-info { font-size: 11px; color: var(--color-text-dim); opacity: 0.7; font-style: italic; }
-
-  &:hover, &--active {
-    border-color: $color-heic;
-    background: rgba(249, 115, 22, 0.05);
-
-    .drop-zone__icon { color: $color-heic; opacity: 1; }
-  }
-
-  &--active { box-shadow: 0 0 24px $color-heic-glow; }
-
-  // Compact variant
-  &--compact {
-    flex: 0; flex-direction: row; gap: 8px;
-    padding: 10px 16px; margin: 12px 16px 0;
-    border-radius: $radius-sm;
-    font-size: 13px; color: var(--color-text-muted);
-
-    svg { opacity: 0.6; }
-    &:hover svg { opacity: 1; }
-  }
+.quality-slider-wrap {
+  display: inline-flex; align-items: center; gap: 7px;
 }
 
-// --- File List ---
-.file-list {
-  flex: 1; overflow-y: auto; padding: 8px 16px;
+.quality-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 96px; height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  outline: none; cursor: pointer;
 
-  &::-webkit-scrollbar { width: 5px; }
-  &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; }
-}
-
-// --- File Item ---
-.file-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 8px 10px; border-radius: $radius-sm;
-  transition: background $transition-fast;
-
-  &:hover { background: var(--color-surface-hover); }
-
-  &__thumb {
-    width: 40px; height: 40px; border-radius: 6px; overflow: hidden; flex-shrink: 0;
-
-    img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  }
-
-  &__info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-
-  &__name {
-    font-size: 13px; font-weight: 500; color: var(--color-text);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-
-  &__size { font-size: 11px; color: var(--color-text-dim); }
-
-  &__remove {
-    width: 28px; height: 28px; border: none; border-radius: 6px;
-    background: transparent; color: var(--color-text-dim);
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all $transition-fast; flex-shrink: 0;
-
-    &:hover { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-  }
-}
-
-
-// --- Summary Bar ---
-.summary-bar {
-  display: flex; align-items: center; justify-content: center; gap: 24px;
-  padding: 10px 20px; border-bottom: 1px solid var(--color-border);
-  background: rgba(249, 115, 22, 0.04);
-
-  &__stat { display: flex; align-items: center; gap: 6px; }
-
-  &__label { font-size: 11px; color: var(--color-text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
-
-  &__value { font-size: 13px; font-weight: 700; color: var(--color-text); }
-
-  &__stat--highlight &__value { color: $color-success; font-size: 15px; }
-}
-
-// --- Results ---
-.results {
-  flex: 1; overflow-y: auto; background: var(--color-bg);
-
-  &::-webkit-scrollbar { width: 5px; }
-  &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; }
-
-  &__empty {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    height: 100%; gap: 16px; user-select: none;
-  }
-
-  &__empty-visual { opacity: 0.35; svg { animation: docBounce 4s ease-in-out infinite; } }
-  &__empty-text { font-size: 15px; color: var(--color-text-dim); font-weight: 500; }
-  &__empty-hint { font-size: 12px; color: var(--color-text-dim); opacity: 0.7; }
-
-  // Conversion progress
-  &__progress {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    height: 100%; gap: 20px; padding: 40px; user-select: none;
-  }
-
-  &__progress-info {
-    display: flex; align-items: baseline; gap: 12px;
-  }
-
-  &__progress-text {
-    font-size: 16px; font-weight: 600; color: var(--color-text-muted);
-  }
-
-  &__progress-percent {
-    font-size: 28px; font-weight: 800; color: $color-heic;
-    font-variant-numeric: tabular-nums;
-  }
-
-  &__progress-bar {
+  &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: none;
-    width: 100%;
-    max-width: 360px;
-    height: 10px;
-    display: block;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    box-shadow: 0 0 0 3px var(--accent-glow);
   }
 
-  &__progress-bar::-webkit-progress-bar {
-    background-color: var(--color-border);
-    border-radius: 5px;
+  &::-moz-range-thumb {
+    width: 14px; height: 14px;
+    border-radius: 50%; border: none;
+    background: var(--accent);
+    cursor: pointer;
   }
-
-  &__progress-bar::-webkit-progress-value {
-    background: linear-gradient(90deg, $color-heic, $color-heic-light);
-    border-radius: 5px;
-  }
-
-  &__progress-bar::-moz-progress-bar {
-    background: linear-gradient(90deg, $color-heic, $color-heic-light);
-    border-radius: 5px;
-  }
-
-  &__progress-file {
-    font-size: 13px; color: var(--color-text-dim);
-    max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    text-align: center;
-  }
-
-  &__list { padding: 8px 16px; }
 }
 
-@keyframes docBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+.quality-val {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  min-width: 22px; text-align: right;
 }
 
-// --- Result Item ---
+// --- Input area scroll wrapper ---
+.input-area {
+  flex: 1;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+// --- File item (legacy fields not in shared shell) ---
+.file-item__size {
+  font-size: 11.5px; color: var(--text-dim);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  margin-top: 2px;
+}
+
+.file-item__remove {
+  &:hover { color: #ef4444; background: rgba(239, 68, 68, 0.08); }
+}
+
+// --- Result list / item (BEM — matches heic.js query selectors) ---
+.results { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+.results__list {
+  display: flex; flex-direction: column;
+  gap: 8px;
+  padding: 8px 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
 .result-item {
   display: flex; align-items: center; gap: 12px;
-  padding: 10px; border-radius: $radius-sm;
-  transition: background $transition-fast;
-
-  &:hover { background: var(--color-surface-hover); }
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
 
   &__thumb {
-    width: 60px; height: 60px; border-radius: 8px; overflow: hidden;
-    flex-shrink: 0; cursor: pointer;
-    transition: transform $transition;
+    width: 64px; height: 64px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s ease, transform 0.15s ease;
 
-    img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    &:hover {
+      border-color: var(--accent);
+      transform: scale(1.04);
+    }
 
-    &:hover { transform: scale(1.05); }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
   }
 
-  &__info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  &__info { flex: 1; min-width: 0; }
 
   &__name {
-    font-size: 13px; font-weight: 600; color: var(--color-text);
+    display: block;
+    font-size: 13px; font-weight: 600;
+    color: var(--text);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
-  &__stats { display: flex; align-items: center; gap: 10px; }
+  &__stats {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 3px;
+  }
 
-  &__sizes { font-size: 12px; color: var(--color-text-muted); }
+  &__sizes {
+    font-size: 11.5px; color: var(--text-dim);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
 
   &__savings {
-    font-size: 12px; font-weight: 700; color: $color-success;
-    padding: 1px 6px; background: rgba(34, 197, 94, 0.1); border-radius: 4px;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 7px; border-radius: 20px;
+    color: #22c55e;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.15);
   }
 
   &__download {
-    flex-shrink: 0; padding: 8px;
+    width: 32px; height: 32px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    border: 1px solid var(--accent-border);
+    background: var(--accent-glow);
+    color: var(--accent);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0;
+    font-size: 0;
+    transition: all 0.15s ease;
+
+    svg { flex-shrink: 0; }
+
+    &:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
   }
 }
 
-// --- Done Banner ---
+// --- Conversion progress (uses native <progress> — matches heic.js .value writes) ---
+.results__progress {
+  display: flex; flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+  margin: 8px 16px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.results__progress-info {
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+
+.results__progress-text {
+  font-size: 13px; font-weight: 600; color: var(--text-muted);
+}
+
+.results__progress-percent {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 18px; font-weight: 700; color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.results__progress-bar {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  width: 100%;
+  height: 8px;
+  display: block;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.results__progress-bar::-webkit-progress-bar {
+  background: var(--border);
+  border-radius: 4px;
+}
+.results__progress-bar::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 4px;
+}
+.results__progress-bar::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 4px;
+}
+
+.results__progress-file {
+  font-size: 12px; color: var(--text-dim);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin: 0;
+}
+
+// --- Summary bar (output stats footer) ---
+.summary-bar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 18px;
+  padding: 10px 16px;
+  margin: 8px 16px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--accent-glow);
+}
+
+.summary-bar__stat {
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+.summary-bar__label {
+  font-size: 11px; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.summary-bar__value {
+  font-size: 13px; font-weight: 700; color: var(--text);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.summary-bar__stat--highlight .summary-bar__value {
+  color: #16a34a;
+  font-size: 14px;
+}
+
+// --- Done banner (success above result list) ---
 .results-done-banner {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 16px; margin-bottom: 8px;
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  border-radius: $radius-sm;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  margin: 8px 16px 0;
+  border-radius: 10px;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
   color: #16a34a;
   font-size: 13px; font-weight: 600;
 
   svg { flex-shrink: 0; }
+  span { flex: 1; }
 
   &__btn {
-    margin-left: auto;
-    padding: 5px 14px;
-    background: #16a34a; color: #fff;
-    border: none; border-radius: $radius-sm;
+    padding: 6px 12px; border-radius: 7px;
+    border: none;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 12px; font-weight: 600;
-    cursor: pointer; white-space: nowrap;
-    transition: background 0.15s ease;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(34, 197, 94, 0.3);
+    transition: all 0.15s ease;
 
-    &:hover { background: #15803d; }
-  }
-
-  [data-theme="dark"] & {
-    background: rgba(34, 197, 94, 0.08);
-    border-color: rgba(34, 197, 94, 0.2);
-    color: #4ade80;
-
-    .results-done-banner__btn {
-      background: #22c55e;
-      color: #052e16;
-      &:hover { background: #16a34a; }
+    &:hover {
+      box-shadow: 0 3px 10px rgba(34, 197, 94, 0.4);
+      transform: translateY(-1px);
     }
   }
 }
 
-// --- HEIC Warning (WASM load failed) ---
-.heic-warning {
-  position: fixed; inset: 0; z-index: 1000;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--color-bg);
-
-  &__content {
-    display: flex; flex-direction: column; align-items: center; gap: 16px;
-    text-align: center; max-width: 480px; padding: 40px;
-  }
-
-  &__icon { color: #f59e0b; opacity: 0.8; }
-
-  &__title {
-    font-size: 20px; font-weight: 700; color: var(--color-text);
-  }
-
-  &__text { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
-
-  &__back { margin-top: 8px; }
+// --- Checkerboard pattern (transparent images preview) ---
+.checkerboard {
+  background-image:
+    linear-gradient(45deg, var(--surface-raised) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--surface-raised) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--surface-raised) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--surface-raised) 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
 }
 
-// --- Image Modal ---
-.image-modal {
-  position: fixed; inset: 0; z-index: 500;
+// --- HEIC warning (WASM load failed — full-screen overlay) ---
+.heic-warning {
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--bg);
   display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+
+  &__content {
+    max-width: 480px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 14px;
+    text-align: center;
+  }
+
+  &__icon { color: #f59e0b; }
+
+  &__title {
+    font-size: 18px; font-weight: 800;
+    color: var(--text);
+  }
+
+  &__text {
+    font-size: 14px; color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  &__back {
+    margin-top: 6px;
+    padding: 8px 18px;
+    background: var(--accent-glow);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+    border-radius: 8px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+
+    &:hover { background: var(--accent); color: #fff; }
+  }
+}
+
+// --- Image preview modal (zoom on click) ---
+.image-modal {
+  position: fixed; inset: 0; z-index: 900;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+
+  &:not([hidden]) {
+    opacity: 1; pointer-events: all;
+  }
 
   &__backdrop {
     position: absolute; inset: 0;
-    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
   }
 
   &__content {
-    position: relative; z-index: 1;
+    position: relative;
     max-width: 90vw; max-height: 90vh;
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-hover);
   }
 
   &__close {
-    position: absolute; top: -40px; right: 0;
-    width: 32px; height: 32px; border: none; border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1); color: #fff;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: background $transition-fast;
-    &:hover { background: rgba(255, 255, 255, 0.2); }
+    position: absolute; top: 12px; right: 12px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2;
+    transition: background 0.15s ease;
+
+    &:hover { background: rgba(0, 0, 0, 0.75); }
   }
 
   &__image-wrap {
     @extend .checkerboard;
-    border-radius: $radius-md; overflow: hidden;
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+    display: flex; align-items: center; justify-content: center;
   }
 
   &__img {
-    display: block; max-width: 85vw; max-height: 75vh; object-fit: contain;
+    max-width: 100%;
+    max-height: 80vh;
+    display: block;
   }
 
   &__info {
-    font-size: 13px; color: rgba(255, 255, 255, 0.7); font-weight: 500;
+    padding: 12px 18px;
+    font-size: 12px; font-family: 'JetBrains Mono', ui-monospace, monospace;
+    color: var(--text-dim);
+    border-top: 1px solid var(--border);
   }
 }
 
-// --- Responsive ---
-@media (max-width: 768px) {
-  body { overflow: auto; }
-  .app { height: auto; min-height: 100vh; overflow: visible; }
-
-  .tool-bar--heic {
-    flex-direction: column; gap: 10px; padding: 10px 16px;
-
-    .tool-bar__presets { flex-wrap: wrap; justify-content: center; }
-    .tool-bar__slider { width: 100%; }
-    .tool-bar__input { flex: 1; }
-    .tool-bar__actions {
-      width: 100%; justify-content: center;
-      margin-left: 0; padding-left: 0; border-left: none;
-      border-top: 1px solid var(--color-border); padding-top: 8px;
-    }
-  }
-
-  .format-tabs {
-    align-self: center;
-  }
-
-  .drop-zone {
-    padding: 24px 16px;
-
-    &__text { font-size: 14px; }
-  }
-
-  .panel { min-height: 300px; }
-
-  .summary-bar {
-    flex-wrap: wrap; gap: 12px; padding: 8px 16px;
-  }
-
-  .mobile-bar {
-    display: flex; gap: 8px; padding: 12px 16px;
-    position: sticky; bottom: 0; z-index: 50;
-    background: var(--glass-bg-strong);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--color-border);
-
-    &__btn {
-      flex: 1; justify-content: center;
-    }
-  }
+// --- Mobile responsive ---
+@media (max-width: 720px) {
+  .summary-bar { gap: 12px; padding: 8px 12px; }
 }

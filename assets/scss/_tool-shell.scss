@@ -1,0 +1,888 @@
+// ============================================
+// FormattedAI — Tool shell (Hybrid Console v3)
+// Shared components for tool pages: fa-nav, fa-footer,
+// tool header, two-column workspace, pane, empty states.
+//
+// Imported alongside design-v2 by per-tool SCSS files:
+//   @use 'design-v2' as *;
+//   @use 'tool-shell' as *;
+// ============================================
+
+$ts-font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+$ts-font-mono:    'JetBrains Mono', ui-monospace, monospace;
+$ts-font-serif:   'Fraunces', Georgia, serif;
+$ts-accent:       #7c6cf0;
+$ts-accent-light: #a78bfa;
+$ts-accent-dark:  #6c5ce7;
+$ts-signal:       #22c55e;
+
+// === Wordmark ===
+.fa-wordmark {
+  font-family: $ts-font-serif;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  white-space: nowrap;
+
+  &__ai {
+    font-style: italic;
+    font-weight: 400;
+    color: $ts-accent-light;
+  }
+}
+
+// === Eyebrow / mono caps label ===
+.fa-eyebrow {
+  font-family: $ts-font-mono;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $ts-accent-light;
+}
+
+// === Inline kbd ===
+.fa-kbd {
+  display: inline-block;
+  font-family: $ts-font-mono;
+  font-size: 10px;
+  padding: 2px 6px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-dim);
+}
+
+// === Pill / status badge ===
+.fa-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: $ts-font-mono;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+
+  &--signal {
+    color: $ts-signal;
+    background: rgba(34, 197, 94, 0.10);
+    border-color: rgba(34, 197, 94, 0.30);
+  }
+
+  &--accent {
+    color: $ts-accent-light;
+    background: rgba(124, 108, 240, 0.08);
+    border-color: rgba(167, 139, 250, 0.30);
+  }
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 6px currentColor;
+  }
+}
+
+// === Hybrid Console nav (taller, breadcrumb-style for tools) ===
+.fa-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 28px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-shrink: 0;
+  min-width: 0; // allow children to shrink and ellipsize
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  &__logo { width: 26px; height: 26px; flex-shrink: 0; }
+
+  &__crumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    overflow: hidden;
+  }
+
+  &__crumb-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover { color: var(--text); }
+  }
+
+  &__crumb-sep { color: var(--border); }
+
+  &__crumb-cur {
+    color: var(--text);
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__right {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__lang,
+  &__icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding: 0 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: $ts-font-mono;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+
+    &:hover {
+      color: var(--text);
+      border-color: var(--accent-border);
+      background: var(--accent-glow);
+    }
+  }
+
+  &__icon-btn { width: 32px; padding: 0; }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 7px;
+    border: 1px solid var(--accent-border);
+    background: var(--accent-glow);
+    color: var(--accent);
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s;
+
+    &:hover { background: $ts-accent; color: #fff; border-color: $ts-accent; }
+  }
+
+  // Hamburger — hidden on desktop, shown on mobile
+  &__burger {
+    display: none;
+    width: 34px;
+    height: 34px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+
+    span {
+      display: block;
+      width: 16px;
+      height: 1.5px;
+      background: currentColor;
+      position: relative;
+      transition: transform 0.2s, background 0.2s;
+
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: currentColor;
+        transition: transform 0.2s, top 0.2s;
+      }
+      &::before { top: -5px; }
+      &::after  { top:  5px; }
+    }
+
+    &.is-open span {
+      background: transparent;
+      &::before { top: 0; transform: rotate(45deg); }
+      &::after  { top: 0; transform: rotate(-45deg); }
+    }
+  }
+
+  // Mid-size: hide CTA "All tools" to free up nav space
+  @media (max-width: 1100px) {
+    &__cta { display: none; }
+  }
+
+  @media (max-width: 900px) {
+    padding: 12px 16px;
+    gap: 12px;
+    grid-template-columns: auto 1fr auto;
+
+    &__brand .fa-wordmark { display: none; }
+    &__crumb-link { display: none; }
+    &__crumb-sep  { display: none; }
+    &__crumbs { font-size: 12px; min-width: 0; overflow: hidden; }
+    &__crumb-cur { font-weight: 600; }
+
+    &__burger { display: inline-flex; }
+
+    // Collapse right cluster (theme/lang/help/CTA) into a dropdown
+    &__right {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 0 16px;
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease, padding 0.25s ease;
+      pointer-events: none;
+    }
+
+    &.is-menu-open &__right {
+      max-height: 60vh;
+      padding: 12px 16px;
+      pointer-events: auto;
+    }
+
+    &__icon-btn,
+    &__lang { height: 32px; }
+    &__icon-btn { width: 32px; }
+    &__cta { display: inline-flex; height: 32px; }
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px 12px;
+    gap: 8px;
+    &__logo { width: 22px; height: 22px; }
+    &__crumbs { font-size: 11px; }
+    &__burger { width: 32px; height: 32px; }
+  }
+}
+
+// === Tool header (eyebrow + title + meta) — compact ===
+.tool-head {
+  padding: 16px 28px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg);
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  &__eyebrow {
+    @extend .fa-eyebrow;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  &__title {
+    font-family: $ts-font-display;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    color: var(--text);
+    margin: 0 0 4px;
+  }
+
+  &__sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 640px;
+    line-height: 1.5;
+  }
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: $ts-font-mono;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+
+    &-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transition: background 0.2s;
+
+      &.is-active {
+        background: $ts-signal;
+        box-shadow: 0 0 6px $ts-signal;
+      }
+    }
+  }
+}
+
+// === Sub-navigation strip (format/preset selector) ===
+.tool-sub {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+
+  &__label {
+    @extend .fa-eyebrow;
+    color: var(--text-dim);
+  }
+
+  &__btns {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 5px;
+    border: 0;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+
+    &:hover { color: var(--text); }
+
+    &.is-active {
+      background: var(--surface-raised);
+      color: $ts-accent-light;
+      box-shadow: var(--shadow-sm);
+    }
+  }
+
+  &__meta {
+    margin-left: auto;
+    font-family: $ts-font-mono;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+}
+
+// === Two-column workspace (input | output) ===
+.ws {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-subtle); // visible end before FAQ
+  max-height: calc(100vh - 64px);                 // never taller than viewport - nav
+
+  &__divider { background: var(--border); }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    max-height: none;
+    &__divider { display: none; }
+  }
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--bg); // ensure pane has solid bg even when body is empty
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 22px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  &__head-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__label {
+    font-family: $ts-font-mono;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text);
+  }
+
+  &__extra {
+    font-family: $ts-font-mono;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+
+  &__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  &__body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+}
+
+// === Tool action button (Wklej / Wyczyść / etc.) ===
+.tool-act {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+
+  &:hover:not(:disabled) {
+    color: var(--text);
+    border-color: var(--accent-border);
+    background: var(--accent-glow);
+  }
+
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &--primary {
+    background: linear-gradient(135deg, $ts-accent, $ts-accent-dark);
+    border-color: $ts-accent;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(124, 108, 240, 0.3);
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 4px 16px rgba(124, 108, 240, 0.4);
+      transform: translateY(-1px);
+      color: #fff;
+      border-color: $ts-accent-light;
+      background: linear-gradient(135deg, $ts-accent-light, $ts-accent);
+    }
+  }
+
+  kbd {
+    display: inline-block;
+    font-family: $ts-font-mono;
+    font-size: 9.5px;
+    padding: 1px 5px;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid currentColor;
+    border-color: var(--border);
+    border-radius: 3px;
+    color: inherit;
+    opacity: 0.7;
+    line-height: 1.3;
+  }
+
+  &--primary kbd {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.20);
+    color: #fff;
+  }
+}
+
+// === Empty state for output pane ===
+.out-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--text-dim);
+
+  &__mark {
+    font-family: $ts-font-mono;
+    font-size: 26px;
+    color: $ts-accent-light;
+  }
+
+  &__text {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 360px;
+    line-height: 1.6;
+  }
+
+  &__hints {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  &__hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: $ts-font-mono;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+}
+
+// === Input quick-load examples (overlay on empty textarea) ===
+.input-hint {
+  position: absolute;
+  inset: 32px 28px auto 28px;
+  pointer-events: none;          // clicks pass through to textarea below
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 2;                     // above textarea (z:1)
+  transition: opacity 0.15s ease-out;
+  opacity: 1;
+
+  &__cta {
+    pointer-events: auto;
+    padding: 22px 24px;
+    background: var(--surface);
+    border: 1px dashed var(--accent-border);
+    border-radius: 12px;
+    text-align: left;
+
+    &-eyebrow {
+      font-family: $ts-font-mono;
+      font-size: 10px;
+      color: $ts-accent-light;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    &-title {
+      font-family: $ts-font-display;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin: 0 0 4px;
+    }
+
+    &-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    &-shortcuts {
+      margin-top: 12px;
+      display: inline-flex;
+      gap: 14px;
+      font-family: $ts-font-mono;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+  }
+
+  &__label {
+    font-family: $ts-font-mono;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    pointer-events: auto;
+  }
+
+  &__btn {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+
+    &:hover {
+      border-color: var(--accent-border);
+      background: var(--accent-glow);
+      transform: translateY(-1px);
+    }
+
+    span:first-child { font-size: 13px; font-weight: 600; }
+    span:last-child { font-size: 11.5px; color: var(--text-dim); }
+  }
+}
+
+// === Footer (Hybrid Console — minimal but informative) ===
+.fa-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border-subtle);
+  padding: 32px 28px 20px;
+  flex-shrink: 0;
+
+  &__cols {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-subtle);
+
+    @media (max-width: 800px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+  }
+
+  &__col-label {
+    @extend .fa-eyebrow;
+    color: $ts-accent-light;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    margin-bottom: 12px;
+  }
+
+  &__byline {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.55;
+
+    a { color: $ts-accent-light; border-bottom: 1px solid rgba(167, 139, 250, 0.30); text-decoration: none; }
+  }
+
+  &__link {
+    display: block;
+    padding: 4px 0;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover { color: var(--text); }
+  }
+
+  &__bottom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: $ts-font-mono;
+    font-size: 10.5px;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+
+    a { color: $ts-accent-light; text-decoration: none; }
+  }
+}
+
+// === Theme toggle SVGs ===
+[data-theme="dark"] .fa-nav__icon-btn .fa-theme__sun { display: block; }
+[data-theme="dark"] .fa-nav__icon-btn .fa-theme__moon { display: none; }
+.fa-nav__icon-btn .fa-theme__sun { display: none; }
+.fa-nav__icon-btn .fa-theme__moon { display: block; }
+
+// === Page wrapper (shared body container) ===
+.tool-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  body & { overflow: visible; }
+}
+
+// === Minifier / code-editor shared styles (used by JS+CSS Minifier, HTML→PDF) ===
+.code-editor {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  border: 0;
+  outline: none;
+  padding: 24px 26px;
+  background: transparent;
+  color: var(--text);
+  font-family: $ts-font-mono;
+  font-size: 13px;
+  line-height: 1.65;
+  tab-size: 2;
+  position: relative;
+  z-index: 1;
+
+  &::placeholder { color: var(--text-dim); opacity: 0.55; }
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
+  &::-webkit-scrollbar-thumb:hover { background: var(--accent-border); }
+
+  &[readonly] { cursor: default; }
+
+  // Hide hint when textarea has focus
+  &:focus + .input-hint { opacity: 0; pointer-events: none; }
+}
+
+// Output meta line under second pane (size + savings %)
+.out-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: $ts-font-mono;
+  font-size: 10.5px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+
+  &__savings {
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--accent-glow);
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+    font-weight: 700;
+  }
+}
+
+// === FAQ accordion (re-used by tools that have FAQPage Schema.org) ===
+.tool-faq {
+  padding: 48px 28px 64px;
+  max-width: 920px;
+  margin: 0 auto;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg);
+
+  &__label {
+    @extend .fa-eyebrow;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  &__title {
+    font-family: $ts-font-display;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin: 0 0 28px;
+  }
+
+  details {
+    border-top: 1px solid var(--border-subtle);
+    padding: 16px 0;
+
+    &:last-of-type { border-bottom: 1px solid var(--border-subtle); }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-family: $ts-font-display;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+
+      &::-webkit-details-marker { display: none; }
+
+      &::after {
+        content: '+';
+        font-family: $ts-font-mono;
+        font-size: 18px;
+        color: var(--accent);
+        transition: transform 0.2s;
+      }
+    }
+
+    &[open] summary::after { content: '−'; }
+
+    p {
+      margin: 12px 0 0;
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: var(--text-muted);
+    }
+  }
+}

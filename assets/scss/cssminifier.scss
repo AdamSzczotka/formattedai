@@ -4,6 +4,7 @@
 // ============================================
 
 @use 'design-v2' as *;
+@use 'tool-shell' as *;
 
 :root {
   --accent: #22c55e;
@@ -12,3 +13,12 @@
   --accent-glow: rgba(34, 197, 94, 0.12);
   --accent-border: rgba(34, 197, 94, 0.25);
 }
+
+html, body { overflow-x: hidden; }
+body { overflow-y: auto; }
+.ws { min-height: calc(100vh - 220px); }
+@media (max-width: 900px) {
+  .ws { min-height: auto; }
+  .pane { min-height: 60vh; }
+}
+.pane__body { background: var(--bg); }
