@@ -41,6 +41,7 @@
     "description": "Dowiedz się, dlaczego AVIF to najlepszy format obrazków w 2026 roku i jak konwertować zdjęcia bez utraty jakości.",
     "url": "https://formattedai.pl/articles/optymalizacja-zdjec-avif/",
     "datePublished": "2026-03-25",
+    "dateModified": "2026-05-10",
     "author": {
       "@type": "Person",
       "name": "Adam Szczotka",
@@ -52,7 +53,12 @@
       "url": "https://formattedai.pl/"
     },
     "inLanguage": "pl",
-    "mainEntityOfPage": "https://formattedai.pl/articles/optymalizacja-zdjec-avif/"
+    "mainEntityOfPage": "https://formattedai.pl/articles/optymalizacja-zdjec-avif/",
+    "wordCount": 1300,
+    "keywords": ["AVIF", "optymalizacja obrazów", "WebP", "JPEG", "kompresja obrazów", "Core Web Vitals", "LCP", "konwerter AVIF"],
+    "articleSection": "Tutorials",
+    "isAccessibleForFree": true,
+    "image": ["https://formattedai.pl/assets/screenshots/screen_desktop_avif_1.png"]
   }
   </script>
 
@@ -65,6 +71,56 @@
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/" },
       { "@type": "ListItem", "position": 2, "name": "Artykuły", "item": "https://formattedai.pl/articles/" },
       { "@type": "ListItem", "position": 3, "name": "Jak przyspieszyć ładowanie zdjęć na stronie? Kompletny poradnik AVIF", "item": "https://formattedai.pl/articles/optymalizacja-zdjec-avif/" }
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Czym jest format AVIF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AVIF (AV1 Image File Format) to nowoczesny format obrazów oparty na kodeku wideo AV1. Oferuje znacznie lepszą kompresję niż JPEG i WebP, zachowując wysoką jakość wizualną. Jest otwartym standardem rozwijanym przez Alliance for Open Media."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Czy AVIF jest lepszy niż WebP?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tak — AVIF zazwyczaj daje pliki o około 20-30% mniejsze od WebP przy porównywalnej jakości i nawet 50% mniejsze od JPEG. AVIF lepiej radzi sobie też z trudnymi scenami (gradienty, ciemne obszary), choć kodowanie jest wolniejsze niż w przypadku WebP."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Jak konwertować PNG/JPG na AVIF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Najszybciej skorzystać z darmowego konwertera online działającego w przeglądarce, np. AVIF Converter na FormattedAI. Wystarczy przeciągnąć plik PNG lub JPG, wybrać jakość (zwykle 50-70 dla zdjęć) i pobrać gotowy plik .avif. Cała konwersja dzieje się lokalnie — nic nie trafia na serwer."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Które przeglądarki obsługują AVIF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AVIF jest obsługiwane przez Chrome (od v85), Firefox (od v93), Edge (od v121), Safari (od v16) oraz Operę. Globalne wsparcie przekracza 95%. Dla starszych przeglądarek warto stosować element <picture> z fallbackiem do WebP lub JPEG."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "O ile mniejsze są pliki AVIF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pliki AVIF są zwykle o 50% mniejsze od JPEG i o 20-30% mniejsze od WebP przy tej samej jakości wizualnej. Dla typowego zdjęcia 1MB w JPEG odpowiednik AVIF ma około 400-500 KB. Realna oszczędność zależy od treści obrazu i parametrów kompresji."
+        }
+      }
     ]
   }
   </script>
