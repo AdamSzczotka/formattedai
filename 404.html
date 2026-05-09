@@ -1,32 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Page Not Found | FormattedAI</title>
-  <meta name="robots" content="noindex">
+
+  <title>404 — strona nie znaleziona | FormattedAI</title>
+  <meta name="description" content="Strona, której szukasz, nie istnieje lub została przeniesiona. Wróć na stronę główną FormattedAI lub przejdź do katalogu narzędzi. / The page you are looking for does not exist or has been moved.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="author" content="Adam Szczotka">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="404 — strona nie znaleziona | FormattedAI">
+  <meta property="og:description" content="Strona, której szukasz, nie istnieje lub została przeniesiona. / The page you are looking for does not exist or has been moved.">
+  <meta property="og:url" content="https://formattedai.pl/404.html">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl">
+  <meta property="og:locale:alternate" content="en">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="404 — strona nie znaleziona | FormattedAI">
+  <meta name="twitter:description" content="Strona, której szukasz, nie istnieje lub została przeniesiona. / The page you are looking for does not exist or has been moved.">
+
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme');
+      if (!t) t = 'dark';
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/articles-list.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #f5f5f7; color: #1a1a2e; }
-    .container { text-align: center; padding: 40px 24px; }
-    .code { font-size: 120px; font-weight: 800; color: #d8d8e0; letter-spacing: -4px; line-height: 1; }
-    .title { font-size: 24px; font-weight: 700; margin: 16px 0 8px; }
-    .text { font-size: 15px; color: #555570; margin-bottom: 32px; line-height: 1.6; }
-    .link { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: linear-gradient(135deg, #7c6cf0, #5b4bd4); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; transition: transform 0.2s, box-shadow 0.2s; }
-    .link:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(124, 108, 240, 0.35); }
+    .error { max-width: 720px; margin: 0 auto; padding: 120px 32px 80px; text-align: center; }
+    .error__eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #a78bfa; letter-spacing: 0.18em; margin-bottom: 24px; }
+    .error__code { font-family: 'Space Grotesk', sans-serif; font-size: 160px; font-weight: 500; line-height: 1; letter-spacing: -0.04em; background: linear-gradient(135deg, #a78bfa, #5b4bd4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 16px; }
+    .error__title { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 500; letter-spacing: -0.02em; margin: 0 0 16px; }
+    .error__title em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; color: var(--accent-light); }
+    .error__desc { font-size: 17px; color: var(--text-muted); margin: 0 0 12px; line-height: 1.6; }
+    .error__desc:last-of-type { margin-bottom: 48px; }
+    .error__desc--en { font-style: italic; color: var(--text-muted); opacity: 0.85; }
+    .error__sep { display: inline-block; width: 32px; height: 1px; background: var(--border); margin: 14px auto 18px; vertical-align: middle; }
+    .error__inline-link { color: var(--accent-light); text-decoration: none; border-bottom: 1px solid rgba(167, 139, 250, 0.30); }
+    .error__inline-link:hover { border-bottom-color: var(--accent-light); }
+    .error__links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 480px; margin: 0 auto; }
+    .error__link { padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; text-align: left; text-decoration: none; color: inherit; transition: border-color 0.25s, transform 0.25s; }
+    .error__link:hover { border-color: var(--accent-light); transform: translateY(-2px); }
+    .error__link-name { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .error__link-desc { font-size: 12px; color: var(--text-muted); }
+    @media (max-width: 600px) {
+      .error { padding: 80px 20px 60px; }
+      .error__code { font-size: 110px; }
+      .error__title { font-size: 28px; }
+      .error__links { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="code">404</div>
-    <h1 class="title">Page not found</h1>
-    <p class="text">The page you're looking for doesn't exist or has been moved.</p>
-    <a href="/" class="link">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L1 8l7 7M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Back to FormattedAI
+
+  <header class="fa-nav" id="faNav" role="banner">
+    <a href="/" class="fa-nav__brand" aria-label="FormattedAI — strona główna">
+      <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#a78bfa"/>
+            <stop offset="1" stop-color="#5b4bd4"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+        <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+        <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+      </svg>
+      <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
     </a>
-  </div>
+    <nav class="fa-nav__links">
+      <a href="/narzedzia/" class="fa-nav__link">Narzędzia</a>
+      <a href="/articles/" class="fa-nav__link">Dziennik</a>
+      <a href="/about/" class="fa-nav__link">O projekcie</a>
+    </nav>
+    <div class="fa-nav__right">
+      <a href="/en/" class="fa-nav__lang" hreflang="en">EN</a>
+      <button class="fa-nav__theme" id="themeToggle" type="button" aria-label="Przełącz motyw">
+        <svg class="fa-theme__moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="fa-theme__sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <a href="https://github.com/AdamSzczotka/formattedai" class="fa-nav__gh" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="error">
+      <div class="error__eyebrow">/ ERROR · 404</div>
+      <div class="error__code">404</div>
+      <h1 class="error__title">Strona <em>nie znaleziona</em> / Page <em>not found</em></h1>
+      <p class="error__desc">Strona, której szukasz, nie istnieje lub została przeniesiona. Wróć na <a href="/" class="error__inline-link">stronę główną</a> albo przejdź do <a href="/narzedzia/" class="error__inline-link">katalogu narzędzi</a>.</p>
+      <span class="error__sep" aria-hidden="true"></span>
+      <p class="error__desc error__desc--en">The page you are looking for does not exist or has been moved. Go back to the <a href="/en/" class="error__inline-link">homepage</a> or browse the <a href="/en/tools/" class="error__inline-link">tools catalog</a>.</p>
+
+      <div class="error__links">
+        <a href="/" class="error__link">
+          <div class="error__link-name">Strona główna</div>
+          <div class="error__link-desc">Home — FormattedAI start</div>
+        </a>
+        <a href="/narzedzia/" class="error__link">
+          <div class="error__link-name">Narzędzia</div>
+          <div class="error__link-desc">All tools — pełen katalog</div>
+        </a>
+        <a href="/articles/" class="error__link">
+          <div class="error__link-name">Dziennik</div>
+          <div class="error__link-desc">Articles — porady i analizy</div>
+        </a>
+        <a href="https://github.com/AdamSzczotka/formattedai" class="error__link" target="_blank" rel="noopener">
+          <div class="error__link-name">GitHub ↗</div>
+          <div class="error__link-desc">Source code — open source MIT</div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="fa-footer" role="contentinfo">
+    <div class="fa-footer__cols">
+      <div>
+        <a href="/" style="display:inline-flex;align-items:center;gap:12px;text-decoration:none">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+            <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+            <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+          </svg>
+          <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+        </a>
+        <p class="fa-footer__byline">Stworzone przez <a href="https://adamszczotka.dev" target="_blank" rel="noopener">Adama Szczotkę ↗</a></p>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Narzędzia</div>
+        <a href="/narzedzia/" class="fa-footer__link">Wszystkie narzędzia</a>
+        <a href="/formatter/" class="fa-footer__link">Markdown Formatter</a>
+        <a href="/avif/" class="fa-footer__link">AVIF Converter</a>
+        <a href="/pdf/" class="fa-footer__link">PDF Tools</a>
+        <a href="/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Treść</div>
+        <a href="/articles/" class="fa-footer__link">Dziennik</a>
+        <a href="/about/" class="fa-footer__link">O projekcie</a>
+        <a href="/llms.txt" class="fa-footer__link">llms.txt</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Kod &amp; kontakt</div>
+        <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+        <a href="/privacy/" class="fa-footer__link">Prywatność</a>
+        <a href="/en/" class="fa-footer__link" hreflang="en">English</a>
+      </div>
+    </div>
+    <div class="fa-footer__bottom">
+      <span>© 2026 Adam Szczotka · MIT</span>
+      <span>zero danych na serwerze · zero cookies · zero śledzenia</span>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var html = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      btn && btn.addEventListener('click', function() {
+        var current = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        var next = current === 'light' ? 'dark' : 'light';
+        if (next === 'light') html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+        try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      });
+      var nav = document.getElementById('faNav');
+      var onScroll = function() {
+        if (window.scrollY > 8) nav.classList.add('fa-nav--scrolled');
+        else nav.classList.remove('fa-nav--scrolled');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
 </body>
 </html>

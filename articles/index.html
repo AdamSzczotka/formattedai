@@ -4,52 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO -->
-  <title>Artykuły — FormattedAI | Poradniki i porady webdev</title>
-  <meta name="description" content="Artykuły, poradniki i porady na temat narzędzi webdev. Optymalizacja obrazów, SEO, formatowanie tekstu i więcej. Praktyczna wiedza od FormattedAI.">
-  <meta name="keywords" content="artykuły webdev, poradniki, optymalizacja obrazów, AVIF, SEO, formatowanie, narzędzia online">
+  <title>Dziennik — FormattedAI · poradniki webdev, optymalizacja, SEO, AI</title>
+  <meta name="description" content="Artykuły, poradniki i porady na temat narzędzi webdev. Optymalizacja obrazów AVIF, GEO/SEO pod AI wyszukiwarki, formatowanie z ChatGPT, narzędzia PDF.">
+  <meta name="keywords" content="artykuły webdev, poradniki, optymalizacja obrazów, AVIF, SEO, GEO, formatowanie, narzędzia online">
   <meta name="author" content="Adam Szczotka">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://formattedai.pl/articles/">
-  <link rel="alternate" type="application/rss+xml" title="FormattedAI — Artykuły" href="/articles/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="FormattedAI — Dziennik" href="/articles/feed.xml">
   <link rel="alternate" hreflang="pl" href="https://formattedai.pl/articles/">
   <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/articles/">
   <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/articles/">
   <meta http-equiv="content-language" content="pl">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Artykuły — FormattedAI">
-  <meta property="og:description" content="Poradniki i porady na temat narzędzi webdev. Optymalizacja obrazów, SEO, formatowanie tekstu i więcej.">
+  <meta property="og:title" content="Dziennik — FormattedAI">
+  <meta property="og:description" content="Poradniki i porady na temat narzędzi webdev. Optymalizacja obrazów, SEO/GEO, formatowanie tekstu i więcej.">
   <meta property="og:url" content="https://formattedai.pl/articles/">
   <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
   <meta property="og:site_name" content="FormattedAI">
   <meta property="og:locale" content="pl">
+  <meta property="og:locale:alternate" content="en">
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Artykuły — FormattedAI">
+  <meta name="twitter:title" content="Dziennik — FormattedAI">
   <meta name="twitter:description" content="Poradniki i porady na temat narzędzi webdev.">
 
-  <!-- Structured Data: BreadcrumbList -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/" },
-      { "@type": "ListItem", "position": 2, "name": "Artykuły", "item": "https://formattedai.pl/articles/" }
+      { "@type": "ListItem", "position": 2, "name": "Dziennik", "item": "https://formattedai.pl/articles/" }
     ]
   }
   </script>
 
-  <!-- Structured Data: Blog -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Blog",
     "url": "https://formattedai.pl/articles/",
-    "name": "FormattedAI — Artykuły",
+    "name": "FormattedAI — Dziennik",
     "description": "Poradniki i porady na temat narzędzi webdev, optymalizacji obrazów, SEO, GEO i formatowania tekstu.",
     "inLanguage": "pl",
     "publisher": {
@@ -93,195 +89,208 @@
   }
   </script>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
   <link rel="apple-touch-icon" href="../assets/favicon.svg">
   <meta name="theme-color" content="#08080c">
 
-  <!-- Fonts & Styles -->
-  <link rel="stylesheet" href="assets/css/fonts.css">
-  <link rel="stylesheet" href="../assets/css/articles.css">
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme');
+      if (!t) t = 'dark';
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/css/articles-list.css">
 </head>
 <body>
-  <div class="bg-effects" aria-hidden="true">
-    <div class="bg-effects__orb bg-effects__orb--1"></div>
-    <div class="bg-effects__orb bg-effects__orb--2"></div>
-    <div class="bg-effects__orb bg-effects__orb--3"></div>
-    <div class="bg-effects__grid"></div>
-  </div>
 
-  <div class="app">
-    <nav class="navbar" role="navigation">
-      <a href="/" class="navbar__brand">
-        <div class="navbar__logo" aria-hidden="true">
-          <svg class="navbar__logo-svg" viewBox="0 0 32 32" fill="none">
-            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
-            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient>
-              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30"><stop stop-color="rgba(108,92,231,0.3)"/><stop offset="1" stop-color="rgba(167,139,250,0.1)"/></linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <div>
-          <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
-          <p class="navbar__subtitle">Narzędzia webdev • 100% client-side</p>
-        </div>
-      </a>
-      <div class="navbar__nav">
-        <a href="/" class="navbar__link">Narzędzia</a>
-        <a href="/articles/" class="navbar__link navbar__link--active">Artykuły</a>
-        <a href="/about/" class="navbar__link">O nas</a>
-        <a href="https://formattedai.pl/en/articles/" class="navbar__link">EN</a>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
-          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        </button>
-        <a href="https://github.com/AdamSzczotka/formattedai" class="navbar__link" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-      </div>
+  <header class="fa-nav" id="faNav" role="banner">
+    <a href="/" class="fa-nav__brand" aria-label="FormattedAI — strona główna">
+      <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#a78bfa"/>
+            <stop offset="1" stop-color="#5b4bd4"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+        <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+        <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+      </svg>
+      <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+    </a>
+    <nav class="fa-nav__links">
+      <a href="/narzedzia/" class="fa-nav__link">Narzędzia</a>
+      <a href="/articles/" class="fa-nav__link is-active">Dziennik</a>
+      <a href="/about/" class="fa-nav__link">O projekcie</a>
     </nav>
+    <div class="fa-nav__right">
+      <a href="/en/articles/" class="fa-nav__lang" hreflang="en">EN</a>
+      <button class="fa-nav__theme" id="themeToggle" type="button" aria-label="Przełącz motyw">
+        <svg class="fa-theme__moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="fa-theme__sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <a href="/articles/feed.xml" class="fa-nav__gh" aria-label="RSS feed">RSS</a>
+    </div>
+  </header>
 
-    <main>
-      <section class="articles-hero">
-        <div class="articles-hero__badge">
-          <span class="articles-hero__badge-dot"></span>
-          Baza wiedzy
-        </div>
-        <h1 class="articles-hero__title">Wiedza, która <span>przyspiesza</span> Twój web</h1>
-        <p class="articles-hero__desc">Poradniki, porady i praktyczna wiedza o optymalizacji stron, obrazków i SEO. Wszystko w kontekście naszych narzędzi.</p>
-      </section>
+  <main>
 
-      <section class="articles-list">
-        <div class="articles-list__header">
-          <span class="articles-list__label">Artykuły</span>
-          <span class="articles-list__count">4 artykuły</span>
-        </div>
-        <div class="articles-list__grid">
+    <section class="al-hero">
+      <div class="al-hero__bg" aria-hidden="true">
+        <div class="al-hero__orb"></div>
+        <div class="al-hero__grid"></div>
+      </div>
+      <div class="al-hero__inner">
+        <div class="al-hero__label">/ DZIENNIK · 4 wpisy</div>
+        <h1 class="al-hero__title">
+          Wiedza, która<br>
+          <span class="al-hero__title-hl">przyspiesza</span> Twój web.
+        </h1>
+        <p class="al-hero__desc">
+          Poradniki, porady i praktyczna wiedza o optymalizacji stron, obrazków i SEO.
+          Wszystko w kontekście naszych narzędzi — bez teorii, z konkretnymi krokami.
+        </p>
+      </div>
+    </section>
 
-          <!-- Article: ChatGPT formatowanie Google Docs -->
-          <a href="/articles/chatgpt-formatowanie-google-docs/" class="article-card">
-            <div class="article-card__header-row">
-              <div class="article-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              </div>
-              <div>
-                <span class="article-card__tag article-card__tag--live">Formatter</span>
-              </div>
-            </div>
-            <h2 class="article-card__title">Kopiujesz tekst z ChatGPT do Google Docs? Tracisz formatowanie - oto jak to naprawić</h2>
-            <p class="article-card__desc">ChatGPT generuje Markdown, a Google Docs go nie rozumie. Markdown Formatter tłumaczy jeden format na drugi - jednym kliknięciem, 100% w przeglądarce.</p>
-            <div class="article-card__footer">
-              <div class="article-card__meta">
-                <span>2026-04-10</span>
-                <span>5 min czytania</span>
-              </div>
-              <svg class="article-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
+    <section class="al-list">
+      <header class="al-list__head">
+        <div class="al-list__label">/ ARCHIWUM</div>
+        <div class="al-list__count">4 / 4 wpisy · sortowanie: najnowsze</div>
+      </header>
 
-          <!-- Article: Darmowe narzedzia PDF online -->
-          <a href="/articles/pdf-darmowe-narzedzia-online/" class="article-card">
-            <div class="article-card__header-row">
-              <div class="article-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/><path d="M14 2v6h6"/></svg>
-              </div>
-              <div>
-                <span class="article-card__tag article-card__tag--live">PDF</span>
-              </div>
-            </div>
-            <h2 class="article-card__title">Darmowe narzędzia PDF online — 7 funkcji w jednym, bez wysyłania plików na serwer</h2>
-            <p class="article-card__desc">Łącz, dziel, kompresuj, przycinaj PDF, konwertuj obrazki, wypełniaj formularze i dodawaj podpis — wszystko w przeglądarce.</p>
-            <div class="article-card__footer">
-              <div class="article-card__meta">
-                <span>2026-04-06</span>
-                <span>8 min czytania</span>
-              </div>
-              <svg class="article-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
+      <div class="al-list__grid">
 
-          <!-- Article: GEO optymalizacja pod AI -->
-          <a href="/articles/geo-optymalizacja-pod-ai/" class="article-card">
-            <div class="article-card__header-row">
-              <div class="article-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              </div>
-              <div>
-                <span class="article-card__tag article-card__tag--live">GEO</span>
-              </div>
+        <a href="/articles/chatgpt-formatowanie-google-docs/" class="al-card">
+          <div class="al-card__date">2026<br>04 / 10</div>
+          <div class="al-card__main">
+            <div class="al-card__head">
+              <span class="al-card__tag">Markdown</span>
+              <span class="al-card__read">5 min czytania</span>
             </div>
-            <h2 class="article-card__title">GEO — Jak zoptymalizować stronę pod wyszukiwarki AI? Poradnik 2026</h2>
-            <p class="article-card__desc">Generative Engine Optimization — jak sprawić, żeby Twoja strona pojawiała się w odpowiedziach ChatGPT, Perplexity i Gemini. Z przykładami kodu.</p>
-            <div class="article-card__footer">
-              <div class="article-card__meta">
-                <span>2026-03-31</span>
-                <span>8 min czytania</span>
-              </div>
-              <svg class="article-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
-
-          <!-- Article: Optymalizacja zdjec AVIF -->
-          <a href="/articles/optymalizacja-zdjec-avif/" class="article-card">
-            <div class="article-card__header-row">
-              <div class="article-card__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-              </div>
-              <div>
-                <span class="article-card__tag article-card__tag--live">AVIF</span>
-              </div>
-            </div>
-            <h2 class="article-card__title">Jak przyspieszyć ładowanie zdjęć na stronie? Kompletny poradnik AVIF</h2>
-            <p class="article-card__desc">Dowiedz się, dlaczego AVIF to najlepszy format obrazków w 2026 roku i jak konwertować zdjęcia bez utraty jakości.</p>
-            <div class="article-card__footer">
-              <div class="article-card__meta">
-                <span>2026-03-25</span>
-                <span>5 min czytania</span>
-              </div>
-              <svg class="article-card__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </a>
-
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer" role="contentinfo">
-      <p class="footer__text">
-        <span>Stworzone przez</span>
-        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
-          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Adam Szczotka
+            <h2 class="al-card__title">Kopiujesz tekst z ChatGPT do Google Docs? Tracisz formatowanie — oto jak to naprawić</h2>
+            <p class="al-card__desc">ChatGPT generuje Markdown, a Google Docs go nie rozumie. Markdown Formatter tłumaczy jeden format na drugi — jednym kliknięciem, 100% w przeglądarce.</p>
+          </div>
+          <span class="al-card__arrow" aria-hidden="true">→</span>
         </a>
-      </p>
-      <div class="footer__badge">
-        <span class="footer__badge__dot"></span>
-        <span>100% client-side — zero danych na serwerze</span>
+
+        <a href="/articles/pdf-darmowe-narzedzia-online/" class="al-card">
+          <div class="al-card__date">2026<br>04 / 06</div>
+          <div class="al-card__main">
+            <div class="al-card__head">
+              <span class="al-card__tag">PDF</span>
+              <span class="al-card__read">8 min czytania</span>
+            </div>
+            <h2 class="al-card__title">Darmowe narzędzia PDF online — 7 funkcji w jednym, bez wysyłania plików na serwer</h2>
+            <p class="al-card__desc">Łącz, dziel, kompresuj, przycinaj PDF, konwertuj obrazki, wypełniaj formularze i dodawaj podpis — wszystko w przeglądarce.</p>
+          </div>
+          <span class="al-card__arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="/articles/geo-optymalizacja-pod-ai/" class="al-card">
+          <div class="al-card__date">2026<br>03 / 31</div>
+          <div class="al-card__main">
+            <div class="al-card__head">
+              <span class="al-card__tag">GEO / SEO</span>
+              <span class="al-card__read">8 min czytania</span>
+            </div>
+            <h2 class="al-card__title">GEO — Jak zoptymalizować stronę pod wyszukiwarki AI? Poradnik 2026</h2>
+            <p class="al-card__desc">Generative Engine Optimization — jak sprawić, żeby Twoja strona pojawiała się w odpowiedziach ChatGPT, Perplexity i Gemini. Z przykładami kodu.</p>
+          </div>
+          <span class="al-card__arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="/articles/optymalizacja-zdjec-avif/" class="al-card">
+          <div class="al-card__date">2026<br>03 / 25</div>
+          <div class="al-card__main">
+            <div class="al-card__head">
+              <span class="al-card__tag">AVIF / Obrazy</span>
+              <span class="al-card__read">5 min czytania</span>
+            </div>
+            <h2 class="al-card__title">Jak przyspieszyć ładowanie zdjęć na stronie? Kompletny poradnik AVIF</h2>
+            <p class="al-card__desc">Dowiedz się, dlaczego AVIF to najlepszy format obrazków w 2026 roku i jak konwertować zdjęcia bez utraty jakości.</p>
+          </div>
+          <span class="al-card__arrow" aria-hidden="true">→</span>
+        </a>
+
       </div>
-      <div class="footer__links">
-        <a href="/articles/" class="footer__link">Artykuły</a>
-        <a href="/about/" class="footer__link">O nas</a>
-        <a href="/privacy/" class="footer__link">Prywatność</a>
-        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link">Kontakt</a>
-        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+    </section>
+
+  </main>
+
+  <footer class="fa-footer" role="contentinfo">
+    <div class="fa-footer__cols">
+      <div>
+        <a href="/" style="display:inline-flex;align-items:center;gap:12px;text-decoration:none">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+            <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+            <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+          </svg>
+          <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+        </a>
+        <p class="fa-footer__byline">Stworzone przez <a href="https://adamszczotka.dev" target="_blank" rel="noopener">Adama Szczotkę ↗</a></p>
       </div>
-    </footer>
-  </div>
+      <div>
+        <div class="fa-footer__col-label">Narzędzia</div>
+        <a href="/narzedzia/" class="fa-footer__link">Wszystkie narzędzia</a>
+        <a href="/formatter/" class="fa-footer__link">Markdown Formatter</a>
+        <a href="/avif/" class="fa-footer__link">AVIF Converter</a>
+        <a href="/pdf/" class="fa-footer__link">PDF Tools</a>
+        <a href="/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Treść</div>
+        <a href="/articles/" class="fa-footer__link">Dziennik</a>
+        <a href="/articles/feed.xml" class="fa-footer__link">RSS</a>
+        <a href="/about/" class="fa-footer__link">O projekcie</a>
+        <a href="/llms.txt" class="fa-footer__link">llms.txt</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Kod &amp; kontakt</div>
+        <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+        <a href="/privacy/" class="fa-footer__link">Prywatność</a>
+        <a href="/en/articles/" class="fa-footer__link" hreflang="en">English</a>
+      </div>
+    </div>
+
+    <div class="fa-footer__bottom">
+      <span>© 2026 Adam Szczotka · MIT</span>
+      <span>zero danych na serwerze · zero cookies · zero śledzenia</span>
+    </div>
+  </footer>
 
   <script>
-  (function() {
-    var theme = localStorage.getItem('formattedai-theme') || 'light';
-    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-    document.getElementById('themeToggle').addEventListener('click', function() {
-      theme = theme === 'light' ? 'dark' : 'light';
-      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-      else document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('formattedai-theme', theme);
-    });
-  })();
+    (function() {
+      var html = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      btn && btn.addEventListener('click', function() {
+        var current = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        var next = current === 'light' ? 'dark' : 'light';
+        if (next === 'light') html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+        try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      });
+
+      var nav = document.getElementById('faNav');
+      var onScroll = function() {
+        if (window.scrollY > 8) nav.classList.add('fa-nav--scrolled');
+        else nav.classList.remove('fa-nav--scrolled');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
   </script>
 </body>
 </html>

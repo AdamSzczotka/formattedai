@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Tools — FormattedAI · catalog of 12 free web tools</title>
+  <meta name="description" content="Full FormattedAI tools catalog: Markdown Formatter, AVIF/HEIC Converter, OCR, PDF Tools, HTML to PDF, JS/CSS Minifier, SEO &amp; GEO Generator, Email Signature. Everything 100% in the browser.">
+  <meta name="keywords" content="online tools, web tools, markdown, avif, heic, pdf, ocr, seo, geo, email signature, client-side">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/en/tools/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/narzedzia/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/tools/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/narzedzia/">
+  <meta http-equiv="content-language" content="en">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tools — FormattedAI">
+  <meta property="og:description" content="Full FormattedAI tools catalog: 10 active tools running 100% in the browser.">
+  <meta property="og:url" content="https://formattedai.pl/en/tools/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="en">
+  <meta property="og:locale:alternate" content="pl">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tools — FormattedAI">
+  <meta name="twitter:description" content="Full catalog of 10 free web tools. 100% client-side.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "FormattedAI Tools",
+    "url": "https://formattedai.pl/en/tools/",
+    "description": "Catalog of client-side web tools.",
+    "inLanguage": "en",
+    "isPartOf": { "@type": "WebSite", "name": "FormattedAI", "url": "https://formattedai.pl/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://formattedai.pl/en/tools/" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme');
+      if (!t) t = 'dark';
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../assets/css/tools.css">
+</head>
+<body>
+
+  <header class="fa-nav" id="faNav" role="banner">
+    <a href="/en/" class="fa-nav__brand" aria-label="FormattedAI — home">
+      <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#a78bfa"/>
+            <stop offset="1" stop-color="#5b4bd4"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+        <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+        <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+        <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+      </svg>
+      <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+    </a>
+    <nav class="fa-nav__links">
+      <a href="/en/tools/" class="fa-nav__link is-active">Tools</a>
+      <a href="/en/articles/" class="fa-nav__link">Journal</a>
+      <a href="/en/about/" class="fa-nav__link">About</a>
+    </nav>
+    <div class="fa-nav__right">
+      <a href="/narzedzia/" class="fa-nav__lang" hreflang="pl">PL</a>
+      <button class="fa-nav__theme" id="themeToggle" type="button" aria-label="Toggle theme">
+        <svg class="fa-theme__moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="fa-theme__sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <a href="https://github.com/AdamSzczotka/formattedai" class="fa-nav__gh" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="t-hero">
+      <div class="t-hero__bg" aria-hidden="true">
+        <div class="t-hero__orb"></div>
+        <div class="t-hero__grid"></div>
+      </div>
+      <div class="t-hero__inner">
+        <div class="t-hero__label">/ TOOL CATALOG · 10 / 12 ACTIVE</div>
+        <h1 class="t-hero__title">
+          Everything you need<br>
+          for <span class="t-hero__title-hl">daily document</span><br>
+          work.
+        </h1>
+        <p class="t-hero__desc">
+          Markdown, images, PDF, SEO. Every tool runs in your browser — no accounts,
+          no uploads, no tracking. Pick from the map below or hit <kbd class="fa-kbd">⌘K</kbd> to search.
+        </p>
+        <div class="t-hero__ctas">
+          <button class="fa-btn fa-btn--primary" id="palOpen" type="button">
+            <span aria-hidden="true">⌕</span>
+            <span>Search tools</span>
+            <kbd class="fa-kbd">⌘K</kbd>
+          </button>
+          <a href="#all" class="fa-btn fa-btn--ghost">Full list ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="t-map">
+      <div class="t-map__cat">
+        <div class="t-map__cat-head">
+          <div class="t-map__cat-n" style="color:#a78bfa">01 · Text</div>
+          <h2 class="t-map__cat-title">Text</h2>
+          <p class="t-map__cat-body">Markdown, code, text data.</p>
+        </div>
+        <div class="t-map__cat-tiles">
+          <a href="/en/formatter/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">✎</span><span class="t-tile__badge">most used</span></div>
+            <div class="t-tile__name">Markdown Formatter</div>
+            <p class="t-tile__desc">Paste text from ChatGPT or Claude — copy a perfect document into Word or Docs.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/en/js-minifier/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">{ }</span></div>
+            <div class="t-tile__name">JS Minifier</div>
+            <p class="t-tile__desc">Esbuild + Terser in the browser. Minify, format.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/en/css-minifier/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">#</span></div>
+            <div class="t-tile__name">CSS Minifier</div>
+            <p class="t-tile__desc">CSSO + js-beautify. Source maps, syntax check.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <div class="t-tile t-tile--soon">
+            <div class="t-tile__top"><span class="t-tile__icon">[ ]</span><span class="t-tile__soon">SOON</span></div>
+            <div class="t-tile__name">JSON Formatter</div>
+            <p class="t-tile__desc">Validate, tree view, key search.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-map__cat">
+        <div class="t-map__cat-head">
+          <div class="t-map__cat-n" style="color:#7c6cf0">02 · Images</div>
+          <h2 class="t-map__cat-title">Images</h2>
+          <p class="t-map__cat-body">Conversion, compression, OCR — via WebAssembly.</p>
+        </div>
+        <div class="t-map__cat-tiles">
+          <a href="/en/avif/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">◧</span><span class="t-tile__badge">WASM</span></div>
+            <div class="t-tile__name">AVIF Converter</div>
+            <p class="t-tile__desc">PNG / JPG / WebP → AVIF. Batch, presets, ZIP.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/en/heic/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">◐</span></div>
+            <div class="t-tile__name">HEIC Converter</div>
+            <p class="t-tile__desc">iPhone HEIC photos to JPG, PNG or AVIF.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/en/ocr/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">A</span></div>
+            <div class="t-tile__name">OCR</div>
+            <p class="t-tile__desc">Text from images. Tesseract.js, 100+ languages.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <div class="t-tile t-tile--soon">
+            <div class="t-tile__top"><span class="t-tile__icon">◉</span><span class="t-tile__soon">SOON</span></div>
+            <div class="t-tile__name">Color Palette</div>
+            <p class="t-tile__desc">Harmonious palettes, HEX/RGB/HSL, WCAG.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-map__cat">
+        <div class="t-map__cat-head">
+          <div class="t-map__cat-n" style="color:#9b8ff7">03 · Documents</div>
+          <h2 class="t-map__cat-title">Documents</h2>
+          <p class="t-map__cat-body">PDF, HTML, export ready to send.</p>
+        </div>
+        <div class="t-map__cat-tiles">
+          <a href="/en/pdf/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">▤</span><span class="t-tile__badge">top</span></div>
+            <div class="t-tile__name">PDF Tools</div>
+            <p class="t-tile__desc">Merge, split, compress PDFs and convert images to PDF.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/en/html-to-pdf/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">⤓</span></div>
+            <div class="t-tile__name">HTML to PDF</div>
+            <p class="t-tile__desc">Paste code or URL — download a PDF.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+          <a href="/en/email-signature/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">✉</span></div>
+            <div class="t-tile__name">Email Signature</div>
+            <p class="t-tile__desc">Email signature builder, HTML export for Outlook/Gmail.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="t-map__cat">
+        <div class="t-map__cat-head">
+          <div class="t-map__cat-n" style="color:#6c5ce7">04 · Search</div>
+          <h2 class="t-map__cat-title">SEO</h2>
+          <p class="t-map__cat-body">Classic SEO + GEO for AI search engines.</p>
+        </div>
+        <div class="t-map__cat-tiles">
+          <a href="/en/seo-geo/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">◎</span><span class="t-tile__badge">GEO</span></div>
+            <div class="t-tile__name">SEO &amp; GEO Generator</div>
+            <p class="t-tile__desc">Meta + OG + Twitter + Schema.org + llms.txt + robots.txt.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="t-filter-anchor" id="all">
+      <div class="t-filter">
+        <span class="t-filter__label">FILTER:</span>
+        <button class="t-filter__btn is-active" data-filter="all" type="button">All</button>
+        <button class="t-filter__btn" data-filter="text" type="button">Text</button>
+        <button class="t-filter__btn" data-filter="img" type="button">Images</button>
+        <button class="t-filter__btn" data-filter="doc" type="button">Documents</button>
+        <button class="t-filter__btn" data-filter="seo" type="button">SEO</button>
+      </div>
+    </div>
+
+    <section class="t-list">
+      <header class="t-list__head">
+        <div class="t-list__label">/ FULL LIST</div>
+        <h2 class="t-list__title" id="listTitle">12 tools in the catalog</h2>
+      </header>
+      <div class="t-list__rows">
+        <a href="/en/formatter/" class="t-list__row t-list__row--live" data-cat="text" data-name="markdown formatter ai chatgpt claude word docs">
+          <div class="t-list__row-n">01</div><div class="t-list__row-icon">✎</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">Markdown Formatter</span><span class="t-list__row-cat">Text</span><span class="t-list__row-badge">most used</span></div>
+            <p class="t-list__row-desc">Paste text from ChatGPT or Claude — copy a perfect document into Word or Docs.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/en/js-minifier/" class="t-list__row t-list__row--live" data-cat="text" data-name="js javascript minify minifier esbuild terser">
+          <div class="t-list__row-n">01</div><div class="t-list__row-icon">{ }</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">JS Minifier</span><span class="t-list__row-cat">Text</span></div>
+            <p class="t-list__row-desc">Esbuild + Terser in the browser. Minify, format, diff.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/en/css-minifier/" class="t-list__row t-list__row--live" data-cat="text" data-name="css minify minifier csso">
+          <div class="t-list__row-n">01</div><div class="t-list__row-icon">#</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">CSS Minifier</span><span class="t-list__row-cat">Text</span></div>
+            <p class="t-list__row-desc">CSSO + js-beautify. Keeps source maps, validates syntax.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <div class="t-list__row t-list__row--soon" data-cat="text" data-name="json validate tree">
+          <div class="t-list__row-n">01</div><div class="t-list__row-icon">[ ]</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">JSON Formatter</span><span class="t-list__row-cat">Text</span></div>
+            <p class="t-list__row-desc">Validate, tree view, key search. Coming soon.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--soon">○ soon</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </div>
+        <a href="/en/avif/" class="t-list__row t-list__row--live" data-cat="img" data-name="avif png jpg webp convert image batch wasm">
+          <div class="t-list__row-n">02</div><div class="t-list__row-icon">◧</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">AVIF Converter</span><span class="t-list__row-cat">Images</span><span class="t-list__row-badge">WASM</span></div>
+            <p class="t-list__row-desc">PNG / JPG / WebP → AVIF. Batch, quality presets, ZIP export.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/en/heic/" class="t-list__row t-list__row--live" data-cat="img" data-name="heic iphone jpg png avif photo">
+          <div class="t-list__row-n">02</div><div class="t-list__row-icon">◐</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">HEIC Converter</span><span class="t-list__row-cat">Images</span></div>
+            <p class="t-list__row-desc">iPhone HEIC photos to JPG, PNG or AVIF. No installation.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/en/ocr/" class="t-list__row t-list__row--live" data-cat="img" data-name="ocr text tesseract scan">
+          <div class="t-list__row-n">02</div><div class="t-list__row-icon">A</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">OCR</span><span class="t-list__row-cat">Images</span></div>
+            <p class="t-list__row-desc">Text recognition from images. Tesseract.js, 100+ languages.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <div class="t-list__row t-list__row--soon" data-cat="img" data-name="color palette hex rgb wcag">
+          <div class="t-list__row-n">02</div><div class="t-list__row-icon">◉</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">Color Palette</span><span class="t-list__row-cat">Images</span></div>
+            <p class="t-list__row-desc">Harmonious palette generator, HEX/RGB/HSL, WCAG contrast.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--soon">○ soon</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </div>
+        <a href="/en/pdf/" class="t-list__row t-list__row--live" data-cat="doc" data-name="pdf merge split compress">
+          <div class="t-list__row-n">03</div><div class="t-list__row-icon">▤</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">PDF Tools</span><span class="t-list__row-cat">Documents</span><span class="t-list__row-badge">top</span></div>
+            <p class="t-list__row-desc">Merge, split, compress PDFs and convert images to PDF.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/en/html-to-pdf/" class="t-list__row t-list__row--live" data-cat="doc" data-name="html pdf url">
+          <div class="t-list__row-n">03</div><div class="t-list__row-icon">⤓</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">HTML to PDF</span><span class="t-list__row-cat">Documents</span></div>
+            <p class="t-list__row-desc">Paste code or URL — download a ready PDF file.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/en/email-signature/" class="t-list__row t-list__row--live" data-cat="doc" data-name="email signature outlook gmail">
+          <div class="t-list__row-n">03</div><div class="t-list__row-icon">✉</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">Email Signature</span><span class="t-list__row-cat">Documents</span></div>
+            <p class="t-list__row-desc">Email signature builder, HTML export for Outlook/Gmail.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+        <a href="/en/seo-geo/" class="t-list__row t-list__row--live" data-cat="seo" data-name="seo geo meta og schema llms robots">
+          <div class="t-list__row-n">04</div><div class="t-list__row-icon">◎</div>
+          <div class="t-list__row-main">
+            <div class="t-list__row-head"><span class="t-list__row-name">SEO &amp; GEO Generator</span><span class="t-list__row-cat">SEO</span><span class="t-list__row-badge">GEO</span></div>
+            <p class="t-list__row-desc">Meta + OG + Twitter + Schema.org + llms.txt + robots.txt.</p>
+          </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● available</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="t-manifest">
+      <div class="t-manifest__inner">
+        <div class="t-manifest__label">/ MANIFESTO</div>
+        <h2 class="t-manifest__title">
+          Every tool here<br>
+          <span class="t-manifest__title-hl">never sends your files anywhere.</span>
+        </h2>
+        <div class="t-manifest__stats">
+          <div class="t-manifest__stat"><span class="t-manifest__stat-k">0</span><span class="t-manifest__stat-l">bytes on the server</span></div>
+          <div class="t-manifest__stat"><span class="t-manifest__stat-k">WASM</span><span class="t-manifest__stat-l">native speed</span></div>
+          <div class="t-manifest__stat"><span class="t-manifest__stat-k">MIT</span><span class="t-manifest__stat-l">open source</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="fa-footer" role="contentinfo">
+    <div class="fa-footer__cols">
+      <div>
+        <a href="/en/" style="display:inline-flex;align-items:center;gap:12px;text-decoration:none">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+            <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+            <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+            <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+          </svg>
+          <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+        </a>
+        <p class="fa-footer__byline">Built by <a href="https://adamszczotka.dev" target="_blank" rel="noopener">Adam Szczotka ↗</a></p>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Tools</div>
+        <a href="/en/formatter/" class="fa-footer__link">Markdown Formatter</a>
+        <a href="/en/avif/" class="fa-footer__link">AVIF Converter</a>
+        <a href="/en/heic/" class="fa-footer__link">HEIC Converter</a>
+        <a href="/en/pdf/" class="fa-footer__link">PDF Tools</a>
+        <a href="/en/html-to-pdf/" class="fa-footer__link">HTML to PDF</a>
+        <a href="/en/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Content</div>
+        <a href="/en/articles/" class="fa-footer__link">Journal</a>
+        <a href="/en/about/" class="fa-footer__link">About</a>
+        <a href="/llms.txt" class="fa-footer__link">llms.txt</a>
+      </div>
+      <div>
+        <div class="fa-footer__col-label">Code &amp; contact</div>
+        <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+        <a href="/en/privacy/" class="fa-footer__link">Privacy</a>
+        <a href="/narzedzia/" class="fa-footer__link" hreflang="pl">Polski</a>
+      </div>
+    </div>
+
+    <div class="fa-footer__bottom">
+      <span>© 2026 Adam Szczotka · MIT</span>
+      <span>zero data on the server · zero cookies · zero tracking</span>
+    </div>
+  </footer>
+
+  <div class="t-pal-overlay" id="palOverlay" role="dialog" aria-modal="true">
+    <div class="t-pal" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+      <div class="t-pal__head">
+        <span class="t-pal__icon" aria-hidden="true">⌕</span>
+        <input class="t-pal__input" id="palInput" type="text" placeholder="markdown · avif · pdf · seo …" aria-label="Search tools">
+        <kbd class="fa-kbd">ESC</kbd>
+      </div>
+      <div class="t-pal__body" id="palResults" role="listbox"></div>
+      <div class="t-pal__foot">
+        <span><kbd class="fa-kbd">↑↓</kbd> navigate</span>
+        <span><kbd class="fa-kbd">↵</kbd> open</span>
+        <span><kbd class="fa-kbd">esc</kbd> close</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var html = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      btn && btn.addEventListener('click', function() {
+        var current = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        var next = current === 'light' ? 'dark' : 'light';
+        if (next === 'light') html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+        try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      });
+
+      var nav = document.getElementById('faNav');
+      var onScroll = function() {
+        if (window.scrollY > 8) nav.classList.add('fa-nav--scrolled');
+        else nav.classList.remove('fa-nav--scrolled');
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      var filterBtns = document.querySelectorAll('.t-filter__btn');
+      var rows = document.querySelectorAll('.t-list__row');
+      var listLabel = document.querySelector('.t-list__label');
+      var listTitle = document.getElementById('listTitle');
+      var labels = { all: '/ FULL LIST', text: '/ TEXT', img: '/ IMAGES', doc: '/ DOCUMENTS', seo: '/ SEO' };
+      var titles = { all: '12 tools in the catalog', text: '4 tools · Text', img: '4 tools · Images', doc: '3 tools · Documents', seo: '1 tool · SEO' };
+      filterBtns.forEach(function(b) {
+        b.addEventListener('click', function() {
+          var f = b.getAttribute('data-filter');
+          filterBtns.forEach(function(x) { x.classList.toggle('is-active', x === b); });
+          rows.forEach(function(r) {
+            var ok = f === 'all' || r.getAttribute('data-cat') === f;
+            r.classList.toggle('is-hidden', !ok);
+          });
+          if (listLabel) listLabel.textContent = labels[f] || labels.all;
+          if (listTitle) listTitle.textContent = titles[f] || titles.all;
+        });
+      });
+
+      var overlay = document.getElementById('palOverlay');
+      var input = document.getElementById('palInput');
+      var results = document.getElementById('palResults');
+      var openBtn = document.getElementById('palOpen');
+      var liveTools = Array.from(document.querySelectorAll('.t-list__row--live')).map(function(r) {
+        return {
+          name: r.querySelector('.t-list__row-name').textContent.trim(),
+          cat:  r.querySelector('.t-list__row-cat').textContent.trim(),
+          desc: r.querySelector('.t-list__row-desc').textContent.trim(),
+          href: r.getAttribute('href'),
+          icon: r.querySelector('.t-list__row-icon').textContent.trim(),
+          kw:   r.getAttribute('data-name') || ''
+        };
+      });
+      var sel = 0;
+
+      function el(tag, cls, text) {
+        var n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text != null) n.textContent = text;
+        return n;
+      }
+
+      function renderItems(list) {
+        while (results.firstChild) results.removeChild(results.firstChild);
+        if (!list.length) {
+          var empty = el('div', 't-pal__empty');
+          empty.textContent = 'no results for "' + (input.value || '') + '"';
+          results.appendChild(empty);
+          return;
+        }
+        list.forEach(function(t, i) {
+          var a = el('a', 't-pal__item' + (i === sel ? ' is-active' : ''));
+          a.href = t.href;
+          a.appendChild(el('span', 't-pal__item-icon', t.icon));
+          var mid = el('div');
+          mid.appendChild(el('div', 't-pal__item-name', t.name));
+          mid.appendChild(el('div', 't-pal__item-desc', t.desc));
+          a.appendChild(mid);
+          if (i === sel) a.appendChild(el('span', 't-pal__item-enter', '↵'));
+          else a.appendChild(el('span'));
+          a.addEventListener('mouseenter', function() { sel = i; renderItems(list); });
+          results.appendChild(a);
+        });
+      }
+
+      function search() {
+        var q = (input.value || '').toLowerCase().trim();
+        var list = q
+          ? liveTools.filter(function(t) {
+              return t.name.toLowerCase().indexOf(q) !== -1
+                || t.kw.indexOf(q) !== -1
+                || t.cat.toLowerCase().indexOf(q) !== -1;
+            })
+          : liveTools;
+        sel = 0;
+        renderItems(list);
+        return list;
+      }
+
+      function open() {
+        overlay.classList.add('is-open');
+        sel = 0;
+        renderItems(liveTools);
+        setTimeout(function() { input.focus(); }, 60);
+      }
+      function close() { overlay.classList.remove('is-open'); input.value = ''; }
+
+      openBtn && openBtn.addEventListener('click', open);
+      overlay.addEventListener('click', function(e) { if (e.target === overlay) close(); });
+      input.addEventListener('input', search);
+
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+          var list = search();
+          if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, list.length - 1); renderItems(list); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); renderItems(list); }
+          else if (e.key === 'Enter' && list[sel]) { e.preventDefault(); window.location.href = list[sel].href; }
+        } else if (e.key === 'Escape') { e.preventDefault(); close(); }
+      });
+
+      window.addEventListener('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          if (overlay.classList.contains('is-open')) close(); else open();
+        } else if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+          close();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
