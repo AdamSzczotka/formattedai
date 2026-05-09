@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,7 +71,8 @@
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/en/" },
-    { "@type": "ListItem", "position": 2, "name": "PDF Tools", "item": "https://formattedai.pl/en/pdf/" }
+    { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://formattedai.pl/en/tools/" },
+    { "@type": "ListItem", "position": 3, "name": "PDF Tools", "item": "https://formattedai.pl/en/pdf/" }
   ] }
   </script>
 
@@ -83,53 +84,71 @@
   <meta name="theme-color" content="#08080c">
   <meta name="mobile-web-app-capable" content="yes">
 
+  <!-- Theme bootstrap (light-first) -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
   <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../../assets/css/fonts.css">
   <link rel="stylesheet" href="../../assets/css/pdf.css">
 </head>
 <body>
-  <div class="bg-effects" aria-hidden="true">
-    <div class="bg-effects__orb bg-effects__orb--1"></div>
-    <div class="bg-effects__orb bg-effects__orb--2"></div>
-    <div class="bg-effects__orb bg-effects__orb--3"></div>
-    <div class="bg-effects__grid"></div>
-  </div>
 
-  <div class="app" id="app">
-    <header class="header" role="banner">
-      <a href="/en/" class="header__brand">
-        <div class="header__logo" aria-hidden="true">
-          <svg class="header__logo-svg" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
-            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30">
-                <stop stop-color="#a78bfa"/>
-                <stop offset="1" stop-color="#6c5ce7"/>
-              </linearGradient>
-              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30">
-                <stop stop-color="rgba(108,92,231,0.3)"/>
-                <stop offset="1" stop-color="rgba(167,139,250,0.1)"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <div class="header__text">
-          <h1 class="header__title">Formatted<span class="header__title-accent">AI</span></h1>
-          <p class="header__subtitle" data-i18n="subtitle">PDF Tools &bull; 100% client-side</p>
-        </div>
+  <div class="tool-shell" id="app">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/en/" class="fa-nav__brand" aria-label="FormattedAI — homepage">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
       </a>
-      <div class="header__actions">
-        <button class="about-trigger" id="aboutTrigger" type="button" aria-label="About" title="About">?</button>
-        <a href="https://formattedai.pl/pdf/" class="lang-toggle" title="Switch language" aria-label="Switch language">
-          <span class="lang-toggle__flag">PL</span>
-        </a>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
-          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/en/tools/" class="fa-nav__crumb-link" data-i18n="navTools">Tools</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">PDF Tools</span>
+      </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/pdf/" class="fa-nav__lang" hreflang="pl" title="Polska wersja">PL</a>
+        <button class="fa-nav__icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="fa-theme__moon" id="iconMoon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="fa-theme__sun" id="iconSun" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
         </button>
+        <button class="fa-nav__icon-btn" id="aboutTrigger" type="button" title="Help" aria-label="Help">?</button>
+        <a href="/en/tools/" class="fa-nav__cta">All tools →</a>
       </div>
     </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ TOOL · merge / split / compress / convert</span>
+          <h1 class="tool-head__title">PDF Tools</h1>
+          <p class="tool-head__sub" data-i18n="toolHeaderDesc">Merge, split, compress, rotate, crop, sign PDFs and convert images to PDF. 100% in your browser — your documents never leave your device.</p>
+        </div>
+      </div>
+    </section>
 
     <div class="tool-bar" id="toolBar">
       <div class="tool-bar__actions">
@@ -376,25 +395,44 @@
       </button>
     </div>
 
-    <footer class="footer" role="contentinfo">
-      <p class="footer__text">
-        <span data-i18n="madeBy">Made by</span>
-        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
-          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          Adam Szczotka
-        </a>
-      </p>
-      <div class="footer__badge">
-        <span class="footer__badge__dot"></span>
-        <span data-i18n="footerBadge">100% client-side</span>
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/en/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploads · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Tools</span>
+          <a href="/en/tools/" class="fa-footer__link">All</a>
+          <a href="/en/formatter/" class="fa-footer__link">Markdown</a>
+          <a href="/en/avif/" class="fa-footer__link">AVIF</a>
+          <a href="/en/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Content</span>
+          <a href="/en/articles/" class="fa-footer__link" data-i18n="navArticles">Articles</a>
+          <a href="/en/about/" class="fa-footer__link" data-i18n="navAbout">About</a>
+          <a href="/en/privacy/" class="fa-footer__link" data-i18n="navPrivacy">Privacy</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Contact</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link" data-i18n="navContact">Email</a>
+          <a href="https://formattedai.pl/pdf/" class="fa-footer__link" hreflang="pl">Polski</a>
+        </div>
       </div>
-      <div class="footer__links">
-        <a href="/en/tools/" class="footer__link" data-i18n="navTools">Tools</a>
-        <a href="/en/articles/" class="footer__link" data-i18n="navArticles">Articles</a>
-        <a href="/en/about/" class="footer__link" data-i18n="navAbout">About</a>
-        <a href="/en/privacy/" class="footer__link" data-i18n="navPrivacy">Privacy</a>
-        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link" data-i18n="navContact">Contact</a>
-        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>PDF Tools · 100% client-side</span>
       </div>
     </footer>
 
@@ -457,6 +495,21 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = '../../assets/vendor/pdf.worker.min.mjs';
     window.pdfjsLib = pdfjsLib;
     window.dispatchEvent(new Event('pdfjs-ready'));
+  </script>
+
+  <!-- Mobile hamburger toggle -->
+  <script>
+  (function() {
+    var burger = document.getElementById("navBurger");
+    var navEl = document.getElementById("faNav");
+    if (burger && navEl) {
+      burger.addEventListener("click", function() {
+        var open = navEl.classList.toggle("is-menu-open");
+        burger.classList.toggle("is-open", open);
+        burger.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    }
+  })();
   </script>
 </body>
 </html>
