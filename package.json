@@ -1,6 +1,6 @@
 {
   "name": "formattedai",
-  "version": "2.0.0",
+  "version": "2.6.0",
   "private": true,
   "scripts": {
     "build:home": "sass assets/scss/home.scss assets/css/home.css --style=compressed --no-source-map",
