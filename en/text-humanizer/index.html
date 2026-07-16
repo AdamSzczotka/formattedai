@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Text Humanizer — Remove AI Style from Text (PL/EN, 100% local) | FormattedAI</title>
+  <meta name="description" content="Free online text humanizer. Removes AI-style from text (ChatGPT, Claude, Gemini) and rewrites it as human-sounding. Runs 100% locally in your browser. PL + EN. Quick Sanitize (pure JS rules) or Deep Humanizer with a local AI model.">
+  <meta name="keywords" content="text humanizer, AI humanizer, ChatGPT humanizer, remove AI style, paraphrase, bypass AI detector, GPTZero, Originality.ai, human text, local AI, WebLLM, client-side">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/en/text-humanizer/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/text-humanizer/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/text-humanizer/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/text-humanizer/">
+  <meta http-equiv="content-language" content="en">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Text Humanizer — Remove AI Style from Text | FormattedAI">
+  <meta property="og:description" content="Rewrites AI text to sound human. 100% local in your browser. PL/EN. Fast (rules) and Deep (local LLM) modes.">
+  <meta property="og:url" content="https://formattedai.pl/en/text-humanizer/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="pl_PL">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Text Humanizer | FormattedAI">
+  <meta name="twitter:description" content="Remove AI style from text. 100% in your browser. PL/EN.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "WebApplication",
+    "name": "FormattedAI Text Humanizer",
+    "headline": "Text Humanizer — Remove AI Style from Text (PL/EN)",
+    "description": "Tool that humanizes AI-generated text. Quick Sanitize (rules) and Deep Humanizer (local LLM, reverse-prompting) modes. Runs entirely in the browser.",
+    "url": "https://formattedai.pl/en/text-humanizer/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Adam Szczotka", "url": "https://github.com/AdamSzczotka" },
+    "featureList": [
+      "Quick Sanitize — strips AI phrases, em-dashes, tricolons, hedge openers and resolution closers",
+      "Deep Humanizer — local Qwen 2.5 1.5B model, reverse-prompting Extract → Rebuild",
+      "Burstiness Score — measures sentence-length variation before and after",
+      "Diff view — colored highlight of changes",
+      "3 styles: Casual, Academic, Direct (Email)",
+      "PL and EN, auto language detection",
+      "100% client-side, no backend, no telemetry"
+    ],
+    "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is my text sent to a server?", "acceptedAnswer": { "@type": "Answer", "text": "No. Everything happens in your browser. Quick Sanitize uses pure JavaScript rules. Deep Humanizer downloads an AI model once, stores it locally (IndexedDB) and runs offline. Your text never leaves the browser." } },
+      { "@type": "Question", "name": "Where is the AI model downloaded from?", "acceptedAnswer": { "@type": "Answer", "text": "On the first run of Deep Humanizer the model weights (~900 MB for Qwen 2.5 1.5B) are downloaded from the public Hugging Face CDN (huggingface.co/mlc-ai). It's a one-time static file download — same as loading a JS library from a CDN. Your text is NOT sent — only the model itself is fetched. After download everything runs offline from IndexedDB and the model is never re-downloaded." } },
+      { "@type": "Question", "name": "What is Burstiness Score?", "acceptedAnswer": { "@type": "Answer", "text": "Burstiness is the variation of sentence lengths in a text — standard deviation of sentence lengths divided by the mean. Humans write with burstiness 0.65–0.85, AI 0.15–0.30. It's one of the strongest AI detection signals in 2026." } },
+      { "@type": "Question", "name": "How does Quick Sanitize differ from Deep Humanizer?", "acceptedAnswer": { "@type": "Answer", "text": "Quick Sanitize is pure JS rules — replaces AI words, removes openers like 'In today's world', breaks tricolons, balances burstiness. Runs instantly. Deep Humanizer downloads a local AI model (~900 MB) and uses Reverse-Prompting: it extracts bare facts from the text, then rebuilds them from scratch in a chosen persona. Much higher quality but requires one-time model download and WebGPU." } },
+      { "@type": "Question", "name": "Will my text pass AI detectors (GPTZero, Originality.ai)?", "acceptedAnswer": { "@type": "Answer", "text": "Quick Sanitize catches ~70% of cases with simpler detectors. Deep Humanizer truly breaks AI fingerprints because the text is rebuilt from scratch with a different token distribution. Detectors evolve — no tool guarantees 100% passage. Ethically: use a humanizer to improve style, not to commit academic dishonesty." } },
+      { "@type": "Question", "name": "Does it work on mobile?", "acceptedAnswer": { "@type": "Answer", "text": "Quick Sanitize — yes, on any browser including mobile. Deep Humanizer requires WebGPU and ~2 GB free RAM, so it realistically works on desktop/laptop only with Chrome 113+, Edge 113+ or Firefox 121+. On iOS Safari partially (depends on device memory)." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://formattedai.pl/en/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "Text Humanizer", "item": "https://formattedai.pl/en/text-humanizer/" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="../../assets/css/fonts.css">
+  <link rel="stylesheet" href="../../assets/css/text-humanizer.css">
+</head>
+<body>
+
+  <div class="tool-shell">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/en/" class="fa-nav__brand" aria-label="FormattedAI — home">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9" y="8" width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9" y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9" y="20" width="6" height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+      </a>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/en/tools/" class="fa-nav__crumb-link">Tools</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">Text Humanizer</span>
+      </nav>
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/text-humanizer/" class="fa-nav__lang" hreflang="pl" title="Wersja polska">PL</a>
+        <a href="/en/tools/" class="fa-nav__cta">All tools →</a>
+      </div>
+    </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ TOOL · AI text humanization</span>
+          <h1 class="tool-head__title th-title" id="th-title">Text Humanizer</h1>
+          <p class="tool-head__sub">Remove AI style from text. Runs 100% in your browser — no data ever sent to a server.</p>
+        </div>
+        <div class="tool-head__status">
+          <span class="th-webgpu-indicator" id="th-webgpu-indicator" data-supported="checking">— WebGPU</span>
+        </div>
+      </div>
+    </section>
+
+    <main class="th-main">
+
+      <div class="th-controls">
+        <label>Language
+          <select id="th-language">
+            <option value="auto">Auto</option>
+            <option value="pl">Polski</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <label>Style
+          <select id="th-style">
+            <option value="casual">Casual</option>
+            <option value="academic">Academic</option>
+            <option value="direct">Direct (Email)</option>
+          </select>
+        </label>
+        <label>Model (Deep)
+          <select id="th-model-select">
+            <option value="qwen-1.5b">Qwen 2.5 1.5B (~900 MB)</option>
+            <option value="qwen-0.5b">Qwen 2.5 0.5B (~350 MB)</option>
+            <option value="llama-1b">Llama 3.2 1B (~700 MB, EN)</option>
+          </select>
+        </label>
+
+        <span class="th-controls__spacer"></span>
+
+        <button class="th-btn th-btn--primary" id="th-quick-btn" type="button">⚡ Quick Sanitize</button>
+        <button class="th-btn" id="th-deep-btn" type="button">🧠 Deep Humanizer</button>
+        <button class="th-btn th-btn--danger" id="th-cancel-btn" type="button" hidden>Cancel</button>
+        <button class="th-btn th-btn--ghost" id="th-clear-btn" type="button">Clear</button>
+      </div>
+
+      <div class="th-deep-status" id="th-deep-status">
+        <div class="th-deep-status__spinner"></div>
+        <span class="th-deep-status__stage" id="th-deep-stage">Generating...</span>
+        <span class="th-deep-status__progress" id="th-deep-progress">0%</span>
+      </div>
+
+      <div class="th">
+        <div class="th__pane">
+          <div class="th__pane-head">
+            <span>Input · AI text</span>
+            <span class="th__counts">
+              <span><b id="th-input-words">0</b> words</span>
+              <span><b id="th-input-chars">0</b> chars</span>
+            </span>
+          </div>
+          <textarea class="th__textarea" id="th-input" placeholder="Paste text generated by ChatGPT / Claude / Gemini…" spellcheck="false"></textarea>
+        </div>
+
+        <div class="th__pane">
+          <div class="th__pane-head">
+            <span>Output · humanized text</span>
+            <span class="th__counts">
+              <span><b id="th-output-words">0</b> words</span>
+              <span><b id="th-output-chars">0</b> chars</span>
+            </span>
+          </div>
+          <textarea class="th__textarea" id="th-output" placeholder="Result will appear here…" spellcheck="false"></textarea>
+          <div class="th__pane-footer">
+            <button class="th-btn th-btn--ghost" id="th-copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="th-burst" aria-label="Burstiness Score — sentence-length variation">
+        <div class="th-burst__row">
+          <span class="th-burst__label">Before</span>
+          <div class="th-burst__bar-wrap">
+            <div class="th-burst__bar" id="th-burst-before-bar" data-tone="muted"></div>
+          </div>
+          <span class="th-burst__label" id="th-burst-before-label">— (text too short)</span>
+          <span class="th-burst__value" id="th-burst-before-value">—</span>
+        </div>
+        <div class="th-burst__row">
+          <span class="th-burst__label">After</span>
+          <div class="th-burst__bar-wrap">
+            <div class="th-burst__bar" id="th-burst-after-bar" data-tone="muted"></div>
+          </div>
+          <span class="th-burst__label" id="th-burst-after-label">—</span>
+          <span class="th-burst__value" id="th-burst-after-value">—</span>
+        </div>
+      </div>
+
+      <details class="th-diff-block" id="th-diff-block">
+        <summary class="th-diff-block__head">
+          <span>Diff (red — removed, green — added)</span>
+          <span id="th-diff-stats"></span>
+        </summary>
+        <div class="th-diff-block__body" id="th-diff"></div>
+      </details>
+
+      <div class="th-advanced">
+        <button class="th-advanced__toggle" id="th-advanced-toggle" type="button">+ Advanced</button>
+        <div class="th-advanced__panel" id="th-advanced-panel">
+          <label>Custom persona (Deep Humanizer)
+            <input type="text" id="th-custom-persona" placeholder="e.g. A tired developer texting their mom about their job…" maxlength="240">
+          </label>
+          <p style="font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.5;margin:0">Persona drives the rebuild style. By default, the persona matches the selected style preset (Casual / Academic / Direct).</p>
+        </div>
+      </div>
+
+      <section class="th-faq">
+        <h2>Frequently asked</h2>
+        <details>
+          <summary>Is my text sent to a server?</summary>
+          <p>No. Everything happens in your browser. Quick Sanitize uses pure JavaScript rules. Deep Humanizer downloads an AI model once, stores it locally (IndexedDB) and runs offline. Your text never leaves the browser.</p>
+        </details>
+        <details>
+          <summary>Where is the AI model downloaded from?</summary>
+          <p>On the first run of Deep Humanizer the model weights (~900 MB for Qwen 2.5 1.5B) are downloaded from the public <strong>Hugging Face</strong> CDN (<code>huggingface.co/mlc-ai</code>). It's a one-time static file download — same as loading a JS library from a CDN. Your text is <strong>NOT sent</strong> — only the model itself is fetched. After download everything runs offline from IndexedDB and the model is never re-downloaded.</p>
+        </details>
+        <details>
+          <summary>What is Burstiness Score?</summary>
+          <p>Burstiness is the variation of sentence lengths in a text — standard deviation of sentence lengths divided by the mean. Humans write with burstiness 0.65–0.85, AI 0.15–0.30. It's one of the strongest AI detection signals in 2026.</p>
+        </details>
+        <details>
+          <summary>How does Quick Sanitize differ from Deep Humanizer?</summary>
+          <p>Quick Sanitize is pure JS rules — replaces AI words, removes openers like "In today's world", breaks tricolons, balances burstiness. Runs instantly. Deep Humanizer downloads a local AI model (~900 MB) and uses Reverse-Prompting: it extracts bare facts, then rebuilds them from scratch in a chosen persona. Higher quality but requires one-time model download and WebGPU.</p>
+        </details>
+        <details>
+          <summary>Will my text pass AI detectors?</summary>
+          <p>Quick Sanitize catches ~70% of cases with simpler detectors. Deep Humanizer truly breaks AI fingerprints because the text is rebuilt from scratch with a different token distribution. No tool guarantees 100% passage. Use ethically.</p>
+        </details>
+        <details>
+          <summary>Does it work on mobile?</summary>
+          <p>Quick Sanitize — yes, on any browser. Deep Humanizer requires WebGPU and ~2 GB free RAM, so realistically works on desktop/laptop only with Chrome 113+, Edge 113+ or Firefox 121+.</p>
+        </details>
+      </section>
+
+    </main>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/en/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9" y="8" width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9" y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9" y="20" width="6" height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploads · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Tools</span>
+          <a href="/en/tools/" class="fa-footer__link">All</a>
+          <a href="/en/formatter/" class="fa-footer__link">Markdown</a>
+          <a href="/en/js-minifier/" class="fa-footer__link">JS Minifier</a>
+          <a href="/en/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Content</span>
+          <a href="/en/articles/" class="fa-footer__link">Articles</a>
+          <a href="/en/about/" class="fa-footer__link">About</a>
+          <a href="/en/privacy/" class="fa-footer__link">Privacy</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Contact</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+          <a href="https://formattedai.pl/text-humanizer/" class="fa-footer__link" hreflang="pl">Polski</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>Text Humanizer · 100% client-side</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="th-modal" id="th-download-modal" role="dialog" aria-labelledby="th-download-title">
+    <div class="th-modal__inner">
+      <div class="th-modal__title" id="th-download-title">Downloading AI model</div>
+      <div class="th-modal__body">
+        <p>Downloading the local language model from the public <strong>Hugging Face</strong> CDN (<code>huggingface.co/mlc-ai</code>). One-time process — the model will be stored in your browser (IndexedDB).</p>
+        <p style="color:rgba(255,255,255,.6);font-size:13px;">After download, everything runs <b>offline</b>. Your text never leaves this browser — only the model itself is fetched.</p>
+        <div class="th-modal__progress-wrap">
+          <div class="th-modal__progress" id="th-download-progress"></div>
+        </div>
+        <div class="th-modal__progress-text" id="th-download-text">Initializing…</div>
+        <div class="th-modal__actions">
+          <button class="th-btn th-btn--ghost" id="th-download-cancel" type="button">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="th-notify" id="th-notify" role="status" aria-live="polite"></div>
+
+  <script type="module" src="../../assets/js/text-humanizer.min.js"></script>
+</body>
+</html>
