@@ -17,8 +17,9 @@
     "build:heic": "sass assets/scss/heic.scss assets/css/heic.css --style=compressed --no-source-map",
     "build:ocr": "sass assets/scss/ocr.scss assets/css/ocr.css --style=compressed --no-source-map",
     "build:emailsignature": "sass assets/scss/emailsignature.scss assets/css/emailsignature.css --style=compressed --no-source-map",
-    "build:css": "npm run build:home && npm run build:tools && npm run build:formatter && npm run build:avif && npm run build:heic && npm run build:seogeo && npm run build:articles && npm run build:articleslist && npm run build:jsminifier && npm run build:cssminifier && npm run build:pdf && npm run build:html2pdf && npm run build:ocr && npm run build:emailsignature",
-    "build:js": "esbuild assets/js/app.js --outfile=assets/js/app.min.js --minify --target=es2020 && esbuild assets/js/avif.js --outfile=assets/js/avif.min.js --bundle --minify --target=es2020 --format=esm --external:https://* && esbuild assets/js/seogeo.js --outfile=assets/js/seogeo.min.js --minify --target=es2020 && esbuild assets/js/html2pdf.js --outfile=assets/js/html2pdf.min.js --bundle --minify --target=es2020 --format=esm && esbuild assets/js/ocr.js --outfile=assets/js/ocr.min.js --minify --target=es2020 --format=esm && esbuild assets/js/emailsignature.js --outfile=assets/js/emailsignature.min.js --minify --target=es2020",
+    "build:texthumanizer": "sass assets/scss/text-humanizer.scss assets/css/text-humanizer.css --style=compressed --no-source-map",
+    "build:css": "npm run build:home && npm run build:tools && npm run build:formatter && npm run build:avif && npm run build:heic && npm run build:seogeo && npm run build:articles && npm run build:articleslist && npm run build:jsminifier && npm run build:cssminifier && npm run build:pdf && npm run build:html2pdf && npm run build:ocr && npm run build:emailsignature && npm run build:texthumanizer",
+    "build:js": "esbuild assets/js/app.js --outfile=assets/js/app.min.js --minify --target=es2020 && esbuild assets/js/avif.js --outfile=assets/js/avif.min.js --bundle --minify --target=es2020 --format=esm --external:https://* && esbuild assets/js/seogeo.js --outfile=assets/js/seogeo.min.js --minify --target=es2020 && esbuild assets/js/html2pdf.js --outfile=assets/js/html2pdf.min.js --bundle --minify --target=es2020 --format=esm && esbuild assets/js/ocr.js --outfile=assets/js/ocr.min.js --minify --target=es2020 --format=esm && esbuild assets/js/emailsignature.js --outfile=assets/js/emailsignature.min.js --minify --target=es2020 && esbuild assets/js/text-humanizer.js --outfile=assets/js/text-humanizer.min.js --bundle --minify --target=es2020 --format=esm --loader:.json=json && esbuild assets/js/text-humanizer/webllm-worker.js --outfile=assets/js/text-humanizer-worker.min.js --bundle --minify --target=es2020 --format=esm --platform=browser --external:url --external:fs --external:path --external:perf_hooks",
     "build": "npm run build:css && npm run build:js",
     "test:pdf": "node tests/pdf-tool.test.js",
     "watch:home": "sass assets/scss/home.scss assets/css/home.css --watch --no-source-map",
@@ -32,9 +33,11 @@
     "watch:html2pdf": "sass assets/scss/html2pdf.scss assets/css/html2pdf.css --watch --no-source-map",
     "watch:ocr": "sass assets/scss/ocr.scss assets/css/ocr.css --watch --no-source-map",
     "watch:emailsignature": "sass assets/scss/emailsignature.scss assets/css/emailsignature.css --watch --no-source-map",
-    "dev": "npm run watch:home & npm run watch:formatter & npm run watch:avif & npm run watch:seogeo & npm run watch:articles & npm run watch:jsminifier & npm run watch:cssminifier & npm run watch:html2pdf & npm run watch:ocr & npm run watch:emailsignature"
+    "watch:texthumanizer": "sass assets/scss/text-humanizer.scss assets/css/text-humanizer.css --watch --no-source-map",
+    "dev": "npm run watch:home & npm run watch:formatter & npm run watch:avif & npm run watch:seogeo & npm run watch:articles & npm run watch:jsminifier & npm run watch:cssminifier & npm run watch:html2pdf & npm run watch:ocr & npm run watch:emailsignature & npm run watch:texthumanizer"
   },
   "devDependencies": {
+    "@mlc-ai/web-llm": "^0.2.83",
     "csso": "^5.0.5",
     "esbuild": "^0.25.0",
     "js-beautify": "^1.15.4",
