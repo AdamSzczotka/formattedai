@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — PDF Tool Styles
+// FormattedAI - PDF Tool Styles
 // ============================================
 
 @use 'variables' as *;
@@ -1380,7 +1380,7 @@ html, body { height: 100%; }
 }
 
 // ============================================
-// Responsive — tablet (768px)
+// Responsive - tablet (768px)
 // ============================================
 @media (max-width: 768px) {
   body { overflow: auto; }
@@ -1453,7 +1453,7 @@ html, body { height: 100%; }
 }
 
 // ============================================
-// Responsive — mobile (480px)
+// Responsive - mobile (480px)
 // ============================================
 @media (max-width: 480px) {
   .header__title { font-size: 18px; }

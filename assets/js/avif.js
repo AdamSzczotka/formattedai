@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — AVIF Converter Logic
+// FormattedAI - AVIF Converter Logic
 // Uses @jsquash/avif WASM encoder (works in all browsers)
 // ============================================
 
@@ -470,7 +470,7 @@ async function convertAll() {
       });
     }
 
-    // Update progress bar (after conversion) — force repaint
+    // Update progress bar (after conversion) - force repaint
     const percent = Math.round(((i + 1) / inputFiles.length) * 100);
     progressFill.value = percent;
     progressPercent.textContent = `${percent}%`;
@@ -581,7 +581,7 @@ async function downloadAllZip() {
   const successResults = results.filter(r => !r.error && r.avifBlob);
   if (successResults.length === 0) return;
 
-  // Single file — download directly
+  // Single file - download directly
   if (successResults.length === 1) {
     downloadSingle(successResults[0].id);
     showToast(t('toastDownload'));
@@ -618,7 +618,7 @@ function openModal(id) {
   const avifName = getAvifName(result.originalFile.name);
   modalImg.src = result.objectUrl;
   modalImg.alt = avifName;
-  modalInfo.textContent = `${avifName} — ${formatSize(result.avifSize)}`;
+  modalInfo.textContent = `${avifName} - ${formatSize(result.avifSize)}`;
   imageModal.hidden = false;
   document.body.style.overflow = 'hidden';
 }
@@ -721,7 +721,7 @@ document.addEventListener('keydown', e => {
 if (mobileConvertBtn) mobileConvertBtn.addEventListener('click', convertAll);
 if (mobileDownloadBtn) mobileDownloadBtn.addEventListener('click', downloadAllZip);
 
-// Drag & drop on both zones (NOT on inputArea — would cause duplicates via event bubbling)
+// Drag & drop on both zones (NOT on inputArea - would cause duplicates via event bubbling)
 setupDragDrop(dropZone);
 setupDragDrop(dropZoneCompact);
 

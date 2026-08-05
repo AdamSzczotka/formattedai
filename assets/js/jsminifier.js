@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — JS Minifier & Prettifier Logic
+// FormattedAI - JS Minifier & Prettifier Logic
 // Vendor globals: Terser, js_beautify_mod
 // ============================================
 
@@ -63,7 +63,7 @@
       } else if (attempts >= maxAttempts) {
         clearInterval(poll);
         processBtn.setAttribute('aria-busy', 'false');
-        // Leave disabled — vendors failed to load
+        // Leave disabled - vendors failed to load
       }
     }, 100);
   }

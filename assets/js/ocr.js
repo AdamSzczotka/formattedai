@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — OCR Tool Logic
+// FormattedAI - OCR Tool Logic
 // Uses Tesseract.js (UMD, loaded as window.Tesseract)
 // PDF rendering via local pdf.js (vendor)
 // ============================================
@@ -40,7 +40,7 @@ const translations = {
     toastTooLarge: 'Plik za duzy (max 100 MB)',
     toastDocxSoon: 'Eksport .docx wkrotce',
     toastNoLang: 'Wybierz przynajmniej jeden jezyk',
-    toastEncryptedPdf: 'PDF zabezpieczony haslem — nie mozna otworzyc',
+    toastEncryptedPdf: 'PDF zabezpieczony haslem - nie mozna otworzyc',
     toastCorruptedPdf: 'Nie mozna otworzyc PDF (uszkodzony lub niewspierany format)',
     toastCancelled: 'Anulowano',
     modeFastTitle: 'Szybciej, dla dobrej jakosci skanow i screenshotow',
@@ -86,7 +86,7 @@ const translations = {
     toastTooLarge: 'File too large (max 100 MB)',
     toastDocxSoon: '.docx export coming soon',
     toastNoLang: 'Select at least one language',
-    toastEncryptedPdf: 'PDF is password-protected — cannot open',
+    toastEncryptedPdf: 'PDF is password-protected - cannot open',
     toastCorruptedPdf: 'Cannot open PDF (corrupted or unsupported format)',
     toastCancelled: 'Cancelled',
     modeFastTitle: 'Faster, fine for good quality scans and screenshots',
@@ -230,7 +230,7 @@ function addFiles(files) {
 function isSupported(file) {
   if (SUPPORTED_IMAGE.includes(file.type)) return true;
   if (SUPPORTED_PDF.includes(file.type)) return true;
-  // Some browsers report empty type — allow by extension
+  // Some browsers report empty type - allow by extension
   const name = (file.name || '').toLowerCase();
   if (/\.(png|jpe?g|webp|gif|bmp|tiff?)$/.test(name)) return true;
   if (name.endsWith('.pdf')) return true;
@@ -327,7 +327,7 @@ function initInputs() {
     if (e.dataTransfer?.files?.length) addFiles(e.dataTransfer.files);
   });
 
-  // Clipboard paste — screenshots
+  // Clipboard paste - screenshots
   document.addEventListener('paste', (e) => {
     const items = e.clipboardData?.items;
     if (!items) return;
@@ -444,7 +444,7 @@ async function ensureWorker() {
   const key = `${langString}|${state.mode}`;
   if (state.worker && state.workerKey === key) return state.worker;
 
-  // Same langs but mode changed — keep worker, just update params
+  // Same langs but mode changed - keep worker, just update params
   if (state.worker && state.workerKey.split('|')[0] === langString) {
     await applyTesseractParams(state.worker);
     state.workerKey = key;
@@ -479,7 +479,7 @@ async function ensureWorker() {
 
 async function applyTesseractParams(worker) {
   // PSM (Page Segmentation Mode):
-  //   3 = fully automatic, no OSD (default — fast)
+  //   3 = fully automatic, no OSD (default - fast)
   //   1 = automatic + OSD orientation/script detection (slower, more robust)
   // preserve_interword_spaces helps with table-like layouts
   await worker.setParameters({
@@ -513,7 +513,7 @@ async function renderPdfPage(page, scale) {
 }
 
 // Extract embedded text layer from PDF page (works for digital PDFs).
-// Returns trimmed string — empty/short means likely a scan, fallback to OCR.
+// Returns trimmed string - empty/short means likely a scan, fallback to OCR.
 async function extractPdfPageText(page) {
   try {
     const content = await page.getTextContent();
@@ -548,7 +548,7 @@ async function extractPdfPageText(page) {
 }
 
 // Greyscale + Otsu adaptive binarization (accurate mode).
-// Otsu picks the threshold that minimizes intra-class variance — robust to
+// Otsu picks the threshold that minimizes intra-class variance - robust to
 // uneven lighting, gradients, and faded prints where a fixed contrast curve fails.
 function preprocessCanvas(canvas) {
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
@@ -622,7 +622,7 @@ async function autoRotateCanvas(worker, canvas) {
     if (deg === 0 || conf < 1) return canvas;
     return rotateCanvas(canvas, deg);
   } catch {
-    // OSD fails on tiny / text-poor images — keep original
+    // OSD fails on tiny / text-poor images - keep original
     return canvas;
   }
 }
@@ -640,7 +640,7 @@ async function fileToCanvas(file) {
 
 // Resolve a PDF file into per-page inputs.
 // Each input is either a ready-to-use embedded text block or a canvas to OCR.
-// `needsBinarize` is deferred — we want to binarize AFTER rotation to keep the
+// `needsBinarize` is deferred - we want to binarize AFTER rotation to keep the
 // thresholding analysis aligned with upright text.
 async function pdfToInputs(file, scale) {
   const pdfjs = await getPdfJs();
@@ -668,7 +668,7 @@ async function pdfToInputs(file, scale) {
       inputs.push({ kind: 'text', text: directText, label });
     } else {
       const canvas = await renderPdfPage(page, scale);
-      // Defer preprocessing — recognizeAll runs auto-rotate first when accurate
+      // Defer preprocessing - recognizeAll runs auto-rotate first when accurate
       inputs.push({ kind: 'image', src: canvas, label, needsAccuratePrep: true });
     }
   }
@@ -684,7 +684,7 @@ async function buildInputs(entry) {
     const scale = state.mode === 'accurate' ? 3.0 : 2.0;
     return pdfToInputs(entry.file, scale);
   }
-  // Plain image — convert to canvas only when accurate (need it for rotate + binarize)
+  // Plain image - convert to canvas only when accurate (need it for rotate + binarize)
   if (state.mode === 'accurate') {
     const canvas = await fileToCanvas(entry.file);
     return [{ kind: 'image', src: canvas, label: '', needsAccuratePrep: true }];
@@ -737,7 +737,7 @@ async function recognizeAll() {
         if (cancelled()) throw new CancelledError();
         const input = inputs[p];
         $('progressFile').textContent = inputs.length > 1
-          ? `${baseLabel} — ${input.label}`
+          ? `${baseLabel} - ${input.label}`
           : baseLabel;
 
         let pageText = '';
@@ -783,7 +783,7 @@ async function recognizeAll() {
     showToast(t('toastDone'));
   } catch (err) {
     if (err instanceof CancelledError) {
-      // Worker is in unknown state after a partial recognize — drop it
+      // Worker is in unknown state after a partial recognize - drop it
       try { await state.worker?.terminate(); } catch {}
       state.worker = null;
       state.workerKey = '';
@@ -807,7 +807,7 @@ class CancelledError extends Error {
   constructor() { super('cancelled'); this.name = 'CancelledError'; }
 }
 
-// Single-retry wrapper around worker.recognize — recovers from transient WASM hiccups
+// Single-retry wrapper around worker.recognize - recovers from transient WASM hiccups
 async function recognizeWithRetry(worker, src) {
   try {
     return await worker.recognize(src);

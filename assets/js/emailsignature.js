@@ -767,7 +767,7 @@
       width: 600,
       blocks: [
         Object.assign(createBlock('text'), {
-          text: lang === 'pl' ? '— Jan Kowalski' : '— John Doe',
+          text: lang === 'pl' ? '- Jan Kowalski' : '- John Doe',
           color: '#1f2937', fontSize: 14, fontWeight: 'bold', align: 'left',
           paddingTop: 0, paddingBottom: 2
         }),

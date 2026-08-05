@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — App Logic + i18n + Download
+// FormattedAI - App Logic + i18n + Download
 // ============================================
 
 // --- i18n Translations ---
@@ -87,7 +87,7 @@ const translations = {
     navPrivacy: 'Privacy',
     navContact: 'Contact',
     chars: 'chars',
-    toolHeaderDesc: 'paste from ChatGPT or Claude — copy with formatting',
+    toolHeaderDesc: 'paste from ChatGPT or Claude - copy with formatting',
     styleDocs: 'Docs',
     styleWord: 'Word',
     copyFormatted: 'Copy formatted',

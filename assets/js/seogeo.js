@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — SEO & GEO Tag Generator Logic
+// FormattedAI - SEO & GEO Tag Generator Logic
 // ============================================
 
 // --- i18n ---
@@ -190,12 +190,12 @@ const translations = {
     helpOgImage: 'Image shown when sharing on Facebook/LinkedIn. Recommended size: 1200\u00D7630px.',
     helpSchema: 'Schema.org is a structured data format understood by Google and AI. FAQPage has the highest chance of being cited by AI search engines.',
     // SEO content section
-    seoH1: 'SEO & GEO Tag Generator — Free Meta Tags, Schema.org and llms.txt Generator',
+    seoH1: 'SEO & GEO Tag Generator - Free Meta Tags, Schema.org and llms.txt Generator',
     seoDescLong: 'Generate all the tags your website needs to rank in Google and get cited by AI search engines. This tool covers traditional SEO (meta tags, Open Graph, Twitter Cards), modern structured data (Schema.org JSON-LD), and the cutting-edge GEO standard (Generative Engine Optimization) with llms.txt and AI crawler configuration.',
     seoWhatSeo: 'What is SEO?',
     seoWhatSeoText: 'SEO (Search Engine Optimization) is the practice of optimizing your website to rank higher in search engines like Google. Key elements include meta title and description tags, Open Graph tags for social sharing, Twitter Cards, canonical URLs, and structured data. This tool generates all of these from a single form.',
     seoWhatGeo: 'What is GEO (Generative Engine Optimization)?',
-    seoWhatGeoText: 'GEO is a new optimization standard for AI-powered search engines — ChatGPT Search, Perplexity AI, Google AI Overview. Instead of competing for 10 blue links, you compete for 2-7 citation slots in AI-generated answers. Key GEO tools include Schema.org structured data (especially FAQPage), the llms.txt file, and robots.txt configuration for AI crawlers.',
+    seoWhatGeoText: 'GEO is a new optimization standard for AI-powered search engines - ChatGPT Search, Perplexity AI, Google AI Overview. Instead of competing for 10 blue links, you compete for 2-7 citation slots in AI-generated answers. Key GEO tools include Schema.org structured data (especially FAQPage), the llms.txt file, and robots.txt configuration for AI crawlers.',
     seoFeaturesTitle: 'Features',
     seoGeoFeat1: 'SEO meta tags with character counters and validation hints',
     seoGeoFeat2: 'Open Graph tags with auto-fill from SEO fields',
@@ -205,14 +205,14 @@ const translations = {
     seoGeoFeat6: 'robots.txt with AI crawler presets (block training, allow search)',
     seoGeoFeat7: 'Live SERP and social media preview',
     seoGeoFeat8: 'Copy per section or copy all HTML at once',
-    seoGeoFeat9: 'Auto-save to localStorage — never lose your work',
+    seoGeoFeat9: 'Auto-save to localStorage - never lose your work',
     seoFaqTitle: 'Frequently Asked Questions',
     seoGeoFaq1q: 'What is GEO and why does it matter?',
     seoGeoFaq1a: 'GEO (Generative Engine Optimization) optimizes your content for AI search engines. Over 40% of search queries in 2026 are answered by AI. Without GEO optimization, your content may be invisible to ChatGPT Search, Perplexity, and Google AI Overview.',
     seoGeoFaq2q: 'What is llms.txt?',
     seoGeoFaq2a: 'llms.txt is a new standard (similar to robots.txt) that tells AI models about your website. It\'s a Markdown file placed at your site root (/llms.txt) containing your project name, description, and links to key content.',
     seoGeoFaq3q: 'How do I optimize my site for AI search engines?',
-    seoGeoFaq3a: 'Three key steps: 1) Add Schema.org structured data — especially FAQPage which has the highest AI citation rate. 2) Create an llms.txt file describing your site. 3) Configure robots.txt to block AI training crawlers but allow AI search crawlers. This tool generates all three.',
+    seoGeoFaq3a: 'Three key steps: 1) Add Schema.org structured data - especially FAQPage which has the highest AI citation rate. 2) Create an llms.txt file describing your site. 3) Configure robots.txt to block AI training crawlers but allow AI search crawlers. This tool generates all three.',
     // Fetch URL
     fetchBtn: 'Fetch data',
     fetchBadge: 'Requires internet connection',
@@ -301,11 +301,11 @@ const outputSchemaCode = document.getElementById('outputSchemaCode');
 const outputLlmsCode = document.getElementById('outputLlmsCode');
 const outputRobotsCode = document.getElementById('outputRobotsCode');
 
-// Previews — Desktop
+// Previews - Desktop
 const serpUrl = document.getElementById('serpUrl');
 const serpTitle = document.getElementById('serpTitle');
 const serpDesc = document.getElementById('serpDesc');
-// Previews — Mobile
+// Previews - Mobile
 const serpTitleMobile = document.getElementById('serpTitleMobile');
 const serpDescMobile = document.getElementById('serpDescMobile');
 const serpBreadcrumb = document.getElementById('serpBreadcrumb');
@@ -458,13 +458,13 @@ function generateSeo() {
 
   outputSeoCode.textContent = lines.join('\n');
 
-  // Update previews — Desktop
+  // Update previews - Desktop
   serpTitle.textContent = title || 'Page Title';
   serpDesc.textContent = desc || 'Page description will appear here...';
   const cleanUrl = url ? url.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'example.com';
   serpUrl.textContent = cleanUrl;
 
-  // Update previews — Mobile
+  // Update previews - Mobile
   const mobileTitle = title ? (title.length > 55 ? title.slice(0, 55) + '...' : title) : 'Page Title';
   const mobileDesc = desc ? (desc.length > 120 ? desc.slice(0, 120) + '...' : desc) : 'Page description will appear here...';
   serpTitleMobile.textContent = mobileTitle;

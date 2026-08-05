@@ -1,6 +1,6 @@
 # FormattedAI
 
-A collection of free, privacy-focused web tools for developers and content creators. Every tool runs entirely in your browser — no server uploads, no accounts, no tracking. Your files never leave your device.
+A collection of free, privacy-focused web tools for developers and content creators. Every tool runs entirely in your browser - no server uploads, no accounts, no tracking. Your files never leave your device.
 
 **Live:** [formattedai.pl](https://formattedai.pl/)
 
@@ -16,7 +16,7 @@ Convert markdown text from ChatGPT and other AI assistants into perfectly format
 
 ### [AVIF Converter](avif/README.md)
 
-Convert PNG, JPG and WebP images to modern AVIF format. Batch conversion, quality presets, ZIP download — all client-side via WebAssembly.
+Convert PNG, JPG and WebP images to modern AVIF format. Batch conversion, quality presets, ZIP download - all client-side via WebAssembly.
 
 ![AVIF Converter](assets/screenshots/screen_desktop_avif_1.png)
 
@@ -75,7 +75,7 @@ Then open `index.html` with a local server (e.g. VS Code Live Server).
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+MIT - see [LICENSE](LICENSE) for details.
 
 ## Author
 

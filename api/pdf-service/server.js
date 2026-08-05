@@ -235,7 +235,7 @@ app.use(helmet());
 // JSON body parser with size limit
 app.use(express.json({ limit: '600kb' }));
 
-// CORS — only allowed origins
+// CORS - only allowed origins
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (origin && ALLOWED_ORIGINS.includes(origin)) {
@@ -247,7 +247,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rate limiting — per-minute
+// Rate limiting - per-minute
 const minuteLimit = rateLimit({
   windowMs: 60 * 1000,
   max: 5,
@@ -257,7 +257,7 @@ const minuteLimit = rateLimit({
   message: { error: 'Rate limit exceeded. Max 5 requests per minute.' },
 });
 
-// Rate limiting — per-day
+// Rate limiting - per-day
 const dailyLimit = rateLimit({
   windowMs: 24 * 60 * 60 * 1000,
   max: 50,

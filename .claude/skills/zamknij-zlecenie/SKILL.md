@@ -3,13 +3,13 @@ name: zamknij-zlecenie
 description: Zamyka zlecenie - merguje galaz robocza do develop
 ---
 
-Zamknij bieżące zlecenie — zmerguj gałąź roboczą do develop. Wykonaj następujące kroki:
+Zamknij bieżące zlecenie - zmerguj gałąź roboczą do develop. Wykonaj następujące kroki:
 
 1. Sprawdź na jakiej gałęzi się znajdujesz (`git branch --show-current`).
-   - Jeśli jesteś na `main` lub `develop` — poinformuj użytkownika że nie ma aktywnego zlecenia do zamknięcia i zakończ.
+   - Jeśli jesteś na `main` lub `develop` - poinformuj użytkownika że nie ma aktywnego zlecenia do zamknięcia i zakończ.
 
 2. Sprawdź czy są niezatwierdzone zmiany (`git status`).
-   - Jeśli są — zapytaj użytkownika czy chce je najpierw zacommitować (zasugeruj `/commit`).
+   - Jeśli są - zapytaj użytkownika czy chce je najpierw zacommitować (zasugeruj `/commit`).
 
 3. Zapamiętaj nazwę bieżącej gałęzi roboczej.
 
@@ -33,4 +33,4 @@ Zamknij bieżące zlecenie — zmerguj gałąź roboczą do develop. Wykonaj nas
 
 9. Potwierdź zamknięcie zlecenia.
 
-WAŻNE: Jeśli merge powoduje konflikty — poinformuj użytkownika i pomóż je rozwiązać zanim kontynuujesz.
+WAŻNE: Jeśli merge powoduje konflikty - poinformuj użytkownika i pomóż je rozwiązać zanim kontynuujesz.

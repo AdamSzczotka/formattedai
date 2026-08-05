@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — HTML to PDF Converter Logic
+// FormattedAI - HTML to PDF Converter Logic
 // Client-side HTML editor with live preview + PDF export
 // ============================================
 
@@ -774,7 +774,7 @@ async function checkApiHealth() {
 
   if (!serverAvailable) {
     // Subtle indicator: update export button to suggest print fallback
-    console.info('PDF render server unavailable — print fallback active');
+    console.info('PDF render server unavailable - print fallback active');
   }
 }
 

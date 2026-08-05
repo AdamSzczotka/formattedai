@@ -1,6 +1,6 @@
 // ============================================
-// FormattedAI — SEO & GEO Tag Generator Styles
-// (v2 redesign — tool-shell nav/footer + tool-head)
+// FormattedAI - SEO & GEO Tag Generator Styles
+// (v2 redesign - tool-shell nav/footer + tool-head)
 // Per-tool accent: pink
 // ============================================
 
@@ -34,7 +34,7 @@ $color-geo-glow-strong: rgba(236, 72, 153, 0.35);
   --color-accent-border: rgba(236, 72, 153, 0.3);
 }
 
-// Responsive overflow handling (mirrors jsminifier.scss, no .ws — SEO-GEO uses panel/panel)
+// Responsive overflow handling (mirrors jsminifier.scss, no .ws - SEO-GEO uses panel/panel)
 html, body { overflow-x: hidden; }
 body { overflow-y: auto; }
 .pane__body { background: var(--bg); }

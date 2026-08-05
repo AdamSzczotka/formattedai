@@ -8,41 +8,41 @@ Available in Polish (default at root) and English (under /en/). Theme: light + d
 
 ## Catalog
 
-- [All Tools (PL)](https://formattedai.pl/narzedzia/) — full catalog with category map and search
-- [All Tools (EN)](https://formattedai.pl/en/tools/) — full catalog with category map and search
+- [All Tools (PL)](https://formattedai.pl/narzedzia/) - full catalog with category map and search
+- [All Tools (EN)](https://formattedai.pl/en/tools/) - full catalog with category map and search
 
-## Tools — Text
+## Tools - Text
 
 - [Markdown Formatter](https://formattedai.pl/formatter/) ([EN](https://formattedai.pl/en/formatter/)): Convert ChatGPT/Claude markdown to formatted text for Google Docs and Microsoft Word. Export HTML/DOCX/MD.
 - [JS Minifier](https://formattedai.pl/js-minifier/) ([EN](https://formattedai.pl/en/js-minifier/)): Minify and beautify JavaScript using Esbuild + Terser + js-beautify
 - [CSS Minifier](https://formattedai.pl/css-minifier/) ([EN](https://formattedai.pl/en/css-minifier/)): Minify and beautify CSS using CSSO + js-beautify
 
-## Tools — Images
+## Tools - Images
 
 - [AVIF Converter](https://formattedai.pl/avif/) ([EN](https://formattedai.pl/en/avif/)): Convert PNG/JPG/WebP to modern AVIF format. Batch + ZIP. WebAssembly.
 - [HEIC Converter](https://formattedai.pl/heic/) ([EN](https://formattedai.pl/en/heic/)): Convert iPhone HEIC/HEIF photos to JPG/PNG/AVIF. WebAssembly.
 - [OCR](https://formattedai.pl/ocr/) ([EN](https://formattedai.pl/en/ocr/)): Recognize text from images. Tesseract.js, 100+ languages. Export TXT/Markdown.
 
-## Tools — Documents
+## Tools - Documents
 
 - [PDF Tools](https://formattedai.pl/pdf/) ([EN](https://formattedai.pl/en/pdf/)): Merge, split, compress PDFs and convert images to PDF. PDF.js + pdf-lib.
-- [HTML to PDF](https://formattedai.pl/html-to-pdf/) ([EN](https://formattedai.pl/en/html-to-pdf/)): Paste HTML code or URL — download a ready PDF file. html2pdf.js.
+- [HTML to PDF](https://formattedai.pl/html-to-pdf/) ([EN](https://formattedai.pl/en/html-to-pdf/)): Paste HTML code or URL - download a ready PDF file. html2pdf.js.
 <!-- - [Email Signature Builder](https://formattedai.pl/email-signature/) ([EN](https://formattedai.pl/en/email-signature/)): Email signature builder with HTML export for Outlook/Gmail/Thunderbird. (temporarily hidden) -->
 
-## Tools — SEO
+## Tools - SEO
 
 - [SEO & GEO Tag Generator](https://formattedai.pl/seo-geo/) ([EN](https://formattedai.pl/en/seo-geo/)): Generate meta tags, Open Graph, Twitter Cards, Schema.org JSON-LD, llms.txt, robots.txt. First tool combining classic SEO with GEO (Generative Engine Optimization for AI search engines).
 
 ## Articles
 
-- [Journal (PL)](https://formattedai.pl/articles/) — guides and tips on web optimization, SEO, AI formatting
-- [Journal (EN)](https://formattedai.pl/en/articles/) — same content in English
+- [Journal (PL)](https://formattedai.pl/articles/) - guides and tips on web optimization, SEO, AI formatting
+- [Journal (EN)](https://formattedai.pl/en/articles/) - same content in English
 - [How to Speed Up Image Loading with AVIF](https://formattedai.pl/articles/optymalizacja-zdjec-avif/) ([EN](https://formattedai.pl/en/articles/optymalizacja-zdjec-avif/)): Complete guide to AVIF format
-- [GEO — Optimize Your Site for AI Search Engines](https://formattedai.pl/articles/geo-optymalizacja-pod-ai/) ([EN](https://formattedai.pl/en/articles/geo-optymalizacja-pod-ai/)): How to make your page show up in ChatGPT Search, Perplexity, Google AI Overview
-- [Free PDF Tools Online — 7 Functions in One](https://formattedai.pl/articles/pdf-darmowe-narzedzia-online/) ([EN](https://formattedai.pl/en/articles/pdf-darmowe-narzedzia-online/)): Merging, splitting, compressing PDFs in the browser
+- [GEO - Optimize Your Site for AI Search Engines](https://formattedai.pl/articles/geo-optymalizacja-pod-ai/) ([EN](https://formattedai.pl/en/articles/geo-optymalizacja-pod-ai/)): How to make your page show up in ChatGPT Search, Perplexity, Google AI Overview
+- [Free PDF Tools Online - 7 Functions in One](https://formattedai.pl/articles/pdf-darmowe-narzedzia-online/) ([EN](https://formattedai.pl/en/articles/pdf-darmowe-narzedzia-online/)): Merging, splitting, compressing PDFs in the browser
 - [ChatGPT and Formatting in Google Docs](https://formattedai.pl/articles/chatgpt-formatowanie-google-docs/) ([EN](https://formattedai.pl/en/articles/chatgpt-formatowanie-google-docs/)): Why AI markdown breaks in Word and how to fix it
 
 ## About
 
 - [About FormattedAI](https://formattedai.pl/about/) ([EN](https://formattedai.pl/en/about/)): Mission, tools, privacy, FAQ, author
-- [Privacy Policy](https://formattedai.pl/privacy/) ([EN](https://formattedai.pl/en/privacy/)): How we handle your data (we don't — everything is client-side)
+- [Privacy Policy](https://formattedai.pl/privacy/) ([EN](https://formattedai.pl/en/privacy/)): How we handle your data (we don't - everything is client-side)

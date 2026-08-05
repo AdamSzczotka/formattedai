@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — CSS Minifier & Prettifier Logic
+// FormattedAI - CSS Minifier & Prettifier Logic
 // Vendor globals: csso, css_beautify_mod
 // ============================================
 
@@ -63,7 +63,7 @@
       } else if (attempts >= maxAttempts) {
         clearInterval(poll);
         processBtn.setAttribute('aria-busy', 'false');
-        // Leave disabled — vendors failed to load
+        // Leave disabled - vendors failed to load
       }
     }, 100);
   }
