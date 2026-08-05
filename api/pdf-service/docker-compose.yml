@@ -2,7 +2,7 @@ services:
   pdf-service:
     build: .
     ports:
-      - "3001:3001"
+      - "127.0.0.1:3001:3001"
     read_only: true
     tmpfs:
       - /tmp:size=100m,noexec,nosuid,nodev
@@ -17,5 +17,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3001
+      - XDG_CONFIG_HOME=/tmp/.chromium
+      - XDG_CACHE_HOME=/tmp/.chromium
       - ALLOWED_ORIGINS=http://127.0.0.1:5500,http://localhost:5500,https://formattedai.pl,https://www.formattedai.pl
     restart: unless-stopped

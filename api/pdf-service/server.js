@@ -136,6 +136,10 @@ async function initBrowser() {
       '--disable-setuid-sandbox',
       '--disable-gpu',
       '--disable-dev-shm-usage',
+      // read-only FS w kontenerze: crashpad nie ma gdzie zapisac bazy dumpow
+      '--disable-crashpad',
+      '--disable-crash-reporter',
+      '--disable-breakpad',
       '--disable-extensions',
       '--disable-background-networking',
       '--disable-webgl',
