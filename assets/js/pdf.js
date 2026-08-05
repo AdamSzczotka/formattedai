@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — PDF Tool Logic
+// FormattedAI - PDF Tool Logic
 // Merge, Split, Compress, Image-to-PDF
 // 100% client-side using pdf-lib, pdfjs-dist, fflate
 // ============================================
@@ -12,9 +12,9 @@
   // ==================
   var translations = {
     pl: {
-      pageTitle: 'Narzędzia PDF — Łącz, dziel, kompresuj PDF online | FormattedAI',
+      pageTitle: 'Narzędzia PDF - Łącz, dziel, kompresuj PDF online | FormattedAI',
       subtitle: 'Łącz, dziel, kompresuj i konwertuj pliki PDF',
-      badgePrivacy: '100% w przeglądarce — Twoje pliki nigdy nie opuszczają urządzenia',
+      badgePrivacy: '100% w przeglądarce - Twoje pliki nigdy nie opuszczają urządzenia',
       privacyNote: 'Pliki przetwarzane lokalnie. Zero uploadu na serwer.',
       tabMerge: 'Połącz',
       tabSplit: 'Podziel',
@@ -152,10 +152,10 @@
       navAbout: 'O nas',
       navPrivacy: 'Prywatność',
       navContact: 'Kontakt',
-      toolHeaderDesc: 'Łącz, dziel, kompresuj, obracaj, przycinaj, podpisuj PDF i konwertuj obrazki na PDF. 100% w przeglądarce — Twoje dokumenty nigdy nie opuszczają urządzenia.',
+      toolHeaderDesc: 'Łącz, dziel, kompresuj, obracaj, przycinaj, podpisuj PDF i konwertuj obrazki na PDF. 100% w przeglądarce - Twoje dokumenty nigdy nie opuszczają urządzenia.',
       // About modal
       modalTitle: 'Narzędzia PDF',
-      modalDesc: '<strong>Narzędzia PDF</strong> pozwalają łączyć, dzielić, kompresować i konwertować pliki PDF bezpośrednio w przeglądarce — Twoje pliki nigdy nie opuszczają urządzenia.',
+      modalDesc: '<strong>Narzędzia PDF</strong> pozwalają łączyć, dzielić, kompresować i konwertować pliki PDF bezpośrednio w przeglądarce - Twoje pliki nigdy nie opuszczają urządzenia.',
       modalHowTitle: 'Jak używać',
       modalStep1: 'Wybierz zakładkę z operacją, którą chcesz wykonać',
       modalStep2: 'Przeciągnij pliki lub kliknij aby wybrać',
@@ -163,10 +163,10 @@
       modalStep4: 'Pobierz wynik',
       modalFeaturesTitle: 'Kluczowe funkcje',
       modalFeat1: 'Łączenie wielu PDF w jeden',
-      modalFeat2: 'Dzielenie PDF — wybierz strony do wyodrębnienia',
+      modalFeat2: 'Dzielenie PDF - wybierz strony do wyodrębnienia',
       modalFeat3: 'Kompresja PDF z presetami jakości',
       modalFeat4: 'Konwersja obrazków (JPG, PNG, WebP, AVIF) na PDF',
-      modalFeat5: '100% client-side — Twoje pliki nigdy nie opuszczają urządzenia',
+      modalFeat5: '100% client-side - Twoje pliki nigdy nie opuszczają urządzenia',
       // HTML data-i18n aliases (used in markup)
       actionMerge: 'Połącz PDF',
       actionSplit: 'Podziel PDF',
@@ -202,13 +202,13 @@
       emptyResult: 'Tu pojawi się przetworzony PDF',
       emptyHint: 'Dodaj pliki po lewej stronie',
       // SEO
-      seoH1: 'Darmowe narzędzia PDF online — Łącz, dziel, kompresuj PDF w przeglądarce',
-      seoDesc: 'Łącz, dziel, kompresuj i konwertuj pliki PDF bezpośrednio w przeglądarce. Wszystko działa client-side — Twoje pliki nigdy nie opuszczają urządzenia. Bez rejestracji, bez limitów, za darmo.',
+      seoH1: 'Darmowe narzędzia PDF online - Łącz, dziel, kompresuj PDF w przeglądarce',
+      seoDesc: 'Łącz, dziel, kompresuj i konwertuj pliki PDF bezpośrednio w przeglądarce. Wszystko działa client-side - Twoje pliki nigdy nie opuszczają urządzenia. Bez rejestracji, bez limitów, za darmo.',
     },
     en: {
-      pageTitle: 'PDF Tools — Merge, Split, Compress PDF Online | FormattedAI',
+      pageTitle: 'PDF Tools - Merge, Split, Compress PDF Online | FormattedAI',
       subtitle: 'Merge, split, compress and convert PDF files',
-      badgePrivacy: '100% in-browser — your files never leave your device',
+      badgePrivacy: '100% in-browser - your files never leave your device',
       privacyNote: 'Files processed locally. Zero upload to any server.',
       tabMerge: 'Merge',
       tabSplit: 'Split',
@@ -336,10 +336,10 @@
       navArticles: 'Articles',
       navAbout: 'About',
       navPrivacy: 'Privacy',
-      toolHeaderDesc: 'Merge, split, compress, rotate, crop, sign PDFs and convert images to PDF. 100% in your browser — your documents never leave your device.',
+      toolHeaderDesc: 'Merge, split, compress, rotate, crop, sign PDFs and convert images to PDF. 100% in your browser - your documents never leave your device.',
       navContact: 'Contact',
       modalTitle: 'PDF Tools',
-      modalDesc: '<strong>PDF Tools</strong> let you merge, split, compress and convert PDF files directly in your browser — your files never leave your device.',
+      modalDesc: '<strong>PDF Tools</strong> let you merge, split, compress and convert PDF files directly in your browser - your files never leave your device.',
       modalHowTitle: 'How to use',
       modalStep1: 'Select the tab with the operation you want',
       modalStep2: 'Drag files or click to browse',
@@ -347,10 +347,10 @@
       modalStep4: 'Download the result',
       modalFeaturesTitle: 'Key features',
       modalFeat1: 'Merge multiple PDFs into one',
-      modalFeat2: 'Split PDF — select pages to extract',
+      modalFeat2: 'Split PDF - select pages to extract',
       modalFeat3: 'Compress PDF with quality presets',
       modalFeat4: 'Convert images (JPG, PNG, WebP, AVIF) to PDF',
-      modalFeat5: '100% client-side — your files never leave your device',
+      modalFeat5: '100% client-side - your files never leave your device',
       // HTML data-i18n aliases (used in markup)
       actionMerge: 'Merge PDF',
       actionSplit: 'Split PDF',
@@ -385,8 +385,8 @@
       outputTitle: 'Result',
       emptyResult: 'Processed PDF will appear here',
       emptyHint: 'Add files on the left',
-      seoH1: 'Free Online PDF Tools — Merge, Split, Compress PDF in Browser',
-      seoDesc: 'Merge, split, compress and convert PDF files directly in your browser. Everything runs client-side — your files never leave your device. No registration, no limits, free.',
+      seoH1: 'Free Online PDF Tools - Merge, Split, Compress PDF in Browser',
+      seoDesc: 'Merge, split, compress and convert PDF files directly in your browser. Everything runs client-side - your files never leave your device. No registration, no limits, free.',
     },
   };
 
@@ -785,7 +785,7 @@
   }
 
   function updateActionBtnText() {
-    // Divider icon has no text label — tooltip only
+    // Divider icon has no text label - tooltip only
     if (dom.divider) {
       var titleMap = {
         'merge': 'mergeBtnText',
@@ -979,7 +979,7 @@
       thumbDiv.className = 'pdf-files__thumb';
 
       if (state.activeTab === 'img2pdf') {
-        // Image thumbnail — use object URL
+        // Image thumbnail - use object URL
         var img = document.createElement('img');
         var blob = new Blob([file.data], { type: file.type });
         img.src = URL.createObjectURL(blob);
@@ -988,7 +988,7 @@
         img.onload = function () { URL.revokeObjectURL(this.src); };
         thumbDiv.appendChild(img);
       } else {
-        // PDF thumbnail — render first page
+        // PDF thumbnail - render first page
         renderPdfThumbnail(file.data, 0, thumbDiv);
       }
 
@@ -1158,7 +1158,7 @@
           });
         });
       }).catch(function () {
-        // Failed to render thumbnail — show placeholder
+        // Failed to render thumbnail - show placeholder
         container.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
       });
     });
@@ -1312,7 +1312,7 @@
     state.splitPages.splice(destIndex, 0, moved);
     splitDragSrcIndex = null;
 
-    // Reset thumbnail flags — old canvases are destroyed by innerHTML = ''
+    // Reset thumbnail flags - old canvases are destroyed by innerHTML = ''
     state.splitPages.forEach(function (p) { p.thumbnailRendered = false; });
 
     // Re-render grid
@@ -1478,7 +1478,7 @@
       var label = document.createElement('span');
       label.className = 'pdf-pages__number';
       var fileName = state.files[pageInfo.fileIndex] ? state.files[pageInfo.fileIndex].name : '';
-      label.textContent = fileName + ' — ' + t('pageLabel') + ' ' + (pageInfo.pageNum + 1);
+      label.textContent = fileName + ' - ' + t('pageLabel') + ' ' + (pageInfo.pageNum + 1);
       label.title = label.textContent;
 
       card.appendChild(thumbDiv);
@@ -1547,7 +1547,7 @@
     state.mergePages.splice(destIndex, 0, moved);
     mergePageDragSrcIndex = null;
 
-    // Reset thumbnail flags — old canvases are destroyed by innerHTML = ''
+    // Reset thumbnail flags - old canvases are destroyed by innerHTML = ''
     state.mergePages.forEach(function (p) { p.thumbnailRendered = false; });
 
     renderMergePageGrid();
@@ -1713,8 +1713,8 @@
       label.className = 'fs-pages__label';
       var fileName = state.files[pageInfo.fileIndex] ? state.files[pageInfo.fileIndex].name : '';
       var shortName = fileName.length > 25 ? fileName.substring(0, 22) + '...' : fileName;
-      label.textContent = shortName + ' — ' + t('pageLabel') + ' ' + (pageInfo.pageNum + 1);
-      label.title = fileName + ' — ' + t('pageLabel') + ' ' + (pageInfo.pageNum + 1);
+      label.textContent = shortName + ' - ' + t('pageLabel') + ' ' + (pageInfo.pageNum + 1);
+      label.title = fileName + ' - ' + t('pageLabel') + ' ' + (pageInfo.pageNum + 1);
 
       card.appendChild(cardInner);
       card.appendChild(label);
@@ -2060,7 +2060,7 @@
         for (var i = 0; i < totalFiles; i++) {
           showProgress(
             ((i + 1) / totalFiles) * 90,
-            t('processingFile') + ' ' + (i + 1) + '/' + totalFiles + ' — ' + state.files[i].name
+            t('processingFile') + ' ' + (i + 1) + '/' + totalFiles + ' - ' + state.files[i].name
           );
 
           var donor2;
@@ -2377,7 +2377,7 @@
             try {
               bitmap = await createImageBitmap(imgBlob);
             } catch (_) {
-              // Can't decode this image format — skip
+              // Can't decode this image format - skip
               continue;
             }
 
@@ -2501,7 +2501,7 @@
         var file = state.files[i];
         showProgress(
           ((i + 1) / totalFiles) * 90,
-          t('processingFile') + ' ' + (i + 1) + '/' + totalFiles + ' — ' + file.name
+          t('processingFile') + ' ' + (i + 1) + '/' + totalFiles + ' - ' + file.name
         );
 
         try {
@@ -3324,7 +3324,7 @@
 
   function hitTestAnnotation(pos) {
     var anns = getPageAnnotations();
-    // Reverse order — top-most first
+    // Reverse order - top-most first
     for (var i = anns.length - 1; i >= 0; i--) {
       var ann = anns[i];
       if (ann.rect) {
@@ -3333,7 +3333,7 @@
           return { annIndex: i, offsetX: pos.x - ann.rect.x, offsetY: pos.y - ann.rect.y };
         }
       } else if (ann.pos) {
-        // Text/stamp — hit area ~100x30 from pos
+        // Text/stamp - hit area ~100x30 from pos
         var tw = 120, th = 30;
         if (pos.x >= ann.pos.x - 5 && pos.x <= ann.pos.x + tw &&
             pos.y >= ann.pos.y - th && pos.y <= ann.pos.y + 5) {
@@ -3492,9 +3492,9 @@
     }
   }
 
-  // onAnnotateMouseUp — handles shapes, resize + drag release
+  // onAnnotateMouseUp - handles shapes, resize + drag release
   function onAnnotateMouseUp(e) {
-    // Release resize — push to undo stack
+    // Release resize - push to undo stack
     if (annotateResizeTarget) {
       var rt = annotateResizeTarget;
       state.annotateUndoStack.push({
@@ -3507,7 +3507,7 @@
       return;
     }
 
-    // Release drag — push move to undo stack
+    // Release drag - push move to undo stack
     if (annotateDragTarget) {
       if (annotateDragTarget.origPos) {
         var pageIdx = state.annotateCurrentPage;
@@ -4215,7 +4215,7 @@
         el.className = 'forms-field forms-field--dropdown';
         var emptyOpt = document.createElement('option');
         emptyOpt.value = '';
-        emptyOpt.textContent = '—';
+        emptyOpt.textContent = '-';
         el.appendChild(emptyOpt);
         (field.options || []).forEach(function (opt) {
           var o = document.createElement('option');
@@ -4634,7 +4634,7 @@
   var cropPanScrollX = 0, cropPanScrollY = 0;
 
   function onCropMouseDown(e) {
-    // Pan mode — scroll the canvas wrap
+    // Pan mode - scroll the canvas wrap
     if (state.cropMode === 'pan') {
       var wrap = document.getElementById('cropCanvasWrap');
       if (!wrap) return;
@@ -4647,7 +4647,7 @@
       return;
     }
 
-    // Crop mode — draw selection rect
+    // Crop mode - draw selection rect
     var rect = cropOverlayEl.getBoundingClientRect();
     cropStartX = (e.clientX - rect.left) / cropScale;
     cropStartY = (e.clientY - rect.top) / cropScale;
@@ -4868,7 +4868,7 @@
       var baseName = getBaseName(state.files[0].name);
 
       if (numPages === 1) {
-        // Single page — download as JPG directly
+        // Single page - download as JPG directly
         var page = await pdfDoc.getPage(1);
         var viewport = page.getViewport({ scale: scale });
         var canvas = document.createElement('canvas');
@@ -4885,7 +4885,7 @@
         showProgress(100, t('processing'));
         showResult(jpgBytes, baseName + '_page_1.jpg', 'image/jpeg', state.files[0].size);
       } else {
-        // Multiple pages — ZIP all JPGs
+        // Multiple pages - ZIP all JPGs
         var zipFiles = {};
 
         for (var i = 1; i <= numPages; i++) {
@@ -5080,7 +5080,7 @@
       dom.resultDownloadBtn.addEventListener('click', downloadResult);
     }
 
-    // Reset button — go back to initial state
+    // Reset button - go back to initial state
     if (dom.resetBtn) {
       dom.resetBtn.addEventListener('click', function () {
         clearFiles();

@@ -1,4 +1,4 @@
-# PDF Tool — Plan budowy
+# PDF Tool - Plan budowy
 
 Data: 2026-03-31
 Status: Zatwierdzony po grill-me session
@@ -8,16 +8,16 @@ Status: Zatwierdzony po grill-me session
 ## Scope MVP
 
 4 funkcje w pierwszym wdrożeniu:
-1. **Merge** — łączenie wielu PDF w jeden
-2. **Split** — wycinanie/ekstrakcja wybranych stron
-3. **Compress** — kompresja PDF (recompression obrazków + metadata strip)
-4. **Image-to-PDF** — konwersja obrazków do PDF
+1. **Merge** - łączenie wielu PDF w jeden
+2. **Split** - wycinanie/ekstrakcja wybranych stron
+3. **Compress** - kompresja PDF (recompression obrazków + metadata strip)
+4. **Image-to-PDF** - konwersja obrazków do PDF
 
-Faza 2 (po MVP) — zatwierdzone po grill-me session 2026-04-01:
+Faza 2 (po MVP) - zatwierdzone po grill-me session 2026-04-01:
 
 ### 2.1 Advanced mode (odblokowane limity)
 - Wariant C: ostrzeżenie gdy user uderzy w limit, z opcją odblokowania
-- Zero dodatkowego UI — dialog pojawia się tylko przy przekroczeniu limitu
+- Zero dodatkowego UI - dialog pojawia się tylko przy przekroczeniu limitu
 - "Uwaga: duże pliki mogą spowolnić przeglądarkę. Kontynuować?"
 - Dotyczy wszystkich tabów (również nowych z Fazy 2)
 
@@ -31,9 +31,9 @@ Faza 2 (po MVP) — zatwierdzone po grill-me session 2026-04-01:
 ### 2.3 Wypełnianie formularzy (AcroForm)
 - Osobny tab "Formularze"
 - Obsługiwane typy pól: text fields, checkboxes, radio buttons, dropdowns
-- Signatures — OUT OF SCOPE (zbyt duży scope, ryzyko prawne)
+- Signatures - OUT OF SCOPE (zbyt duży scope, ryzyko prawne)
 - UI: pdfjs render podglądu + natywne HTML inputy pozycjonowane absolutnie nad polami
-- Checkbox "Zablokuj pola po wypełnieniu (flatten)" — domyślnie OFF
+- Checkbox "Zablokuj pola po wypełnieniu (flatten)" - domyślnie OFF
 - pdf-lib `getForm()` API
 
 ### 2.4 Adnotacje (pełny scope)
@@ -86,7 +86,7 @@ en/pdf/
 
 ### Wzorzec kodu
 
-- Vanilla JS, zero bundlera — spójne z resztą codebase
+- Vanilla JS, zero bundlera - spójne z resztą codebase
 - Vendor libraries ładowane jako lokalne `<script>` (nie CDN)
 - Ciężkie operacje w Web Workerze (nie blokujemy UI)
 
@@ -107,7 +107,7 @@ Flow: **Najpierw tab → potem pliki**
 [Hero: tytuł + opis + badge "100% client-side"]
 [Tab bar: Merge | Split | Compress | IMG→PDF]
 ─────────────────────────────────────
-[Drop zone — kontekstowa per tab]
+[Drop zone - kontekstowa per tab]
 [Podgląd / lista plików]
 [Opcje per tab]
 [Przycisk akcji]
@@ -132,20 +132,20 @@ Flow: **Najpierw tab → potem pliki**
 | Tab | Typ podglądu |
 |---|---|
 | **Merge** | Miniatura 1. strony każdego PDF + drag & drop kolejności |
-| **Split** | Miniatury WSZYSTKICH stron — klikalne do zaznaczania |
-| **Compress** | Brak podglądu — rozmiar przed → po + procent |
+| **Split** | Miniatury WSZYSTKICH stron - klikalne do zaznaczania |
+| **Compress** | Brak podglądu - rozmiar przed → po + procent |
 | **Image-to-pdf** | Natywne `<img>` miniatury + drag & drop kolejności |
 
 Split: lazy render miniaturek (Intersection Observer) przy dużych PDF-ach.
 
 ---
 
-## Compress — strategia
+## Compress - strategia
 
 3 warstwy kompresji:
-1. **Recompression obrazków** — canvas API re-encode jako JPEG
-2. **Strip metadanych** — XMP, thumbnails, unused objects
-3. **Object streams** — pdf-lib `save({ useObjectStreams: true })`
+1. **Recompression obrazków** - canvas API re-encode jako JPEG
+2. **Strip metadanych** - XMP, thumbnails, unused objects
+3. **Object streams** - pdf-lib `save({ useObjectStreams: true })`
 
 ### Presety
 
@@ -160,7 +160,7 @@ Slider jakości (0-100) pod "Zaawansowane".
 
 ---
 
-## Output — pobieranie wyników
+## Output - pobieranie wyników
 
 | Tab | Nazwa pliku | Format |
 |---|---|---|
@@ -170,7 +170,7 @@ Slider jakości (0-100) pod "Zaawansowane".
 | Compress | `{nazwa}_compressed.pdf` | Jeden PDF |
 | Image-to-pdf | `images.pdf` | Jeden PDF |
 
-Split: toggle "Pobierz każdą stronę osobno (ZIP)" — domyślnie OFF.
+Split: toggle "Pobierz każdą stronę osobno (ZIP)" - domyślnie OFF.
 
 ---
 
@@ -187,12 +187,12 @@ Split: toggle "Pobierz każdą stronę osobno (ZIP)" — domyślnie OFF.
 
 ---
 
-## Prywatność — komunikacja
+## Prywatność - komunikacja
 
 3 warstwy, subtelnie:
-1. **Badge w hero** — "100% w przeglądarce — Twoje pliki nigdy nie opuszczają urządzenia"
-2. **Pod drop zone** — ikona kłódki + "Pliki przetwarzane lokalnie. Zero uploadu na serwer."
-3. **Tooltip na przycisku** — "Przetwarzanie wyłącznie w Twojej przeglądarce"
+1. **Badge w hero** - "100% w przeglądarce - Twoje pliki nigdy nie opuszczają urządzenia"
+2. **Pod drop zone** - ikona kłódki + "Pliki przetwarzane lokalnie. Zero uploadu na serwer."
+3. **Tooltip na przycisku** - "Przetwarzanie wyłącznie w Twojej przeglądarce"
 
 ---
 

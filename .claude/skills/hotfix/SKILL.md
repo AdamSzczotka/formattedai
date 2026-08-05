@@ -4,15 +4,15 @@ description: Pilna poprawka z main - merguje do main i develop
 argument-hint: "<opis problemu>"
 ---
 
-Utwórz hotfix — pilna poprawka bezpośrednio na main. Argument z opisem: $ARGUMENTS
+Utwórz hotfix - pilna poprawka bezpośrednio na main. Argument z opisem: $ARGUMENTS
 
 Wykonaj następujące kroki:
 
-1. Sprawdź czy są niezatwierdzone zmiany — jeśli tak, przerwij.
+1. Sprawdź czy są niezatwierdzone zmiany - jeśli tak, przerwij.
 
 2. Na podstawie argumentu użytkownika utwórz nazwę gałęzi:
    - Format: `hotfix/<krotki-opis>` (np. `hotfix/naprawa-logowania`)
-   - Jeśli brak argumentu — zapytaj o opis problemu.
+   - Jeśli brak argumentu - zapytaj o opis problemu.
    - Zamień spacje na myślniki, usuń polskie znaki, lowercase.
 
 3. Przełącz się na main i pobierz najnowsze:
@@ -23,7 +23,7 @@ Wykonaj następujące kroki:
    - `git checkout -b <hotfix-branch>`
    - `git push -u origin <hotfix-branch>`
 
-5. Poinformuj użytkownika że gałąź hotfix jest gotowa — niech wprowadzi poprawki.
+5. Poinformuj użytkownika że gałąź hotfix jest gotowa - niech wprowadzi poprawki.
 
 Po zakończeniu pracy (gdy użytkownik powie że hotfix jest gotowy):
 
@@ -43,4 +43,4 @@ Po zakończeniu pracy (gdy użytkownik powie że hotfix jest gotowy):
 
 10. Zasugeruj utworzenie nowego tagu wersji (patch bump, np. v1.0.0 → v1.0.1).
 
-WAŻNE: Hotfix to pilna ścieżka — mergujemy zarówno do main JAK I do develop.
+WAŻNE: Hotfix to pilna ścieżka - mergujemy zarówno do main JAK I do develop.

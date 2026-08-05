@@ -1,5 +1,5 @@
 /**
- * PDF Tool — Automated Test Suite
+ * PDF Tool - Automated Test Suite
  * Run: node tests/pdf-tool.test.js
  *
  * Tests: syntax, i18n completeness, Polish chars, tab consistency,
@@ -131,7 +131,7 @@ function extractDropTextKeys(src) {
     // Every other match is the value
     keys.push(km[1]);
   }
-  // textMap keys are the odd-indexed (0, 2, 4...) — actually it's key: value pairs
+  // textMap keys are the odd-indexed (0, 2, 4...) - actually it's key: value pairs
   // Let's just get the left-hand keys
   const keys2 = [];
   const re2 = /'(\w+)'\s*:/g;
@@ -209,7 +209,7 @@ MUST_HAVE_DIACRITICS.forEach(key => {
   test(`PL "${key}" contains Polish diacritics`, () => {
     const val = plValues[key];
     assert(val, `Key "${key}" not found in PL translations`);
-    assert(POLISH_CHARS.test(val), `"${key}" = "${val}" — expected Polish diacritics (ąćęłńóśźż)`);
+    assert(POLISH_CHARS.test(val), `"${key}" = "${val}" - expected Polish diacritics (ąćęłńóśźż)`);
   });
 });
 
@@ -319,7 +319,7 @@ test('Tab buttons wrap text in <span>', () => {
   const tabBtns = htmlPl.match(/<button[^>]*data-tab[^>]*>[\s\S]*?<\/button>/g) || [];
   const withoutSpan = tabBtns.filter(b => !b.includes('<span>'));
   assert(withoutSpan.length === 0,
-    `${withoutSpan.length} tab buttons missing <span> wrapper — i18n will wipe SVG icons`);
+    `${withoutSpan.length} tab buttons missing <span> wrapper - i18n will wipe SVG icons`);
 });
 
 // ─── 9. Key DOM IDs referenced in JS exist in HTML ───
@@ -358,7 +358,7 @@ test('loadCropPreview calls updateUI() after ensureCropUI()', () => {
 console.log('\n── No Browser Dialogs ──');
 test('No prompt() calls in pdf.js', () => {
   const prompts = (pdfJs.match(/[^a-zA-Z]prompt\s*\(/g) || []);
-  assert(prompts.length === 0, `Found ${prompts.length} prompt() calls — should use inline UI`);
+  assert(prompts.length === 0, `Found ${prompts.length} prompt() calls - should use inline UI`);
 });
 
 test('No alert() calls in pdf.js', () => {

@@ -67,7 +67,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  <!-- Email Signature — tymczasowo ukryte przed publikacją
+  <!-- Email Signature - tymczasowo ukryte przed publikacją
   <url>
     <loc>https://formattedai.pl/email-signature/</loc>
     <lastmod>2026-04-27</lastmod>
@@ -185,7 +185,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <!-- Email Signature EN — temporarily hidden before publication
+  <!-- Email Signature EN - temporarily hidden before publication
   <url>
     <loc>https://formattedai.pl/en/email-signature/</loc>
     <lastmod>2026-04-27</lastmod>

@@ -1,8 +1,8 @@
 # AVIF Converter
 
-> Part of [FormattedAI](../README.md) — free webdev tools, 100% client-side.
+> Part of [FormattedAI](../README.md) - free webdev tools, 100% client-side.
 
-Free online tool that converts PNG, JPG and WebP images to modern AVIF format. All conversion happens directly in your browser — your files never leave your device.
+Free online tool that converts PNG, JPG and WebP images to modern AVIF format. All conversion happens directly in your browser - your files never leave your device.
 
 **Live:** [formattedai.pl/avif](https://formattedai.pl/avif/)
 
@@ -12,7 +12,7 @@ Free online tool that converts PNG, JPG and WebP images to modern AVIF format. A
 
 1. Drag & drop images or click to browse (PNG, JPG, WebP)
 2. Adjust quality with presets or slider (default: 65)
-3. Click convert — watch the progress bar
+3. Click convert - watch the progress bar
 4. Download individual files or batch as ZIP
 
 ![AVIF Converter - Results](../assets/screenshots/screen_desktop_avif_2.png)
@@ -37,12 +37,12 @@ Free online tool that converts PNG, JPG and WebP images to modern AVIF format. A
 ## Tech stack
 
 - Vanilla HTML, CSS (SCSS), JavaScript (ESM)
-- [@jsquash/avif](https://github.com/jamsinclair/jSquash) — WASM-based AVIF encoder (works in all modern browsers)
+- [@jsquash/avif](https://github.com/jamsinclair/jSquash) - WASM-based AVIF encoder (works in all modern browsers)
 - [JSZip](https://stuk.github.io/jszip/) for batch ZIP downloads
 
 ## Browser support
 
-Works in all modern browsers. The AVIF encoder runs via WebAssembly — no native AVIF encoding required.
+Works in all modern browsers. The AVIF encoder runs via WebAssembly - no native AVIF encoding required.
 
 | Browser | Supported |
 |---------|-----------|
@@ -53,4 +53,4 @@ Works in all modern browsers. The AVIF encoder runs via WebAssembly — no nativ
 
 ## License
 
-MIT — see [LICENSE](../LICENSE) for details.
+MIT - see [LICENSE](../LICENSE) for details.

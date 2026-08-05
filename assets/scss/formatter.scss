@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — Markdown Formatter (v2 redesign)
+// FormattedAI - Markdown Formatter (v2 redesign)
 // Per-tool accent: brand purple
 // ============================================
 
@@ -9,7 +9,7 @@
 // Markdown Formatter uses the default brand purple accent (no override needed)
 
 // === MF: tool-specific styles (Markdown Formatter) ===
-// Page scrolls naturally — only the workspace (.ws) is internally scrollable
+// Page scrolls naturally - only the workspace (.ws) is internally scrollable
 html, body { overflow-x: hidden; }
 body { overflow-y: auto; }
 
@@ -51,7 +51,7 @@ body { overflow-y: auto; }
   &::-webkit-scrollbar-thumb:hover { background: var(--accent-border); }
 }
 
-// Editor textarea — full pane, generous padding, readable size
+// Editor textarea - full pane, generous padding, readable size
 .editor {
   flex: 1;
   width: 100%;
@@ -254,7 +254,7 @@ body { overflow-y: auto; }
   }
 }
 
-// --- Preview (scroll container — panel inside) ---
+// --- Preview (scroll container - panel inside) ---
 .preview {
   flex: 1;
   overflow-y: auto;

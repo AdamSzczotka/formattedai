@@ -3,3 +3,5 @@ nginx.conf
 stats/
 .idea/
 *.css.map
+.remember/
+.claude/settings.local.json

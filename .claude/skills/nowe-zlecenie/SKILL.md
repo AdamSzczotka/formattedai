@@ -8,7 +8,7 @@ Utwórz nową gałąź roboczą dla zlecenia. Argument: $ARGUMENTS
 
 Wykonaj następujące kroki:
 
-1. Sprawdź czy jesteś na gałęzi `develop`. Jeśli nie — przełącz się na nią i pobierz najnowsze zmiany:
+1. Sprawdź czy jesteś na gałęzi `develop`. Jeśli nie - przełącz się na nią i pobierz najnowsze zmiany:
    - `git checkout develop`
    - `git pull origin develop`
 

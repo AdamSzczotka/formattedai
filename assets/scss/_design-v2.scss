@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — Design System v2
+// FormattedAI - Design System v2
 // (Hybrid Console palette, Inter + JetBrains Mono, dual theme)
 // Shared foundation for all tool pages.
 // ============================================
@@ -30,7 +30,7 @@
   --accent-glow: rgba(124, 108, 240, 0.12);
   --accent-border: rgba(124, 108, 240, 0.25);
 
-  // Nav wordmark accent — ALWAYS purple regardless of tool color
+  // Nav wordmark accent - ALWAYS purple regardless of tool color
   --nav-accent-light: #9b8ff7;
 
   --glass: rgba(255, 255, 255, 0.92);
@@ -40,7 +40,7 @@
 }
 
 [data-theme="dark"] {
-  // v3 Hybrid Console palette — deeper ink, cleaner panels
+  // v3 Hybrid Console palette - deeper ink, cleaner panels
   --bg: #08080c;
   --surface: #0c0c14;
   --surface-raised: #11111a;
@@ -798,7 +798,7 @@ body {
   transition: width 0.3s ease;
 }
 
-// (Result list/item BEM classes live in per-tool SCSS — AVIF/HEIC/OCR
+// (Result list/item BEM classes live in per-tool SCSS - AVIF/HEIC/OCR
 //  use `.result-item__*` BEM to match their JS query selectors.)
 
 // --- About modal (help / "?" button) ---
@@ -955,7 +955,7 @@ body {
   }
 }
 
-// --- SEO content (hidden — bots only) ---
+// --- SEO content (hidden - bots only) ---
 .seo-content { display: none; }
 
 // --- Background grid (subtle, used on home/blog) ---

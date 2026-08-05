@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — Design System v3 (Hybrid Console)
+// FormattedAI - Design System v3 (Hybrid Console)
 // Dark-first, light fallback via [data-theme="light"]
 // ============================================
 
@@ -33,7 +33,7 @@ $dur-slow: 0.45s;
 
 // === CSS custom properties (theme tokens) ===
 :root {
-  // Surfaces — dark by default
+  // Surfaces - dark by default
   --bg:           #08080c;
   --surface:      #0c0c14;
   --surface-2:    #11111a;
@@ -274,7 +274,7 @@ img, svg { display: block; max-width: 100%; }
     &:hover { border-color: var(--border-strong); background: var(--surface-2); }
   }
 
-  // Hamburger button — hidden on desktop, shown on mobile
+  // Hamburger button - hidden on desktop, shown on mobile
   &__burger {
     display: none;
     width: 38px;

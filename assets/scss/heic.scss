@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — HEIC Converter (v2 redesign)
+// FormattedAI - HEIC Converter (v2 redesign)
 // Per-tool accent: orange
 // ============================================
 
@@ -71,7 +71,7 @@ body { overflow-y: auto; }
   }
 }
 
-// --- Tool-bar preset buttons (legacy class — used by heic.js) ---
+// --- Tool-bar preset buttons (legacy class - used by heic.js) ---
 .tool-bar__preset {
   padding: 5px 10px; border-radius: 6px;
   border: 1px solid var(--border);
@@ -148,7 +148,7 @@ body { overflow-y: auto; }
   &:hover { color: #ef4444; background: rgba(239, 68, 68, 0.08); }
 }
 
-// --- Result list / item (BEM — matches heic.js query selectors) ---
+// --- Result list / item (BEM - matches heic.js query selectors) ---
 .results { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
 
 .results__list {
@@ -241,7 +241,7 @@ body { overflow-y: auto; }
   }
 }
 
-// --- Conversion progress (uses native <progress> — matches heic.js .value writes) ---
+// --- Conversion progress (uses native <progress> - matches heic.js .value writes) ---
 .results__progress {
   display: flex; flex-direction: column;
   gap: 10px;
@@ -371,7 +371,7 @@ body { overflow-y: auto; }
   background-position: 0 0, 0 4px, 4px -4px, -4px 0;
 }
 
-// --- HEIC warning (WASM load failed — full-screen overlay) ---
+// --- HEIC warning (WASM load failed - full-screen overlay) ---
 .heic-warning {
   position: fixed; inset: 0; z-index: 1000;
   background: var(--bg);
