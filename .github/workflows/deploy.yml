@@ -75,4 +75,6 @@ jobs:
             --exclude='nginx.conf' \
             --exclude='*.log' \
             --exclude='articles/*/article-draft.md' \
+            --exclude='api/' \
+            --exclude='redesign/' \
             ./ "$SSH_USER@$SSH_HOST:$SSH_PATH/"
