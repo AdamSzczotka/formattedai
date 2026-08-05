@@ -14,11 +14,11 @@ Wykonaj następujące kroki:
 
 3. Dodaj wszystkie zmienione pliki do staging:
    - `git add -A`
-   - UWAGA: Jeśli widzisz pliki wrażliwe (.env, credentials, klucze API itp.) — NIE dodawaj ich i ostrzeż użytkownika.
+   - UWAGA: Jeśli widzisz pliki wrażliwe (.env, credentials, klucze API itp.) - NIE dodawaj ich i ostrzeż użytkownika.
 
 4. Wygeneruj treść commita:
-   - Jeśli użytkownik podał opis w argumencie — użyj go jako bazę.
-   - Jeśli nie podał — wygeneruj opis na podstawie zmian.
+   - Jeśli użytkownik podał opis w argumencie - użyj go jako bazę.
+   - Jeśli nie podał - wygeneruj opis na podstawie zmian.
    - Commit MUSI być w języku angielskim.
    - Format: krótki opis (max 72 znaki), opcjonalnie dłuższy opis po pustej linii.
    - Przykłady: "Added login form", "Fixed email validation in registration", "Updated navigation styles"
@@ -32,4 +32,4 @@ Wykonaj następujące kroki:
 KRYTYCZNE ZASADY:
 - Commity ZAWSZE po angielsku.
 - NIGDY nie dodawaj "Co-Authored-By" ani żadnych wzmianek o AI/Claude/agencie.
-- NIE pushuj automatycznie — to osobna decyzja użytkownika.
+- NIE pushuj automatycznie - to osobna decyzja użytkownika.

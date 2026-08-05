@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — Tool shell (Hybrid Console v3)
+// FormattedAI - Tool shell (Hybrid Console v3)
 // Shared components for tool pages: fa-nav, fa-footer,
 // tool header, two-column workspace, pane, empty states.
 //
@@ -192,7 +192,7 @@ $ts-signal:       #22c55e;
     &:hover { background: $ts-accent; color: #fff; border-color: $ts-accent; }
   }
 
-  // Hamburger — hidden on desktop, shown on mobile
+  // Hamburger - hidden on desktop, shown on mobile
   &__burger {
     display: none;
     width: 34px;
@@ -295,7 +295,7 @@ $ts-signal:       #22c55e;
   }
 }
 
-// === Tool header (eyebrow + title + meta) — compact ===
+// === Tool header (eyebrow + title + meta) - compact ===
 .tool-head {
   padding: 16px 28px 14px;
   border-bottom: 1px solid var(--border-subtle);
@@ -604,7 +604,7 @@ $ts-signal:       #22c55e;
   opacity: 1;
 
   &__cta {
-    pointer-events: auto;
+    pointer-events: none; // klik przechodzi do textarei pod spodem - focus chowa caly overlay
     padding: 22px 24px;
     background: var(--surface);
     border: 1px dashed var(--accent-border);
@@ -686,7 +686,7 @@ $ts-signal:       #22c55e;
   }
 }
 
-// === Footer (Hybrid Console — minimal but informative) ===
+// === Footer (Hybrid Console - minimal but informative) ===
 .fa-footer {
   background: var(--surface);
   border-top: 1px solid var(--border-subtle);

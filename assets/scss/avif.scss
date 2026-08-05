@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — AVIF Converter (v2 redesign)
+// FormattedAI - AVIF Converter (v2 redesign)
 // Per-tool accent: blue
 // ============================================
 
@@ -43,7 +43,7 @@ body { overflow-y: auto; }
   }
 }
 
-// --- Result list / item (BEM — matches avif.js query selectors) ---
+// --- Result list / item (BEM - matches avif.js query selectors) ---
 .results { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
 
 .results__list {

@@ -1,6 +1,6 @@
 # Markdown Formatter
 
-> Part of [FormattedAI](../README.md) — free webdev tools, 100% client-side.
+> Part of [FormattedAI](../README.md) - free webdev tools, 100% client-side.
 
 Free online tool that converts markdown text from ChatGPT and other AI assistants into perfectly formatted rich text for Google Docs and Microsoft Word.
 
@@ -37,4 +37,4 @@ Free online tool that converts markdown text from ChatGPT and other AI assistant
 
 ## License
 
-MIT — see [LICENSE](../LICENSE) for details.
+MIT - see [LICENSE](../LICENSE) for details.

@@ -9,15 +9,15 @@ Wypchnij zmiany z bieżącej gałęzi na serwer zdalny. Wykonaj następujące kr
    - `git branch --show-current`
 
 2. Sprawdź czy są niezatwierdzone zmiany:
-   - Jeśli tak — zapytaj użytkownika czy chce najpierw zacommitować (zasugeruj `/commit`).
+   - Jeśli tak - zapytaj użytkownika czy chce najpierw zacommitować (zasugeruj `/commit`).
 
 3. Sprawdź czy gałąź ma ustawiony upstream:
    - `git rev-parse --abbrev-ref @{upstream}`
-   - Jeśli nie — użyj `git push -u origin <bieżąca-gałąź>`
-   - Jeśli tak — użyj `git push`
+   - Jeśli nie - użyj `git push -u origin <bieżąca-gałąź>`
+   - Jeśli tak - użyj `git push`
 
 4. Potwierdź użytkownikowi że zmiany zostały wypchnięte.
 
 WAŻNE:
 - NIGDY nie rób `push --force` bez wyraźnej prośby użytkownika.
-- Jeśli push się nie powiedzie z powodu rozbieżności — zasugeruj `git pull` najpierw.
+- Jeśli push się nie powiedzie z powodu rozbieżności - zasugeruj `git pull` najpierw.

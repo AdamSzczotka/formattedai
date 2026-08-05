@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — Articles (redesigned)
+// FormattedAI - Articles (redesigned)
 // ============================================
 
 @use 'variables' as *;
@@ -352,7 +352,7 @@
 }
 
 // ============================================
-// ARTICLE BODY — rich typography
+// ARTICLE BODY - rich typography
 // ============================================
 .article-body {
   max-width: 800px;
@@ -664,6 +664,16 @@
       .code-comment { color: var(--color-text-dim); font-style: italic; }
     }
   }
+}
+
+// --- AI image disclosure note ---
+.article-body .article-img-note {
+  margin: -24px 0 32px;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--color-text-dim);
+  text-align: right;
 }
 
 // --- Comparison table ---

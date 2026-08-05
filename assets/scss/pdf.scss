@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — PDF Tool Styles
+// FormattedAI - PDF Tool Styles
 // ============================================
 
 @use 'variables' as *;
@@ -9,7 +9,7 @@
 
 // --- Responsive overflow handling (tool-shell compat) ---
 html, body { overflow-x: hidden; }
-body { overflow-y: auto; }
+body { overflow-y: auto; transition: none; }
 .pane__body { background: var(--bg); }
 
 // --- Workspace layout fix ---
@@ -41,9 +41,6 @@ $color-pdf-glow-strong: rgba(239, 68, 68, 0.35);
   --color-accent-border: rgba(239, 68, 68, 0.3);
 }
 
-body { overflow: hidden; transition: none; }
-html, body { height: 100%; }
-
 // Disable all transitions during theme change
 .theme-switching,
 .theme-switching *,
@@ -51,8 +48,6 @@ html, body { height: 100%; }
 .theme-switching *::after {
   transition: none !important;
 }
-
-.app { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
 // Global: respect hidden attribute on elements with explicit display
 [hidden] { display: none !important; }
@@ -1380,7 +1375,7 @@ html, body { height: 100%; }
 }
 
 // ============================================
-// Responsive — tablet (768px)
+// Responsive - tablet (768px)
 // ============================================
 @media (max-width: 768px) {
   body { overflow: auto; }
@@ -1453,7 +1448,7 @@ html, body { height: 100%; }
 }
 
 // ============================================
-// Responsive — mobile (480px)
+// Responsive - mobile (480px)
 // ============================================
 @media (max-width: 480px) {
   .header__title { font-size: 18px; }

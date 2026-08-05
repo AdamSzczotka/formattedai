@@ -1,5 +1,5 @@
 // ============================================
-// FormattedAI — HEIC Converter Logic
+// FormattedAI - HEIC Converter Logic
 // Uses heic-to (WASM libheif) for HEIC decoding
 // Uses @jsquash/avif for AVIF encoding (lazy loaded)
 // ============================================
@@ -621,7 +621,7 @@ async function downloadAllZip() {
   const successResults = results.filter(r => !r.error && r.convertedBlob);
   if (successResults.length === 0) return;
 
-  // Single file — download directly
+  // Single file - download directly
   if (successResults.length === 1) {
     downloadSingle(successResults[0].id);
     showToast(t('toastDownload'));
