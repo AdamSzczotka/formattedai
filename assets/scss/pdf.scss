@@ -99,6 +99,9 @@ $color-pdf-glow-strong: rgba(239, 68, 68, 0.35);
       svg { opacity: 0.8; }
     }
 
+    // Tabs are locked while a job is running - match the shared .btn:disabled look
+    &:disabled { opacity: 0.4; cursor: not-allowed; }
+
     &--active {
       color: $color-pdf;
       background: rgba(239, 68, 68, 0.06);
@@ -745,6 +748,24 @@ $color-pdf-glow-strong: rgba(239, 68, 68, 0.35);
   opacity: 0.35; pointer-events: none;
 }
 
+// Divider is a <button> (keyboard operable) - strip the UA button chrome
+// so it keeps the look defined by .divider
+button.divider {
+  appearance: none; -webkit-appearance: none;
+  padding: 0;
+  border-top: 0; border-bottom: 0;
+  font: inherit; color: inherit;
+  text-align: inherit;
+}
+
+// Error variant of the toast - success uses the accent color + checkmark
+.toast--error {
+  border-color: rgba(220, 38, 38, 0.55);
+
+  .toast__icon { background: #dc2626; }
+  .toast__dot { background: #dc2626; }
+}
+
 .file-list-wrapper {
   display: flex; flex-direction: column;
 }
@@ -986,6 +1007,14 @@ $color-pdf-glow-strong: rgba(239, 68, 68, 0.35);
     display: block; border: 1px solid var(--color-border);
     border-radius: 6px; cursor: crosshair;
     max-width: 100%;
+    touch-action: none; // pointer events drive the drawing, not scrolling
+  }
+
+  &__error {
+    margin-top: 10px; font-size: 13px; font-weight: 600;
+    color: #ef4444;
+
+    &[hidden] { display: none; }
   }
 
   &__btns {

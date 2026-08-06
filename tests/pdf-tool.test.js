@@ -366,18 +366,20 @@ test('No alert() calls in pdf.js', () => {
   assert(alerts.length === 0, `Found ${alerts.length} alert() calls`);
 });
 
-// ─── 11. Confirm() only in advanced mode ───
+// ─── 11. Confirm() only for allowed cases ───
 console.log('\n── Confirm Usage ──');
-test('confirm() only used for advanced mode unlocking', () => {
+// Allowed: advanced mode unlocking + warning before discarding an undownloaded result
+const ALLOWED_CONFIRMS = ['advancedUnlock', 'confirmDiscardResult'];
+test('confirm() only used for advanced mode unlocking or discarding a pending result', () => {
   const confirms = [];
   const re = /confirm\(([^)]+)\)/g;
   let m;
   while ((m = re.exec(pdfJs)) !== null) {
     confirms.push(m[1].trim());
   }
-  const nonAdvanced = confirms.filter(c => !c.includes('advancedUnlock'));
-  assert(nonAdvanced.length === 0,
-    `Found confirm() not for advanced mode: ${nonAdvanced.join('; ')}`);
+  const disallowed = confirms.filter(c => !ALLOWED_CONFIRMS.some(a => c.includes(a)));
+  assert(disallowed.length === 0,
+    `Found confirm() outside allowed cases: ${disallowed.join('; ')}`);
 });
 
 // ═══════════════════════════════
