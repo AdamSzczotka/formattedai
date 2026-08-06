@@ -57,6 +57,10 @@ const translations = {
     modalFeat3: 'Orientacja pionowa i pozioma',
     modalFeat4: 'Konfigurowalne marginesy i skala',
     modalFeat5: 'Render PDF na serwerze przez TLS \u2014 tre\u015b\u0107 nie jest przechowywana',
+    serverNoticeTitle: 'Renderowanie na serwerze',
+    serverNoticeBody: 'W przeciwie\u0144stwie do pozosta\u0142ych narz\u0119dzi FormattedAI to narz\u0119dzie renderuje PDF na naszym serwerze. Tw\u00f3j kod HTML zostanie wys\u0142any przez szyfrowane po\u0142\u0105czenie (TLS), u\u017cyty wy\u0142\u0105cznie do wygenerowania pliku i nie b\u0119dzie przechowywany po zako\u0144czeniu.',
+    serverNoticeCancel: 'Anuluj',
+    serverNoticeAccept: 'Rozumiem, generuj PDF',
     madeBy: 'Stworzone przez',
     footerBadge: 'Render PDF przez TLS',
     editorPlaceholder: 'Wklej tutaj kod HTML...',
@@ -138,6 +142,10 @@ const translations = {
     modalFeat3: 'Portrait and landscape orientation',
     modalFeat4: 'Configurable margins and scale',
     modalFeat5: 'PDF rendered on our server over TLS \u2014 content is not stored',
+    serverNoticeTitle: 'Server-side rendering',
+    serverNoticeBody: 'Unlike other FormattedAI tools, this tool renders the PDF on our server. Your HTML will be sent over an encrypted connection (TLS), used only to generate the file, and will not be stored afterwards.',
+    serverNoticeCancel: 'Cancel',
+    serverNoticeAccept: 'Got it, generate PDF',
     madeBy: 'Created by',
     footerBadge: 'PDF rendered over TLS',
     editorPlaceholder: 'Paste your HTML code here...',
@@ -385,6 +393,51 @@ function openAboutModal() {
 function closeAboutModal() {
   aboutModal.classList.remove('show');
   setTimeout(() => { aboutModal.hidden = true; }, 200);
+}
+
+// --- Server rendering notice ---
+// Shown once before the first export: this is the only FormattedAI tool that
+// sends content to a server, so the user must be told before anything is sent.
+const SERVER_ACK_KEY = 'formattedai-html2pdf-server-ack';
+const serverNoticeModal = document.getElementById('serverNoticeModal');
+const serverNoticeAccept = document.getElementById('serverNoticeAccept');
+const serverNoticeCancel = document.getElementById('serverNoticeCancel');
+const serverNoticeClose = document.getElementById('serverNoticeClose');
+let serverNoticeResolve = null;
+
+function closeServerNotice(accepted) {
+  serverNoticeModal.classList.remove('show');
+  setTimeout(() => { serverNoticeModal.hidden = true; }, 200);
+  if (serverNoticeResolve) {
+    const resolve = serverNoticeResolve;
+    serverNoticeResolve = null;
+    resolve(accepted);
+  }
+}
+
+function ensureServerAck() {
+  if (!serverNoticeModal) return Promise.resolve(true);
+  try {
+    if (localStorage.getItem(SERVER_ACK_KEY) === '1') return Promise.resolve(true);
+  } catch { /* localStorage unavailable - always ask */ }
+  return new Promise((resolve) => {
+    serverNoticeResolve = resolve;
+    serverNoticeModal.hidden = false;
+    requestAnimationFrame(() => serverNoticeModal.classList.add('show'));
+    serverNoticeAccept.focus();
+  });
+}
+
+if (serverNoticeModal) {
+  serverNoticeAccept.addEventListener('click', () => {
+    try { localStorage.setItem(SERVER_ACK_KEY, '1'); } catch { /* ignore quota */ }
+    closeServerNotice(true);
+  });
+  serverNoticeCancel.addEventListener('click', () => closeServerNotice(false));
+  serverNoticeClose.addEventListener('click', () => closeServerNotice(false));
+  serverNoticeModal.addEventListener('click', (e) => {
+    if (e.target === serverNoticeModal) closeServerNotice(false);
+  });
 }
 
 // --- Helper Functions ---
@@ -708,6 +761,8 @@ async function exportHtml() {
     return;
   }
 
+  if (!(await ensureServerAck())) return;
+
   // Loading state goes up before any await so extra clicks cannot queue more exports
   exportInFlight = true;
   showExportLoading(true);
@@ -802,6 +857,8 @@ async function generateFromUrl() {
     showToast(t('errorUrlInvalid'));
     return;
   }
+
+  if (!(await ensureServerAck())) return;
 
   showUrlLoading(true);
   urlResult.hidden = true;
@@ -936,6 +993,7 @@ urlDownloadBtn.addEventListener('click', downloadUrlPdf);
 // Keyboard shortcuts
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !aboutModal.hidden) closeAboutModal();
+  if (e.key === 'Escape' && serverNoticeModal && !serverNoticeModal.hidden) closeServerNotice(false);
 });
 
 // --- Init ---

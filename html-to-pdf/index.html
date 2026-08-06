@@ -494,6 +494,29 @@
     </div>
   </div>
 
+  <div class="about-modal-overlay" id="serverNoticeModal" hidden>
+    <div class="about-modal" role="dialog" aria-modal="true" aria-labelledby="serverNoticeTitle">
+      <div class="about-modal__header">
+        <div class="about-modal__title">
+          <div class="about-modal__icon">
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM9 12.75V9M9 5.25h.008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span id="serverNoticeTitle" data-i18n="serverNoticeTitle">Renderowanie na serwerze</span>
+        </div>
+        <button class="about-modal__close" id="serverNoticeClose" type="button" aria-label="Zamknij">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="about-modal__body">
+        <p class="about-modal__desc" data-i18n="serverNoticeBody">W przeciwieństwie do pozostałych narzędzi FormattedAI to narzędzie renderuje PDF na naszym serwerze. Twój kod HTML zostanie wysłany przez szyfrowane połączenie (TLS), użyty wyłącznie do wygenerowania pliku i nie będzie przechowywany po zakończeniu.</p>
+        <div class="about-modal__actions" style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px;">
+          <button class="tool-act" id="serverNoticeCancel" type="button" data-i18n="serverNoticeCancel">Anuluj</button>
+          <button class="tool-act tool-act--primary" id="serverNoticeAccept" type="button" data-i18n="serverNoticeAccept">Rozumiem, generuj PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
   (function() {
     'use strict';
