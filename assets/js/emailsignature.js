@@ -71,6 +71,9 @@
       labelAddSocial: '+ Dodaj platforme',
       socialStylePill: 'Pille', socialStyleText: 'Tekst',
       base64Warn: 'Pliki >20KB jako base64 moga nie wyswietlic w Outlooku. Uzyj URL.',
+      uploadTooBig: 'Plik jest za duzy - maksimum 10 MB. Wybierz mniejszy obraz.',
+      uploadReadError: 'Nie udalo sie wczytac obrazu.',
+      storageFullWarn: 'Nie udalo sie zapisac stopki - brak miejsca w pamieci przegladarki. Uzyj URL obrazka zamiast pliku.',
       weightNormal: 'Normalny', weightBold: 'Pogrubiony',
       alignLeft: 'Lewo', alignCenter: 'Srodek', alignRight: 'Prawo',
       dirLR: 'L-P', dirTB: 'G-D', dirDiag: 'Skos',
@@ -140,6 +143,9 @@
       labelAddSocial: '+ Add platform',
       socialStylePill: 'Pills', socialStyleText: 'Text',
       base64Warn: 'Files >20KB as base64 may fail in Outlook. Use a URL instead.',
+      uploadTooBig: 'File is too large - 10 MB maximum. Pick a smaller image.',
+      uploadReadError: 'Could not load the image.',
+      storageFullWarn: 'Signature not saved - browser storage is full. Use an image URL instead of a file.',
       weightNormal: 'Normal', weightBold: 'Bold',
       alignLeft: 'Left', alignCenter: 'Center', alignRight: 'Right',
       dirLR: 'L-R', dirTB: 'T-B', dirDiag: 'Diag',
@@ -158,6 +164,13 @@
   const HISTORY_LIMIT = 50;
   const MAX_SIG_WIDTH = 600;
   const MIN_SIG_WIDTH = 320;
+  // Uploads are inlined as base64 into the model (and into localStorage), so the
+  // source file is hard-capped and always re-encoded through a canvas.
+  const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+  const MAX_UPLOAD_WIDTH = 600;      // 2x IMAGE_DISPLAY_CAP - enough for retina
+  const IMAGE_DISPLAY_CAP = 300;     // default width an uploaded image block gets
+  const UPLOAD_JPEG_QUALITY = 0.85;
+  const BASE64_WARN_BYTES = 20 * 1024;
   const SOCIAL_PRESETS = [
     { id: 'linkedin', label: 'LinkedIn', color: '#0a66c2', urlHint: 'https://linkedin.com/in/...' },
     { id: 'twitter',  label: 'Twitter',  color: '#1da1f2', urlHint: 'https://twitter.com/...' },
@@ -249,8 +262,15 @@
     visit(m.blocks);
     return m;
   }
+  let storageWarned = false;
   function saveModel() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(model)); } catch (_) {}
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(model));
+    } catch (_) {
+      // Usually a quota overflow from inlined images. Persistence stops working from
+      // here on, so say it once instead of failing silently on every keystroke.
+      if (!storageWarned) { storageWarned = true; showToast(t('storageFullWarn')); }
+    }
   }
   function uid() { return 'b_' + Math.random().toString(36).slice(2, 10); }
   function deepClone(o) { return JSON.parse(JSON.stringify(o)); }
@@ -477,9 +497,7 @@
     if (!b) return;
     Object.assign(b, patch);
     dirtyAfterCommit = true;
-    renderCanvas();
-    applyZoom();
-    updateSizeBadge();
+    scheduleCanvasRender();
   }
   // Full update: pushes history, saves, re-renders inspector too. Use when the
   // inspector shape itself needs to change (gradient toggle, column add/remove).
@@ -497,18 +515,14 @@
     if (!b || !b.cols || !b.cols[colIdx]) return;
     Object.assign(b.cols[colIdx], patch);
     dirtyAfterCommit = true;
-    renderCanvas();
-    applyZoom();
-    updateSizeBadge();
+    scheduleCanvasRender();
   }
   // Live model update: top-level model fields (width, valign, mode, minHeight, maxHeight).
   // Same semantics as updateBlock - commit on blur / button click via commitMutation().
   function mutateModel(patch) {
     Object.assign(model, patch);
     dirtyAfterCommit = true;
-    renderCanvas();
-    applyZoom();
-    updateSizeBadge();
+    scheduleCanvasRender();
   }
   function deleteBlock(id) {
     const loc = findContainer(id);
@@ -794,7 +808,30 @@
   // ----------------------------------------
   // Canvas rendering
   // ----------------------------------------
+  // renderCanvas() rebuilds the whole frame DOM. Live edits (typing, slider drag,
+  // arrow keys) fire many updates per animation frame, so the live paths schedule
+  // the repaint instead of running it inline - N calls in one frame = one rebuild.
+  // Zoom + size badge ride along in the same callback because they measure the
+  // freshly painted DOM.
+  let canvasRafId = null;
+  function scheduleCanvasRender() {
+    if (canvasRafId !== null) return;
+    canvasRafId = requestAnimationFrame(() => {
+      canvasRafId = null;
+      renderCanvas();
+      applyZoom();
+      updateSizeBadge();
+    });
+  }
+  function cancelScheduledCanvasRender() {
+    if (canvasRafId === null) return;
+    cancelAnimationFrame(canvasRafId);
+    canvasRafId = null;
+  }
   function renderCanvas() {
+    // An immediate render supersedes anything queued - otherwise the queued rebuild
+    // would wipe DOM state applied after it (e.g. markSelectionAncestors classes).
+    cancelScheduledCanvasRender();
     const frame = document.getElementById('canvasFrame');
     if (!frame) return;
     frame.innerHTML = '';
@@ -2178,6 +2215,65 @@
     f.querySelectorAll('button').forEach((btn) => btn.addEventListener('click', () => { onChange(btn.dataset.v); commitMutation(); }));
     return f;
   }
+  // Reads an uploaded image, rejects oversized input, downscales it through a canvas
+  // and hands back a re-encoded dataURL plus its final pixel size. Everything the
+  // model stores goes through here - the raw full-resolution file never lands in it.
+  // cb(dataUrl, width, height); nothing is called when the file is rejected.
+  function readImageFileScaled(file, cb) {
+    if (file.size > MAX_UPLOAD_BYTES) { showToast(t('uploadTooBig')); return; }
+    const reader = new FileReader();
+    reader.onerror = () => showToast(t('uploadReadError'));
+    reader.onload = () => {
+      const raw = String(reader.result || '');
+      const img = new Image();
+      img.onerror = () => showToast(t('uploadReadError'));
+      img.onload = () => {
+        const sw = img.naturalWidth || 0;
+        const sh = img.naturalHeight || 0;
+        // No intrinsic size (typically SVG) - nothing to rescale, keep the source.
+        if (!sw || !sh) { emitUpload(cb, raw, sw, sh); return; }
+        const scale = sw > MAX_UPLOAD_WIDTH ? MAX_UPLOAD_WIDTH / sw : 1;
+        const dw = Math.max(1, Math.round(sw * scale));
+        const dh = Math.max(1, Math.round(sh * scale));
+        const canvas = document.createElement('canvas');
+        canvas.width = dw;
+        canvas.height = dh;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) { emitUpload(cb, raw, sw, sh); return; }
+        ctx.drawImage(img, 0, 0, dw, dh);
+        // JPEG would flatten transparency to black, so keep alpha images as PNG.
+        const png = /^image\/jpe?g$/i.test(file.type || '') ? false : canvasHasAlpha(ctx, dw, dh);
+        let out;
+        try {
+          out = png ? canvas.toDataURL('image/png') : canvas.toDataURL('image/jpeg', UPLOAD_JPEG_QUALITY);
+        } catch (_) {
+          emitUpload(cb, raw, sw, sh); return;
+        }
+        // Re-encoding can grow a small already-optimized file - then the source wins.
+        if (scale === 1 && out.length >= raw.length) { emitUpload(cb, raw, sw, sh); return; }
+        emitUpload(cb, out, dw, dh);
+      };
+      img.src = raw;
+    };
+    reader.readAsDataURL(file);
+  }
+  function emitUpload(cb, dataUrl, w, h) {
+    // Outlook chokes on large inline base64 regardless of downscaling - warn on the
+    // encoded payload, which is what actually ends up in the signature HTML.
+    if (Math.round(dataUrl.length * 3 / 4) > BASE64_WARN_BYTES) showToast(t('base64Warn'));
+    cb(dataUrl, w, h);
+  }
+  function canvasHasAlpha(ctx, w, h) {
+    try {
+      const data = ctx.getImageData(0, 0, w, h).data;
+      for (let i = 3; i < data.length; i += 4) {
+        if (data[i] < 255) return true;
+      }
+    } catch (_) {
+      return true; // pixel read blocked - stay lossless
+    }
+    return false;
+  }
   function fieldImageUpload(block) {
     return fieldImageUploadFor(block, 'url');
   }
@@ -2188,29 +2284,20 @@
       <input type="file" accept="image/*" class="inspector-field__input" style="padding:5px;">`;
     f.querySelector('input').addEventListener('change', (e) => {
       const file = e.target.files && e.target.files[0]; if (!file) return;
-      if (file.size > 20 * 1024) showToast(t('base64Warn'));
-      const reader = new FileReader();
-      reader.onload = () => {
-        const dataUrl = reader.result;
-        // For image blocks, auto-detect natural dimensions and scale to fit
+      readImageFileScaled(file, (dataUrl, natW, natH) => {
+        // For image blocks, derive the block size from the decoded dimensions
         if (propName === 'url' && block.type === 'image') {
-          const probe = new Image();
-          probe.onload = () => {
-            let w = probe.naturalWidth || 120;
-            let h = probe.naturalHeight || 120;
-            // Cap at 300px to fit a typical 2-3 column layout without overflowing.
-            // User can resize bigger via inspector if they want.
-            if (w > 300) { h = Math.round(h * 300 / w); w = 300; }
-            updateBlockFull(block.id, { url: dataUrl, width: w, height: h });
-          };
-          probe.onerror = () => updateBlockFull(block.id, { url: dataUrl });
-          probe.src = dataUrl;
+          let w = natW || 120;
+          let h = natH || 120;
+          // Cap at 300px to fit a typical 2-3 column layout without overflowing.
+          // User can resize bigger via inspector if they want.
+          if (w > IMAGE_DISPLAY_CAP) { h = Math.round(h * IMAGE_DISPLAY_CAP / w); w = IMAGE_DISPLAY_CAP; }
+          updateBlockFull(block.id, { url: dataUrl, width: w, height: h });
         } else {
           const patch = {}; patch[propName] = dataUrl;
           updateBlockFull(block.id, patch);
         }
-      };
-      reader.readAsDataURL(file);
+      });
     });
     return f;
   }
@@ -2221,18 +2308,15 @@
       <input type="file" accept="image/*" class="inspector-field__input" style="padding:5px;">`;
     f.querySelector('input').addEventListener('change', (e) => {
       const file = e.target.files && e.target.files[0]; if (!file) return;
-      if (file.size > 20 * 1024) showToast(t('base64Warn'));
-      const reader = new FileReader();
-      reader.onload = () => {
+      readImageFileScaled(file, (dataUrl) => {
         // Update column bgImage and refresh inspector so the URL field shows the new dataURL
         const blk = findBlockDeep(blockId);
         if (!blk || !blk.cols || !blk.cols[colIdx]) return;
         pushHistory();
-        blk.cols[colIdx].bgImage = reader.result;
+        blk.cols[colIdx].bgImage = dataUrl;
         saveModel();
         renderAll();
-      };
-      reader.readAsDataURL(file);
+      });
     });
     return f;
   }
