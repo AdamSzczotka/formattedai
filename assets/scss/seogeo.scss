@@ -508,6 +508,13 @@ body { overflow-y: auto; }
     color: #fff !important;
     border-color: $color-success !important;
   }
+
+  &--success {
+    background: linear-gradient(135deg, $color-success, #1ba34e) !important;
+    color: #fff !important;
+    border-color: $color-success !important;
+    box-shadow: 0 4px 20px $color-success-glow !important;
+  }
 }
 
 // --- Responsive ---
