@@ -211,6 +211,7 @@
           <span data-i18n="download">Pobierz</span>
           <kbd>⌘D</kbd>
         </button>
+        <span id="vendorError" role="alert" hidden style="color:#e0555f;font-size:12px;line-height:1.3;max-width:260px" data-i18n="vendorError">Nie udało się załadować bibliotek. Odśwież stronę.</span>
       </div>
     </div>
 
@@ -416,6 +417,11 @@
         inputPlaceholder: 'Wklej kod JavaScript…',
         outputPlaceholder: 'Wynik pojawi się tutaj…',
         copySuccess: 'Skopiowano do schowka!',
+        downloadSuccess: 'Plik pobrany!',
+        processSuccess: 'Gotowe!',
+        invalidFileType: 'Nieobsługiwany format pliku - wczytaj plik JS lub tekstowy',
+        fileTooLarge: 'Kod przekracza limit 5 MB',
+        vendorError: 'Nie udało się załadować bibliotek. Odśwież stronę.',
         chars: 'znaków',
         statusWaiting: 'czeka na input', statusReady: 'gotowe'
       },
@@ -428,6 +434,11 @@
         inputPlaceholder: 'Paste JavaScript code…',
         outputPlaceholder: 'Output will appear here…',
         copySuccess: 'Copied to clipboard!',
+        downloadSuccess: 'File downloaded!',
+        processSuccess: 'Done!',
+        invalidFileType: 'Unsupported file format - drop a JS or text file',
+        fileTooLarge: 'Code exceeds the 5 MB limit',
+        vendorError: 'Failed to load libraries. Please refresh the page.',
         chars: 'chars',
         statusWaiting: 'waiting for input', statusReady: 'ready'
       }
