@@ -108,6 +108,20 @@ $color-ocr-glow-strong: rgba(16, 185, 129, 0.35);
   }
 }
 
+// --- Divider ---
+// Markup is a real <button> (keyboard accessible) - strip the UA button chrome
+// so it keeps the shared divider look from base/design-v2.
+button.divider {
+  -webkit-appearance: none;
+  appearance: none;
+  border-top: none;
+  border-bottom: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
 // --- OCR Tool Bar ---
 .tool-bar--ocr {
   gap: 24px;
@@ -423,6 +437,18 @@ $color-ocr-glow-strong: rgba(16, 185, 129, 0.35);
 @keyframes ocrDocBounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
+}
+
+// --- Toast: error variant ---
+.toast--error {
+  border-color: rgba(239, 68, 68, 0.35);
+
+  .toast__icon {
+    background: #ef4444;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+  }
+
+  .toast__dot { background: #ef4444; }
 }
 
 // --- Responsive ---

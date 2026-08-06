@@ -43,6 +43,9 @@ const translations = {
     toastEncryptedPdf: 'PDF zabezpieczony haslem - nie mozna otworzyc',
     toastCorruptedPdf: 'Nie mozna otworzyc PDF (uszkodzony lub niewspierany format)',
     toastCancelled: 'Anulowano',
+    toastCancelledPartial: 'Anulowano - zachowano rozpoznany fragment',
+    confirmOverwrite: 'Wynik w polu tekstowym zostanie nadpisany. Kontynuowac?',
+    docxSoon: '.docx (wkrotce)',
     modeFastTitle: 'Szybciej, dla dobrej jakosci skanow i screenshotow',
     modeAccurateTitle: 'Wolniej, ale lepiej dla obroconych, krzywych lub niewyraznych skanow',
     madeBy: 'Stworzone przez',
@@ -89,6 +92,9 @@ const translations = {
     toastEncryptedPdf: 'PDF is password-protected - cannot open',
     toastCorruptedPdf: 'Cannot open PDF (corrupted or unsupported format)',
     toastCancelled: 'Cancelled',
+    toastCancelledPartial: 'Cancelled - recognized part kept',
+    confirmOverwrite: 'The text in the output box will be overwritten. Continue?',
+    docxSoon: '.docx (soon)',
     modeFastTitle: 'Faster, fine for good quality scans and screenshots',
     modeAccurateTitle: 'Slower but better for rotated, skewed, or low-quality scans',
     madeBy: 'Created by',
@@ -131,8 +137,8 @@ const setBusy = (busy) => {
   if (divider) {
     divider.classList.toggle('divider--loading', busy);
     divider.style.cursor = noWork || busy ? 'default' : 'pointer';
-    divider.setAttribute('role', 'button');
     divider.setAttribute('aria-label', lang === 'en' ? 'Recognize text' : 'Rozpoznaj tekst');
+    divider.setAttribute('aria-disabled', String(noWork || busy));
   }
   const cancelBtn = $('cancelBtn');
   if (cancelBtn) {
@@ -174,11 +180,11 @@ function applyI18n() {
 
 // --- Theme ---
 function initTheme() {
-  const saved = localStorage.getItem('formattedai-theme') || 'dark';
+  const saved = localStorage.getItem('formattedai-theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
   $('themeToggle').addEventListener('click', () => {
     document.documentElement.classList.add('theme-switching');
-    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+    const cur = document.documentElement.getAttribute('data-theme') || 'light';
     const next = cur === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('formattedai-theme', next);
@@ -638,11 +644,13 @@ async function fileToCanvas(file) {
   return canvas;
 }
 
-// Resolve a PDF file into per-page inputs.
+// Stream a PDF file as per-page inputs.
 // Each input is either a ready-to-use embedded text block or a canvas to OCR.
-// `needsBinarize` is deferred - we want to binarize AFTER rotation to keep the
-// thresholding analysis aligned with upright text.
-async function pdfToInputs(file, scale) {
+// Pages are yielded one by one - rendering the whole document up front would
+// hold every canvas in memory at once (a 100-page scan is easily 1-3 GB).
+// `needsAccuratePrep` is deferred - we want to binarize AFTER rotation to keep
+// the thresholding analysis aligned with upright text.
+async function* pdfToInputs(file, scale) {
   const pdfjs = await getPdfJs();
   const buf = await file.arrayBuffer();
   let pdf;
@@ -658,39 +666,55 @@ async function pdfToInputs(file, scale) {
     e.userFacing = true;
     throw e;
   }
-  const inputs = [];
-  for (let i = 1; i <= pdf.numPages; i++) {
-    if (state.cancelRequested) break;
-    const page = await pdf.getPage(i);
-    const directText = await extractPdfPageText(page);
-    const label = `${t('page')} ${i}/${pdf.numPages}`;
-    if (directText && directText.length >= 50) {
-      inputs.push({ kind: 'text', text: directText, label });
-    } else {
-      const canvas = await renderPdfPage(page, scale);
-      // Defer preprocessing - recognizeAll runs auto-rotate first when accurate
-      inputs.push({ kind: 'image', src: canvas, label, needsAccuratePrep: true });
+  const multi = pdf.numPages > 1;
+  try {
+    for (let i = 1; i <= pdf.numPages; i++) {
+      if (state.cancelRequested) break;
+      const page = await pdf.getPage(i);
+      const directText = await extractPdfPageText(page);
+      const label = `${t('page')} ${i}/${pdf.numPages}`;
+      if (directText && directText.length >= 50) {
+        page.cleanup();
+        yield { kind: 'text', text: directText, label, multi };
+      } else {
+        const canvas = await renderPdfPage(page, scale);
+        page.cleanup();
+        // Defer preprocessing - recognizeAll runs auto-rotate first when accurate
+        yield { kind: 'image', src: canvas, label, multi, needsAccuratePrep: true };
+      }
     }
+  } finally {
+    // Also runs when the consumer breaks out of the loop (cancel / error)
+    try { await pdf.destroy(); } catch {}
   }
-  return inputs;
 }
 
 // Build inputs for a single file entry (image or PDF) honoring current mode.
 // Image preprocessing (auto-rotate + Otsu) is deferred to the recognize loop so
 // the worker is available when we need OSD detection.
-async function buildInputs(entry) {
+async function* buildInputs(entry) {
   const isPdf = entry.type === 'application/pdf' || /\.pdf$/i.test(entry.name);
   if (isPdf) {
     const scale = state.mode === 'accurate' ? 3.0 : 2.0;
-    return pdfToInputs(entry.file, scale);
+    yield* pdfToInputs(entry.file, scale);
+    return;
   }
   // Plain image - convert to canvas only when accurate (need it for rotate + binarize)
   if (state.mode === 'accurate') {
     const canvas = await fileToCanvas(entry.file);
-    return [{ kind: 'image', src: canvas, label: '', needsAccuratePrep: true }];
+    yield { kind: 'image', src: canvas, label: '', multi: false, needsAccuratePrep: true };
+    return;
   }
   // Fast: hand the File directly to Tesseract
-  return [{ kind: 'image', src: entry.file, label: '', needsAccuratePrep: false }];
+  yield { kind: 'image', src: entry.file, label: '', multi: false, needsAccuratePrep: false };
+}
+
+// Drop a canvas backing store right after OCR - keeps peak memory at one page
+function releaseCanvas(canvas) {
+  if (canvas instanceof HTMLCanvasElement) {
+    canvas.width = 0;
+    canvas.height = 0;
+  }
 }
 
 // --- Recognize all queued files ---
@@ -700,20 +724,50 @@ async function recognizeAll() {
     showToast(t('toastNoLang'), 'error');
     return;
   }
+  // Output may hold manual corrections - a rerun would silently drop them
+  if ($('textOutput').value.trim() && !confirm(t('confirmOverwrite'))) return;
+
   state.cancelRequested = false;
   setBusy(true);
 
   const cancelled = () => state.cancelRequested;
 
+  const allText = [];
+  let totalConfidence = 0;
+  let confidenceCount = 0;
+  let totalWords = 0;
+  const totalFiles = state.files.length;
+
+  // Pages of the file being processed - committed on cancel / error as well,
+  // so an interrupted run still shows everything already recognized
+  let pendingEntry = null;
+  let pendingParts = [];
+
+  const commitPending = () => {
+    if (pendingEntry && pendingParts.length) {
+      const fileHeader = totalFiles > 1 ? `=== ${pendingEntry.name} ===\n` : '';
+      allText.push(fileHeader + pendingParts.join('\n\n'));
+    }
+    pendingEntry = null;
+    pendingParts = [];
+  };
+
+  // Render whatever was collected so far. Returns false when there is nothing;
+  // `keepPanel` shows the (empty) output panel anyway - the normal end of a run.
+  const showCollected = (keepPanel = false) => {
+    const text = allText.join('\n\n').trim();
+    if (!text && !keepPanel) {
+      resetOutput();
+      return false;
+    }
+    const avg = confidenceCount > 0 ? totalConfidence / confidenceCount : 0;
+    showOutput(text, avg, totalWords || text.split(/\s+/).filter(Boolean).length);
+    return text.length > 0;
+  };
+
   try {
     const worker = await ensureWorker();
     if (cancelled()) throw new CancelledError();
-
-    const allText = [];
-    let totalConfidence = 0;
-    let confidenceCount = 0;
-    let totalWords = 0;
-    const totalFiles = state.files.length;
 
     for (let i = 0; i < state.files.length; i++) {
       if (cancelled()) throw new CancelledError();
@@ -721,80 +775,80 @@ async function recognizeAll() {
       const baseLabel = `${entry.name} (${i + 1}/${totalFiles})`;
       $('progressFile').textContent = baseLabel;
 
-      let inputs;
+      pendingEntry = entry;
+      pendingParts = [];
+
       try {
-        inputs = await buildInputs(entry);
+        for await (const input of buildInputs(entry)) {
+          if (cancelled()) throw new CancelledError();
+          $('progressFile').textContent = input.multi
+            ? `${baseLabel} - ${input.label}`
+            : baseLabel;
+
+          let pageText = '';
+          if (input.kind === 'text') {
+            pageText = input.text;
+            totalConfidence += 100;
+            confidenceCount++;
+            totalWords += pageText.split(/\s+/).filter(Boolean).length;
+          } else {
+            // Accurate mode: auto-rotate (OSD) then Otsu binarize
+            let src = input.src;
+            if (state.mode === 'accurate' && input.needsAccuratePrep) {
+              if (src instanceof HTMLCanvasElement) {
+                showProgress(t('detectingOrientation') + '...', $('progressFill').value || 5, $('progressFile').textContent);
+                src = await autoRotateCanvas(worker, src);
+                if (cancelled()) throw new CancelledError();
+                src = preprocessCanvas(src);
+              }
+            }
+
+            const { data } = await recognizeWithRetry(worker, src);
+            if (data.confidence != null) {
+              totalConfidence += data.confidence;
+              confidenceCount++;
+            }
+            if (data.words?.length) totalWords += data.words.length;
+            pageText = (data.text || '').trim();
+
+            if (src !== input.src) releaseCanvas(src);
+            releaseCanvas(input.src);
+          }
+
+          const pageHeader = input.multi ? `--- ${input.label} ---\n` : '';
+          pendingParts.push(pageHeader + pageText);
+        }
       } catch (err) {
         if (err?.userFacing) {
           showToast(`${entry.name}: ${err.message}`, 'error');
-          continue; // skip this file but keep going
+          commitPending(); // keep pages read before the failure, then skip the file
+          continue;
         }
         throw err;
       }
 
-      const fileTextParts = [];
-      for (let p = 0; p < inputs.length; p++) {
-        if (cancelled()) throw new CancelledError();
-        const input = inputs[p];
-        $('progressFile').textContent = inputs.length > 1
-          ? `${baseLabel} - ${input.label}`
-          : baseLabel;
-
-        let pageText = '';
-        if (input.kind === 'text') {
-          pageText = input.text;
-          totalConfidence += 100;
-          confidenceCount++;
-          totalWords += pageText.split(/\s+/).filter(Boolean).length;
-        } else {
-          // Accurate mode: auto-rotate (OSD) then Otsu binarize
-          let src = input.src;
-          if (state.mode === 'accurate' && input.needsAccuratePrep) {
-            if (src instanceof HTMLCanvasElement) {
-              showProgress(t('detectingOrientation') + '...', $('progressFill').value || 5, $('progressFile').textContent);
-              src = await autoRotateCanvas(worker, src);
-              if (cancelled()) throw new CancelledError();
-              src = preprocessCanvas(src);
-            }
-          }
-
-          const { data } = await recognizeWithRetry(worker, src);
-          if (data.confidence != null) {
-            totalConfidence += data.confidence;
-            confidenceCount++;
-          }
-          if (data.words?.length) totalWords += data.words.length;
-          pageText = (data.text || '').trim();
-        }
-
-        const pageHeader = inputs.length > 1 ? `--- ${input.label} ---\n` : '';
-        fileTextParts.push(pageHeader + pageText);
-      }
-
-      const fileHeader = totalFiles > 1 ? `=== ${entry.name} ===\n` : '';
-      allText.push(fileHeader + fileTextParts.join('\n\n'));
+      commitPending();
     }
 
-    const finalText = allText.join('\n\n').trim();
-    const avgConfidence = confidenceCount > 0 ? totalConfidence / confidenceCount : 0;
-    const wordsCount = totalWords || finalText.split(/\s+/).filter(Boolean).length;
+    // pdfToInputs stops yielding once cancel is requested, so the page loop can
+    // end normally after Anuluj - without this the run would report success
+    if (cancelled()) throw new CancelledError();
 
-    showOutput(finalText, avgConfidence, wordsCount);
+    showCollected(true);
     showToast(t('toastDone'));
   } catch (err) {
+    commitPending();
+    const kept = showCollected();
     if (err instanceof CancelledError) {
       // Worker is in unknown state after a partial recognize - drop it
       try { await state.worker?.terminate(); } catch {}
       state.worker = null;
       state.workerKey = '';
-      resetOutput();
-      showToast(t('toastCancelled'));
+      showToast(kept ? t('toastCancelledPartial') : t('toastCancelled'));
     } else if (err?.userFacing) {
-      resetOutput();
       showToast(err.message, 'error');
     } else {
       console.error('OCR error', err);
-      resetOutput();
       showToast(`${t('toastError')}: ${err.message || ''}`.trim(), 'error');
     }
   } finally {
