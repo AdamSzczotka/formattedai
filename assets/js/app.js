@@ -204,15 +204,22 @@ function renderMarkdown() {
     return;
   }
 
-  const html = DOMPurify.sanitize(marked.parse(text));
-  preview.innerHTML = `<article class="preview-page style-${currentStyle}">${html}</article>`;
-  preview.className = 'preview';
+  // Parse + sanitize once into a detached fragment (no second parse via innerHTML)
+  const frag = DOMPurify.sanitize(marked.parse(text), { RETURN_DOM_FRAGMENT: true });
 
-  preview.querySelectorAll('li').forEach(li => {
-    if (li.querySelector('input[type="checkbox"]')) {
-      li.classList.add('task-list-item');
-    }
+  // Mark task-list items on the detached fragment: cost scales with the number of
+  // checkboxes, not with every <li> in the document.
+  frag.querySelectorAll('input[type="checkbox"]').forEach(input => {
+    const li = input.closest('li');
+    if (li) li.classList.add('task-list-item');
   });
+
+  const article = document.createElement('article');
+  article.className = `preview-page style-${currentStyle}`;
+  article.appendChild(frag);
+
+  preview.replaceChildren(article);
+  preview.className = 'preview';
 }
 
 // --- Copy as rich text ---
@@ -446,8 +453,25 @@ function flashSuccess(btn, successText) {
   }, 2000);
 }
 
+// --- Adaptive render scheduling ---
+// Small inputs render synchronously (real-time, no perceptible change). Large inputs
+// debounce so a fast typist/paste does not trigger a full parse+render on every keystroke.
+let renderDebounceTimer = null;
+function scheduleRender() {
+  if (markdownInput.value.length < 50000) {
+    if (renderDebounceTimer) { clearTimeout(renderDebounceTimer); renderDebounceTimer = null; }
+    renderMarkdown();
+  } else {
+    if (renderDebounceTimer) clearTimeout(renderDebounceTimer);
+    renderDebounceTimer = setTimeout(() => {
+      renderDebounceTimer = null;
+      renderMarkdown();
+    }, 200);
+  }
+}
+
 // --- Event listeners ---
-markdownInput.addEventListener('input', renderMarkdown);
+markdownInput.addEventListener('input', scheduleRender);
 copyBtn.addEventListener('click', copyFormatted);
 clearBtn.addEventListener('click', clearAll);
 
@@ -487,8 +511,15 @@ markdownInput.addEventListener('paste', (e) => {
   const text = e.clipboardData.getData('text/plain');
   if (text && e.clipboardData.types.includes('text/html')) {
     e.preventDefault();
-    document.execCommand('insertText', false, text);
-    renderMarkdown();
+    if (text.length < 30000) {
+      // Small pastes: execCommand keeps native undo and fires the input event itself
+      document.execCommand('insertText', false, text);
+    } else {
+      // Large pastes: execCommand is near-quadratic in Chrome; setRangeText is linear.
+      // setRangeText does not fire input, so dispatch it manually.
+      markdownInput.setRangeText(text, markdownInput.selectionStart, markdownInput.selectionEnd, 'end');
+      markdownInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
   }
 });
 
