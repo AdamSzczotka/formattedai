@@ -3904,6 +3904,8 @@
     var overlay = document.createElement('div');
     overlay.id = 'signaturePadOverlay';
     overlay.className = 'signature-pad-overlay';
+    // Pad nie ma widocznego naglowka - nazwa dostepna dialogu z etykiety narzedzia
+    overlay.setAttribute('aria-label', t('annotateTool_signature'));
 
     var pad = document.createElement('div');
     pad.className = 'signature-pad';
