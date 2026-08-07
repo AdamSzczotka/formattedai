@@ -3,6 +3,8 @@
 // Vendor globals: Terser, js_beautify_mod
 // ============================================
 
+import { minifyWithWorker } from './minify-worker-client.js';
+
 (function() {
   'use strict';
 
@@ -14,8 +16,20 @@
   // --- State ---
   var mode = 'minify'; // 'minify' or 'prettify'
   var vendorReady = false;
+  // Praca w workerze jest asynchroniczna, wiec skrot klawiszowy moglby wystartowac drugie
+  // zadanie na tym samym wejsciu, omijajac zablokowany przycisk - patrz setBusy()
+  var busy = false;
 
-  // Terser blocks the main thread, so oversized input is rejected up front
+  // Ten sam zestaw opcji dostaje worker i sciezka awaryjna, zeby wynik nie zalezal od
+  // tego, ktora z nich obsluzyla zadanie. Struktura musi byc klonowalna przez postMessage.
+  var TERSER_OPTIONS = {
+    compress: true,
+    mangle: true,
+    output: { comments: false }
+  };
+
+  // Limit wejscia zostaje mimo workera - chroni pamiec karty i czas oczekiwania,
+  // a sciezka awaryjna nadal liczy minifikacje na main threadzie
   var MAX_INPUT_BYTES = 5 * 1024 * 1024;
 
   // --- DOM refs ---
@@ -77,6 +91,19 @@
     processBtn.setAttribute('aria-busy', 'false');
   }
 
+  // Przelacznik trybu blokujemy razem z przyciskiem przetwarzania. Praca w workerze nie
+  // zamraza juz watku UI, wiec bez tej blokady mozna byloby zmienic tryb w trakcie
+  // zadania: processCode() wyszloby na `if (busy) return;`, a po zakonczeniu w polu
+  // wyjscia wyladowalby wynik poprzedniego trybu przy przelaczniku (i aria-checked)
+  // pokazujacym juz nowy.
+  function setBusy(state) {
+    busy = state;
+    processBtn.disabled = state;
+    processBtn.setAttribute('aria-busy', state ? 'true' : 'false');
+    modeMinifyBtn.disabled = state;
+    modePrettifyBtn.disabled = state;
+  }
+
   function showVendorError() {
     var banner = document.getElementById('vendorError');
     if (banner) banner.hidden = false;
@@ -97,30 +124,36 @@
     }
   }
 
+  // --- Minify ---
+  // Sciezka awaryjna: dokladnie ta minifikacja, ktora dzialala przed przeniesieniem
+  // pracy do workera. Blokuje watek UI, ale narzedzie dziala dalej.
+  async function minifyOnMainThread(input) {
+    var output = await Terser.minify(input, TERSER_OPTIONS);
+    if (output.error) throw output.error;
+    return output.code;
+  }
+
   // --- Process function ---
   async function processCode() {
     var input = codeInput.value.trim();
     if (!input) return;
     if (!vendorReady) return;
+    if (busy) return;
     if (new Blob([input]).size > MAX_INPUT_BYTES) {
       showToast(t('fileTooLarge'));
       return;
     }
 
-    processBtn.disabled = true;
-    processBtn.setAttribute('aria-busy', 'true');
+    setBusy(true);
 
     try {
       var result;
 
       if (mode === 'minify') {
-        var output = await Terser.minify(input, {
-          compress: true,
-          mangle: true,
-          output: { comments: false }
-        });
-        if (output.error) throw output.error;
-        result = output.code;
+        result = await minifyWithWorker(
+          { kind: 'js', code: input, options: TERSER_OPTIONS },
+          function() { return minifyOnMainThread(input); }
+        );
       } else {
         result = beautify(input, {
           indent_size: 2,
@@ -135,11 +168,15 @@
       flashSuccess(processBtn, t('processSuccess'));
       flashSuccess(mobileProcessBtn, t('processSuccess'));
     } catch (err) {
-      codeOutput.value = '// Error: ' + (err.message || String(err));
+      // Przekroczony budzet czasu w workerze nie ma komunikatu od vendora - pokazujemy
+      // wlasny ze slownika, reszte bledow tak samo jak dotad
+      var message = (err && err.code === 'timeout')
+        ? t('minifyTimeout')
+        : (err.message || String(err));
+      codeOutput.value = '// Error: ' + message;
       updateStats(input, '');
     } finally {
-      processBtn.disabled = false;
-      processBtn.setAttribute('aria-busy', 'false');
+      setBusy(false);
     }
   }
 
