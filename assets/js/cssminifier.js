@@ -15,6 +15,9 @@
   var mode = 'minify'; // 'minify' or 'prettify'
   var vendorReady = false;
 
+  // csso blocks the main thread, so oversized input is rejected up front
+  var MAX_INPUT_BYTES = 5 * 1024 * 1024;
+
   // --- DOM refs ---
   var codeInput       = document.getElementById('codeInput');
   var codeOutput      = document.getElementById('codeOutput');
@@ -64,6 +67,7 @@
         clearInterval(poll);
         processBtn.setAttribute('aria-busy', 'false');
         // Leave disabled - vendors failed to load
+        showVendorError();
       }
     }, 100);
   }
@@ -71,6 +75,12 @@
   function enableUI() {
     processBtn.disabled = false;
     processBtn.setAttribute('aria-busy', 'false');
+  }
+
+  function showVendorError() {
+    var banner = document.getElementById('vendorError');
+    if (banner) banner.hidden = false;
+    showToast(t('vendorError'));
   }
 
   // --- Mode toggle ---
@@ -92,6 +102,10 @@
     var input = codeInput.value.trim();
     if (!input) return;
     if (!vendorReady) return;
+    if (new Blob([input]).size > MAX_INPUT_BYTES) {
+      showToast(t('fileTooLarge'));
+      return;
+    }
 
     processBtn.disabled = true;
     processBtn.setAttribute('aria-busy', 'true');
@@ -110,8 +124,8 @@
 
       codeOutput.value = result;
       updateStats(input, result);
-      flashSuccess(processBtn, 'Gotowe!');
-      flashSuccess(mobileProcessBtn, 'Gotowe!');
+      flashSuccess(processBtn, t('processSuccess'));
+      flashSuccess(mobileProcessBtn, t('processSuccess'));
     } catch (err) {
       codeOutput.value = '/* Error: ' + (err.message || String(err)) + ' */';
       updateStats(input, '');
@@ -249,7 +263,7 @@
       }
 
       // Limit file size to 5MB
-      if (file.size > 5 * 1024 * 1024) {
+      if (file.size > MAX_INPUT_BYTES) {
         showToast(t('fileTooLarge'));
         return;
       }
@@ -258,6 +272,8 @@
       reader.onload = function(ev) {
         codeInput.value = ev.target.result;
         updateStats(ev.target.result, '');
+        // Programmatic value change - notify page-level listeners (hint overlay, stats)
+        codeInput.dispatchEvent(new Event('input', { bubbles: true }));
       };
       reader.readAsText(file);
     });
@@ -307,12 +323,15 @@
     if (!btn) return;
     var span = btn.querySelector('span');
     if (!span) return;
-    var origText = span.textContent;
+    // Repeated clicks must not capture the success label as the original one
+    if (btn.dataset.flashTimer) clearTimeout(Number(btn.dataset.flashTimer));
+    if (btn.dataset.origText === undefined) btn.dataset.origText = span.textContent;
     btn.classList.add('btn--success');
     span.textContent = successText;
-    setTimeout(function() {
+    btn.dataset.flashTimer = setTimeout(function() {
       btn.classList.remove('btn--success');
-      span.textContent = origText;
+      span.textContent = btn.dataset.origText;
+      delete btn.dataset.flashTimer;
     }, 2000);
   }
 

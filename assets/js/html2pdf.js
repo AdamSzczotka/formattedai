@@ -1,6 +1,6 @@
 // ============================================
 // FormattedAI - HTML to PDF Converter Logic
-// Client-side HTML editor with live preview + PDF export
+// HTML editor with client-side live preview + server-rendered PDF export
 // ============================================
 
 // Dev: point to local PDF service; prod: relative paths (handled by proxy)
@@ -20,7 +20,7 @@ const translations = {
     formatHtml: 'Formatuj',
     wrapOn: 'Zawijanie w\u0142.',
     wrapOff: 'Zawijanie wy\u0142.',
-    privacyBadge: 'Tw\u00f3j HTML nie opuszcza przegl\u0105darki',
+    privacyBadge: 'Render PDF na serwerze przez TLS',
     urlLabel: 'Adres strony do konwersji',
     generate: 'Generuj PDF',
     generating: 'Generowanie PDF...',
@@ -46,7 +46,7 @@ const translations = {
     errorTimeout: 'Przekroczono limit czasu \u2014 spr\u00f3buj ponownie',
     errorGeneric: 'Wyst\u0105pi\u0142 b\u0142\u0105d \u2014 spr\u00f3buj ponownie',
     modalTitle: 'HTML to PDF Converter',
-    modalDesc: 'Konwertuj kod <strong>HTML</strong> na plik PDF bezpo\u015brednio w przegl\u0105darce. Wklej kod HTML lub podaj adres URL \u2014 ca\u0142o\u015b\u0107 dzia\u0142a po stronie klienta, Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia.',
+    modalDesc: 'Konwertuj kod <strong>HTML</strong> na plik PDF. Wklej kod HTML lub podaj adres URL \u2014 podgl\u0105d powstaje lokalnie w przegl\u0105darce, a gotowy PDF renderuje serwer FormattedAI przez szyfrowane po\u0142\u0105czenie TLS.',
     modalHowTitle: 'Jak u\u017cywa\u0107',
     modalStep1: 'Wklej kod HTML do edytora lub podaj adres URL strony',
     modalStep2: 'Ustaw format strony, orientacj\u0119 i marginesy',
@@ -56,16 +56,23 @@ const translations = {
     modalFeat2: 'Formaty: A3, A4, A5, Letter, Legal',
     modalFeat3: 'Orientacja pionowa i pozioma',
     modalFeat4: 'Konfigurowalne marginesy i skala',
-    modalFeat5: '100% client-side \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia',
+    modalFeat5: 'Render PDF na serwerze przez TLS \u2014 tre\u015b\u0107 nie jest przechowywana',
+    serverNoticeTitle: 'Renderowanie na serwerze',
+    serverNoticeBody: 'W przeciwie\u0144stwie do pozosta\u0142ych narz\u0119dzi FormattedAI to narz\u0119dzie renderuje PDF na naszym serwerze. Tw\u00f3j kod HTML zostanie wys\u0142any przez szyfrowane po\u0142\u0105czenie (TLS), u\u017cyty wy\u0142\u0105cznie do wygenerowania pliku i nie b\u0119dzie przechowywany po zako\u0144czeniu.',
+    serverNoticeCancel: 'Anuluj',
+    serverNoticeAccept: 'Rozumiem, generuj PDF',
     madeBy: 'Stworzone przez',
-    footerBadge: '100% client-side',
+    footerBadge: 'Render PDF przez TLS',
     editorPlaceholder: 'Wklej tutaj kod HTML...',
+    navTools: 'Narz\u0119dzia',
     navArticles: 'Artyku\u0142y',
     navAbout: 'O nas',
     navPrivacy: 'Prywatno\u015b\u0107',
     navContact: 'Kontakt',
+    toolHeaderDesc: 'Wklej kod HTML lub podaj URL - pobierz gotowy plik PDF z zachowaniem styl\u00f3w.',
+    orientLabel: 'Orient.',
     seoH1: 'Darmowy konwerter HTML na PDF \u2014 Konwertuj kod HTML do PDF online',
-    seoDesc: 'Konwertuj kod HTML na plik PDF bezpo\u015brednio w przegl\u0105darce. Wklej kod HTML do edytora lub podaj adres URL strony, ustaw format i marginesy, a nast\u0119pnie pobierz gotowy PDF. Ca\u0142o\u015b\u0107 dzia\u0142a client-side \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia.',
+    seoDesc: 'Konwertuj kod HTML na plik PDF. Wklej kod HTML do edytora lub podaj adres URL strony, ustaw format i marginesy, a nast\u0119pnie pobierz gotowy PDF. Podgl\u0105d powstaje lokalnie w przegl\u0105darce, a plik PDF renderuje serwer FormattedAI przez szyfrowane po\u0142\u0105czenie TLS \u2014 tre\u015b\u0107 nie jest przechowywana.',
     seoHowTitle: 'Jak to dzia\u0142a',
     seoHow1: 'Wklej kod HTML do edytora lub podaj adres URL strony',
     seoHow2: 'Ustaw format strony (A3, A4, A5, Letter, Legal), orientacj\u0119 i marginesy',
@@ -79,12 +86,12 @@ const translations = {
     seoFeat5: 'Formatowanie kodu HTML jednym klikni\u0119ciem',
     seoFeat6: 'Tryb ciemny i jasny',
     seoFeat7: 'Alternatywna opcja drukowania / zapisu jako PDF',
-    seoFeat8: '100% client-side \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia',
+    seoFeat8: 'Render PDF na serwerze przez TLS \u2014 tre\u015b\u0107 przetwarzana tylko na czas generowania',
     seoFaqTitle: 'Najcz\u0119\u015bciej zadawane pytania',
     seoFaq1q: 'Jak przekonwertowa\u0107 HTML na PDF?',
-    seoFaq1a: 'Wklej kod HTML do edytora lub podaj adres URL strony. Ustaw format strony, orientacj\u0119 i marginesy, a nast\u0119pnie kliknij Pobierz PDF. Konwersja odbywa si\u0119 ca\u0142kowicie w przegl\u0105darce.',
+    seoFaq1a: 'Wklej kod HTML do edytora lub podaj adres URL strony. Ustaw format strony, orientacj\u0119 i marginesy, a nast\u0119pnie kliknij Pobierz PDF. Podgl\u0105d powstaje lokalnie w przegl\u0105darce, a gotowy plik PDF renderuje serwer FormattedAI.',
     seoFaq2q: 'Czy moje dane s\u0105 bezpieczne?',
-    seoFaq2a: 'Tak. Ca\u0142o\u015b\u0107 dzia\u0142a client-side \u2014 Tw\u00f3j kod HTML nigdy nie jest wysy\u0142any na \u017caden serwer. Konwersja odbywa si\u0119 w 100% w Twojej przegl\u0105darce.',
+    seoFaq2a: 'Podgl\u0105d HTML renderuje si\u0119 lokalnie w Twojej przegl\u0105darce. Sam plik PDF generuje serwer FormattedAI \u2014 kod HTML trafia tam szyfrowanym po\u0142\u0105czeniem TLS, jest przetwarzany wy\u0142\u0105cznie na czas wygenerowania dokumentu i nie jest przechowywany ani udost\u0119pniany.',
     seoFaq3q: 'Jakie formaty strony s\u0105 dost\u0119pne?',
     seoFaq3a: 'Dost\u0119pne formaty to A3, A4, A5, Letter i Legal. Mo\u017cesz te\u017c wybra\u0107 orientacj\u0119 (pionowa/pozioma), ustawi\u0107 marginesy od 0 do 20 mm oraz skal\u0119 od 50% do 150%.',
   },
@@ -98,7 +105,7 @@ const translations = {
     formatHtml: 'Format',
     wrapOn: 'Wrap on',
     wrapOff: 'Wrap off',
-    privacyBadge: 'Your HTML never leaves the browser',
+    privacyBadge: 'PDF rendered on our server over TLS',
     urlLabel: 'Website URL to convert',
     generate: 'Generate PDF',
     generating: 'Generating PDF...',
@@ -124,7 +131,7 @@ const translations = {
     errorTimeout: 'Request timed out \u2014 try again',
     errorGeneric: 'An error occurred \u2014 try again',
     modalTitle: 'HTML to PDF Converter',
-    modalDesc: 'Convert <strong>HTML</strong> code to a PDF file directly in your browser. Paste HTML or enter a URL \u2014 everything runs client-side, your data never leaves your device.',
+    modalDesc: 'Convert <strong>HTML</strong> code to a PDF file. Paste HTML or enter a URL \u2014 the preview is built locally in your browser, while the final PDF is rendered by the FormattedAI server over an encrypted TLS connection.',
     modalHowTitle: 'How to use',
     modalStep1: 'Paste HTML code into the editor or enter a website URL',
     modalStep2: 'Set page format, orientation and margins',
@@ -134,16 +141,23 @@ const translations = {
     modalFeat2: 'Formats: A3, A4, A5, Letter, Legal',
     modalFeat3: 'Portrait and landscape orientation',
     modalFeat4: 'Configurable margins and scale',
-    modalFeat5: '100% client-side \u2014 your data never leaves your device',
+    modalFeat5: 'PDF rendered on our server over TLS \u2014 content is not stored',
+    serverNoticeTitle: 'Server-side rendering',
+    serverNoticeBody: 'Unlike other FormattedAI tools, this tool renders the PDF on our server. Your HTML will be sent over an encrypted connection (TLS), used only to generate the file, and will not be stored afterwards.',
+    serverNoticeCancel: 'Cancel',
+    serverNoticeAccept: 'Got it, generate PDF',
     madeBy: 'Created by',
-    footerBadge: '100% client-side',
+    footerBadge: 'PDF rendered over TLS',
     editorPlaceholder: 'Paste your HTML code here...',
+    navTools: 'Tools',
     navArticles: 'Articles',
     navAbout: 'About',
     navPrivacy: 'Privacy',
     navContact: 'Contact',
+    toolHeaderDesc: 'Paste HTML or paste URL - download a ready-to-go PDF with styles preserved.',
+    orientLabel: 'Orient.',
     seoH1: 'Free HTML to PDF Converter \u2014 Convert HTML to PDF online',
-    seoDesc: 'Convert HTML code to PDF directly in your browser. Paste HTML into the editor or enter a website URL, set format and margins, then download the PDF. Everything runs client-side \u2014 your data never leaves your device.',
+    seoDesc: 'Convert HTML code to PDF. Paste HTML into the editor or enter a website URL, set format and margins, then download the PDF. The preview is built locally in your browser, while the PDF is rendered by the FormattedAI server over an encrypted TLS connection \u2014 content is not stored.',
     seoHowTitle: 'How it works',
     seoHow1: 'Paste HTML code into the editor or enter a website URL',
     seoHow2: 'Set page format (A3, A4, A5, Letter, Legal), orientation and margins',
@@ -157,12 +171,12 @@ const translations = {
     seoFeat5: 'One-click HTML code formatting',
     seoFeat6: 'Dark and light theme',
     seoFeat7: 'Alternative print / save as PDF option',
-    seoFeat8: '100% client-side \u2014 your data never leaves your device',
+    seoFeat8: 'PDF rendered on our server over TLS \u2014 content processed only while generating',
     seoFaqTitle: 'Frequently asked questions',
     seoFaq1q: 'How to convert HTML to PDF?',
-    seoFaq1a: 'Paste HTML code into the editor or enter a website URL. Set page format, orientation and margins, then click Download PDF. Conversion happens entirely in the browser.',
+    seoFaq1a: 'Paste HTML code into the editor or enter a website URL. Set page format, orientation and margins, then click Download PDF. The preview is built locally in your browser, while the final PDF is rendered by the FormattedAI server.',
     seoFaq2q: 'Is my data safe?',
-    seoFaq2a: 'Yes. Everything runs client-side \u2014 your HTML code is never sent to any server. Conversion happens 100% in your browser.',
+    seoFaq2a: 'The HTML preview renders locally in your browser. The PDF itself is generated by the FormattedAI server \u2014 your HTML is sent there over an encrypted TLS connection, processed only for as long as it takes to build the document, and is neither stored nor shared.',
     seoFaq3q: 'What page formats are available?',
     seoFaq3a: 'Available formats are A3, A4, A5, Letter and Legal. You can also choose orientation (portrait/landscape), set margins from 0 to 20 mm and scale from 50% to 150%.',
   },
@@ -232,6 +246,9 @@ function getExampleHtml() {
 // --- Constants ---
 const LIVE_PREVIEW_SIZE_LIMIT = 50 * 1024; // 50 KB
 const DEBOUNCE_DELAY = 500;
+const REQUEST_TIMEOUT = 60000; // 60 s
+const HEALTH_TIMEOUT = 8000; // 8 s - bounds the wait before the print fallback
+const MAX_SERVER_ERROR_LENGTH = 160;
 
 // --- State ---
 let currentLang = document.documentElement.lang || 'pl';
@@ -242,6 +259,8 @@ let urlPdfBlob = null;
 let pdfPreviewUrl = null;
 let debounceTimer = null;
 let serverAvailable = false;
+let healthCheckPromise = null;
+let exportInFlight = false;
 
 const options = {
   format: 'A4',
@@ -265,6 +284,7 @@ const refreshBtn = document.getElementById('refreshBtn');
 const exportBtn = document.getElementById('exportBtn');
 const printBtn = document.getElementById('printBtn');
 const mobileExportBtn = document.getElementById('mobileExportBtn');
+const mobileBarExportBtn = document.getElementById('mobileBarExportBtn');
 const mobileBar = document.getElementById('mobileBar');
 const formatSelect = document.getElementById('formatSelect');
 const orientationSelect = document.getElementById('orientationSelect');
@@ -296,17 +316,24 @@ function t(key) {
   return translations[currentLang]?.[key] || translations.pl[key] || key;
 }
 
+// Markup may carry data-i18n keys that have no entry yet - keep the hardcoded text then
+function hasTranslation(key) {
+  return translations[currentLang]?.[key] !== undefined || translations.pl[key] !== undefined;
+}
+
 function applyLanguage() {
   document.documentElement.lang = currentLang;
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
+    if (!hasTranslation(key)) return;
     const val = t(key);
     if (val.includes('<')) { el.innerHTML = val; } else { el.textContent = val; }
   });
 
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     const key = el.getAttribute('data-i18n-placeholder');
+    if (!hasTranslation(key)) return;
     el.placeholder = t(key);
   });
 
@@ -366,6 +393,51 @@ function openAboutModal() {
 function closeAboutModal() {
   aboutModal.classList.remove('show');
   setTimeout(() => { aboutModal.hidden = true; }, 200);
+}
+
+// --- Server rendering notice ---
+// Shown once before the first export: this is the only FormattedAI tool that
+// sends content to a server, so the user must be told before anything is sent.
+const SERVER_ACK_KEY = 'formattedai-html2pdf-server-ack';
+const serverNoticeModal = document.getElementById('serverNoticeModal');
+const serverNoticeAccept = document.getElementById('serverNoticeAccept');
+const serverNoticeCancel = document.getElementById('serverNoticeCancel');
+const serverNoticeClose = document.getElementById('serverNoticeClose');
+let serverNoticeResolve = null;
+
+function closeServerNotice(accepted) {
+  serverNoticeModal.classList.remove('show');
+  setTimeout(() => { serverNoticeModal.hidden = true; }, 200);
+  if (serverNoticeResolve) {
+    const resolve = serverNoticeResolve;
+    serverNoticeResolve = null;
+    resolve(accepted);
+  }
+}
+
+function ensureServerAck() {
+  if (!serverNoticeModal) return Promise.resolve(true);
+  try {
+    if (localStorage.getItem(SERVER_ACK_KEY) === '1') return Promise.resolve(true);
+  } catch { /* localStorage unavailable - always ask */ }
+  return new Promise((resolve) => {
+    serverNoticeResolve = resolve;
+    serverNoticeModal.hidden = false;
+    requestAnimationFrame(() => serverNoticeModal.classList.add('show'));
+    serverNoticeAccept.focus();
+  });
+}
+
+if (serverNoticeModal) {
+  serverNoticeAccept.addEventListener('click', () => {
+    try { localStorage.setItem(SERVER_ACK_KEY, '1'); } catch { /* ignore quota */ }
+    closeServerNotice(true);
+  });
+  serverNoticeCancel.addEventListener('click', () => closeServerNotice(false));
+  serverNoticeClose.addEventListener('click', () => closeServerNotice(false));
+  serverNoticeModal.addEventListener('click', (e) => {
+    if (e.target === serverNoticeModal) closeServerNotice(false);
+  });
 }
 
 // --- Helper Functions ---
@@ -623,51 +695,101 @@ function readOptions() {
   options.hideHeaders = hideHeadersCheck.checked;
 }
 
-// --- Export (Tab HTML) ---
-function showExportLoading(loading) {
-  const span = exportBtn.querySelector('span');
-  if (loading) {
-    exportBtn.disabled = true;
-    if (span) span.textContent = t('generating');
-    exportBtn.classList.add('btn--loading');
-  } else {
-    exportBtn.disabled = false;
-    if (span) span.textContent = t('exportPdf');
-    exportBtn.classList.remove('btn--loading');
+// --- Server Requests ---
+async function readServerError(res) {
+  let detail = '';
+  try {
+    const raw = (await res.text()).trim();
+    if (raw) {
+      try {
+        const data = JSON.parse(raw);
+        detail = data.error || data.message || '';
+      } catch {
+        detail = raw;
+      }
+    }
+  } catch {
+    detail = '';
+  }
+  // Proxies can answer with HTML error pages - those would not fit the toast
+  if (detail.length > MAX_SERVER_ERROR_LENGTH || detail.startsWith('<')) detail = '';
+  return detail || `HTTP ${res.status}`;
+}
+
+async function requestPdf(endpoint, payload) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+  try {
+    const res = await fetch(API_BASE + endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    if (!res.ok) throw new Error(await readServerError(res));
+    return await res.blob();
+  } finally {
+    clearTimeout(timer);
   }
 }
 
+function describeError(err, fallbackKey) {
+  if (err?.name === 'AbortError') return t('errorTimeout');
+  // A failed fetch throws TypeError and carries no message worth showing
+  if (err instanceof TypeError || !err?.message) return t(fallbackKey);
+  return err.message;
+}
+
+// --- Export (Tab HTML) ---
+function showExportLoading(loading) {
+  const label = loading ? t('generating') : t('exportPdf');
+  [exportBtn, mobileExportBtn, mobileBarExportBtn].forEach(btn => {
+    if (!btn) return;
+    btn.disabled = loading;
+    const span = btn.querySelector('span');
+    if (span) span.textContent = label;
+    btn.classList.toggle('btn--loading', loading);
+  });
+}
+
 async function exportHtml() {
+  if (exportInFlight) return;
+
   const html = htmlEditor.value;
   if (!html.trim()) {
     showToast(t('errorEmpty'));
     return;
   }
 
-  if (!serverAvailable) {
-    // Fallback to print
-    showToast(t('errorServerDown'));
-    printPreview();
-    return;
-  }
+  if (!(await ensureServerAck())) return;
 
+  // Loading state goes up before any await so extra clicks cannot queue more exports
+  exportInFlight = true;
   showExportLoading(true);
   try {
-    const res = await fetch(API_BASE + '/api/pdf/from-html', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ html: html, options: getOptions() }),
-    });
-    if (!res.ok) throw new Error(await res.text());
-    const blob = await res.blob();
+    // The health check may still be in flight - wait for it before falling back to print
+    if (!serverAvailable && healthCheckPromise) await healthCheckPromise;
+
+    if (!serverAvailable) {
+      // Fallback to print
+      showExportLoading(false);
+      showToast(t('errorServerDown'));
+      printPreview();
+      return;
+    }
+
+    const blob = await requestPdf('/api/pdf/from-html', { html: html, options: getOptions() });
+    showExportLoading(false);
     downloadBlob(blob, 'document.pdf');
     showToast(t('toastSuccess'));
     flashSuccess(exportBtn, t('toastSuccess'));
   } catch (err) {
+    showExportLoading(false);
     console.error('Export failed:', err);
-    showToast(t('errorServerDown'));
+    showToast(describeError(err, 'errorServerDown'));
+  } finally {
+    exportInFlight = false;
   }
-  showExportLoading(false);
 }
 
 function printPreview() {
@@ -736,22 +858,18 @@ async function generateFromUrl() {
     return;
   }
 
+  if (!(await ensureServerAck())) return;
+
   showUrlLoading(true);
   urlResult.hidden = true;
   try {
-    const res = await fetch(API_BASE + '/api/pdf/from-url', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: url, options: getOptions() }),
-    });
-    if (!res.ok) throw new Error(await res.text());
-    const blob = await res.blob();
+    const blob = await requestPdf('/api/pdf/from-url', { url: url, options: getOptions() });
     urlPdfBlob = blob;
     showUrlResult(url, blob.size);
     showPdfPreview(blob);
   } catch (err) {
     console.error('URL generation failed:', err);
-    showToast(t('errorGeneric'));
+    showToast(describeError(err, 'errorGeneric'));
   }
   showUrlLoading(false);
 }
@@ -764,18 +882,25 @@ function downloadUrlPdf() {
 }
 
 // --- API Health Check ---
-async function checkApiHealth() {
-  try {
-    const res = await fetch(API_BASE + '/api/pdf/health', { method: 'GET' });
-    serverAvailable = res.ok;
-  } catch {
-    serverAvailable = false;
-  }
+function checkApiHealth() {
+  healthCheckPromise = (async () => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), HEALTH_TIMEOUT);
+    try {
+      const res = await fetch(API_BASE + '/api/pdf/health', { method: 'GET', signal: controller.signal });
+      serverAvailable = res.ok;
+    } catch {
+      serverAvailable = false;
+    } finally {
+      clearTimeout(timer);
+    }
 
-  if (!serverAvailable) {
-    // Subtle indicator: update export button to suggest print fallback
-    console.info('PDF render server unavailable - print fallback active');
-  }
+    if (!serverAvailable) {
+      // Subtle indicator: update export button to suggest print fallback
+      console.info('PDF render server unavailable - print fallback active');
+    }
+  })();
+  return healthCheckPromise;
 }
 
 // --- Event Listeners ---
@@ -843,7 +968,7 @@ marginSelect.addEventListener('change', () => {
 scaleSlider.addEventListener('input', () => {
   options.scale = Number(scaleSlider.value);
   scaleValue.textContent = scaleSlider.value + '%';
-  updatePreview();
+  debouncedPreview();
 });
 
 printBgCheck.addEventListener('change', () => {
@@ -868,6 +993,7 @@ urlDownloadBtn.addEventListener('click', downloadUrlPdf);
 // Keyboard shortcuts
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !aboutModal.hidden) closeAboutModal();
+  if (e.key === 'Escape' && serverNoticeModal && !serverNoticeModal.hidden) closeServerNotice(false);
 });
 
 // --- Init ---

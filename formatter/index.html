@@ -445,7 +445,7 @@
       },
       en: {
         navTools: 'Tools', navArticles: 'Articles', navAbout: 'About', navPrivacy: 'Privacy', navContact: 'Contact',
-        toolHeaderDesc: 'Paste text from ChatGPT, Claude or Gemini. Copy formatted document to Word or Google Docs.',
+        toolHeaderDesc: 'Paste text from ChatGPT, Claude or Gemini. Copy as a formatted document into Word or Google Docs.',
         styleDocs: 'Docs', styleWord: 'Word',
         clear: 'Clear', copyFormatted: 'Copy formatted', export: 'Export',
         dlHtmlDesc: 'Open in browser', dlDocxDesc: 'Microsoft Word', dlMdDesc: '.md file',
@@ -501,19 +501,45 @@
     var label = document.getElementById('statusLabel');
     var convInfo = document.getElementById('convInfo');
     var hint = document.getElementById('inputHint');
+    var statsWords = 0, statsLines = 0, statsTimer = null;
+    // Single-pass word/line count, no array allocation (avoids huge split() arrays)
+    function countStats(v) {
+      var words = 0, lines = v ? 1 : 0, inWord = false;
+      for (var i = 0; i < v.length; i++) {
+        var c = v.charCodeAt(i);
+        if (c === 10) lines++;
+        var ws = c === 32 || c === 9 || c === 10 || c === 13 || c === 12 || c === 11 || c === 160;
+        if (ws) { inWord = false; } else if (!inWord) { words++; inWord = true; }
+      }
+      statsWords = words;
+      statsLines = lines;
+    }
+    function renderStatsLine(v, T) {
+      stats.textContent = v.length + ' ' + T.chars + ' · ' + statsWords + ' ' + T.words + ' · ' + statsLines + ' ' + T.lines;
+    }
     function updateStats() {
       if (!input || !stats) return;
       var v = input.value;
-      var ch = v.length;
-      var wd = v.trim() ? v.trim().split(/\s+/).length : 0;
-      var ln = v ? v.split('\n').length : 0;
       var T = translations[currentLang];
-      stats.textContent = ch + ' ' + T.chars + ' · ' + wd + ' ' + T.words + ' · ' + ln + ' ' + T.lines;
       var has = !!v.trim();
       if (dot) dot.classList.toggle('is-active', has);
       if (label) label.textContent = has ? T.statusReady : T.statusWaiting;
       if (convInfo) convInfo.textContent = has ? '< 20ms · ' + T.convInfoReady : T.convInfoWaiting;
       if (hint) hint.style.display = v ? 'none' : '';
+      if (v.length >= 50000) {
+        // Char count updates immediately; words/lines recompute is debounced to keep typing responsive
+        renderStatsLine(v, T);
+        if (statsTimer) clearTimeout(statsTimer);
+        statsTimer = setTimeout(function() {
+          statsTimer = null;
+          countStats(v);
+          renderStatsLine(v, translations[currentLang]);
+        }, 200);
+      } else {
+        if (statsTimer) { clearTimeout(statsTimer); statsTimer = null; }
+        countStats(v);
+        renderStatsLine(v, T);
+      }
     }
     if (input) {
       input.addEventListener('input', updateStats);

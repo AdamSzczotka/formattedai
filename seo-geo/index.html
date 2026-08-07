@@ -547,7 +547,7 @@
               </div>
 
               <!-- BreadcrumbList fields -->
-              <div class="schema-fields" id="schemaBreadcrumb" hidden>
+              <div class="schema-fields" id="schemaBreadcrumbList" hidden>
                 <p class="form-hint" data-i18n="breadcrumbHint">Dodaj elementy sciezki nawigacji.</p>
                 <div id="breadcrumbList"></div>
                 <button class="btn btn--ghost btn--sm" id="addBreadcrumbBtn" type="button">
@@ -784,6 +784,23 @@
     </div>
   </section>
 
+  <section class="tool-faq" aria-labelledby="faqTitle">
+    <div class="tool-faq__label">/ FAQ</div>
+    <h2 class="tool-faq__title" id="faqTitle" data-i18n="seoFaqTitle">Często zadawane pytania</h2>
+    <details>
+      <summary data-i18n="seoGeoFaq1q">Czym jest GEO i dlaczego jest ważne?</summary>
+      <p data-i18n="seoGeoFaq1a">GEO (Generative Engine Optimization) optymalizuje treść pod AI wyszukiwarki. Ponad 40% zapytań w 2026 jest odpowiadanych przez AI. Bez optymalizacji GEO Twoja treść może być niewidoczna dla ChatGPT Search, Perplexity i Google AI Overview.</p>
+    </details>
+    <details>
+      <summary data-i18n="seoGeoFaq2q">Czym jest llms.txt?</summary>
+      <p data-i18n="seoGeoFaq2a">llms.txt to nowy standard (podobny do robots.txt), który informuje modele AI o Twojej stronie. To plik Markdown w katalogu głównym zawierający nazwę projektu, opis i linki do kluczowych treści.</p>
+    </details>
+    <details>
+      <summary data-i18n="seoGeoFaq3q">Jak zoptymalizować stronę pod AI wyszukiwarki?</summary>
+      <p data-i18n="seoGeoFaq3a">Trzy kroki: 1) Dodaj dane strukturalne Schema.org — zwłaszcza FAQPage. 2) Stwórz plik llms.txt opisujący Twoją stronę. 3) Skonfiguruj robots.txt żeby blokować AI training ale pozwalać AI search. To narzędzie generuje wszystkie trzy.</p>
+    </details>
+  </section>
+
   <!-- SEO Content Section -->
   <section class="seo-content">
     <div class="seo-content__inner">
@@ -808,20 +825,6 @@
         <li data-i18n="seoGeoFeat8">Copy per section or copy all HTML at once</li>
         <li data-i18n="seoGeoFeat9">Auto-save to localStorage - never lose your work</li>
       </ul>
-
-      <h2 data-i18n="seoFaqTitle">Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3 data-i18n="seoGeoFaq1q">What is GEO and why does it matter?</h3>
-        <p data-i18n="seoGeoFaq1a">GEO (Generative Engine Optimization) optimizes your content for AI search engines. Over 40% of search queries in 2026 are answered by AI. Without GEO optimization, your content may be invisible to ChatGPT Search, Perplexity, and Google AI Overview - even if you rank well in traditional Google results.</p>
-      </div>
-      <div class="faq-item">
-        <h3 data-i18n="seoGeoFaq2q">What is llms.txt?</h3>
-        <p data-i18n="seoGeoFaq2a">llms.txt is a new standard (similar to robots.txt) that tells AI models about your website. It's a Markdown file placed at your site root (/llms.txt) containing your project name, description, and links to key content. AI crawlers use it to understand what your site offers.</p>
-      </div>
-      <div class="faq-item">
-        <h3 data-i18n="seoGeoFaq3q">How do I optimize my site for AI search engines?</h3>
-        <p data-i18n="seoGeoFaq3a">Three key steps: 1) Add Schema.org structured data - especially FAQPage which has the highest AI citation rate. 2) Create an llms.txt file describing your site. 3) Configure robots.txt to block AI training crawlers but allow AI search crawlers. This tool generates all three.</p>
-      </div>
     </div>
   </section>
 

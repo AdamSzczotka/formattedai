@@ -38,6 +38,7 @@ const translations = {
     toastInvalidType: 'Nieobs\u0142ugiwany format \u2014 wybierz pliki .heic lub .heif',
     madeBy: 'Stworzone przez',
     footerBadge: '100% client-side',
+    navTools: 'Narz\u0119dzia',
     navArticles: 'Artyku\u0142y',
     navAbout: 'O nas',
     navPrivacy: 'Prywatno\u015B\u0107',
@@ -97,6 +98,7 @@ const translations = {
     toastInvalidType: 'Unsupported format \u2014 select .heic or .heif files',
     madeBy: 'Created by',
     footerBadge: '100% client-side',
+    navTools: 'Tools',
     navArticles: 'Articles',
     navAbout: 'About',
     navPrivacy: 'Privacy',
@@ -131,7 +133,7 @@ let currentLang = document.documentElement.lang || 'pl';
 let outputFormat = 'jpg'; // 'jpg' | 'png' | 'avif'
 let quality = 85;
 let inputFiles = []; // { id, file, objectUrl }
-let results = [];    // { id, originalFile, convertedBlob, objectUrl, originalSize, convertedSize }
+let results = [];    // { id, originalFile, convertedBlob, objectUrl, originalSize, convertedSize, format }
 let isConverting = false;
 let fileIdCounter = 0;
 
@@ -202,7 +204,11 @@ function applyLanguage() {
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    const val = t(key);
+    const val = translations[currentLang][key] !== undefined
+      ? translations[currentLang][key]
+      : translations.pl[key];
+    // brak klucza w slowniku - zostawiamy tresc z HTML zamiast wypisywac nazwe klucza
+    if (val === undefined) return;
     if (val.includes('<')) { el.innerHTML = val; } else { el.textContent = val; }
   });
 
@@ -447,8 +453,10 @@ async function convertSingle(file, format, q) {
   bitmap.close();
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
+  // speed: 6 keeps lossless in a sane time budget for large images
+  // (speed: 2 was eating multi-GB of RAM and freezing the tab on 3MB+ files)
   const encodeOptions = q === 100
-    ? { lossless: true, speed: 2, subsample: 1 }
+    ? { lossless: true, speed: 6, subsample: 1 }
     : { quality: q, speed: 6, subsample: 1 };
 
   const avifBuffer = await avifEncode(imageData, encodeOptions);
@@ -480,6 +488,10 @@ async function convertAll() {
 
   convertAllBtn.querySelector('span').textContent = t('converting');
 
+  // format zamrozony na czas calej konwersji - zmiana selecta w trakcie nie moze
+  // rozjechac rozszerzenia plikow wynikowych
+  const batchFormat = outputFormat;
+
   for (let i = 0; i < inputFiles.length; i++) {
     const { id, file } = inputFiles[i];
 
@@ -489,7 +501,7 @@ async function convertAll() {
       `${t('converting')} ${i + 1}/${inputFiles.length}`;
 
     try {
-      const convertedBlob = await convertSingle(file, outputFormat, quality);
+      const convertedBlob = await convertSingle(file, batchFormat, quality);
       const objectUrl = URL.createObjectURL(convertedBlob);
       results.push({
         id,
@@ -498,6 +510,7 @@ async function convertAll() {
         objectUrl,
         originalSize: file.size,
         convertedSize: convertedBlob.size,
+        format: batchFormat,
       });
     } catch (err) {
       console.error(`Failed to convert ${file.name}:`, err);
@@ -508,6 +521,7 @@ async function convertAll() {
         objectUrl: null,
         originalSize: file.size,
         convertedSize: 0,
+        format: batchFormat,
         error: true,
       });
     }
@@ -570,7 +584,7 @@ function renderResults() {
     const savings = result.originalSize > 0
       ? Math.round((1 - result.convertedSize / result.originalSize) * 100)
       : 0;
-    const outName = getOutputName(result.originalFile.name, outputFormat);
+    const outName = getOutputName(result.originalFile.name, result.format);
     const savingsLabel = savings >= 0 ? `-${savings}%` : `+${Math.abs(savings)}%`;
 
     const item = document.createElement('div');
@@ -610,7 +624,7 @@ function downloadSingle(id) {
 
   const a = document.createElement('a');
   a.href = result.objectUrl;
-  a.download = getOutputName(result.originalFile.name, outputFormat);
+  a.download = getOutputName(result.originalFile.name, result.format);
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -631,14 +645,14 @@ async function downloadAllZip() {
   try {
     const zip = new JSZip();
     successResults.forEach(result => {
-      zip.file(getOutputName(result.originalFile.name, outputFormat), result.convertedBlob);
+      zip.file(getOutputName(result.originalFile.name, result.format), result.convertedBlob);
     });
 
     const blob = await zip.generateAsync({ type: 'blob' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `heic-converted-${outputFormat}.zip`;
+    a.download = `heic-converted-${successResults[0].format}.zip`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -655,7 +669,7 @@ function openModal(id) {
   const result = results.find(r => r.id === id);
   if (!result || !result.objectUrl) return;
 
-  const outName = getOutputName(result.originalFile.name, outputFormat);
+  const outName = getOutputName(result.originalFile.name, result.format);
   modalImg.src = result.objectUrl;
   modalImg.alt = outName;
   modalInfo.textContent = `${outName} \u2014 ${formatSize(result.convertedSize)}`;

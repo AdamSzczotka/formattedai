@@ -16,15 +16,15 @@ const translations = {
     madeBy: 'Stworzone przez',
     footerBadge: '100% client-side',
     navTools: 'Narz\u0119dzia',
-    toolHeaderDesc: 'wklej tekst z ChatGPT lub Claude \u2014 skopiuj z formatowaniem',
+    toolHeaderDesc: 'Wklej tekst z ChatGPT, Claude lub Gemini. Skopiuj jako sformatowany dokument do Word lub Google Docs.',
     styleDocs: 'Docs',
     styleWord: 'Word',
     copyFormatted: 'Kopiuj sformatowany',
     export: 'Pobierz',
-    inputTitle: 'Wej\u015bcie',
-    outputTitle: 'Podgl\u0105d',
-    inputPlaceholder: 'Wklej tekst Markdown z ChatGPT, Claude, Gemini...',
-    emptyTitle: 'Tu pojawi si\u0119 podgl\u0105d',
+    inputTitle: 'Wej\u015Bcie \u00B7 Markdown',
+    outputTitle: 'Wyj\u015Bcie \u00B7 Podgl\u0105d',
+    inputPlaceholder: 'Wklej markdown lub zacznij pisa\u0107\u2026',
+    emptyTitle: 'Wynik pojawi si\u0119 tutaj automatycznie po wpisaniu lub wklejeniu markdown po lewej.',
     emptyHint: 'Wklej tekst po lewej',
     copySuccess: 'Skopiowano z formatowaniem!',
     navArticles: 'Artyku\u0142y',
@@ -32,22 +32,22 @@ const translations = {
     navPrivacy: 'Prywatno\u015B\u0107',
     navContact: 'Kontakt',
     chars: 'znak\u00F3w',
-    pageTitle: 'FormattedAI \u2014 Skopiuj tekst z ChatGPT do Google Docs i Word z idealnym formatowaniem',
+    pageTitle: 'Wklej ChatGPT do Google Docs bez utraty formatowania - Darmowe',
     dlHtmlDesc: 'Otw\u00F3rz w przegl\u0105darce',
     dlDocxDesc: 'Microsoft Word',
     dlMdDesc: 'Plik .md',
     modalTitle: 'Markdown Formatter',
-    modalDesc: '<strong>Markdown Formatter</strong> konwertuje tekst z ChatGPT, Claude i innych asystent\u00F3w AI na sformatowany dokument gotowy do wklejenia w Google Docs lub Microsoft Word. Wszystko dzia\u0142a w przegl\u0105darce \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia.',
+    modalDesc: '<strong>Markdown Formatter</strong> konwertuje tekst z ChatGPT, Claude i innych asystent\u00F3w AI na sformatowany dokument gotowy do wklejenia w Google Docs lub Microsoft Word. Wszystko dzia\u0142a w przegl\u0105darce - Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia.',
     modalHowTitle: 'Jak u\u017Cywa\u0107',
     modalStep1: 'Wklej tekst markdown w lewym panelu',
     modalStep2: 'Zobacz sformatowany podgl\u0105d po prawej',
-    modalStep3: 'Kliknij "Kopiuj sformatowany" i wklej do Docs / Word',
+    modalStep3: 'Kliknij \u201EKopiuj sformatowany" i wklej do Docs / Word',
     modalFeaturesTitle: 'Kluczowe funkcje',
     modalFeat1: 'Konwersja markdown na sformatowany tekst w czasie rzeczywistym',
     modalFeat2: 'Kopiowanie z zachowaniem formatowania do Google Docs i Word',
     modalFeat3: 'Eksport do HTML, DOCX i Markdown',
     modalFeat4: 'Presety styl\u00F3w Google Docs i Word',
-    modalFeat5: '100% client-side \u2014 Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia',
+    modalFeat5: '100% client-side - Twoje dane nigdy nie opuszczaj\u0105 urz\u0105dzenia',
     seoH1: 'Markdown do Word i Google Docs \u2014 Darmowy konwerter online',
     seoDesc: 'FormattedAI Markdown Formatter to darmowe narz\u0119dzie online, kt\u00F3re konwertuje tekst markdown z ChatGPT, Claude i innych asystent\u00F3w AI na idealnie sformatowany tekst. Wklej tre\u015B\u0107, zobacz podgl\u0105d w czasie rzeczywistym i skopiuj do Google Docs lub Microsoft Word jednym klikni\u0119ciem. Wszystko dzia\u0142a 100% w przegl\u0105darce \u2014 Tw\u00F3j tekst nigdy nie opuszcza urz\u0105dzenia.',
     seoHowTitle: 'Jak to dzia\u0142a',
@@ -87,33 +87,33 @@ const translations = {
     navPrivacy: 'Privacy',
     navContact: 'Contact',
     chars: 'chars',
-    toolHeaderDesc: 'paste from ChatGPT or Claude - copy with formatting',
+    toolHeaderDesc: 'Paste text from ChatGPT, Claude or Gemini. Copy as a formatted document into Word or Google Docs.',
     styleDocs: 'Docs',
     styleWord: 'Word',
     copyFormatted: 'Copy formatted',
     export: 'Export',
-    inputTitle: 'Input',
-    outputTitle: 'Preview',
-    inputPlaceholder: 'Paste markdown from ChatGPT, Claude, Gemini...',
-    emptyTitle: 'Preview will appear here',
+    inputTitle: 'Input \u00b7 Markdown',
+    outputTitle: 'Output \u00b7 Preview',
+    inputPlaceholder: 'Paste markdown or start typing\u2026',
+    emptyTitle: 'Output will appear here automatically when you type or paste markdown on the left.',
     emptyHint: 'Paste text on the left',
     copySuccess: 'Copied with formatting!',
-    pageTitle: 'FormattedAI \u2014 Copy ChatGPT text to Google Docs & Word with perfect formatting',
+    pageTitle: 'Paste ChatGPT into Google Docs Without Losing Formatting - Free Tool',
     dlHtmlDesc: 'Open in browser',
     dlDocxDesc: 'Microsoft Word',
     dlMdDesc: '.md file',
     modalTitle: 'Markdown Formatter',
-    modalDesc: '<strong>Markdown Formatter</strong> converts text from ChatGPT, Claude and other AI assistants into a formatted document ready to paste into Google Docs or Microsoft Word. Everything runs in your browser \u2014 your data never leaves your device.',
+    modalDesc: '<strong>Markdown Formatter</strong> converts text from ChatGPT, Claude and other AI assistants into a formatted document ready to paste into Google Docs or Microsoft Word. Everything runs in the browser - your data never leaves your device.',
     modalHowTitle: 'How to use',
     modalStep1: 'Paste markdown text in the left panel',
     modalStep2: 'See the formatted preview on the right',
     modalStep3: 'Click "Copy formatted" and paste into Docs / Word',
     modalFeaturesTitle: 'Key features',
     modalFeat1: 'Real-time markdown to formatted text conversion',
-    modalFeat2: 'Copy with formatting preserved for Google Docs and Word',
+    modalFeat2: 'Copy with formatting preserved into Google Docs and Word',
     modalFeat3: 'Export to HTML, DOCX and Markdown',
     modalFeat4: 'Google Docs and Word style presets',
-    modalFeat5: '100% client-side \u2014 your data never leaves your device',
+    modalFeat5: '100% client-side - your data never leaves your device',
   },
 };
 
@@ -127,7 +127,6 @@ const markdownInput = document.getElementById('markdownInput');
 const preview = document.getElementById('preview');
 const copyBtn = document.getElementById('copyBtn');
 const clearBtn = document.getElementById('clearBtn');
-const charCount = document.getElementById('charCount');
 const toast = document.getElementById('toast');
 const styleDocsBtn = document.getElementById('styleDocsBtn');
 const styleWordBtn = document.getElementById('styleWordBtn');
@@ -141,6 +140,10 @@ const dlDocx = document.getElementById('dlDocx');
 const dlMd = document.getElementById('dlMd');
 const themeToggle = document.getElementById('themeToggle');
 
+// Empty state ships in the page markup (localized copy + keyboard hints). Cache it once
+// so it can be restored verbatim instead of being replaced by a hardcoded fallback.
+let previewEmptyHtml = preview.innerHTML;
+
 // --- Marked config ---
 marked.setOptions({
   breaks: true,
@@ -149,7 +152,32 @@ marked.setOptions({
 
 // --- i18n Engine ---
 function t(key) {
-  return translations[currentLang][key] || translations.pl[key] || key;
+  const dict = translations[currentLang] || translations.pl;
+  if (dict[key] !== undefined) return dict[key];
+  return translations.pl[key] !== undefined ? translations.pl[key] : key;
+}
+
+function hasTranslation(key) {
+  const dict = translations[currentLang];
+  return !!dict && dict[key] !== undefined;
+}
+
+// Applies data-i18n / data-i18n-placeholder inside any root (document or detached node).
+// Keys absent from the active dictionary are skipped - the markup already ships localized
+// copy and must not be degraded by an incomplete dictionary.
+function translateTree(root) {
+  root.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (!hasTranslation(key)) return;
+    const val = t(key);
+    if (val.includes('<') || key === 'subtitle') { el.innerHTML = val; } else { el.textContent = val; }
+  });
+
+  root.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (!hasTranslation(key)) return;
+    el.placeholder = t(key);
+  });
 }
 
 function applyLanguage() {
@@ -158,26 +186,30 @@ function applyLanguage() {
 
   if (langFlag) langFlag.textContent = currentLang === 'pl' ? 'PL' : 'EN';
 
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    const val = t(key);
-    if (val.includes('<') || key === 'subtitle') { el.innerHTML = val; } else { el.textContent = val; }
-  });
+  translateTree(document);
 
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    el.placeholder = t(key);
-  });
+  // The cached empty state is detached from the document, so translate it separately
+  const emptyHolder = document.createElement('div');
+  emptyHolder.innerHTML = previewEmptyHtml;
+  translateTree(emptyHolder);
+  previewEmptyHtml = emptyHolder.innerHTML;
 
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) {
     metaDesc.content = currentLang === 'pl'
-      ? 'Darmowe narz\u0119dzie online do konwersji tekstu Markdown z ChatGPT na sformatowany dokument. Wklej, sformatuj i skopiuj do Google Docs lub Microsoft Word jednym klikni\u0119ciem.'
-      : 'Free online tool to convert ChatGPT Markdown text into formatted documents. Paste, format and copy to Google Docs or Microsoft Word with one click.';
+      ? 'Wklejaj odpowiedzi z ChatGPT lub Claude do Google Docs lub Worda bez tracenia formatowania. Darmowe narz\u0119dzie w przegl\u0105darce - markdown z AI na idealny tekst sformatowany w jednym klikni\u0119ciu. Bez konta, bez uploadu.'
+      : 'Paste ChatGPT or Claude responses into Google Docs or Word without losing formatting. Free in-browser tool - converts AI markdown to perfect rich text in one click. No signup, no upload.';
   }
 
   renderMarkdown();
   localStorage.setItem('formattedai-lang', currentLang);
+}
+
+// Init path: the page markup is already in the right language and carries the SEO title,
+// meta description and final copy. Only the flag and the first render run here.
+function initLanguage() {
+  if (langFlag) langFlag.textContent = currentLang === 'pl' ? 'PL' : 'EN';
+  renderMarkdown();
 }
 
 function toggleLanguage() {
@@ -189,38 +221,36 @@ function toggleLanguage() {
 function renderMarkdown() {
   const text = markdownInput.value;
 
-  charCount.textContent = `${text.length} ${t('chars')}`;
-
   if (!text.trim()) {
-    preview.innerHTML = `
-      <div class="preview-empty">
-        <div class="preview-empty__icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <div class="preview-empty__title">${t('emptyTitle')}</div>
-        <div class="preview-empty__hint">${t('emptyHint')} (<span class="preview-empty__kbd">Ctrl + V</span>)</div>
-      </div>`;
+    preview.innerHTML = previewEmptyHtml;
     preview.className = 'preview';
     return;
   }
 
-  const html = DOMPurify.sanitize(marked.parse(text));
-  preview.innerHTML = `<article class="preview-page style-${currentStyle}">${html}</article>`;
-  preview.className = 'preview';
+  // Parse + sanitize once into a detached fragment (no second parse via innerHTML)
+  const frag = DOMPurify.sanitize(marked.parse(text), { RETURN_DOM_FRAGMENT: true });
 
-  preview.querySelectorAll('li').forEach(li => {
-    if (li.querySelector('input[type="checkbox"]')) {
-      li.classList.add('task-list-item');
-    }
+  // Mark task-list items on the detached fragment: cost scales with the number of
+  // checkboxes, not with every <li> in the document.
+  frag.querySelectorAll('input[type="checkbox"]').forEach(input => {
+    const li = input.closest('li');
+    if (li) li.classList.add('task-list-item');
   });
+
+  const article = document.createElement('article');
+  article.className = `preview-page style-${currentStyle}`;
+  article.appendChild(frag);
+
+  preview.replaceChildren(article);
+  preview.className = 'preview';
 }
 
 // --- Copy as rich text ---
 async function copyFormatted() {
-  const html = preview.innerHTML;
-  if (!html || preview.querySelector('.preview__empty')) return;
+  if (!hasContent()) return;
+  flushPendingRender();
 
-  const styledHtml = buildInlineStyledHtml(html);
+  const styledHtml = buildInlineStyledHtml(preview.innerHTML);
 
   try {
     const blob = new Blob([styledHtml], { type: 'text/html' });
@@ -234,8 +264,8 @@ async function copyFormatted() {
     ]);
 
     showToast(t('toast'));
-    flashSuccess(copyBtn, 'Skopiowano!');
-    flashSuccess(mobileCopyBtn, 'Skopiowano!');
+    flashSuccess(copyBtn, t('copySuccess'));
+    flashSuccess(mobileCopyBtn, t('copySuccess'));
   } catch (err) {
     const range = document.createRange();
     range.selectNodeContents(preview);
@@ -336,6 +366,7 @@ function hasContent() {
 // Download as HTML
 function downloadHtml() {
   if (!hasContent()) return;
+  flushPendingRender();
   const html = buildInlineStyledHtml(preview.innerHTML);
   const fullHtml = `<!DOCTYPE html>
 <html lang="${currentLang}">
@@ -358,6 +389,7 @@ ${html}
 // Download as DOCX (Word-compatible HTML with .doc extension)
 function downloadDocx() {
   if (!hasContent()) return;
+  flushPendingRender();
   const html = buildInlineStyledHtml(preview.innerHTML);
   // Word opens HTML files with .doc extension natively
   const wordHtml = `<!DOCTYPE html>
@@ -409,10 +441,15 @@ function closeDropdown() {
 }
 
 // --- Toast ---
+let toastTimer = null;
 function showToast(message) {
   toast.querySelector('.toast__text').textContent = message || t('toast');
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toastTimer = null;
+    toast.classList.remove('show');
+  }, 2500);
 }
 
 // --- Style switching ---
@@ -428,26 +465,61 @@ function setStyle(style) {
 // --- Clear ---
 function clearAll() {
   markdownInput.value = '';
-  renderMarkdown();
+  // Setting value from code fires no input event - dispatch it so both the render
+  // scheduler and the in-page stats/hint script react to the reset
+  markdownInput.dispatchEvent(new Event('input', { bubbles: true }));
   markdownInput.focus();
 }
 
 // --- Flash success helper ---
+// Keeps the original label in the dataset and one timer per button, so a second click
+// during the flash cannot freeze the success text in place as the new "original".
+var flashTimers = new WeakMap();
 function flashSuccess(btn, successText) {
   if (!btn) return;
   var span = btn.querySelector('span');
   if (!span) return;
-  var origText = span.textContent;
+  if (btn.dataset.flashLabel === undefined) btn.dataset.flashLabel = span.textContent;
+  var pending = flashTimers.get(btn);
+  if (pending) clearTimeout(pending);
   btn.classList.add('btn--success');
   span.textContent = successText;
-  setTimeout(function() {
+  flashTimers.set(btn, setTimeout(function() {
+    flashTimers.delete(btn);
     btn.classList.remove('btn--success');
-    span.textContent = origText;
-  }, 2000);
+    span.textContent = btn.dataset.flashLabel;
+    delete btn.dataset.flashLabel;
+  }, 2000));
+}
+
+// --- Adaptive render scheduling ---
+// Small inputs render synchronously (real-time, no perceptible change). Large inputs
+// debounce so a fast typist/paste does not trigger a full parse+render on every keystroke.
+let renderDebounceTimer = null;
+function scheduleRender() {
+  if (markdownInput.value.length < 50000) {
+    if (renderDebounceTimer) { clearTimeout(renderDebounceTimer); renderDebounceTimer = null; }
+    renderMarkdown();
+  } else {
+    if (renderDebounceTimer) clearTimeout(renderDebounceTimer);
+    renderDebounceTimer = setTimeout(() => {
+      renderDebounceTimer = null;
+      renderMarkdown();
+    }, 200);
+  }
+}
+
+// Copy/export read the preview DOM, so a debounced render pending from a large paste
+// has to be flushed first - otherwise they would ship a stale document.
+function flushPendingRender() {
+  if (!renderDebounceTimer) return;
+  clearTimeout(renderDebounceTimer);
+  renderDebounceTimer = null;
+  renderMarkdown();
 }
 
 // --- Event listeners ---
-markdownInput.addEventListener('input', renderMarkdown);
+markdownInput.addEventListener('input', scheduleRender);
 copyBtn.addEventListener('click', copyFormatted);
 clearBtn.addEventListener('click', clearAll);
 
@@ -487,16 +559,27 @@ markdownInput.addEventListener('paste', (e) => {
   const text = e.clipboardData.getData('text/plain');
   if (text && e.clipboardData.types.includes('text/html')) {
     e.preventDefault();
-    document.execCommand('insertText', false, text);
-    renderMarkdown();
+    if (text.length < 30000) {
+      // Small pastes: execCommand keeps native undo and fires the input event itself
+      document.execCommand('insertText', false, text);
+    } else {
+      // Large pastes: execCommand is near-quadratic in Chrome; setRangeText is linear.
+      // setRangeText does not fire input, so dispatch it manually.
+      markdownInput.setRangeText(text, markdownInput.selectionStart, markdownInput.selectionEnd, 'end');
+      markdownInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
   }
 });
 
-// Keyboard shortcut: Ctrl+Shift+C
+// Keyboard shortcuts: Ctrl/Cmd+Shift+C (copy), Ctrl/Cmd+Shift+X (clear)
 document.addEventListener('keydown', (e) => {
-  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+  if (!(e.ctrlKey || e.metaKey) || !e.shiftKey) return;
+  if (e.key === 'C') {
     e.preventDefault();
     copyFormatted();
+  } else if (e.key === 'X') {
+    e.preventDefault();
+    clearAll();
   }
 });
 
@@ -549,4 +632,4 @@ document.addEventListener('keydown', (e) => {
 
 // --- Init ---
 applyTheme();
-applyLanguage();
+initLanguage();

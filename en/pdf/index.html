@@ -331,7 +331,7 @@
               </div>
               <div class="options-panel__slider">
                 <label for="pdf2jpgDpiSlider" data-i18n="pdf2jpgDpi">Resolution (DPI)</label>
-                <input type="range" id="pdf2jpgDpiSlider" min="72" max="300" step="78" value="150">
+                <input type="range" id="pdf2jpgDpiSlider" min="72" max="300" step="1" value="150">
                 <span class="options-panel__slider-value" id="pdf2jpgDpiValue">150</span>
               </div>
             </div>
@@ -353,13 +353,13 @@
       </section>
 
       <!-- DIVIDER -->
-      <div class="divider" id="divider" aria-hidden="true">
-        <div class="divider__line"></div>
-        <div class="divider__icon" id="actionBtn" aria-hidden="true">
+      <button class="divider" id="divider" type="button">
+        <span class="divider__line"></span>
+        <span class="divider__icon" id="actionBtn" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8h14M11 4l4 4-4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="divider__line"></div>
-      </div>
+        </span>
+        <span class="divider__line"></span>
+      </button>
 
       <!-- RIGHT PANEL: Result -->
       <section class="panel panel--output" aria-label="PDF result">
@@ -465,6 +465,23 @@
     </div>
   </section>
 
+  <section class="tool-faq" aria-labelledby="faqTitle">
+    <div class="tool-faq__label">/ FAQ</div>
+    <h2 class="tool-faq__title" id="faqTitle" data-i18n="seoFaqTitle">Frequently Asked Questions</h2>
+    <details>
+      <summary data-i18n="seoFaq1q">Are my files safe?</summary>
+      <p data-i18n="seoFaq1a">Yes. All files are processed entirely in your browser. No data is sent to any server. We have no access to your documents - all logic runs locally on your device.</p>
+    </details>
+    <details>
+      <summary data-i18n="seoFaq2q">How to merge PDF files?</summary>
+      <p data-i18n="seoFaq2a">Drag PDF files onto the page, arrange order by dragging thumbnails, click Merge PDFs. Download the merged document with a single click.</p>
+    </details>
+    <details>
+      <summary data-i18n="seoFaq3q">How to extract pages from PDF?</summary>
+      <p data-i18n="seoFaq3a">Upload a PDF file, select the pages you want to keep on the thumbnail preview, click Split PDF. You can also download each page as a separate file in a ZIP archive.</p>
+    </details>
+  </section>
+
   <!-- SEO Content Section -->
   <section class="seo-content">
     <div class="seo-content__inner">
@@ -490,20 +507,6 @@
         <li data-i18n="seoFeat7">Works in all modern browsers</li>
         <li data-i18n="seoFeat8">100% client-side - your files never leave your device</li>
       </ul>
-
-      <h2 data-i18n="seoFaqTitle">Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3 data-i18n="seoFaq1q">Are my files safe?</h3>
-        <p data-i18n="seoFaq1a">Yes. All files are processed entirely in your browser. No data is sent to any server. We have no access to your documents - all logic runs locally on your device.</p>
-      </div>
-      <div class="faq-item">
-        <h3 data-i18n="seoFaq2q">How to merge PDF files?</h3>
-        <p data-i18n="seoFaq2a">Drag PDF files onto the page, arrange order by dragging thumbnails, click Merge PDFs. Download the merged document with a single click.</p>
-      </div>
-      <div class="faq-item">
-        <h3 data-i18n="seoFaq3q">How to extract pages from PDF?</h3>
-        <p data-i18n="seoFaq3a">Upload a PDF file, select the pages you want to keep on the thumbnail preview, click Split PDF. You can also download each page as a separate file in a ZIP archive.</p>
-      </div>
     </div>
   </section>
 
@@ -550,7 +553,7 @@
 
   <script src="../../assets/vendor/pdf-lib.min.js"></script>
   <script src="../../assets/vendor/fflate.min.js"></script>
-  <script src="../../assets/js/pdf.js"></script>
+  <script src="../../assets/js/pdf.min.js"></script>
 
   <script type="module">
     import * as pdfjsLib from '../../assets/vendor/pdf.min.mjs';
