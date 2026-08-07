@@ -388,7 +388,7 @@
           <div class="about-modal__icon">
             <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM9 12.75V9M9 5.25h.008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <span data-i18n="modalTitle">AVIF Converter</span>
+          <span id="aboutModalTitle" data-i18n="modalTitle">AVIF Converter</span>
         </div>
         <button class="about-modal__close" id="aboutModalClose" type="button" aria-label="Close">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -415,7 +415,7 @@
   </div>
 
   <!-- Image preview modal (zoom on click) -->
-  <div class="image-modal" id="imageModal" hidden>
+  <div class="image-modal" id="imageModal" hidden aria-label="Image preview">
     <div class="image-modal__backdrop" id="modalBackdrop"></div>
     <div class="image-modal__content">
       <button class="image-modal__close" id="modalClose" type="button" aria-label="Close">
@@ -633,5 +633,6 @@
 
   <script src="../../assets/vendor/jszip.min.js"></script>
   <script type="module" src="../../assets/js/avif.min.js"></script>
+  <script src="../../assets/js/a11y-modal.min.js" defer></script>
 </body>
 </html>
