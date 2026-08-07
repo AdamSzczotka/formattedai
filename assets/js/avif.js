@@ -6,6 +6,9 @@
 // The encoder module is pulled in lazily (see loadEncoder) - a top-level import
 // kills the whole script when the CDN is blocked.
 
+import { exceedsPixelLimit } from './image-dimensions.js';
+import { convertWithWorker } from './image-worker-client.js';
+
 // --- i18n Translations ---
 const translations = {
   pl: {
@@ -32,8 +35,10 @@ const translations = {
     toastDownload: 'Pobrano!',
     toastError: 'B\u0142\u0105d konwersji',
     itemFailed: 'Nie uda\u0142o si\u0119 skonwertowa\u0107',
+    errorTimeout: 'Konwersja trwa\u0142a zbyt d\u0142ugo i zosta\u0142a przerwana',
     toastLimitFiles: 'Maksymalnie 20 plik\u00F3w',
     toastLimitSize: 'Plik za du\u017Cy (max 50MB)',
+    toastLimitPixels: 'Obraz ma za du\u017Co pikseli (max 50 Mpx)',
     toastInvalidType: 'Nieobs\u0142ugiwany format pliku',
     madeBy: 'Stworzone przez',
     footerBadge: '100% client-side',
@@ -112,8 +117,10 @@ const translations = {
     toastDownload: 'Downloaded!',
     toastError: 'Conversion error',
     itemFailed: 'Conversion failed',
+    errorTimeout: 'Conversion took too long and was aborted',
     toastLimitFiles: 'Maximum 20 files',
     toastLimitSize: 'File too large (max 50MB)',
+    toastLimitPixels: 'Image has too many pixels (max 50 MP)',
     toastInvalidType: 'Unsupported file format',
     madeBy: 'Created by',
     footerBadge: '100% client-side',
@@ -161,6 +168,10 @@ let encoderFailed = false;
 // --- Constants ---
 const MAX_FILES = 20;
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+// Rozdzielczosc, nie rozmiar pliku, decyduje o zuzyciu RAM - 50 Mpx to juz 200 MB
+// samego ImageData, a encoder potrzebuje wielokrotnosci tego
+const MAX_MEGAPIXELS = 50;
+const MAX_PIXELS = MAX_MEGAPIXELS * 1000000;
 const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
 
 // --- DOM ---
@@ -316,10 +327,16 @@ function flashSuccess(btn, successText) {
 }
 
 // --- Handle Files ---
-function handleFiles(fileListInput) {
+async function handleFiles(fileListInput) {
   const files = Array.from(fileListInput);
 
-  for (const file of files) {
+  // Wymiary czytamy z naglowkow, zanim cokolwiek trafi na liste - pojedyncze
+  // zdjecie ponad limitem potrafiloby wyczerpac pamiec zakladki juz przy dekodzie
+  const oversized = await Promise.all(files.map(file => exceedsPixelLimit(file, MAX_PIXELS)));
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
     if (inputFiles.length >= MAX_FILES) {
       showToast(t('toastLimitFiles'));
       break;
@@ -330,6 +347,10 @@ function handleFiles(fileListInput) {
     }
     if (file.size > MAX_FILE_SIZE) {
       showToast(t('toastLimitSize'));
+      continue;
+    }
+    if (oversized[i]) {
+      showToast(t('toastLimitPixels'));
       continue;
     }
 
@@ -455,8 +476,30 @@ function updateUI() {
   }
 }
 
-// --- Convert to AVIF (using jSquash WASM encoder) ---
-async function convertToAvif(file, q) {
+// --- Encode options ---
+// speed: 6 keeps lossless in a sane time budget for large images
+// (speed: 2 was eating multi-GB of RAM and freezing the tab on 3MB+ files)
+function buildEncodeOptions(q) {
+  return q === 100
+    ? { lossless: true, speed: 6 }
+    : { quality: q, speed: 6, subsample: 1 };
+}
+
+function pixelLimitError() {
+  const err = new Error(t('toastLimitPixels'));
+  err.code = 'megapixels';
+  return err;
+}
+
+// Komunikat z workera nie jest tlumaczony - znane przyczyny mapujemy na slownik i18n
+function conversionErrorMessage(err) {
+  if (err && err.code === 'megapixels') return t('toastLimitPixels');
+  if (err && err.code === 'timeout') return t('errorTimeout');
+  return err && err.message ? err.message : '';
+}
+
+// --- Convert to AVIF on the main thread (fallback path) ---
+async function convertOnMainThread(file, encodeOptions) {
   const encode = avifEncode || await loadEncoder();
   if (!encode) throw new Error('AVIF encoder unavailable');
 
@@ -466,6 +509,12 @@ async function convertToAvif(file, q) {
     bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
   } catch {
     bitmap = await createImageBitmap(file);
+  }
+
+  // Drugi bezpiecznik - naglowka nie zawsze da sie odczytac przy dodawaniu pliku
+  if (bitmap.width * bitmap.height > MAX_PIXELS) {
+    bitmap.close();
+    throw pixelLimitError();
   }
 
   const canvas = document.createElement('canvas');
@@ -478,14 +527,18 @@ async function convertToAvif(file, q) {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   // Encode with jSquash
-  // speed: 6 keeps lossless in a sane time budget for large images
-  // (speed: 2 was eating multi-GB of RAM and freezing the tab on 3MB+ files)
-  const encodeOptions = q === 100
-    ? { lossless: true, speed: 6 }
-    : { quality: q, speed: 6, subsample: 1 };
-
   const avifBuffer = await encode(imageData, encodeOptions);
   return new Blob([avifBuffer], { type: 'image/avif' });
+}
+
+// --- Convert to AVIF (worker first, main thread when the worker is unavailable) ---
+async function convertToAvif(file, q) {
+  const encodeOptions = buildEncodeOptions(q);
+
+  return convertWithWorker(
+    { task: 'avif', blob: file, encodeOptions, maxPixels: MAX_PIXELS },
+    () => convertOnMainThread(file, encodeOptions),
+  );
 }
 
 // --- Convert All ---
@@ -546,7 +599,7 @@ async function convertAll() {
         originalSize: file.size,
         avifSize: 0,
         error: true,
-        errorMessage: err && err.message ? err.message : '',
+        errorMessage: conversionErrorMessage(err),
       });
     }
 
