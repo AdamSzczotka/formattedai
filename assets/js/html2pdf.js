@@ -354,21 +354,19 @@ function applyLanguage() {
 }
 
 // --- Theme ---
-let currentTheme = localStorage.getItem('formattedai-theme') || 'light';
+let currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
 
 function applyTheme() {
-  if (currentTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
-  localStorage.setItem('formattedai-theme', currentTheme);
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', currentTheme === 'light' ? '#f8fafe' : '#08080c');
 }
 
 function toggleTheme() {
   document.documentElement.classList.add('theme-switching');
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
   applyTheme();
+  try { localStorage.setItem('formattedai-theme', currentTheme); } catch (_) {}
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       document.documentElement.classList.remove('theme-switching');
