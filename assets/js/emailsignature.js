@@ -3005,6 +3005,8 @@ ${blocks}
   }
   function applyTheme(v) {
     document.documentElement.setAttribute('data-theme', v);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', v === 'light' ? '#f8fafe' : '#08080c');
     const moon = document.getElementById('iconMoon');
     const sun = document.getElementById('iconSun');
     if (sun && moon) {
@@ -3018,13 +3020,13 @@ ${blocks}
   // ----------------------------------------
   function init() {
     applyT();
-    let theme = localStorage.getItem('formattedai-theme') || 'light';
+    let theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     applyTheme(theme);
     const tt = document.getElementById('themeToggle');
     if (tt) tt.addEventListener('click', () => {
       theme = theme === 'light' ? 'dark' : 'light';
-      localStorage.setItem('formattedai-theme', theme);
       applyTheme(theme);
+      try { localStorage.setItem('formattedai-theme', theme); } catch (_) {}
     });
 
     // Initial history snapshot

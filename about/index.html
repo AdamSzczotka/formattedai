@@ -68,11 +68,17 @@
   <link rel="apple-touch-icon" href="../assets/favicon.svg">
   <meta name="theme-color" content="#08080c">
 
+  <!-- Theme bootstrap (no flash) -->
   <script>
     (function() {
-      var t = localStorage.getItem('formattedai-theme');
-      if (!t) t = 'dark';
-      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+      var t = null;
+      try { t = localStorage.getItem('formattedai-theme'); } catch (_) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#f4f3f1' : '#08080c');
     })();
   </script>
   <link rel="stylesheet" href="../assets/css/fonts.css">
@@ -283,9 +289,10 @@
       btn && btn.addEventListener('click', function() {
         var current = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
         var next = current === 'light' ? 'dark' : 'light';
-        if (next === 'light') html.setAttribute('data-theme', 'light');
-        else html.removeAttribute('data-theme');
+        html.setAttribute('data-theme', next);
         try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', next === 'light' ? '#f4f3f1' : '#08080c');
       });
       var nav = document.getElementById('faNav');
       var onScroll = function() {

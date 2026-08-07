@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,10 +122,17 @@
   <meta name="theme-color" content="#08080c">
   <meta name="mobile-web-app-capable" content="yes">
 
+  <!-- Theme bootstrap (no flash) -->
   <script>
     (function() {
-      var t = localStorage.getItem('formattedai-theme') || 'light';
+      var t = null;
+      try { t = localStorage.getItem('formattedai-theme'); } catch (_) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
       document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#f8fafe' : '#08080c');
     })();
   </script>
   <link rel="stylesheet" href="../../assets/css/fonts.css">
@@ -526,19 +533,6 @@
     }
     applyT();
     window.t = function(k) { return translations[currentLang][k] || k; };
-
-    // === Theme toggle ===
-    var theme = localStorage.getItem('formattedai-theme') || 'light';
-    function applyTheme(v) {
-      document.documentElement.setAttribute('data-theme', v);
-    }
-    applyTheme(theme);
-    var tt = document.getElementById('themeToggle');
-    if (tt) tt.addEventListener('click', function() {
-      theme = theme === 'light' ? 'dark' : 'light';
-      localStorage.setItem('formattedai-theme', theme);
-      applyTheme(theme);
-    });
 
     // === Status indicator (waits for files) ===
     var statusDot = document.getElementById('statusDot');

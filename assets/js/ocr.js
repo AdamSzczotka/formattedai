@@ -180,14 +180,14 @@ function applyI18n() {
 
 // --- Theme ---
 function initTheme() {
-  const saved = localStorage.getItem('formattedai-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
   $('themeToggle').addEventListener('click', () => {
     document.documentElement.classList.add('theme-switching');
-    const cur = document.documentElement.getAttribute('data-theme') || 'light';
+    const cur = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
     const next = cur === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('formattedai-theme', next);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', next === 'light' ? '#f8fafe' : '#08080c');
+    try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
     setTimeout(() => document.documentElement.classList.remove('theme-switching'), 300);
   });
 }
