@@ -4,7 +4,9 @@ Dokumentacja dla Claude Code w repozytorium **FormattedAI** (`formattedai.pl`).
 
 ## Czym jest projekt
 
-Statyczny serwis z darmowymi narzędziami webowymi działającymi **100% client-side** (bez backendu, bez kont, bez telemetrii). Narzędzia: Markdown Formatter, AVIF Converter, JS/CSS Minifier, SEO & GEO Tag Generator, PDF tools, HTML → PDF. Strona dwujęzyczna: **PL (root)** + **EN (`/en/`)**.
+Statyczny serwis z darmowymi narzędziami webowymi. Zdecydowana większość działa **100% client-side** (bez kont, bez telemetrii). Narzędzia: Markdown Formatter, AVIF/HEIC Converter, JS/CSS Minifier, SEO & GEO Tag Generator, OCR, PDF tools, HTML → PDF, Text Humanizer. Strona dwujęzyczna: **PL (root)** + **EN (`/en/`)**.
+
+Dwa świadome wyjątki serwerowe (`api/`): **HTML → PDF** (Puppeteer/Chromium — wierność renderu) i **SEO meta-fetch** (Express + Cheerio proxy — obejście CORS). Oba z zabezpieczeniami: SSRF-guard z walidacją po DNS-resolve, blokada prywatnych IP, helmet, dwuwarstwowy rate-limit, limity body, timeouty.
 
 Stack: vanilla HTML/CSS/JS, SCSS → `sass`, JS → `esbuild`. Brak runtime dependencies, brak frameworka.
 
@@ -85,15 +87,15 @@ Skille projektowe (`.claude/skills/`) automatyzują flow - komunikaty zawsze po 
 
 ## Na co uważać
 
-- **`robots.txt` blokuje trening LLM-ów** (GPTBot, ClaudeBot, anthropic-ai, Google-Extended). AI search bots (OAI-SearchBot, PerplexityBot) są `Allow`. Jeżeli ma być cytowana strona przez Claude/ChatGPT w odpowiedziach - trzeba zdjąć `Disallow` dla search botów odpowiedniego modelu; blokada samego trenowania nie wyklucza cytowania przez search variant.
-- **Sitemap trzymamy ręcznie** - po dodaniu strony/artykułu wpis trzeba dopisać do `sitemap.xml` (PL + EN).
-- **`articles/<slug>/index.html` jest ~600+ linii** - kopiujemy z poprzedniego artykułu i podmieniamy treść.
-- **Numeracja artykułów** (`article_N_*.jpg`) - kolejna wolna liczba od ostatniego artykułu. Aktualnie #4 = `chatgpt-formatowanie-google-docs`.
+- **`robots.txt` daje pełny dostęp wszystkim botom AI** (`Allow: /` dla GPTBot, ClaudeBot, anthropic-ai, Google-Extended, OAI-SearchBot, PerplexityBot, CCBot, Bytespider i in. — treningowym i search). To świadoma decyzja: USP projektu to GEO, chcemy być indeksowani i cytowani przez modele AI. Jeśli kiedyś trzeba ograniczyć trening — dopiero wtedy dodać `Disallow` dla konkretnego treningowego bota.
+- **Sitemap trzymamy ręcznie** — po dodaniu strony/artykułu wpis trzeba dopisać do `sitemap.xml` (PL + EN).
+- **`articles/<slug>/index.html` jest ~600+ linii** — kopiujemy z poprzedniego artykułu i podmieniamy treść.
+- **Numeracja artykułów** (`article_N_*.jpg`) — kolejna wolna liczba od ostatniego artykułu. Aktualnie #4 = `chatgpt-formatowanie-google-docs`.
 - **Wspólny SCSS artykułów**: `assets/scss/articles.scss` → `assets/css/articles.css`. Nie twórz osobnego SCSS per artykuł.
 - **Emoji**: logo/UI bez emoji, SVG inline. Copy w artykułach - polska/angielska, bez emoji.
 
 ## Co NIE jest tu
 
-- Backend (żaden) - wszystkie tooling-operacje klient-side (WASM, parsery, Marked + DOMPurify, jSquash, JSZip, Terser, CSSO, js-beautify).
-- Analytics / cookie banner - celowo nie ma.
-- CI/CD - deploy ręczny przez nginx po stronie serwera.
+- Backend „ciężki" (bazy, konta, sesje) — nie ma. Operacje narzędzi są klient-side (WASM, parsery, Marked + DOMPurify, jSquash, JSZip, Terser, CSSO, js-beautify). Wyjątek: dwie mikrousługi w `api/` (HTML → PDF, meta-fetch) — patrz sekcja „Na co uważać".
+- Analytics / cookie banner — celowo nie ma.
+- CI/CD jest: `.github/workflows/deploy.yml` (push na `main` → `npm ci` → `npm run build` → rsync przez SSH na VPS z nginx; sekrety w `secrets.*`). `workflow_dispatch` pozwala odpalić ręcznie.
