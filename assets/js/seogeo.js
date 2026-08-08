@@ -23,6 +23,8 @@ const translations = {
     toolHeaderDesc: 'Generuj meta tagi SEO, Open Graph, Twitter Cards, Schema.org JSON-LD, llms.txt i robots.txt. Pierwsze narz\u0119dzie \u0142\u0105cz\u0105ce klasyczne SEO z Generative Engine Optimization.',
     toastCopied: 'Skopiowano!',
     toastCleared: 'Wyczyszczono!',
+    toastCopyFailed: 'Nie uda\u0142o si\u0119 skopiowa\u0107',
+    confirmClear: 'Wyczy\u015Bci\u0107 formularz? Zapisana kopia w przegl\u0105darce te\u017C zostanie usuni\u0119ta.',
     labelTitle: 'Tytu\u0142',
     labelDesc: 'Opis',
     labelLang: 'J\u0119zyk',
@@ -132,6 +134,8 @@ const translations = {
     toolHeaderDesc: 'Generate SEO meta tags, Open Graph, Twitter Cards, Schema.org JSON-LD, llms.txt and robots.txt. The first tool combining classic SEO with Generative Engine Optimization.',
     toastCopied: 'Copied!',
     toastCleared: 'Cleared!',
+    toastCopyFailed: 'Copy failed',
+    confirmClear: 'Clear the form? The copy saved in your browser will be removed too.',
     labelTitle: 'Title',
     labelDesc: 'Description',
     labelLang: 'Language',
@@ -226,7 +230,7 @@ const translations = {
 
 // --- State ---
 let currentLang = document.documentElement.lang || 'pl';
-let currentTheme = localStorage.getItem('formattedai-theme') || 'light';
+let currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
 const STORAGE_KEY = 'formattedai-seogeo';
 
 // --- AI Crawlers config ---
@@ -358,18 +362,16 @@ function toggleLanguage() {
 
 // --- Theme ---
 function applyTheme() {
-  if (currentTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
-  localStorage.setItem('formattedai-theme', currentTheme);
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', currentTheme === 'light' ? '#f8fafe' : '#08080c');
 }
 
 function toggleTheme() {
   document.documentElement.classList.add('theme-switching');
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
   applyTheme();
+  try { localStorage.setItem('formattedai-theme', currentTheme); } catch (_) {}
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       document.documentElement.classList.remove('theme-switching');
@@ -610,7 +612,9 @@ function generateSchema() {
   if (schema) {
     // Remove undefined values
     const clean = JSON.parse(JSON.stringify(schema));
-    outputSchemaCode.textContent = `<script type="application/ld+json">\n${JSON.stringify(clean, null, 2)}\n</script>`;
+    // "</" w tresci uzytkownika zamknelby blok <script> na stronie docelowej
+    const json = JSON.stringify(clean, null, 2).replace(/<\//g, '<\\/');
+    outputSchemaCode.textContent = `<script type="application/ld+json">\n${json}\n</script>`;
   } else {
     outputSchemaCode.textContent = '';
   }
@@ -866,39 +870,91 @@ function toggleLlmsMode() {
 }
 
 // --- Copy ---
+function legacyCopy(text) {
+  const helper = document.createElement('textarea');
+  helper.value = text;
+  helper.setAttribute('readonly', '');
+  helper.style.position = 'fixed';
+  helper.style.top = '-9999px';
+  document.body.appendChild(helper);
+  helper.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch { ok = false; }
+  document.body.removeChild(helper);
+  return ok;
+}
+
 function copyText(text) {
-  navigator.clipboard.writeText(text).then(() => showToast(t('toastCopied')));
+  if (!navigator.clipboard) {
+    return legacyCopy(text) ? Promise.resolve() : Promise.reject(new Error('copy failed'));
+  }
+  return navigator.clipboard.writeText(text).catch(() => {
+    if (!legacyCopy(text)) throw new Error('copy failed');
+  });
 }
 
 function copyAll() {
   const parts = [outputSeoCode, outputOgCode, outputTwitterCode, outputSchemaCode, outputLlmsCode, outputRobotsCode]
     .map(el => el.textContent).filter(Boolean);
-  copyText(parts.join('\n\n'));
-  flashSuccess(copyAllBtn, t('toastCopied'));
-  flashSuccess(document.getElementById('mobileCopyAllBtn'), t('toastCopied'));
+  copyText(parts.join('\n\n')).then(() => {
+    showToast(t('toastCopied'));
+    flashSuccess(copyAllBtn, t('toastCopied'));
+    flashSuccess(document.getElementById('mobileCopyAllBtn'), t('toastCopied'));
+  }).catch(() => showToast(t('toastCopyFailed')));
 }
 
 // --- Clear ---
+function isFormEmpty() {
+  if (faqItems.length || breadcrumbItems.length || llmsSections.length) return false;
+  const fields = formArea.querySelectorAll('input[type="text"], input[type="url"], input[type="date"], textarea');
+  return !Array.from(fields).some(el => el.value.trim() !== '');
+}
+
 function clearAll() {
+  if (!isFormEmpty() && !confirm(t('confirmClear'))) return;
   formArea.querySelectorAll('input[type="text"], input[type="url"], input[type="date"], textarea').forEach(el => el.value = '');
   formArea.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
   robotsIndex.checked = true;
   robotsFollow.checked = true;
   robotsMaxSnippet.checked = false;
   robotsMaxImage.checked = false;
+  document.getElementById('wsSearchAction').checked = false;
   faqItems = [];
   breadcrumbItems = [];
   llmsSections = [];
+  fetchedFavicon = '';
   renderFaqList();
   renderBreadcrumbList();
   renderLlmsSections();
+  // selecty wrocily do pierwszej opcji - widoki zalezne od nich trzeba przelaczyc recznie
+  switchSchemaType();
+  handleOgTypeChange();
+  handleSearchActionToggle();
   localStorage.removeItem(STORAGE_KEY);
   generateAll();
   showToast(t('toastCleared'));
 }
 
 // --- localStorage persistence ---
+let saveTimeoutId = null;
+
+// Zapis odpalany jest przy kazdym znaku - debounce ogranicza zapisy do localStorage
 function saveToStorage() {
+  clearTimeout(saveTimeoutId);
+  saveTimeoutId = setTimeout(() => {
+    saveTimeoutId = null;
+    writeToStorage();
+  }, 300);
+}
+
+function flushStorage() {
+  if (saveTimeoutId === null) return;
+  clearTimeout(saveTimeoutId);
+  saveTimeoutId = null;
+  writeToStorage();
+}
+
+function writeToStorage() {
   const data = {};
   formArea.querySelectorAll('input[type="text"], input[type="url"], input[type="date"], textarea').forEach(el => {
     if (el.id) data[el.id] = el.value;
@@ -911,6 +967,7 @@ function saveToStorage() {
   data._robotsMaxSnippet = robotsMaxSnippet.checked;
   data._robotsMaxImage = robotsMaxImage.checked;
   data._robotsPreset = document.querySelector('input[name="robotsPreset"]:checked')?.value;
+  data._wsSearchAction = document.getElementById('wsSearchAction').checked;
   data._faqItems = faqItems;
   data._breadcrumbItems = breadcrumbItems;
   data._llmsSections = llmsSections;
@@ -935,6 +992,7 @@ function loadFromStorage() {
       const radio = document.querySelector(`input[name="robotsPreset"][value="${data._robotsPreset}"]`);
       if (radio) radio.checked = true;
     }
+    if (data._wsSearchAction !== undefined) document.getElementById('wsSearchAction').checked = data._wsSearchAction;
     if (data._faqItems) { faqItems = data._faqItems; faqIdCounter = Math.max(0, ...faqItems.map(f => f.id)); renderFaqList(); }
     if (data._breadcrumbItems) { breadcrumbItems = data._breadcrumbItems; breadcrumbIdCounter = Math.max(0, ...breadcrumbItems.map(b => b.id)); renderBreadcrumbList(); }
     if (data._llmsSections) { llmsSections = data._llmsSections; llmsSectionIdCounter = Math.max(0, ...llmsSections.map(s => s.id)); renderLlmsSections(); }
@@ -984,9 +1042,11 @@ document.querySelectorAll('.btn--copy').forEach(btn => {
   btn.addEventListener('click', () => {
     const target = document.getElementById(btn.dataset.target);
     if (target && target.textContent) {
-      copyText(target.textContent);
-      btn.classList.add('copied');
-      setTimeout(() => btn.classList.remove('copied'), 1500);
+      copyText(target.textContent).then(() => {
+        showToast(t('toastCopied'));
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 1500);
+      }).catch(() => showToast(t('toastCopyFailed')));
     }
   });
 });
@@ -1028,19 +1088,31 @@ formArea.addEventListener('change', (e) => {
   }
 });
 
+// zapis czekajacy w debounce musi trafic do localStorage zanim strona zniknie
+window.addEventListener('pagehide', flushStorage);
+
 // --- About Modal ---
 const aboutTrigger = document.getElementById('aboutTrigger');
 const aboutModal = document.getElementById('aboutModal');
 const aboutModalClose = document.getElementById('aboutModalClose');
 
+let aboutModalHideTimeoutId = null;
+
 function openAboutModal() {
+  // bez clearTimeout timer poprzedniego zamkniecia ukrylby swiezo otwarty modal
+  clearTimeout(aboutModalHideTimeoutId);
+  aboutModalHideTimeoutId = null;
   aboutModal.hidden = false;
   requestAnimationFrame(() => aboutModal.classList.add('show'));
 }
 
 function closeAboutModal() {
   aboutModal.classList.remove('show');
-  setTimeout(() => { aboutModal.hidden = true; }, 200);
+  clearTimeout(aboutModalHideTimeoutId);
+  aboutModalHideTimeoutId = setTimeout(() => {
+    aboutModalHideTimeoutId = null;
+    aboutModal.hidden = true;
+  }, 200);
 }
 
 aboutTrigger.addEventListener('click', openAboutModal);
@@ -1139,15 +1211,22 @@ async function handleFetch() {
 
   try {
     const res = await fetch(`${FETCH_API}?url=${encodeURIComponent(url)}`);
-    const data = await res.json();
 
+    // odpowiedz bledu nie musi byc JSON-em (np. strona 504 z proxy), wiec status sprawdzamy przed parsowaniem
     if (!res.ok) {
-      if (res.status === 504) showFetchError('fetchErrTimeout');
-      else if (data.error && data.error.includes('HTML')) showFetchError('fetchErrNotHtml');
-      else showFetchError('fetchErrFailed');
+      if (res.status === 504) {
+        showFetchError('fetchErrTimeout');
+      } else {
+        let payload = null;
+        try { payload = await res.json(); } catch { /* nie-JSON odpowiedz bledu */ }
+        if (payload && payload.error && payload.error.includes('HTML')) showFetchError('fetchErrNotHtml');
+        else showFetchError('fetchErrFailed');
+      }
       setFetchLoading(false);
       return;
     }
+
+    const data = await res.json();
 
     // Fill SEO fields (only empty)
     fillIfEmpty(seoTitle, data.title);
@@ -1197,7 +1276,9 @@ async function handleFetch() {
 
 fetchBtn.addEventListener('click', handleFetch);
 fetchUrl.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') handleFetch();
+  if (e.key !== 'Enter') return;
+  if (fetchBtn.disabled) return;
+  handleFetch();
 });
 
 // --- Init ---

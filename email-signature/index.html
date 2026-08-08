@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" data-theme="light">
+<html lang="pl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +48,7 @@
       { "@type": "Question", "name": "Czy stopka bedzie dzialac w Outlooku?", "acceptedAnswer": { "@type": "Answer", "text": "Tak. Generator produkuje HTML oparty na tabelach, z inline CSS, MSO conditional comments i VML dla przyciskow z gradientem - co jest standardem dla email-safe HTML w Outlook desktop, Outlook 365, Gmail i Thunderbird." } },
       { "@type": "Question", "name": "Czy moje dane sa wysylane na serwer?", "acceptedAnswer": { "@type": "Answer", "text": "Nie. Wszystko dzieje sie w przegladarce. Tekst, obrazy i wygenerowany HTML nigdy nie opuszczaja Twojego urzadzenia. Stopka jest zapisywana tylko w localStorage przegladarki." } },
       { "@type": "Question", "name": "Jak dodac wygenerowana stopke do klienta pocztowego?", "acceptedAnswer": { "@type": "Answer", "text": "Skopiuj HTML i wklej w ustawieniach podpisu: Gmail (Settings -> See all settings -> Signature), Outlook (File -> Options -> Mail -> Signatures), Thunderbird (Account Settings -> Signature text -> HTML)." } },
-      { "@type": "Question", "name": "Czy moge wgrac wlasny logotyp lub avatar?", "acceptedAnswer": { "@type": "Answer", "text": "Tak. Mozesz wkleic publiczny URL obrazka (rekomendowane) lub wgrac plik. Pliki <20KB sa zapisywane jako base64 inline; wieksze sugerujemy hostowac na CDN i podac URL - Gmail i niektore wersje Outlook blokuja base64." } }
+      { "@type": "Question", "name": "Czy moge wgrac wlasny logotyp lub avatar?", "acceptedAnswer": { "@type": "Answer", "text": "Tak. Mozesz wkleic publiczny URL obrazka (rekomendowane) lub wgrac plik do 10 MB - wgrany obraz jest automatycznie skalowany do maks. 600 px szerokosci. Pliki <20KB sa zapisywane jako base64 inline; wieksze sugerujemy hostowac na CDN i podac URL - Gmail i niektore wersje Outlook blokuja base64." } }
     ]
   }
   </script>
@@ -65,8 +65,22 @@
 
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
   <link rel="apple-touch-icon" href="../assets/favicon.svg">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#08080c">
   <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Theme bootstrap (no flash) -->
+  <script>
+    (function() {
+      var t = null;
+      try { t = localStorage.getItem('formattedai-theme'); } catch (_) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#f8fafe' : '#08080c');
+    })();
+  </script>
 
   <link rel="stylesheet" href="../assets/css/fonts.css">
   <link rel="stylesheet" href="../assets/css/emailsignature.css">
@@ -303,7 +317,7 @@
   </div>
 
   <!-- Preview overlay -->
-  <div class="preview-overlay" id="previewOverlay" hidden>
+  <div class="preview-overlay" id="previewOverlay" hidden aria-label="Podgląd stopki e-mail">
     <div class="preview-dialog">
       <div class="preview-dialog__header">
         <div class="preview-dialog__tabs">
@@ -336,5 +350,6 @@
   </section>
 
   <script src="../assets/js/emailsignature.min.js" defer></script>
+  <script src="../assets/js/a11y-modal.min.js" defer></script>
 </body>
 </html>

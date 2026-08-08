@@ -108,10 +108,17 @@
   <meta name="theme-color" content="#08080c">
   <meta name="mobile-web-app-capable" content="yes">
 
+  <!-- Theme bootstrap (no flash) -->
   <script>
     (function() {
-      var t = localStorage.getItem('formattedai-theme') || 'light';
+      var t = null;
+      try { t = localStorage.getItem('formattedai-theme'); } catch (_) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
       document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#f8fafe' : '#08080c');
     })();
   </script>
   <link rel="stylesheet" href="../../assets/css/fonts.css">
@@ -396,7 +403,7 @@
           <div class="about-modal__icon">
             <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM9 12.75V9M9 5.25h.008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <span data-i18n="modalTitle">Markdown Formatter</span>
+          <span id="aboutModalTitle" data-i18n="modalTitle">Markdown Formatter</span>
         </div>
         <button class="about-modal__close" id="aboutModalClose" type="button" aria-label="Close">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -473,16 +480,6 @@
     applyT();
     window.t = function(k) { return translations[currentLang][k] || k; };
 
-    var theme = localStorage.getItem('formattedai-theme') || 'light';
-    function applyTheme(v) { document.documentElement.setAttribute('data-theme', v); }
-    applyTheme(theme);
-    var tt = document.getElementById('themeToggle');
-    if (tt) tt.addEventListener('click', function() {
-      theme = theme === 'light' ? 'dark' : 'light';
-      localStorage.setItem('formattedai-theme', theme);
-      applyTheme(theme);
-    });
-
     var sd = document.getElementById('styleDocsBtn'),
         sw = document.getElementById('styleWordBtn');
     function syncStyleTabs() {
@@ -501,19 +498,45 @@
     var label = document.getElementById('statusLabel');
     var convInfo = document.getElementById('convInfo');
     var hint = document.getElementById('inputHint');
+    var statsWords = 0, statsLines = 0, statsTimer = null;
+    // Single-pass word/line count, no array allocation (avoids huge split() arrays)
+    function countStats(v) {
+      var words = 0, lines = v ? 1 : 0, inWord = false;
+      for (var i = 0; i < v.length; i++) {
+        var c = v.charCodeAt(i);
+        if (c === 10) lines++;
+        var ws = c === 32 || c === 9 || c === 10 || c === 13 || c === 12 || c === 11 || c === 160;
+        if (ws) { inWord = false; } else if (!inWord) { words++; inWord = true; }
+      }
+      statsWords = words;
+      statsLines = lines;
+    }
+    function renderStatsLine(v, T) {
+      stats.textContent = v.length + ' ' + T.chars + ' · ' + statsWords + ' ' + T.words + ' · ' + statsLines + ' ' + T.lines;
+    }
     function updateStats() {
       if (!input || !stats) return;
       var v = input.value;
-      var ch = v.length;
-      var wd = v.trim() ? v.trim().split(/\s+/).length : 0;
-      var ln = v ? v.split('\n').length : 0;
       var T = translations[currentLang];
-      stats.textContent = ch + ' ' + T.chars + ' · ' + wd + ' ' + T.words + ' · ' + ln + ' ' + T.lines;
       var has = !!v.trim();
       if (dot) dot.classList.toggle('is-active', has);
       if (label) label.textContent = has ? T.statusReady : T.statusWaiting;
       if (convInfo) convInfo.textContent = has ? '< 20ms · ' + T.convInfoReady : T.convInfoWaiting;
       if (hint) hint.style.display = v ? 'none' : '';
+      if (v.length >= 50000) {
+        // Char count updates immediately; words/lines recompute is debounced to keep typing responsive
+        renderStatsLine(v, T);
+        if (statsTimer) clearTimeout(statsTimer);
+        statsTimer = setTimeout(function() {
+          statsTimer = null;
+          countStats(v);
+          renderStatsLine(v, translations[currentLang]);
+        }, 200);
+      } else {
+        if (statsTimer) { clearTimeout(statsTimer); statsTimer = null; }
+        countStats(v);
+        renderStatsLine(v, T);
+      }
     }
     if (input) {
       input.addEventListener('input', updateStats);
@@ -569,5 +592,6 @@
   <script src="../../assets/vendor/marked.min.js" defer></script>
   <script src="../../assets/vendor/purify.min.js" defer></script>
   <script src="../../assets/js/app.min.js" defer></script>
+  <script src="../../assets/js/a11y-modal.min.js" defer></script>
 </body>
 </html>

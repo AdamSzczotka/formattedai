@@ -140,6 +140,9 @@
       errorInvalidType: 'Nieobsługiwany format pliku',
       errorNoFiles: 'Dodaj pliki aby kontynuować',
       errorEncryptedPdf: 'PDF jest zaszyfrowany. Odblokuj go przed przetwarzaniem.',
+      errorFileRead: 'Nie udało się odczytać pliku',
+      errorEmptySignature: 'Najpierw narysuj podpis',
+      confirmDiscardResult: 'Wynik nie został pobrany. Odrzucić go?',
       // Toast
       toastSuccess: 'Gotowe!',
       toastError: 'Błąd przetwarzania',
@@ -204,6 +207,27 @@
       // SEO
       seoH1: 'Darmowe narzędzia PDF online - Łącz, dziel, kompresuj PDF w przeglądarce',
       seoDesc: 'Łącz, dziel, kompresuj i konwertuj pliki PDF bezpośrednio w przeglądarce. Wszystko działa client-side - Twoje pliki nigdy nie opuszczają urządzenia. Bez rejestracji, bez limitów, za darmo.',
+      seoHowTitle: 'Jak to działa',
+      seoHow1: 'Wybierz zakładkę: Łącz PDF, Dziel PDF, Kompresuj lub IMG → PDF',
+      seoHow2: 'Przeciągnij pliki na stronę lub kliknij Przeglądaj pliki',
+      seoHow3: 'Ustaw opcje (kolejność, strony do zachowania, poziom kompresji)',
+      seoHow4: 'Kliknij przycisk akcji i pobierz gotowy plik PDF',
+      seoFeaturesTitle: 'Funkcje',
+      seoFeat1: 'Łączenie wielu plików PDF w jeden dokument z podglądem kolejności',
+      seoFeat2: 'Dzielenie PDF - wybierz strony do zachowania lub pobierz każdą osobno jako ZIP',
+      seoFeat3: 'Kompresja PDF - 3 presety (Lekka, Zbalansowana, Maksymalna) + suwak jakości',
+      seoFeat4: 'Konwersja obrazków (JPG, PNG, WebP, AVIF) na PDF',
+      seoFeat5: 'Podgląd miniatur stron i drag-and-drop kolejności',
+      seoFeat6: 'Usuwanie metadanych dla lepszej prywatności',
+      seoFeat7: 'Działa we wszystkich nowoczesnych przeglądarkach',
+      seoFeat8: '100% client-side - Twoje pliki nigdy nie opuszczają urządzenia',
+      seoFaqTitle: 'Często zadawane pytania',
+      seoFaq1q: 'Czy moje pliki są bezpieczne?',
+      seoFaq1a: 'Tak. Wszystkie pliki są przetwarzane wyłącznie w Twojej przeglądarce. Żadne dane nie są wysyłane na serwer. Nie mamy dostępu do Twoich dokumentów - cała logika działa lokalnie na Twoim urządzeniu.',
+      seoFaq2q: 'Jak połączyć pliki PDF?',
+      seoFaq2a: 'Przeciągnij pliki PDF na stronę, ustaw kolejność przeciągając miniatury, kliknij Połącz PDF. Gotowy dokument pobierzesz jednym kliknięciem.',
+      seoFaq3q: 'Jak wyciągnąć strony z PDF?',
+      seoFaq3a: 'Wrzuć plik PDF, zaznacz strony które chcesz zachować na podglądzie miniatur, kliknij Podziel PDF. Możesz też pobrać każdą stronę jako osobny plik w archiwum ZIP.',
     },
     en: {
       pageTitle: 'PDF Tools - Merge, Split, Compress PDF Online | FormattedAI',
@@ -327,6 +351,9 @@
       errorInvalidType: 'Unsupported file format',
       errorNoFiles: 'Add files to continue',
       errorEncryptedPdf: 'PDF is encrypted. Unlock it before processing.',
+      errorFileRead: 'Could not read the file',
+      errorEmptySignature: 'Draw your signature first',
+      confirmDiscardResult: 'The result has not been downloaded. Discard it?',
       toastSuccess: 'Done!',
       toastError: 'Processing error',
       toastCopied: 'Copied!',
@@ -387,6 +414,27 @@
       emptyHint: 'Add files on the left',
       seoH1: 'Free Online PDF Tools - Merge, Split, Compress PDF in Browser',
       seoDesc: 'Merge, split, compress and convert PDF files directly in your browser. Everything runs client-side - your files never leave your device. No registration, no limits, free.',
+      seoHowTitle: 'How it works',
+      seoHow1: 'Choose a tab: Merge PDF, Split PDF, Compress or IMG → PDF',
+      seoHow2: 'Drag files onto the page or click Browse files',
+      seoHow3: 'Set options (order, pages to keep, compression level)',
+      seoHow4: 'Click the action button and download the resulting PDF file',
+      seoFeaturesTitle: 'Features',
+      seoFeat1: 'Merge multiple PDF files into one document with order preview',
+      seoFeat2: 'Split PDF - select pages to keep or download each one separately as ZIP',
+      seoFeat3: 'PDF compression - 3 presets (Light, Balanced, Maximum) + quality slider',
+      seoFeat4: 'Convert images (JPG, PNG, WebP, AVIF) to PDF',
+      seoFeat5: 'Page thumbnail previews and drag-and-drop ordering',
+      seoFeat6: 'Metadata stripping for better privacy',
+      seoFeat7: 'Works in all modern browsers',
+      seoFeat8: '100% client-side - your files never leave your device',
+      seoFaqTitle: 'Frequently Asked Questions',
+      seoFaq1q: 'Are my files safe?',
+      seoFaq1a: 'Yes. All files are processed entirely in your browser. No data is sent to any server. We have no access to your documents - all logic runs locally on your device.',
+      seoFaq2q: 'How to merge PDF files?',
+      seoFaq2a: 'Drag PDF files onto the page, arrange order by dragging thumbnails, click Merge PDFs. Download the merged document with a single click.',
+      seoFaq3q: 'How to extract pages from PDF?',
+      seoFaq3a: 'Upload a PDF file, select the pages you want to keep on the thumbnail preview, click Split PDF. You can also download each page as a separate file in a ZIP archive.',
     },
   };
 
@@ -415,6 +463,7 @@
     stripMetadata: true,
     splitSeparate: false,
     result: null,        // { data: Uint8Array, filename, mime, originalSize, resultSize }
+    resultDownloaded: false,
     fileIdCounter: 0,
     lastShiftIndex: -1,  // for shift+click range select in split
     mergePageMode: false, // false = file order, true = page order
@@ -498,6 +547,18 @@
     return pdfjsLoadPromise;
   }
 
+  // pdfjs holds worker-side resources for every opened document until it is
+  // destroyed - without this they pile up for the whole session
+  function destroyPdfDoc(doc) {
+    if (!doc) return;
+    try {
+      var p = doc.destroy();
+      if (p && p.catch) p.catch(function () {});
+    } catch (_) {
+      // Already destroyed
+    }
+  }
+
   // ==================
   // Language & Theme
   // ==================
@@ -508,12 +569,18 @@
            translations.pl[key] || key;
   }
 
+  function hasTranslation(key) {
+    return !!((translations[currentLang] && translations[currentLang][key]) || translations.pl[key]);
+  }
+
   function applyLanguage() {
     document.documentElement.lang = currentLang;
     document.title = t('pageTitle');
 
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
+      // Missing key: keep the text already present in the markup
+      if (!hasTranslation(key)) return;
       var val = t(key);
       // If element has a child <span>, update only the span (preserve SVG icons)
       var span = el.querySelector(':scope > span');
@@ -530,21 +597,19 @@
     updateDropZoneText();
   }
 
-  var currentTheme = localStorage.getItem('formattedai-theme') || 'light';
+  var currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
 
   function applyTheme() {
-    if (currentTheme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
-    localStorage.setItem('formattedai-theme', currentTheme);
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', currentTheme === 'light' ? '#f8fafe' : '#08080c');
   }
 
   function toggleTheme() {
     document.documentElement.classList.add('theme-switching');
     currentTheme = currentTheme === 'light' ? 'dark' : 'light';
     applyTheme();
+    try { localStorage.setItem('formattedai-theme', currentTheme); } catch (_) {}
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         document.documentElement.classList.remove('theme-switching');
@@ -609,6 +674,7 @@
     // Result
     dom.resultArea = document.getElementById('resultArea');
     dom.resultFilename = document.getElementById('resultFilename');
+    dom.resultFilesCount = document.getElementById('statFiles');
     dom.resultOriginalSize = document.getElementById('statBefore');
     dom.resultNewSize = document.getElementById('statAfter');
     dom.resultSavings = document.getElementById('statSavings');
@@ -643,12 +709,45 @@
     return filename.replace(/\.[^.]+$/, '');
   }
 
-  function showToast(message) {
+  var TOAST_ICON_SUCCESS = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var TOAST_ICON_ERROR = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 3.5v4M7 10.2h.01" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
+
+  function showToast(message, type) {
     if (!dom.toast) return;
+    var isError = type === 'error';
     var textEl = dom.toast.querySelector('.toast__text');
     if (textEl) textEl.textContent = message;
+    var iconEl = dom.toast.querySelector('.toast__icon');
+    if (iconEl) iconEl.innerHTML = isError ? TOAST_ICON_ERROR : TOAST_ICON_SUCCESS;
+    dom.toast.classList.toggle('toast--error', isError);
     dom.toast.classList.add('show');
     setTimeout(function () { dom.toast.classList.remove('show'); }, 2500);
+  }
+
+  // PDF encrypted with a password - pdf-lib flags it on the document,
+  // pdfjs rejects with PasswordException
+  function isEncryptedError(err) {
+    if (!err) return false;
+    if (err.encryptedPdf) return true;
+    if (err.name === 'PasswordException') return true;
+    return /password|encrypted/i.test(err.message || '');
+  }
+
+  function showLoadError(err) {
+    showToast(isEncryptedError(err) ? t('errorEncryptedPdf') : t('errorCorruptPdf'), 'error');
+  }
+
+  // Loads a PDF with pdf-lib and rejects encrypted documents instead of
+  // silently producing garbage output
+  function loadPdfLibDocument(data) {
+    return PDFLib.PDFDocument.load(data, { ignoreEncryption: true }).then(function (doc) {
+      if (doc.isEncrypted) {
+        var err = new Error('Encrypted PDF');
+        err.encryptedPdf = true;
+        throw err;
+      }
+      return doc;
+    });
   }
 
   function flashSuccess(btn, successText) {
@@ -681,13 +780,22 @@
   // ==================
   function switchTab(tabId) {
     if (TAB_IDS.indexOf(tabId) === -1) tabId = 'merge';
+    if (state.processing || !confirmDiscardResult()) {
+      // Hash may already point at the rejected tab - put it back
+      history.replaceState(null, '', '#' + state.activeTab);
+      return;
+    }
     var prevTab = state.activeTab;
     state.activeTab = tabId;
+
+    // Files still being read belong to the previous tab (different accepted
+    // types, different single/multi rules) - discard them
+    if (tabId !== prevTab) fileGeneration++;
 
     // Reset merge page mode
     state.mergePageMode = false;
     state.mergePages = [];
-    mergePdfDocs = [];
+    destroyMergePdfDocs();
     if (fullscreenOverlay && !fullscreenOverlay.hidden) closeFullscreenPageView();
 
     // Only clear files when switching between incompatible types (img2pdf <-> pdf tabs)
@@ -825,15 +933,39 @@
       clearFiles();
     }
 
+    var generation = fileGeneration;
+    var limitWarned = false;
+    var queued = state.files.length;
+    var pendingReads = 0;
+
+    // renderFileList() rebuilds every row (and every thumbnail), so it runs once
+    // for the whole batch instead of once per finished read - plus once right
+    // after the first file lands, so the panel is not empty (dropZone is already
+    // hidden by updateUI) while the remaining reads are still running
+    var firstRenderDone = false;
+
+    function finishRead() {
+      pendingReads--;
+      if (generation !== fileGeneration) return;
+      if (pendingReads === 0) {
+        renderFileList();
+      } else if (!firstRenderDone && state.files.length > 0) {
+        firstRenderDone = true;
+        renderFileList();
+      }
+    }
+
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
 
-      if (!state.advancedMode.files && state.files.length >= MAX_FILES) {
-        if (confirm(t('advancedUnlockFiles'))) {
-          state.advancedMode.files = true;
-        } else {
-          break;
+      // Counts files already queued for reading, so a big batch does not
+      // load megabytes that would be rejected in onload anyway
+      if (queued >= MAX_FILES) {
+        if (!limitWarned) {
+          limitWarned = true;
+          showToast(t('errorTooManyFiles'), 'error');
         }
+        break;
       }
 
       // Validate type
@@ -845,24 +977,38 @@
         } else if (state.activeTab === 'img2pdf' && ['jpg', 'jpeg', 'png', 'webp', 'avif'].indexOf(ext) !== -1) {
           // allow
         } else {
-          showToast(t('errorInvalidType'));
+          showToast(t('errorInvalidType'), 'error');
           continue;
         }
       }
 
       if (file.size > MAX_FILE_SIZE) {
-        if (!state.advancedMode.size) {
-          if (confirm(t('advancedUnlockSize'))) {
-            state.advancedMode.size = true;
-          } else {
-            continue;
-          }
-        }
+        showToast(t('errorFileTooLarge'), 'error');
+        continue;
       }
+
+      queued++;
+      pendingReads++;
 
       (function (f) {
         var reader = new FileReader();
         reader.onload = function (e) {
+          // Files were cleared or the tab changed while reading - drop the result
+          if (generation !== fileGeneration) {
+            finishRead();
+            return;
+          }
+
+          // Limit must be enforced here: reads finish after the whole batch is queued
+          if (state.files.length >= MAX_FILES) {
+            if (!limitWarned) {
+              limitWarned = true;
+              showToast(t('errorTooManyFiles'), 'error');
+            }
+            finishRead();
+            return;
+          }
+
           var data = new Uint8Array(e.target.result);
           state.files.push({
             id: generateId(),
@@ -871,7 +1017,7 @@
             type: f.type,
             data: data,
           });
-          renderFileList();
+          finishRead();
           updateUI();
 
           // For split/compress: auto-load preview
@@ -899,16 +1045,76 @@
             loadMergePagePreview();
           }
         };
+        reader.onerror = function () {
+          if (generation !== fileGeneration) {
+            finishRead();
+            return;
+          }
+          console.error('Failed to read file:', f.name);
+          showToast(t('errorFileRead'), 'error');
+          finishRead();
+        };
         reader.readAsArrayBuffer(f);
       })(file);
     }
   }
 
+  // Bumped whenever the file set is invalidated - pending FileReader callbacks
+  // from an older batch must not push their data into the new state
+  var fileGeneration = 0;
+
+  // Result is considered pending until the user actually downloads it
+  function confirmDiscardResult() {
+    if (!state.result || state.resultDownloaded) return true;
+    return confirm(t('confirmDiscardResult'));
+  }
+
+  // Crop/forms/annotate keep their own preview state - it must not survive
+  // a file swap, otherwise the next document is edited with the previous selection
+  function resetEditorState() {
+    state.cropCurrentPage = 0;
+    state.cropTotalPages = 0;
+    state.cropRect = null;
+    destroyPdfDoc(cropPdfDocRef);
+    cropPdfDocRef = null;
+    cropUserZoom = 1.0;
+
+    state.formsFields = [];
+    state.formsCurrentPage = 0;
+    state.formsTotalPages = 0;
+    destroyPdfDoc(formsPdfDocRef);
+    formsPdfDocRef = null;
+    formsPdfLibDoc = null;
+    formsUserZoom = 1.0;
+    if (formsFieldsWrap) formsFieldsWrap.innerHTML = '';
+
+    state.annotateCurrentPage = 0;
+    state.annotateTotalPages = 0;
+    state.annotateAnnotations = {};
+    state.annotateUndoStack = [];
+    state.annotateRedoStack = [];
+    destroyPdfDoc(annotatePdfDocRef);
+    annotatePdfDocRef = null;
+    annotateSelectedIndex = -1;
+    annotateDragTarget = null;
+    annotateResizeTarget = null;
+    annotateDrawing = false;
+    annotateCurrentPath = [];
+    annotateShapeStart = null;
+    annotateBaseScale = 0;
+    annotateUserZoom = 1.0;
+    removeAnnotatePopover();
+  }
+
   function removeFile(id) {
     state.files = state.files.filter(function (f) { return f.id !== id; });
+    delete fileThumbCache[id];
+    resetEditorState();
     if (state.activeTab === 'split') {
       state.splitPages = [];
       state.splitTotalPages = 0;
+      destroyPdfDoc(splitPdfDocRef);
+      splitPdfDocRef = null;
       if (dom.splitPageGrid) dom.splitPageGrid.innerHTML = '';
     }
     if (state.activeTab === 'merge' && state.mergePageMode) {
@@ -916,7 +1122,7 @@
         loadMergePagePreview();
       } else {
         state.mergePages = [];
-        mergePdfDocs = [];
+        destroyMergePdfDocs();
         if (dom.splitPageGrid) dom.splitPageGrid.innerHTML = '';
       }
     }
@@ -926,10 +1132,15 @@
 
   function clearFiles() {
     state.files = [];
+    fileThumbCache = {};
     state.splitPages = [];
     state.splitTotalPages = 0;
+    destroyPdfDoc(splitPdfDocRef);
+    splitPdfDocRef = null;
     state.lastShiftIndex = -1;
     state.mergePages = [];
+    fileGeneration++;
+    resetEditorState();
     if (dom.splitPageGrid) dom.splitPageGrid.innerHTML = '';
     renderFileList();
     updateMergePageModeUI();
@@ -940,6 +1151,12 @@
   // File list rendering
   // ==================
   var dragSrcIndex = null;
+
+  // Rendering a PDF thumbnail means opening the whole document, so the result is
+  // kept per file id - renderFileList() rebuilds the list on every change
+  var fileThumbCache = {};
+  var THUMB_FAILED = 'failed';
+  var THUMB_PLACEHOLDER = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
 
   function renderFileList() {
     if (!dom.fileList) return;
@@ -988,8 +1205,18 @@
         img.onload = function () { URL.revokeObjectURL(this.src); };
         thumbDiv.appendChild(img);
       } else {
-        // PDF thumbnail - render first page
-        renderPdfThumbnail(file.data, 0, thumbDiv);
+        // PDF thumbnail - render first page once, reuse the cached bitmap after
+        var cachedThumb = fileThumbCache[file.id];
+        if (cachedThumb === THUMB_FAILED) {
+          thumbDiv.innerHTML = THUMB_PLACEHOLDER;
+        } else if (cachedThumb) {
+          var thumbImg = document.createElement('img');
+          thumbImg.src = cachedThumb;
+          thumbImg.alt = file.name;
+          thumbDiv.appendChild(thumbImg);
+        } else {
+          renderPdfThumbnail(file, 0, thumbDiv);
+        }
       }
 
       // Info
@@ -1138,11 +1365,17 @@
   // ==================
   // Thumbnail rendering (pdfjs-dist)
   // ==================
-  function renderPdfThumbnail(pdfData, pageNum, container) {
+  function renderPdfThumbnail(file, pageNum, container) {
+    // The file can be dropped while the document is still loading - caching the
+    // result then would leave an entry nothing ever reads
+    function cacheThumb(value) {
+      if (state.files.indexOf(file) !== -1) fileThumbCache[file.id] = value;
+    }
+
     loadPdfjs().then(function (lib) {
-      var loadingTask = lib.getDocument({ data: pdfData.slice() });
-      loadingTask.promise.then(function (pdfDoc) {
-        pdfDoc.getPage(pageNum + 1).then(function (page) {
+      var loadingTask = lib.getDocument({ data: file.data.slice() });
+      return loadingTask.promise.then(function (pdfDoc) {
+        return pdfDoc.getPage(pageNum + 1).then(function (page) {
           var viewport = page.getViewport({ scale: 1 });
           var scale = THUMBNAIL_HEIGHT / viewport.height;
           var scaledViewport = page.getViewport({ scale: scale });
@@ -1152,14 +1385,21 @@
           canvas.height = Math.floor(scaledViewport.height);
           var ctx = canvas.getContext('2d');
 
-          page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+          return page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+            cacheThumb(canvas.toDataURL('image/png'));
             container.innerHTML = '';
             container.appendChild(canvas);
           });
         });
-      }).catch(function () {
+      }).then(function () {
+        return loadingTask.destroy();
+      }, function () {
         // Failed to render thumbnail - show placeholder
-        container.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+        cacheThumb(THUMB_FAILED);
+        container.innerHTML = THUMB_PLACEHOLDER;
+        return loadingTask.destroy();
+      }).catch(function () {
+        // Destroy errors are not actionable
       });
     });
   }
@@ -1172,6 +1412,8 @@
     dom.splitPageGrid.innerHTML = '';
     state.splitPages = [];
     state.splitTotalPages = 0;
+    destroyPdfDoc(splitPdfDocRef);
+    splitPdfDocRef = null;
 
     loadPdfjs().then(function (lib) {
       var loadingTask = lib.getDocument({ data: pdfData.slice() });
@@ -1195,8 +1437,8 @@
         }
 
         renderSplitGrid(pdfDoc);
-      }).catch(function () {
-        showToast(t('errorCorruptPdf'));
+      }).catch(function (err) {
+        showLoadError(err);
       });
     });
   }
@@ -1342,10 +1584,12 @@
       canvas.height = Math.floor(scaledViewport.height);
       var ctx = canvas.getContext('2d');
 
-      page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+      return page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
         container.innerHTML = '';
         container.appendChild(canvas);
       });
+    }).catch(function () {
+      // Document destroyed while the lazy render was in flight - nothing to draw
     });
   }
 
@@ -1387,6 +1631,13 @@
   // ==================
   var mergePdfDocs = []; // cached pdfjs document refs per file
 
+  function destroyMergePdfDocs() {
+    for (var i = 0; i < mergePdfDocs.length; i++) {
+      destroyPdfDoc(mergePdfDocs[i]);
+    }
+    mergePdfDocs = [];
+  }
+
   function toggleMergePageMode() {
     state.mergePageMode = !state.mergePageMode;
     updateMergePageModeUI();
@@ -1394,7 +1645,7 @@
       loadMergePagePreview();
     } else {
       state.mergePages = [];
-      mergePdfDocs = [];
+      destroyMergePdfDocs();
       if (dom.splitPageGrid) dom.splitPageGrid.innerHTML = '';
     }
     updateUI();
@@ -1416,13 +1667,22 @@
     if (!dom.splitPageGrid) return;
     dom.splitPageGrid.innerHTML = '';
     state.mergePages = [];
-    mergePdfDocs = [];
+    destroyMergePdfDocs();
 
     loadPdfjs().then(function (lib) {
       var loadPromises = [];
+      var loadedDocs = [];
+      var loadFailed = false;
       for (var fi = 0; fi < state.files.length; fi++) {
         (function (fileIndex) {
           var p = lib.getDocument({ data: state.files[fileIndex].data.slice() }).promise.then(function (pdfDoc) {
+            // another file may have failed already - such a doc never reaches
+            // mergePdfDocs, so it has to be destroyed right here
+            if (loadFailed) {
+              destroyPdfDoc(pdfDoc);
+              return { fileIndex: fileIndex, pdfDoc: null };
+            }
+            loadedDocs[fileIndex] = pdfDoc;
             return { fileIndex: fileIndex, pdfDoc: pdfDoc };
           });
           loadPromises.push(p);
@@ -1433,7 +1693,7 @@
         // Sort by fileIndex to maintain file order
         results.sort(function (a, b) { return a.fileIndex - b.fileIndex; });
 
-        mergePdfDocs = [];
+        destroyMergePdfDocs();
         for (var r = 0; r < results.length; r++) {
           mergePdfDocs[results[r].fileIndex] = results[r].pdfDoc;
           var numPages = state.advancedMode.pages ? results[r].pdfDoc.numPages : Math.min(results[r].pdfDoc.numPages, MAX_SPLIT_PAGES);
@@ -1447,8 +1707,13 @@
         }
 
         renderMergePageGrid();
-      }).catch(function () {
-        showToast(t('errorCorruptPdf'));
+      }).catch(function (err) {
+        loadFailed = true;
+        for (var i = 0; i < loadedDocs.length; i++) {
+          destroyPdfDoc(loadedDocs[i]);
+        }
+        loadedDocs = [];
+        showLoadError(err);
       });
     });
   }
@@ -1749,10 +2014,12 @@
       canvas.height = Math.floor(scaledViewport.height);
       var ctx = canvas.getContext('2d');
 
-      page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+      return page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
         container.innerHTML = '';
         container.appendChild(canvas);
       });
+    }).catch(function () {
+      // Document destroyed while the lazy render was in flight - nothing to draw
     });
   }
 
@@ -1830,10 +2097,12 @@
       originalSize: originalSize || 0,
       resultSize: data.byteLength || data.length,
     };
+    state.resultDownloaded = false;
 
     if (dom.resultArea) dom.resultArea.hidden = false;
     if (dom.outputEmpty) dom.outputEmpty.hidden = true;
     if (dom.resultFilename) dom.resultFilename.textContent = filename;
+    if (dom.resultFilesCount) dom.resultFilesCount.textContent = state.files.length;
     if (dom.resultNewSize) dom.resultNewSize.textContent = formatSize(state.result.resultSize);
 
     if (originalSize && dom.resultOriginalSize) {
@@ -1855,11 +2124,13 @@
     if (dom.resultArea) dom.resultArea.hidden = true;
     if (dom.outputEmpty) dom.outputEmpty.hidden = false;
     state.result = null;
+    state.resultDownloaded = false;
   }
 
   function downloadResult() {
     if (!state.result) return;
     downloadBlob(state.result.data, state.result.filename, state.result.mime);
+    state.resultDownloaded = true;
     showToast(t('toastSuccess'));
   }
 
@@ -1881,7 +2152,9 @@
     if (workspace) workspace.classList.toggle('workspace--editor', showEditor && !state.result);
 
     // Hide file list, drop zone & options panel when editor is active
-    if (dom.fileListArea && showEditor) dom.fileListArea.hidden = true;
+    // File list visibility is set here too: renderFileList() runs once per batch,
+    // so without it the panel stays empty between the first read and the last
+    if (dom.fileListArea) dom.fileListArea.hidden = showEditor || !hasFiles;
     if (dom.dropZone && showEditor) dom.dropZone.hidden = true;
     var optionsPanel = document.getElementById('optionsPanel');
     if (optionsPanel) optionsPanel.hidden = isEditorTab || !hasFiles;
@@ -1934,6 +2207,16 @@
     // Mobile bar action button disabled state
     if (dom.mobileActionBtn) {
       dom.mobileActionBtn.disabled = !hasFiles || state.processing;
+    }
+
+    // Tabs and Clear must stay inert while a job is running
+    if (dom.tabBtns) {
+      dom.tabBtns.forEach(function (btn) {
+        btn.disabled = state.processing;
+      });
+    }
+    if (dom.clearBtn) {
+      dom.clearBtn.disabled = state.processing;
     }
 
     // Drop zone visibility
@@ -2008,7 +2291,7 @@
   // ==================
   async function mergePDFs() {
     if (state.files.length < 1) {
-      showToast(t('errorNoFiles'));
+      showToast(t('errorNoFiles'), 'error');
       return;
     }
 
@@ -2034,12 +2317,10 @@
 
           if (!donorCache[mp.fileIndex]) {
             try {
-              donorCache[mp.fileIndex] = await PDFLib.PDFDocument.load(state.files[mp.fileIndex].data, {
-                ignoreEncryption: true,
-              });
+              donorCache[mp.fileIndex] = await loadPdfLibDocument(state.files[mp.fileIndex].data);
             } catch (err) {
               console.error('Failed to load PDF:', state.files[mp.fileIndex].name, err);
-              showToast(t('errorCorruptPdf'));
+              showLoadError(err);
               state.processing = false;
               hideProgress();
               updateUI();
@@ -2065,12 +2346,10 @@
 
           var donor2;
           try {
-            donor2 = await PDFLib.PDFDocument.load(state.files[i].data, {
-              ignoreEncryption: true,
-            });
+            donor2 = await loadPdfLibDocument(state.files[i].data);
           } catch (err) {
             console.error('Failed to load PDF:', state.files[i].name, err);
-            showToast(t('errorCorruptPdf'));
+            showLoadError(err);
             state.processing = false;
             hideProgress();
             updateUI();
@@ -2095,7 +2374,7 @@
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Merge error:', err);
-      showToast(t('errorGeneric'));
+      showToast(isEncryptedError(err) ? t('errorEncryptedPdf') : t('errorGeneric'), 'error');
     }
 
     state.processing = false;
@@ -2108,7 +2387,7 @@
   // ==================
   async function splitPDF() {
     if (state.files.length === 0) {
-      showToast(t('errorNoFiles'));
+      showToast(t('errorNoFiles'), 'error');
       return;
     }
 
@@ -2117,7 +2396,7 @@
       .map(function (p) { return p.pageNum; });
 
     if (selectedPages.length === 0) {
-      showToast(t('splitNoPagesSelected'));
+      showToast(t('splitNoPagesSelected'), 'error');
       return;
     }
 
@@ -2130,12 +2409,10 @@
 
       var src;
       try {
-        src = await PDFLib.PDFDocument.load(state.files[0].data, {
-          ignoreEncryption: true,
-        });
+        src = await loadPdfLibDocument(state.files[0].data);
       } catch (err) {
         console.error('Failed to load PDF for split:', err);
-        showToast(t('errorCorruptPdf'));
+        showLoadError(err);
         state.processing = false;
         hideProgress();
         updateUI();
@@ -2163,7 +2440,7 @@
         }
 
         showProgress(95, t('processing'));
-        var zipped = fflate.zipSync(zipFiles);
+        var zipped = await zipStored(zipFiles);
         showProgress(100, t('processing'));
 
         var zipFilename = baseName + '_split.zip';
@@ -2193,7 +2470,7 @@
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Split error:', err);
-      showToast(t('errorGeneric'));
+      showToast(isEncryptedError(err) ? t('errorEncryptedPdf') : t('errorGeneric'), 'error');
     }
 
     state.processing = false;
@@ -2206,7 +2483,7 @@
   // ==================
   async function compressPDF() {
     if (state.files.length === 0) {
-      showToast(t('errorNoFiles'));
+      showToast(t('errorNoFiles'), 'error');
       return;
     }
 
@@ -2231,7 +2508,7 @@
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Compress error:', err);
-      showToast(t('errorGeneric'));
+      showToast(isEncryptedError(err) ? t('errorEncryptedPdf') : t('errorGeneric'), 'error');
     }
 
     state.processing = false;
@@ -2247,47 +2524,51 @@
     var lib = await loadPdfjs();
     var loadingTask = lib.getDocument({ data: pdfData.slice() });
     var pdfDoc = await loadingTask.promise;
-    var numPages = pdfDoc.numPages;
 
-    var newDoc = await PDFLib.PDFDocument.create();
+    try {
+      var numPages = pdfDoc.numPages;
 
-    for (var i = 1; i <= numPages; i++) {
-      showProgress(
-        (i / numPages) * 85,
-        t('processingPage') + ' ' + i + ' ' + t('splitPageOf') + ' ' + numPages
-      );
+      var newDoc = await PDFLib.PDFDocument.create();
 
-      var page = await pdfDoc.getPage(i);
-      var viewport = page.getViewport({ scale: 1.5 }); // reasonable render quality
+      for (var i = 1; i <= numPages; i++) {
+        showProgress(
+          (i / numPages) * 85,
+          t('processingPage') + ' ' + i + ' ' + t('splitPageOf') + ' ' + numPages
+        );
 
-      var canvas = document.createElement('canvas');
-      canvas.width = Math.floor(viewport.width);
-      canvas.height = Math.floor(viewport.height);
-      var ctx = canvas.getContext('2d');
+        var page = await pdfDoc.getPage(i);
+        var viewport = page.getViewport({ scale: 1.5 }); // reasonable render quality
 
-      await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+        var canvas = document.createElement('canvas');
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        var ctx = canvas.getContext('2d');
 
-      // Convert canvas to JPEG
-      var jpegDataUrl = canvas.toDataURL('image/jpeg', jpegQuality);
-      var jpegBytes = dataUrlToUint8Array(jpegDataUrl);
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
 
-      var img = await newDoc.embedJpg(jpegBytes);
-      // Use original page dimensions (in PDF points)
-      var origViewport = page.getViewport({ scale: 1 });
-      var newPage = newDoc.addPage([origViewport.width, origViewport.height]);
-      newPage.drawImage(img, {
-        x: 0,
-        y: 0,
-        width: origViewport.width,
-        height: origViewport.height,
-      });
+        // Convert canvas to JPEG
+        var jpegBytes = await canvasToBytes(canvas, 'image/jpeg', jpegQuality);
 
-      await yieldToMain();
+        var img = await newDoc.embedJpg(jpegBytes);
+        // Use original page dimensions (in PDF points)
+        var origViewport = page.getViewport({ scale: 1 });
+        var newPage = newDoc.addPage([origViewport.width, origViewport.height]);
+        newPage.drawImage(img, {
+          x: 0,
+          y: 0,
+          width: origViewport.width,
+          height: origViewport.height,
+        });
+
+        await yieldToMain();
+      }
+
+      showProgress(90, t('processing'));
+      var savedBytes = await newDoc.save({ useObjectStreams: true });
+      return savedBytes;
+    } finally {
+      destroyPdfDoc(pdfDoc);
     }
-
-    showProgress(90, t('processing'));
-    var savedBytes = await newDoc.save({ useObjectStreams: true });
-    return savedBytes;
   }
 
   /**
@@ -2296,9 +2577,7 @@
    */
   async function compressWithImageExtraction(pdfData, jpegQuality) {
     try {
-      var pdfDoc = await PDFLib.PDFDocument.load(pdfData, {
-        ignoreEncryption: true,
-      });
+      var pdfDoc = await loadPdfLibDocument(pdfData);
 
       var pages = pdfDoc.getPages();
       var totalPages = pages.length;
@@ -2388,8 +2667,7 @@
             ctx.drawImage(bitmap, 0, 0);
             bitmap.close();
 
-            var jpegDataUrl = canvas.toDataURL('image/jpeg', jpegQuality);
-            var jpegBytes = dataUrlToUint8Array(jpegDataUrl);
+            var jpegBytes = await canvasToBytes(canvas, 'image/jpeg', jpegQuality);
 
             // Replace image stream in the PDF
             var newStream = pdfDoc.context.stream(jpegBytes, {
@@ -2442,6 +2720,8 @@
 
       return savedBytes;
     } catch (err) {
+      // Encrypted input has no usable fallback - surface it to the caller
+      if (isEncryptedError(err)) throw err;
       console.warn('Image extraction failed, falling back to full-page render:', err);
       showProgress(10, t('processing'));
       return await compressViaFullPageRender(pdfData, jpegQuality);
@@ -2468,14 +2748,31 @@
     }
   }
 
-  function dataUrlToUint8Array(dataUrl) {
-    var base64 = dataUrl.split(',')[1];
-    var binary = atob(base64);
-    var bytes = new Uint8Array(binary.length);
-    for (var i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    return bytes;
+  // toBlob keeps the encoded image in binary form - toDataURL would build a
+  // base64 string (~33% larger) that then has to be decoded byte by byte
+  function canvasToBytes(canvas, mimeType, quality) {
+    return new Promise(function (resolve, reject) {
+      canvas.toBlob(function (blob) {
+        if (!blob) {
+          reject(new Error('Canvas encoding failed'));
+          return;
+        }
+        blob.arrayBuffer().then(function (buf) {
+          resolve(new Uint8Array(buf));
+        }).catch(reject);
+      }, mimeType, quality);
+    });
+  }
+
+  // Payloads are already compressed (JPEG / flate-encoded PDF streams), so the
+  // entries are stored - and packing runs off the synchronous path
+  function zipStored(files) {
+    return new Promise(function (resolve, reject) {
+      fflate.zip(files, { level: 0 }, function (err, data) {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    });
   }
 
   // ==================
@@ -2483,7 +2780,7 @@
   // ==================
   async function imagesToPDF() {
     if (state.files.length === 0) {
-      showToast(t('errorNoFiles'));
+      showToast(t('errorNoFiles'), 'error');
       return;
     }
 
@@ -2566,7 +2863,7 @@
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Image to PDF error:', err);
-      showToast(t('errorGeneric'));
+      showToast(t('errorGeneric'), 'error');
     }
 
     state.processing = false;
@@ -2592,8 +2889,7 @@
     ctx.drawImage(bitmap, 0, 0);
     bitmap.close();
 
-    var dataUrl = canvas.toDataURL('image/jpeg', 0.92);
-    return dataUrlToUint8Array(dataUrl);
+    return await canvasToBytes(canvas, 'image/jpeg', 0.92);
   }
 
   // ==================
@@ -2607,6 +2903,7 @@
   var annotateCurrentPath = [];
   var annotateShapeStart = null;
   var annotateSignaturePad = null;
+  var annotateLastTouchPos = null;
 
   var ANNOTATE_TOOLS = ['cursor', 'text', 'pen', 'highlight', 'rect', 'circle', 'line', 'arrow', 'stamp', 'signature', 'image'];
   var ANNOTATE_TOOL_ICONS = {
@@ -2630,6 +2927,9 @@
     state.annotateUndoStack = [];
     state.annotateRedoStack = [];
 
+    destroyPdfDoc(annotatePdfDocRef);
+    annotatePdfDocRef = null;
+
     loadPdfjs().then(function (lib) {
       lib.getDocument({ data: fileData.slice() }).promise.then(function (pdfDoc) {
         annotatePdfDocRef = pdfDoc;
@@ -2645,8 +2945,8 @@
           renderAnnotatePage();
           updateAnnotateNav();
         });
-      }).catch(function () {
-        showToast(t('errorCorruptPdf'));
+      }).catch(function (err) {
+        showLoadError(err);
       });
     });
   }
@@ -2801,7 +3101,8 @@
     annotateDrawCanvas.addEventListener('mouseleave', onAnnotateMouseUp);
     annotateDrawCanvas.addEventListener('touchstart', onAnnotateTouchStart, { passive: false });
     annotateDrawCanvas.addEventListener('touchmove', onAnnotateTouchMove, { passive: false });
-    annotateDrawCanvas.addEventListener('touchend', onAnnotateMouseUp);
+    annotateDrawCanvas.addEventListener('touchend', onAnnotateTouchEnd);
+    annotateDrawCanvas.addEventListener('touchcancel', onAnnotateTouchEnd);
 
     // Drag-and-drop images onto canvas
     annotateDrawCanvas.addEventListener('dragover', function (e) {
@@ -2823,7 +3124,7 @@
           addAnnotation({ type: 'image', imgEl: img, rect: { x: pos.x, y: pos.y, w: w, h: h }, imgData: dataUrl });
           setAnnotateTool('cursor');
         };
-        img.onerror = function () { showToast(t('errorGeneric')); };
+        img.onerror = function () { showToast(t('errorGeneric'), 'error'); };
         img.src = dataUrl;
       };
       reader.readAsDataURL(file);
@@ -2969,9 +3270,11 @@
       annotateDrawCanvas.height = h;
 
       var ctx = annotateCanvasEl.getContext('2d');
-      page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+      return page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
         redrawAnnotations();
       });
+    }).catch(function () {
+      // Document destroyed while the render was in flight - nothing to draw
     });
   }
 
@@ -3571,13 +3874,26 @@
   function onAnnotateTouchStart(e) {
     e.preventDefault();
     var touch = e.touches[0];
-    onAnnotateMouseDown({ clientX: touch.clientX, clientY: touch.clientY });
+    annotateLastTouchPos = { clientX: touch.clientX, clientY: touch.clientY };
+    onAnnotateMouseDown(annotateLastTouchPos);
   }
 
   function onAnnotateTouchMove(e) {
     e.preventDefault();
     var touch = e.touches[0];
-    onAnnotateMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+    annotateLastTouchPos = { clientX: touch.clientX, clientY: touch.clientY };
+    onAnnotateMouseMove(annotateLastTouchPos);
+  }
+
+  // touchend has no touches[] and no clientX - the shape must be closed
+  // with the last known finger position
+  function onAnnotateTouchEnd(e) {
+    var touch = e.changedTouches && e.changedTouches[0];
+    var pos = touch
+      ? { clientX: touch.clientX, clientY: touch.clientY }
+      : annotateLastTouchPos;
+    annotateLastTouchPos = null;
+    onAnnotateMouseUp(pos || undefined);
   }
 
   // Signature pad (simple modal)
@@ -3588,6 +3904,8 @@
     var overlay = document.createElement('div');
     overlay.id = 'signaturePadOverlay';
     overlay.className = 'signature-pad-overlay';
+    // Pad nie ma widocznego naglowka - nazwa dostepna dialogu z etykiety narzedzia
+    overlay.setAttribute('aria-label', t('annotateTool_signature'));
 
     var pad = document.createElement('div');
     pad.className = 'signature-pad';
@@ -3601,24 +3919,43 @@
     padCtx.fillStyle = '#fff';
     padCtx.fillRect(0, 0, 400, 200);
 
+    // Validation message lives inside the overlay - a toast would be covered by it
+    var padError = document.createElement('p');
+    padError.className = 'signature-pad__error';
+    padError.setAttribute('role', 'alert');
+    padError.hidden = true;
+
     var drawing = false;
-    padCanvas.addEventListener('mousedown', function (e) {
+    var hasSignature = false;
+
+    // Pointer events cover mouse, pen and touch with one code path
+    padCanvas.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
       drawing = true;
+      if (padCanvas.setPointerCapture) padCanvas.setPointerCapture(e.pointerId);
       var r = padCanvas.getBoundingClientRect();
+      var sx = padCanvas.width / r.width;
+      var sy = padCanvas.height / r.height;
       padCtx.beginPath();
-      padCtx.moveTo(e.clientX - r.left, e.clientY - r.top);
+      padCtx.moveTo((e.clientX - r.left) * sx, (e.clientY - r.top) * sy);
     });
-    padCanvas.addEventListener('mousemove', function (e) {
+    padCanvas.addEventListener('pointermove', function (e) {
       if (!drawing) return;
+      e.preventDefault();
       var r = padCanvas.getBoundingClientRect();
+      var sx = padCanvas.width / r.width;
+      var sy = padCanvas.height / r.height;
       padCtx.strokeStyle = '#000';
       padCtx.lineWidth = 2;
       padCtx.lineCap = 'round';
-      padCtx.lineTo(e.clientX - r.left, e.clientY - r.top);
+      padCtx.lineTo((e.clientX - r.left) * sx, (e.clientY - r.top) * sy);
       padCtx.stroke();
+      hasSignature = true;
+      padError.hidden = true;
     });
-    padCanvas.addEventListener('mouseup', function () { drawing = false; });
-    padCanvas.addEventListener('mouseleave', function () { drawing = false; });
+    padCanvas.addEventListener('pointerup', function () { drawing = false; });
+    padCanvas.addEventListener('pointercancel', function () { drawing = false; });
+    padCanvas.addEventListener('pointerleave', function () { drawing = false; });
 
     var btns = document.createElement('div');
     btns.className = 'signature-pad__btns';
@@ -3630,6 +3967,8 @@
     clearBtn.addEventListener('click', function () {
       padCtx.fillStyle = '#fff';
       padCtx.fillRect(0, 0, 400, 200);
+      hasSignature = false;
+      padError.hidden = true;
     });
 
     var okBtn = document.createElement('button');
@@ -3637,6 +3976,11 @@
     okBtn.className = 'btn btn--ghost btn--sm';
     okBtn.textContent = 'OK';
     okBtn.addEventListener('click', function () {
+      if (!hasSignature) {
+        padError.textContent = t('errorEmptySignature');
+        padError.hidden = false;
+        return;
+      }
       padCanvas.toBlob(function (blob) {
         var img = new Image();
         img.onload = function () {
@@ -3667,6 +4011,7 @@
     btns.appendChild(cancelBtn);
 
     pad.appendChild(padCanvas);
+    pad.appendChild(padError);
     pad.appendChild(btns);
     overlay.appendChild(pad);
     document.body.appendChild(overlay);
@@ -3720,7 +4065,7 @@
             addAnnotation({ type: 'image', imgEl: img, rect: { x: 50, y: 50, w: w, h: h }, imgData: dataUrl });
             setAnnotateTool('cursor');
           };
-          img.onerror = function () { showToast(t('errorGeneric')); };
+          img.onerror = function () { showToast(t('errorGeneric'), 'error'); };
           img.src = dataUrl;
         };
         reader.readAsDataURL(blob);
@@ -3747,7 +4092,7 @@
         });
         setAnnotateTool('cursor');
       };
-      img.onerror = function () { showToast(t('errorGeneric')); };
+      img.onerror = function () { showToast(t('errorGeneric'), 'error'); };
       img.src = dataUrl;
     };
     reader.readAsDataURL(file);
@@ -3778,8 +4123,9 @@
   }
 
   async function saveAnnotatedPDF() {
+    if (state.processing) return;
     if (state.files.length === 0) {
-      showToast(t('errorNoFiles'));
+      showToast(t('errorNoFiles'), 'error');
       return;
     }
 
@@ -3789,7 +4135,7 @@
 
     try {
       showProgress(0, t('processing'));
-      var pdfDoc = await PDFLib.PDFDocument.load(state.files[0].data, { ignoreEncryption: true });
+      var pdfDoc = await loadPdfLibDocument(state.files[0].data);
       var pages = pdfDoc.getPages();
       var font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
       var fontBold = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
@@ -3938,12 +4284,14 @@
       showProgress(100, t('processing'));
 
       var originalName = state.files[0].name.replace(/\.pdf$/i, '');
-      // Auto-download and stay in editor
+      // Result panel first - download can be blocked by the browser
+      showResult(savedBytes, originalName + '_annotated.pdf', 'application/pdf', state.files[0].size);
       downloadBlob(savedBytes, originalName + '_annotated.pdf', 'application/pdf');
+      state.resultDownloaded = true;
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Annotate error:', err);
-      showToast(t('errorGeneric'));
+      showToast(isEncryptedError(err) ? t('errorEncryptedPdf') : t('errorGeneric'), 'error');
     }
 
     state.processing = false;
@@ -3976,19 +4324,19 @@
     formsPdfLibDoc = null;
 
     // Load with pdf-lib to inspect form fields
-    PDFLib.PDFDocument.load(fileData.slice(), { ignoreEncryption: true }).then(function (pdfLibDoc) {
+    loadPdfLibDocument(fileData.slice()).then(function (pdfLibDoc) {
       formsPdfLibDoc = pdfLibDoc;
       var form;
       try { form = pdfLibDoc.getForm(); } catch (e) { form = null; }
 
       if (!form) {
-        showToast(t('formsNoFields'));
+        showToast(t('formsNoFields'), 'error');
         return;
       }
 
       var fields = form.getFields();
       if (fields.length === 0) {
-        showToast(t('formsNoFields'));
+        showToast(t('formsNoFields'), 'error');
         return;
       }
 
@@ -4014,9 +4362,12 @@
 
         if (!fieldType) return;
 
+        // Radio group: each widget is one option, in the same order as getOptions()
+        var radioOptions = fieldType === 'radio' && field.getOptions ? field.getOptions() : [];
+
         // Get widgets (visual representations on pages)
         var widgets = field.acroField.getWidgets();
-        widgets.forEach(function (widget) {
+        widgets.forEach(function (widget, widgetIdx) {
           var rect = widget.getRectangle();
           var pageRef = widget.P();
           var pageIndex = 0;
@@ -4034,14 +4385,17 @@
             rect: rect,
             pageIndex: pageIndex,
             options: fieldType === 'dropdown' ? (field.getOptions ? field.getOptions() : []) : [],
-            radioOptions: fieldType === 'radio' ? (field.getOptions ? field.getOptions() : []) : [],
+            radioOptions: radioOptions,
+            radioOption: fieldType === 'radio' ? (radioOptions[widgetIdx] || '') : '',
           });
         });
       });
 
       // Load pdfjs for rendering
       loadPdfjs().then(function (lib) {
-        lib.getDocument({ data: fileData.slice() }).promise.then(function (pdfDoc) {
+        destroyPdfDoc(formsPdfDocRef);
+        formsPdfDocRef = null;
+        return lib.getDocument({ data: fileData.slice() }).promise.then(function (pdfDoc) {
           formsPdfDocRef = pdfDoc;
           state.formsTotalPages = pdfDoc.numPages;
           ensureFormsUI();
@@ -4049,9 +4403,12 @@
           renderFormsPage();
           updateFormsNav();
         });
+      }).catch(function (err) {
+        console.error('Form preview render failed:', err);
+        showLoadError(err);
       });
-    }).catch(function () {
-      showToast(t('errorCorruptPdf'));
+    }).catch(function (err) {
+      showLoadError(err);
     });
   }
 
@@ -4159,9 +4516,11 @@
       formsCanvasEl.height = Math.floor(scaledViewport.height);
 
       var ctx = formsCanvasEl.getContext('2d');
-      page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+      return page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
         renderFormFields();
       });
+    }).catch(function () {
+      // Document destroyed while the render was in flight - nothing to draw
     });
   }
 
@@ -4234,10 +4593,14 @@
         el.type = 'radio';
         el.name = 'form_radio_' + field.name;
         el.className = 'forms-field forms-field--radio';
-        el.checked = false;
+        el.checked = !!field.radioOption && field.value === field.radioOption;
         (function (f) {
           el.addEventListener('change', function () {
-            if (this.checked) f.value = f.name;
+            if (!this.checked) return;
+            // Every widget of the group shares one selected export value
+            state.formsFields.forEach(function (other) {
+              if (other.type === 'radio' && other.name === f.name) other.value = f.radioOption;
+            });
           });
         })(field);
       }
@@ -4276,12 +4639,13 @@
   }
 
   async function saveFormPDF() {
+    if (state.processing) return;
     if (state.files.length === 0) {
-      showToast(t('errorNoFiles'));
+      showToast(t('errorNoFiles'), 'error');
       return;
     }
     if (state.formsFields.length === 0) {
-      showToast(t('formsNoFields'));
+      showToast(t('formsNoFields'), 'error');
       return;
     }
 
@@ -4291,7 +4655,7 @@
 
     try {
       showProgress(0, t('processing'));
-      var pdfDoc = await PDFLib.PDFDocument.load(state.files[0].data, { ignoreEncryption: true });
+      var pdfDoc = await loadPdfLibDocument(state.files[0].data);
       var form = pdfDoc.getForm();
 
       showProgress(30, t('processing'));
@@ -4332,12 +4696,14 @@
       showProgress(100, t('processing'));
 
       var originalName = state.files[0].name.replace(/\.pdf$/i, '');
-      // Auto-download and stay in editor
+      // Result panel first - download can be blocked by the browser
+      showResult(savedBytes, originalName + '_filled.pdf', 'application/pdf', state.files[0].size);
       downloadBlob(savedBytes, originalName + '_filled.pdf', 'application/pdf');
+      state.resultDownloaded = true;
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Forms error:', err);
-      showToast(t('errorGeneric'));
+      showToast(isEncryptedError(err) ? t('errorEncryptedPdf') : t('errorGeneric'), 'error');
     }
 
     state.processing = false;
@@ -4359,6 +4725,8 @@
     state.cropCurrentPage = 0;
     state.cropRect = null;
     state.cropTotalPages = 0;
+    destroyPdfDoc(cropPdfDocRef);
+    cropPdfDocRef = null;
 
     loadPdfjs().then(function (lib) {
       lib.getDocument({ data: fileData.slice() }).promise.then(function (pdfDoc) {
@@ -4368,8 +4736,8 @@
         updateUI();
         renderCropPage();
         updateCropNav();
-      }).catch(function () {
-        showToast(t('errorCorruptPdf'));
+      }).catch(function (err) {
+        showLoadError(err);
       });
     });
   }
@@ -4572,9 +4940,11 @@
       cropOverlayEl.height = cropCanvasEl.height;
 
       var ctx = cropCanvasEl.getContext('2d');
-      page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
+      return page.render({ canvasContext: ctx, viewport: scaledViewport }).promise.then(function () {
         drawCropOverlay();
       });
+    }).catch(function () {
+      // Document destroyed while the render was in flight - nothing to draw
     });
   }
 
@@ -4741,12 +5111,13 @@
   }
 
   async function cropPDF() {
+    if (state.processing) return;
     if (state.files.length === 0) {
-      showToast(t('errorNoFiles'));
+      showToast(t('errorNoFiles'), 'error');
       return;
     }
     if (!state.cropRect || state.cropRect.w < 1 || state.cropRect.h < 1) {
-      showToast(t('cropHint'));
+      showToast(t('cropHint'), 'error');
       return;
     }
 
@@ -4756,7 +5127,7 @@
 
     try {
       showProgress(0, t('processing'));
-      var pdfDoc = await PDFLib.PDFDocument.load(state.files[0].data, { ignoreEncryption: true });
+      var pdfDoc = await loadPdfLibDocument(state.files[0].data);
       var pages = pdfDoc.getPages();
       var totalPages = pages.length;
 
@@ -4785,12 +5156,14 @@
       showProgress(100, t('processing'));
 
       var originalName = state.files[0].name.replace(/\.pdf$/i, '');
-      // Auto-download and stay in editor (no result panel needed)
+      // Result panel first - download can be blocked by the browser
+      showResult(croppedBytes, originalName + '_cropped.pdf', 'application/pdf', state.files[0].size);
       downloadBlob(croppedBytes, originalName + '_cropped.pdf', 'application/pdf');
+      state.resultDownloaded = true;
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Crop error:', err);
-      showToast(t('errorGeneric'));
+      showToast(isEncryptedError(err) ? t('errorEncryptedPdf') : t('errorGeneric'), 'error');
     }
 
     state.processing = false;
@@ -4803,7 +5176,7 @@
   // ==================
   async function rotatePDF() {
     if (state.files.length === 0) {
-      showToast(t('errorNoFiles'));
+      showToast(t('errorNoFiles'), 'error');
       return;
     }
 
@@ -4814,7 +5187,7 @@
     try {
       showProgress(10, t('processing'));
 
-      var pdfDoc = await PDFLib.PDFDocument.load(state.files[0].data, { ignoreEncryption: true });
+      var pdfDoc = await loadPdfLibDocument(state.files[0].data);
       var pages = pdfDoc.getPages();
       var angle = state.rotateAngle;
 
@@ -4834,7 +5207,7 @@
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('Rotate error:', err);
-      showToast(t('errorGeneric'));
+      showToast(isEncryptedError(err) ? t('errorEncryptedPdf') : t('errorGeneric'), 'error');
     }
 
     state.processing = false;
@@ -4847,13 +5220,15 @@
   // ==================
   async function pdfToJpg() {
     if (state.files.length === 0) {
-      showToast(t('errorNoFiles'));
+      showToast(t('errorNoFiles'), 'error');
       return;
     }
 
     state.processing = true;
     updateUI();
     hideResult();
+
+    var jpgSourceDoc = null;
 
     try {
       showProgress(0, t('processing'));
@@ -4862,6 +5237,7 @@
       var lib = await loadPdfjs();
       var loadingTask = lib.getDocument({ data: fileData.slice() });
       var pdfDoc = await loadingTask.promise;
+      jpgSourceDoc = pdfDoc;
       var numPages = pdfDoc.numPages;
       var scale = state.pdf2JpgDpi / 72;
       var quality = state.pdf2JpgQuality / 100;
@@ -4879,8 +5255,7 @@
         showProgress(30, t('processingPage') + ' 1 ' + t('splitPageOf') + ' 1');
         await page.render({ canvasContext: ctx, viewport: viewport }).promise;
 
-        var dataUrl = canvas.toDataURL('image/jpeg', quality);
-        var jpgBytes = dataUrlToUint8Array(dataUrl);
+        var jpgBytes = await canvasToBytes(canvas, 'image/jpeg', quality);
 
         showProgress(100, t('processing'));
         showResult(jpgBytes, baseName + '_page_1.jpg', 'image/jpeg', state.files[0].size);
@@ -4903,8 +5278,7 @@
 
           await page2.render({ canvasContext: ctx2, viewport: viewport2 }).promise;
 
-          var dataUrl2 = canvas2.toDataURL('image/jpeg', quality);
-          var pageBytes = dataUrlToUint8Array(dataUrl2);
+          var pageBytes = await canvasToBytes(canvas2, 'image/jpeg', quality);
           var padded = i < 10 ? '0' + i : '' + i;
           zipFiles[baseName + '_page_' + padded + '.jpg'] = pageBytes;
 
@@ -4912,7 +5286,7 @@
         }
 
         showProgress(95, t('processing'));
-        var zipped = fflate.zipSync(zipFiles);
+        var zipped = await zipStored(zipFiles);
         showProgress(100, t('processing'));
 
         showResult(zipped, baseName + '_images.zip', 'application/zip', state.files[0].size);
@@ -4921,7 +5295,9 @@
       showToast(t('toastSuccess'));
     } catch (err) {
       console.error('PDF to JPG error:', err);
-      showToast(t('errorGeneric'));
+      showToast(isEncryptedError(err) ? t('errorEncryptedPdf') : t('errorGeneric'), 'error');
+    } finally {
+      destroyPdfDoc(jpgSourceDoc);
     }
 
     state.processing = false;
@@ -5048,6 +5424,7 @@
     // Clear button
     if (dom.clearBtn) {
       dom.clearBtn.addEventListener('click', function () {
+        if (state.processing) return;
         clearFiles();
         hideResult();
       });
@@ -5083,6 +5460,7 @@
     // Reset button - go back to initial state
     if (dom.resetBtn) {
       dom.resetBtn.addEventListener('click', function () {
+        if (state.processing) return;
         clearFiles();
         hideResult();
         hideProgress();

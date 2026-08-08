@@ -36,6 +36,12 @@ jobs:
           SHORT_SHA="${GITHUB_SHA:0:8}"
           find . -name '*.html' -not -path './node_modules/*' -print0 \
             | xargs -0 sed -i -E "s#(assets/(css|js|vendor)/[A-Za-z0-9._-]+\.(css|js))#\1?v=${SHORT_SHA}#g"
+          # Zbudowane bundle tez odwoluja sie do zasobow (avif.min.js i heic.min.js
+          # tworza workera z /assets/js/image-worker.min.js). Bez tego kroku worker
+          # bylby jedynym plikiem bez wersji w URL - przegladarka pobralaby nowy bundle,
+          # ale zostala przy starym workerze z cache.
+          find assets/js -name '*.min.js' -print0 \
+            | xargs -0 sed -i -E "s#(assets/(css|js|vendor)/[A-Za-z0-9._-]+\.(css|js))#\1?v=${SHORT_SHA}#g"
           echo "Ostemplowano URL-e zasobow wersja ${SHORT_SHA}"
 
       - name: Setup SSH agent

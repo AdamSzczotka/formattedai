@@ -3,7 +3,11 @@
 // Uses @jsquash/avif WASM encoder (works in all browsers)
 // ============================================
 
-import avifEncode from 'https://esm.sh/@jsquash/avif@2.1.1/encode.js';
+// The encoder module is pulled in lazily (see loadEncoder) - a top-level import
+// kills the whole script when the CDN is blocked.
+
+import { exceedsPixelLimit } from './image-dimensions.js';
+import { convertWithWorker } from './image-worker-client.js';
 
 // --- i18n Translations ---
 const translations = {
@@ -27,10 +31,14 @@ const translations = {
     emptyHint: 'Dodaj pliki po lewej stronie',
     conversionDone: 'Gotowe! Pliki skonwertowane pomy\u015Blnie',
     toastConverted: 'Konwersja zako\u0144czona!',
+    toastConvertedCount: 'Skonwertowano {done} z {total}',
     toastDownload: 'Pobrano!',
     toastError: 'B\u0142\u0105d konwersji',
+    itemFailed: 'Nie uda\u0142o si\u0119 skonwertowa\u0107',
+    errorTimeout: 'Konwersja trwa\u0142a zbyt d\u0142ugo i zosta\u0142a przerwana',
     toastLimitFiles: 'Maksymalnie 20 plik\u00F3w',
     toastLimitSize: 'Plik za du\u017Cy (max 50MB)',
+    toastLimitPixels: 'Obraz ma za du\u017Co pikseli (max 50 Mpx)',
     toastInvalidType: 'Nieobs\u0142ugiwany format pliku',
     madeBy: 'Stworzone przez',
     footerBadge: '100% client-side',
@@ -105,10 +113,14 @@ const translations = {
     emptyHint: 'Add files on the left side',
     conversionDone: 'Done! Files converted successfully',
     toastConverted: 'Conversion complete!',
+    toastConvertedCount: 'Converted {done} of {total}',
     toastDownload: 'Downloaded!',
     toastError: 'Conversion error',
+    itemFailed: 'Conversion failed',
+    errorTimeout: 'Conversion took too long and was aborted',
     toastLimitFiles: 'Maximum 20 files',
     toastLimitSize: 'File too large (max 50MB)',
+    toastLimitPixels: 'Image has too many pixels (max 50 MP)',
     toastInvalidType: 'Unsupported file format',
     madeBy: 'Created by',
     footerBadge: '100% client-side',
@@ -149,10 +161,17 @@ let inputFiles = []; // { id, file, objectUrl }
 let results = [];    // { id, originalFile, avifBlob, objectUrl, originalSize, avifSize }
 let isConverting = false;
 let fileIdCounter = 0;
+let avifEncode = null;
+let encoderPromise = null;
+let encoderFailed = false;
 
 // --- Constants ---
 const MAX_FILES = 20;
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+// Rozdzielczosc, nie rozmiar pliku, decyduje o zuzyciu RAM - 50 Mpx to juz 200 MB
+// samego ImageData, a encoder potrzebuje wielokrotnosci tego
+const MAX_MEGAPIXELS = 50;
+const MAX_PIXELS = MAX_MEGAPIXELS * 1000000;
 const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
 
 // --- DOM ---
@@ -225,15 +244,12 @@ function toggleLanguage() {
 }
 
 // --- Theme ---
-let currentTheme = localStorage.getItem('formattedai-theme') || 'light';
+let currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
 
 function applyTheme() {
-  if (currentTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
-  localStorage.setItem('formattedai-theme', currentTheme);
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', currentTheme === 'light' ? '#f8fafe' : '#08080c');
 }
 
 function toggleTheme() {
@@ -241,6 +257,7 @@ function toggleTheme() {
   document.documentElement.classList.add('theme-switching');
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
   applyTheme();
+  try { localStorage.setItem('formattedai-theme', currentTheme); } catch (_) {}
   // Re-enable transitions after repaint
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
@@ -249,7 +266,28 @@ function toggleTheme() {
   });
 }
 
-// --- AVIF encoder is loaded via top-level ESM import ---
+// --- AVIF encoder (lazy ESM import from CDN) ---
+function showEncoderWarning() {
+  if (avifWarning) avifWarning.hidden = false;
+}
+
+function loadEncoder() {
+  if (!encoderPromise) {
+    encoderPromise = import('https://esm.sh/@jsquash/avif@2.1.1/encode.js')
+      .then(mod => {
+        avifEncode = mod.default || mod;
+        return avifEncode;
+      })
+      .catch(err => {
+        console.error('Failed to load AVIF encoder:', err);
+        encoderFailed = true;
+        showEncoderWarning();
+        updateUI();
+        return null;
+      });
+  }
+  return encoderPromise;
+}
 
 // --- File Size Formatter ---
 function formatSize(bytes) {
@@ -261,6 +299,10 @@ function formatSize(bytes) {
 // --- File Name Helpers ---
 function getAvifName(originalName) {
   return originalName.replace(/\.[^.]+$/, '.avif');
+}
+
+function convertedCountText(done, total) {
+  return t('toastConvertedCount').replace('{done}', done).replace('{total}', total);
 }
 
 // --- Toast ---
@@ -285,10 +327,16 @@ function flashSuccess(btn, successText) {
 }
 
 // --- Handle Files ---
-function handleFiles(fileListInput) {
+async function handleFiles(fileListInput) {
   const files = Array.from(fileListInput);
 
-  for (const file of files) {
+  // Wymiary czytamy z naglowkow, zanim cokolwiek trafi na liste - pojedyncze
+  // zdjecie ponad limitem potrafiloby wyczerpac pamiec zakladki juz przy dekodzie
+  const oversized = await Promise.all(files.map(file => exceedsPixelLimit(file, MAX_PIXELS)));
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
     if (inputFiles.length >= MAX_FILES) {
       showToast(t('toastLimitFiles'));
       break;
@@ -299,6 +347,10 @@ function handleFiles(fileListInput) {
     }
     if (file.size > MAX_FILE_SIZE) {
       showToast(t('toastLimitSize'));
+      continue;
+    }
+    if (oversized[i]) {
+      showToast(t('toastLimitPixels'));
       continue;
     }
 
@@ -312,16 +364,29 @@ function handleFiles(fileListInput) {
 }
 
 function removeFile(id) {
+  // Conversion loop walks inputFiles by index - removing mid-run would skip files
+  if (isConverting) return;
+
   const idx = inputFiles.findIndex(f => f.id === id);
   if (idx !== -1) {
     URL.revokeObjectURL(inputFiles[idx].objectUrl);
     inputFiles.splice(idx, 1);
   }
+
+  const resIdx = results.findIndex(r => r.id === id);
+  if (resIdx !== -1) {
+    if (results[resIdx].objectUrl) URL.revokeObjectURL(results[resIdx].objectUrl);
+    results.splice(resIdx, 1);
+  }
+
   renderFileList();
+  renderResults();
   updateUI();
 }
 
 function clearAll() {
+  if (isConverting) return;
+
   inputFiles.forEach(f => URL.revokeObjectURL(f.objectUrl));
   results.forEach(r => { if (r.objectUrl) URL.revokeObjectURL(r.objectUrl); });
   inputFiles = [];
@@ -338,23 +403,44 @@ function renderFileList() {
   inputFiles.forEach(({ id, file, objectUrl }) => {
     const item = document.createElement('div');
     item.className = 'file-item';
-    item.innerHTML = `
-      <div class="file-item__thumb checkerboard">
-        <img src="${objectUrl}" alt="${file.name}" loading="lazy">
-      </div>
-      <div class="file-item__info">
-        <span class="file-item__name" title="${file.name}">${file.name}</span>
-        <span class="file-item__size">${formatSize(file.size)}</span>
-      </div>
-      <button class="file-item__remove" type="button" aria-label="Remove" data-id="${id}">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-      </button>`;
-    fileList.appendChild(item);
-  });
 
-  // Bind remove buttons
-  fileList.querySelectorAll('.file-item__remove').forEach(btn => {
-    btn.addEventListener('click', () => removeFile(Number(btn.dataset.id)));
+    const thumb = document.createElement('div');
+    thumb.className = 'file-item__thumb checkerboard';
+
+    const img = document.createElement('img');
+    img.src = objectUrl;
+    img.alt = file.name;
+    img.loading = 'lazy';
+    thumb.appendChild(img);
+
+    const info = document.createElement('div');
+    info.className = 'file-item__info';
+
+    const name = document.createElement('span');
+    name.className = 'file-item__name';
+    name.title = file.name;
+    name.textContent = file.name;
+
+    const size = document.createElement('span');
+    size.className = 'file-item__size';
+    size.textContent = formatSize(file.size);
+
+    info.appendChild(name);
+    info.appendChild(size);
+
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'file-item__remove';
+    removeBtn.type = 'button';
+    removeBtn.setAttribute('aria-label', 'Remove');
+    removeBtn.dataset.id = id;
+    removeBtn.disabled = isConverting;
+    removeBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+    removeBtn.addEventListener('click', () => removeFile(id));
+
+    item.appendChild(thumb);
+    item.appendChild(info);
+    item.appendChild(removeBtn);
+    fileList.appendChild(item);
   });
 
   fileCount.textContent = `${inputFiles.length} / ${MAX_FILES}`;
@@ -364,18 +450,25 @@ function renderFileList() {
 function updateUI() {
   const hasFiles = inputFiles.length > 0;
   const hasResults = results.length > 0;
+  const hasDownloadable = results.some(r => !r.error && r.avifBlob);
 
   // Drop zone toggling
   dropZone.hidden = hasFiles;
   dropZoneCompact.hidden = !hasFiles;
 
   // Buttons
-  convertAllBtn.disabled = !hasFiles || isConverting;
-  downloadAllBtn.disabled = !hasResults;
+  convertAllBtn.disabled = !hasFiles || isConverting || encoderFailed;
+  downloadAllBtn.disabled = !hasDownloadable || isConverting;
+  clearBtn.disabled = isConverting || (!hasFiles && !hasResults);
+
+  // Input list must stay frozen while the conversion loop walks it by index
+  fileList.querySelectorAll('.file-item__remove').forEach(btn => {
+    btn.disabled = isConverting;
+  });
 
   // Mobile bar
-  if (mobileConvertBtn) mobileConvertBtn.disabled = !hasFiles || isConverting;
-  if (mobileDownloadBtn) mobileDownloadBtn.disabled = !hasResults;
+  if (mobileConvertBtn) mobileConvertBtn.disabled = !hasFiles || isConverting || encoderFailed;
+  if (mobileDownloadBtn) mobileDownloadBtn.disabled = !hasDownloadable || isConverting;
 
   // Show/hide mobile bar
   if (mobileBar) {
@@ -383,14 +476,45 @@ function updateUI() {
   }
 }
 
-// --- Convert to AVIF (using jSquash WASM encoder) ---
-async function convertToAvif(file, q) {
+// --- Encode options ---
+// speed: 6 keeps lossless in a sane time budget for large images
+// (speed: 2 was eating multi-GB of RAM and freezing the tab on 3MB+ files)
+function buildEncodeOptions(q) {
+  return q === 100
+    ? { lossless: true, speed: 6 }
+    : { quality: q, speed: 6, subsample: 1 };
+}
+
+function pixelLimitError() {
+  const err = new Error(t('toastLimitPixels'));
+  err.code = 'megapixels';
+  return err;
+}
+
+// Komunikat z workera nie jest tlumaczony - znane przyczyny mapujemy na slownik i18n
+function conversionErrorMessage(err) {
+  if (err && err.code === 'megapixels') return t('toastLimitPixels');
+  if (err && err.code === 'timeout') return t('errorTimeout');
+  return err && err.message ? err.message : '';
+}
+
+// --- Convert to AVIF on the main thread (fallback path) ---
+async function convertOnMainThread(file, encodeOptions) {
+  const encode = avifEncode || await loadEncoder();
+  if (!encode) throw new Error('AVIF encoder unavailable');
+
   // Get ImageData from file via Canvas
   let bitmap;
   try {
     bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
   } catch {
     bitmap = await createImageBitmap(file);
+  }
+
+  // Drugi bezpiecznik - naglowka nie zawsze da sie odczytac przy dodawaniu pliku
+  if (bitmap.width * bitmap.height > MAX_PIXELS) {
+    bitmap.close();
+    throw pixelLimitError();
   }
 
   const canvas = document.createElement('canvas');
@@ -403,19 +527,27 @@ async function convertToAvif(file, q) {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   // Encode with jSquash
-  // speed: 6 keeps lossless in a sane time budget for large images
-  // (speed: 2 was eating multi-GB of RAM and freezing the tab on 3MB+ files)
-  const encodeOptions = q === 100
-    ? { lossless: true, speed: 6 }
-    : { quality: q, speed: 6, subsample: 1 };
-
-  const avifBuffer = await avifEncode(imageData, encodeOptions);
+  const avifBuffer = await encode(imageData, encodeOptions);
   return new Blob([avifBuffer], { type: 'image/avif' });
+}
+
+// --- Convert to AVIF (worker first, main thread when the worker is unavailable) ---
+async function convertToAvif(file, q) {
+  const encodeOptions = buildEncodeOptions(q);
+
+  return convertWithWorker(
+    { task: 'avif', blob: file, encodeOptions, maxPixels: MAX_PIXELS },
+    () => convertOnMainThread(file, encodeOptions),
+  );
 }
 
 // --- Convert All ---
 async function convertAll() {
   if (isConverting || inputFiles.length === 0) return;
+  if (encoderFailed) {
+    showEncoderWarning();
+    return;
+  }
 
   isConverting = true;
   updateUI();
@@ -432,7 +564,7 @@ async function convertAll() {
   summaryBar.hidden = true;
   resultsList.innerHTML = '';
   resultsProgress.hidden = false;
-  progressFill.value = 0;
+  progressFill.style.width = '0%';
   progressPercent.textContent = '0%';
   progressFile.textContent = '';
 
@@ -467,12 +599,13 @@ async function convertAll() {
         originalSize: file.size,
         avifSize: 0,
         error: true,
+        errorMessage: conversionErrorMessage(err),
       });
     }
 
     // Update progress bar (after conversion) - force repaint
     const percent = Math.round(((i + 1) / inputFiles.length) * 100);
-    progressFill.value = percent;
+    progressFill.style.width = `${percent}%`;
     progressPercent.textContent = `${percent}%`;
     await new Promise(r => requestAnimationFrame(r));
   }
@@ -487,79 +620,136 @@ async function convertAll() {
   resultsProgress.hidden = true;
   renderResults();
   updateUI();
-  showToast(t('toastConverted'));
-  flashSuccess(convertAllBtn, t('toastConverted'));
-  flashSuccess(mobileConvertBtn, t('toastConverted'));
+
+  const okCount = results.filter(r => !r.error).length;
+  showToast(convertedCountText(okCount, results.length));
+  if (okCount === results.length) {
+    flashSuccess(convertAllBtn, t('toastConverted'));
+    flashSuccess(mobileConvertBtn, t('toastConverted'));
+  }
 }
 
 // --- Render Results ---
 function renderResults() {
   const successResults = results.filter(r => !r.error);
-  const hasResults = successResults.length > 0;
+  const hasSuccess = successResults.length > 0;
 
-  resultsEmpty.hidden = hasResults;
-  summaryBar.hidden = !hasResults;
+  resultsEmpty.hidden = results.length > 0;
+  summaryBar.hidden = !hasSuccess;
   resultsList.innerHTML = '';
   resultCount.textContent = String(successResults.length);
 
-  if (!hasResults) return;
+  if (results.length === 0) return;
 
-  // Summary
-  const totalOriginal = successResults.reduce((sum, r) => sum + r.originalSize, 0);
-  const totalAvif = successResults.reduce((sum, r) => sum + r.avifSize, 0);
-  const savingsPercent = totalOriginal > 0
-    ? Math.round((1 - totalAvif / totalOriginal) * 100)
-    : 0;
-
-  summaryFiles.textContent = String(successResults.length);
-  summaryOriginal.textContent = formatSize(totalOriginal);
-  summaryAvif.textContent = formatSize(totalAvif);
-  summarySavings.textContent = `-${savingsPercent}%`;
-
-  // Done banner with download-all button
-  const doneBanner = document.createElement('div');
-  doneBanner.className = 'results-done-banner';
-  doneBanner.innerHTML = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 9.5l2 2 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> <span>${t('conversionDone')}</span> <button type="button" class="results-done-banner__btn">${t('downloadAll')}</button>`;
-  doneBanner.querySelector('.results-done-banner__btn').addEventListener('click', downloadAllZip);
-  resultsList.appendChild(doneBanner);
-
-  // Render each result
-  successResults.forEach(result => {
-    const savings = result.originalSize > 0
-      ? Math.round((1 - result.avifSize / result.originalSize) * 100)
+  if (hasSuccess) {
+    // Summary
+    const totalOriginal = successResults.reduce((sum, r) => sum + r.originalSize, 0);
+    const totalAvif = successResults.reduce((sum, r) => sum + r.avifSize, 0);
+    const savingsPercent = totalOriginal > 0
+      ? Math.round((1 - totalAvif / totalOriginal) * 100)
       : 0;
-    const avifName = getAvifName(result.originalFile.name);
-    const barWidth = result.originalSize > 0
-      ? Math.max(5, Math.round((result.avifSize / result.originalSize) * 100))
-      : 100;
 
+    summaryFiles.textContent = String(successResults.length);
+    summaryOriginal.textContent = formatSize(totalOriginal);
+    summaryAvif.textContent = formatSize(totalAvif);
+    summarySavings.textContent = `-${savingsPercent}%`;
+
+    // Done banner with download-all button
+    const doneBanner = document.createElement('div');
+    doneBanner.className = 'results-done-banner';
+    doneBanner.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 9.5l2 2 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    const bannerText = document.createElement('span');
+    bannerText.textContent = successResults.length === results.length
+      ? t('conversionDone')
+      : convertedCountText(successResults.length, results.length);
+
+    const bannerBtn = document.createElement('button');
+    bannerBtn.type = 'button';
+    bannerBtn.className = 'results-done-banner__btn';
+    bannerBtn.textContent = t('downloadAll');
+    bannerBtn.addEventListener('click', downloadAllZip);
+
+    doneBanner.appendChild(bannerText);
+    doneBanner.appendChild(bannerBtn);
+    resultsList.appendChild(doneBanner);
+  }
+
+  // Render each result (failed ones included, so nothing disappears silently)
+  results.forEach(result => {
     const item = document.createElement('div');
-    item.className = 'result-item';
-    item.innerHTML = `
-      <div class="result-item__thumb checkerboard" data-id="${result.id}">
-        <img src="${result.objectUrl}" alt="${avifName}" loading="lazy">
-      </div>
-      <div class="result-item__info">
-        <span class="result-item__name" title="${avifName}">${avifName}</span>
-        <div class="result-item__stats">
-          <span class="result-item__sizes">${formatSize(result.originalSize)} &rarr; ${formatSize(result.avifSize)}</span>
-          <span class="result-item__savings">-${savings}%</span>
-        </div>
-      </div>
-      <button class="btn btn--ghost result-item__download" type="button" data-id="${result.id}" title="${t('downloadSingle')}">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8.5M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>`;
+    item.className = result.error ? 'result-item result-item--error' : 'result-item';
+
+    const info = document.createElement('div');
+    info.className = 'result-item__info';
+
+    const name = document.createElement('span');
+    name.className = 'result-item__name';
+
+    const stats = document.createElement('div');
+    stats.className = 'result-item__stats';
+
+    if (result.error) {
+      name.title = result.originalFile.name;
+      name.textContent = result.originalFile.name;
+
+      const message = document.createElement('span');
+      message.className = 'result-item__sizes';
+      message.textContent = result.errorMessage
+        ? `${t('itemFailed')}: ${result.errorMessage}`
+        : t('itemFailed');
+      stats.appendChild(message);
+
+      info.appendChild(name);
+      info.appendChild(stats);
+      item.appendChild(info);
+    } else {
+      const savings = result.originalSize > 0
+        ? Math.round((1 - result.avifSize / result.originalSize) * 100)
+        : 0;
+      const avifName = getAvifName(result.originalFile.name);
+
+      const thumb = document.createElement('div');
+      thumb.className = 'result-item__thumb checkerboard';
+      thumb.dataset.id = result.id;
+      thumb.addEventListener('click', () => openModal(result.id));
+
+      const img = document.createElement('img');
+      img.src = result.objectUrl;
+      img.alt = avifName;
+      img.loading = 'lazy';
+      thumb.appendChild(img);
+
+      name.title = avifName;
+      name.textContent = avifName;
+
+      const sizes = document.createElement('span');
+      sizes.className = 'result-item__sizes';
+      sizes.textContent = `${formatSize(result.originalSize)} → ${formatSize(result.avifSize)}`;
+
+      const savingsTag = document.createElement('span');
+      savingsTag.className = 'result-item__savings';
+      savingsTag.textContent = `-${savings}%`;
+
+      stats.appendChild(sizes);
+      stats.appendChild(savingsTag);
+      info.appendChild(name);
+      info.appendChild(stats);
+
+      const downloadBtn = document.createElement('button');
+      downloadBtn.className = 'btn btn--ghost result-item__download';
+      downloadBtn.type = 'button';
+      downloadBtn.dataset.id = result.id;
+      downloadBtn.title = t('downloadSingle');
+      downloadBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8.5M4.5 7.5L8 11l3.5-3.5M2.5 13h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      downloadBtn.addEventListener('click', () => downloadSingle(result.id));
+
+      item.appendChild(thumb);
+      item.appendChild(info);
+      item.appendChild(downloadBtn);
+    }
+
     resultsList.appendChild(item);
-  });
-
-  // Bind download buttons
-  resultsList.querySelectorAll('.result-item__download').forEach(btn => {
-    btn.addEventListener('click', () => downloadSingle(Number(btn.dataset.id)));
-  });
-
-  // Bind thumbnail clicks for modal
-  resultsList.querySelectorAll('.result-item__thumb').forEach(thumb => {
-    thumb.addEventListener('click', () => openModal(Number(thumb.dataset.id)));
   });
 }
 
@@ -752,3 +942,5 @@ document.addEventListener('keydown', (e) => {
 // --- Init ---
 applyTheme();
 applyLanguage();
+updateUI();
+loadEncoder();
