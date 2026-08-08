@@ -8,7 +8,7 @@
   <meta name="description" content="Darmowy kreator stopek mailowych. Zbuduj graficznie podpis e-mail (logo, kolory, gradient, social, przyciski) i wygeneruj HTML dzialajacy 1:1 w Outlook, Gmail i Thunderbird. Zero uploadow.">
   <meta name="keywords" content="kreator stopek mail, generator stopek email, signature builder, stopka outlook, stopka gmail, stopka thunderbird, podpis e-mail HTML, email signature generator, kreator podpisow, FormattedAI">
   <meta name="author" content="Adam Szczotka">
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://formattedai.pl/email-signature/">
   <link rel="alternate" hreflang="pl" href="https://formattedai.pl/email-signature/">
   <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/email-signature/">
@@ -58,7 +58,8 @@
     "@context": "https://schema.org", "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
-      { "@type": "ListItem", "position": 2, "name": "Kreator stopek e-mail", "item": "https://formattedai.pl/email-signature/" }
+      { "@type": "ListItem", "position": 2, "name": "Narzędzia", "item": "https://formattedai.pl/narzedzia/" },
+      { "@type": "ListItem", "position": 3, "name": "Kreator stopek e-mail", "item": "https://formattedai.pl/email-signature/" }
     ]
   }
   </script>
@@ -101,7 +102,11 @@
     </a>
     <div class="nav__center">
       <span class="nav__sep">/</span>
-      <div class="nav__tool-badge"><span class="nav__tool-dot"></span>Email Signature Builder</div>
+      <nav class="nav__crumbs" aria-label="breadcrumb">
+        <a href="/narzedzia/" class="nav__crumb-link" data-i18n="navTools">Narzedzia</a>
+        <span class="nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="nav__crumb-cur"><span class="nav__tool-dot"></span>Kreator stopek e-mail</span>
+      </nav>
     </div>
     <div class="nav__actions">
       <div class="nav__links">
@@ -125,6 +130,10 @@
       </div>
       <span class="tool-header__title">Kreator stopek e-mail</span>
       <span class="tool-header__desc" data-i18n="toolHeaderDesc">kreator stopek mailowych - zgodny z Outlook/Gmail/Thunderbird</span>
+    </div>
+    <div class="mode-tabs" role="tablist" aria-label="Tryb pracy">
+      <button class="mode-tab active" type="button" role="tab" data-mode="form" aria-selected="true" data-i18n="modeForm">Formularz</button>
+      <button class="mode-tab" type="button" role="tab" data-mode="builder" aria-selected="false" data-i18n="modeCustomize">Dostosuj</button>
     </div>
     <div class="tool-header__right">
       <button class="hdr-btn hdr-btn--ghost" id="undoBtn" type="button" title="Cofnij (Ctrl+Z)">
@@ -249,6 +258,107 @@
       </div>
     </aside>
 
+    <!-- LEFT (form mode): Form -->
+    <aside class="panel builder__form">
+      <div class="panel__header">
+        <div class="panel__header-left">
+          <div class="panel__dot panel__dot--accent"></div>
+          <span class="panel__title" data-i18n="formTitle">Dane</span>
+        </div>
+      </div>
+      <div class="builder__form-body">
+        <div class="form-section">
+          <div class="form-section__title" data-i18n="formSecPhoto">Zdjecie / logo</div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmPhoto" data-i18n="labelImageUrl">URL obrazka</label>
+            <input type="url" id="fmPhoto" class="inspector-field__input" placeholder="https://...">
+          </div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmPhotoUpload" data-i18n="labelUploadImage">Wgraj plik</label>
+            <input type="file" id="fmPhotoUpload" accept="image/*" class="inspector-field__input" style="padding:5px;">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section__title" data-i18n="formSecContact">Dane kontaktowe</div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmName" data-i18n="fldName">Imie i nazwisko</label>
+            <input type="text" id="fmName" class="inspector-field__input" autocomplete="name">
+          </div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmTitle" data-i18n="fldJobTitle">Stanowisko</label>
+            <input type="text" id="fmTitle" class="inspector-field__input" autocomplete="organization-title">
+          </div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmCompany" data-i18n="fldCompany">Firma</label>
+            <input type="text" id="fmCompany" class="inspector-field__input" autocomplete="organization">
+          </div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmPhone" data-i18n="fldPhone">Telefon</label>
+            <input type="tel" id="fmPhone" class="inspector-field__input" autocomplete="tel">
+          </div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmEmail" data-i18n="fldEmail">E-mail</label>
+            <input type="email" id="fmEmail" class="inspector-field__input" autocomplete="email">
+          </div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmWebsite" data-i18n="fldWebsite">Strona WWW</label>
+            <input type="url" id="fmWebsite" class="inspector-field__input" autocomplete="url">
+          </div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmAddress" data-i18n="fldAddress">Adres (opcjonalny)</label>
+            <input type="text" id="fmAddress" class="inspector-field__input" autocomplete="street-address">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section__title" data-i18n="formSecSocial">Linki social</div>
+          <div class="social-list" id="fmSocialList"></div>
+          <button type="button" class="hdr-btn hdr-btn--ghost social-list__add" id="fmSocialAdd" data-i18n="labelAddSocial">+ Dodaj platforme</button>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section__title" data-i18n="formSecStyle">Styl</div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmAccentHex" data-i18n="fldAccent">Kolor akcentu</label>
+            <div class="color-control">
+              <input type="color" id="fmAccent" class="color-control__swatch" value="#7c6cf0" aria-label="Kolor akcentu">
+              <input type="text" id="fmAccentHex" class="color-control__hex" value="#7C6CF0" spellcheck="false">
+            </div>
+          </div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmBgHex" data-i18n="fldBgColor">Kolor tla</label>
+            <div class="color-control">
+              <input type="color" id="fmBg" class="color-control__swatch" value="#ffffff" aria-label="Kolor tla">
+              <input type="text" id="fmBgHex" class="color-control__hex" placeholder="&mdash;" spellcheck="false">
+              <button type="button" class="color-control__clear" id="fmBgClear" aria-label="Bez tla" title="Bez tla">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="inspector-field">
+            <label class="inspector-field__label" for="fmFont" data-i18n="labelFontFamily">Czcionka</label>
+            <select id="fmFont" class="inspector-field__select"></select>
+          </div>
+          <div class="inspector-field">
+            <span class="inspector-field__label" data-i18n="fldLayout">Uklad</span>
+            <div class="toggle-group" id="fmLayout" role="group" aria-label="Uklad">
+              <button type="button" class="toggle-group__btn is-active" data-v="left" data-i18n="layoutLeft">Do lewej</button>
+              <button type="button" class="toggle-group__btn" data-v="top" data-i18n="layoutCenter">Wysrodkowany</button>
+            </div>
+          </div>
+          <div class="inspector-field">
+            <span class="inspector-field__label" data-i18n="fldDensity">Odstepy</span>
+            <div class="toggle-group" id="fmDensity" role="group" aria-label="Odstepy">
+              <button type="button" class="toggle-group__btn" data-v="compact" data-i18n="densityCompact">Kompaktowy</button>
+              <button type="button" class="toggle-group__btn is-active" data-v="standard" data-i18n="densityStandard">Standardowy</button>
+              <button type="button" class="toggle-group__btn" data-v="loose" data-i18n="densityLoose">Luzny</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
     <!-- CENTER: Canvas -->
     <section class="panel builder__canvas-wrap">
       <div class="panel__header">
@@ -284,7 +394,148 @@
       <div class="builder__inspector-body" id="inspectorBody"></div>
     </aside>
 
+    <!-- RIGHT (form mode): Template gallery -->
+    <aside class="panel builder__gallery">
+      <div class="panel__header">
+        <div class="panel__header-left">
+          <div class="panel__dot panel__dot--accent"></div>
+          <span class="panel__title" data-i18n="galleryTitle">Szablony</span>
+        </div>
+      </div>
+      <div class="builder__gallery-body">
+        <p class="gallery-hint" data-i18n="galleryHint">Wybierz szablon - dane z formularza wypelnia go automatycznie.</p>
+        <div class="tpl-gallery">
+          <button type="button" class="tpl-card is-active" data-tpl="classic" aria-pressed="true">
+            <span class="tpl-card__thumb">
+              <svg width="52" height="40" viewBox="0 0 52 40" fill="none"><rect x="8" y="9" width="26" height="4" rx="1" fill="currentColor"/><rect x="8" y="16" width="18" height="3" rx="1" fill="currentColor" opacity="0.55"/><rect x="8" y="23" width="36" height="1.5" rx="0.75" fill="currentColor" opacity="0.3"/><rect x="8" y="28" width="30" height="2.5" rx="1" fill="currentColor" opacity="0.45"/></svg>
+            </span>
+            <span class="tpl-card__info">
+              <span class="tpl-card__name" data-i18n="tplClassicName">Klasyczny</span>
+              <span class="tpl-card__desc" data-i18n="tplClassicSub">Imie, stanowisko, kontakt</span>
+            </span>
+          </button>
+          <button type="button" class="tpl-card" data-tpl="logoLeft" aria-pressed="false">
+            <span class="tpl-card__thumb">
+              <svg width="52" height="40" viewBox="0 0 52 40" fill="none"><rect x="8" y="11" width="16" height="16" rx="3" fill="currentColor" opacity="0.55"/><rect x="28" y="12" width="16" height="4" rx="1" fill="currentColor"/><rect x="28" y="19" width="12" height="3" rx="1" fill="currentColor" opacity="0.5"/><rect x="28" y="25" width="15" height="2.5" rx="1" fill="currentColor" opacity="0.4"/></svg>
+            </span>
+            <span class="tpl-card__info">
+              <span class="tpl-card__name" data-i18n="tplLogoLeftName">Logo z lewej</span>
+              <span class="tpl-card__desc" data-i18n="tplLogoLeftSub">Avatar + dane obok</span>
+            </span>
+          </button>
+          <button type="button" class="tpl-card" data-tpl="corporateCta" aria-pressed="false">
+            <span class="tpl-card__thumb">
+              <svg width="52" height="40" viewBox="0 0 52 40" fill="none"><rect x="8" y="8" width="20" height="5" rx="1" fill="currentColor" opacity="0.55"/><rect x="8" y="16" width="36" height="2" rx="1" fill="currentColor"/><rect x="8" y="22" width="18" height="2.5" rx="1" fill="currentColor" opacity="0.4"/><rect x="8" y="29" width="16" height="6" rx="3" fill="currentColor"/></svg>
+            </span>
+            <span class="tpl-card__info">
+              <span class="tpl-card__name" data-i18n="tplCorporateName">Korporacyjny + CTA</span>
+              <span class="tpl-card__desc" data-i18n="tplCorporateSub">Logo, social, przycisk</span>
+            </span>
+          </button>
+          <button type="button" class="tpl-card" data-tpl="minimal" aria-pressed="false">
+            <span class="tpl-card__thumb">
+              <svg width="52" height="40" viewBox="0 0 52 40" fill="none"><rect x="8" y="13" width="22" height="4" rx="1" fill="currentColor"/><rect x="8" y="20" width="14" height="3" rx="1" fill="currentColor" opacity="0.45"/></svg>
+            </span>
+            <span class="tpl-card__info">
+              <span class="tpl-card__name" data-i18n="tplMinimalName">Minimalny</span>
+              <span class="tpl-card__desc" data-i18n="tplMinimalSub">Imie + e-mail</span>
+            </span>
+          </button>
+          <button type="button" class="tpl-card" data-tpl="modernBar" aria-pressed="false">
+            <span class="tpl-card__thumb">
+              <svg width="52" height="40" viewBox="0 0 52 40" fill="none"><rect x="8" y="9" width="30" height="3" rx="1.5" fill="currentColor"/><rect x="8" y="16" width="24" height="4" rx="1" fill="currentColor" opacity="0.7"/><rect x="8" y="23" width="16" height="3" rx="1" fill="currentColor" opacity="0.4"/><rect x="8" y="30" width="10" height="4" rx="2" fill="currentColor" opacity="0.55"/></svg>
+            </span>
+            <span class="tpl-card__info">
+              <span class="tpl-card__name" data-i18n="tplModernName">Nowoczesny</span>
+              <span class="tpl-card__desc" data-i18n="tplModernSub">Pasek akcentu u gory</span>
+            </span>
+          </button>
+          <button type="button" class="tpl-card" data-tpl="compact" aria-pressed="false">
+            <span class="tpl-card__thumb">
+              <svg width="52" height="40" viewBox="0 0 52 40" fill="none"><rect x="8" y="14" width="36" height="3.5" rx="1" fill="currentColor"/><rect x="8" y="21" width="28" height="2.5" rx="1" fill="currentColor" opacity="0.45"/></svg>
+            </span>
+            <span class="tpl-card__info">
+              <span class="tpl-card__name" data-i18n="tplCompactName">Kompaktowy</span>
+              <span class="tpl-card__desc" data-i18n="tplCompactSub">Jedna linia + social</span>
+            </span>
+          </button>
+          <button type="button" class="tpl-card" data-tpl="card" aria-pressed="false">
+            <span class="tpl-card__thumb">
+              <svg width="52" height="40" viewBox="0 0 52 40" fill="none"><rect x="6" y="6" width="40" height="28" rx="4" fill="currentColor" opacity="0.14"/><rect x="11" y="12" width="12" height="12" rx="2" fill="currentColor" opacity="0.55"/><rect x="27" y="12" width="14" height="3.5" rx="1" fill="currentColor"/><rect x="27" y="18" width="10" height="2.5" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="28" width="30" height="2" rx="1" fill="currentColor" opacity="0.35"/></svg>
+            </span>
+            <span class="tpl-card__info">
+              <span class="tpl-card__name" data-i18n="tplCardName">Karta</span>
+              <span class="tpl-card__desc" data-i18n="tplCardSub">Logo + tlo karty</span>
+            </span>
+          </button>
+          <button type="button" class="tpl-card" data-tpl="banner" aria-pressed="false">
+            <span class="tpl-card__thumb">
+              <svg width="52" height="40" viewBox="0 0 52 40" fill="none"><rect x="6" y="6" width="40" height="11" rx="2" fill="currentColor"/><rect x="11" y="9.5" width="16" height="4" rx="1" fill="#fff" opacity="0.9"/><rect x="11" y="21" width="20" height="3.5" rx="1" fill="currentColor" opacity="0.7"/><rect x="11" y="27" width="14" height="2.5" rx="1" fill="currentColor" opacity="0.4"/><rect x="11" y="32" width="10" height="2.5" rx="1" fill="currentColor" opacity="0.4"/></svg>
+            </span>
+            <span class="tpl-card__info">
+              <span class="tpl-card__name" data-i18n="tplBannerName">Baner</span>
+              <span class="tpl-card__desc" data-i18n="tplBannerSub">Kolorowy pasek + logo</span>
+            </span>
+          </button>
+          <button type="button" class="tpl-card" data-tpl="badge" aria-pressed="false">
+            <span class="tpl-card__thumb">
+              <svg width="52" height="40" viewBox="0 0 52 40" fill="none"><rect x="6" y="8" width="15" height="24" rx="3" fill="currentColor"/><rect x="10" y="16" width="7" height="7" rx="1.5" fill="#fff" opacity="0.9"/><rect x="26" y="12" width="16" height="4" rx="1" fill="currentColor"/><rect x="26" y="19" width="12" height="3" rx="1" fill="currentColor" opacity="0.5"/><rect x="26" y="25" width="14" height="2.5" rx="1" fill="currentColor" opacity="0.4"/></svg>
+            </span>
+            <span class="tpl-card__info">
+              <span class="tpl-card__name" data-i18n="tplBadgeName">Odznaka</span>
+              <span class="tpl-card__desc" data-i18n="tplBadgeSub">Kafel akcentu z lewej</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
   </div>
+
+  <section class="related-tools" aria-labelledby="relatedTitle">
+    <div class="related-tools__inner">
+      <div class="related-tools__label">/ POWIAZANE NARZEDZIA</div>
+      <h2 class="related-tools__title" id="relatedTitle">Inne narzedzia FormattedAI</h2>
+      <div class="related-tools__grid">
+        <a href="/html-to-pdf/" class="related-tools__card">
+          <div class="related-tools__card-icon">[ HTML→PDF ]</div>
+          <div class="related-tools__card-name">HTML to PDF</div>
+          <p class="related-tools__card-desc">Wygeneruj gotowy do druku PDF z HTML swojej stopki lub calej strony.</p>
+        </a>
+        <a href="/formatter/" class="related-tools__card">
+          <div class="related-tools__card-icon">[ MD ]</div>
+          <div class="related-tools__card-name">Markdown Formatter</div>
+          <p class="related-tools__card-desc">Wklej tekst z ChatGPT lub Claude i skopiuj go jako sformatowany dokument.</p>
+        </a>
+        <a href="/text-humanizer/" class="related-tools__card">
+          <div class="related-tools__card-icon">[ TXT ]</div>
+          <div class="related-tools__card-name">Text Humanizer</div>
+          <p class="related-tools__card-desc">Nadaj tekstom z AI naturalny, ludzki ton przed wyslaniem w mailu.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" aria-labelledby="faqTitle">
+    <div class="faq__label">/ FAQ</div>
+    <h2 class="faq__title" id="faqTitle">Czesto zadawane pytania</h2>
+    <details>
+      <summary>Czy stopka bedzie dzialac w Outlooku?</summary>
+      <p>Tak. Generator produkuje HTML oparty na tabelach, z inline CSS, MSO conditional comments i VML dla przyciskow z gradientem - co jest standardem dla email-safe HTML w Outlook desktop, Outlook 365, Gmail i Thunderbird.</p>
+    </details>
+    <details>
+      <summary>Czy moje dane sa wysylane na serwer?</summary>
+      <p>Nie. Wszystko dzieje sie w przegladarce. Tekst, obrazy i wygenerowany HTML nigdy nie opuszczaja Twojego urzadzenia. Stopka jest zapisywana tylko w localStorage przegladarki.</p>
+    </details>
+    <details>
+      <summary>Jak dodac wygenerowana stopke do klienta pocztowego?</summary>
+      <p>Skopiuj HTML i wklej w ustawieniach podpisu: Gmail (Settings -> See all settings -> Signature), Outlook (File -> Options -> Mail -> Signatures), Thunderbird (Account Settings -> Signature text -> HTML).</p>
+    </details>
+    <details>
+      <summary>Czy moge wgrac wlasny logotyp lub avatar?</summary>
+      <p>Tak. Mozesz wkleic publiczny URL obrazka (rekomendowane) lub wgrac plik do 10 MB - wgrany obraz jest automatycznie skalowany do maks. 600 px szerokosci. Pliki &lt;20KB sa zapisywane jako base64 inline; wieksze sugerujemy hostowac na CDN i podac URL - Gmail i niektore wersje Outlook blokuja base64.</p>
+    </details>
+  </section>
 
   <!-- Mobile gate -->
   <div class="builder-mobile-gate">
@@ -295,19 +546,36 @@
     <div class="builder-mobile-gate__sub" data-i18n="mobileGateSub">Kreator stopek wymaga ekranu min. 1024px szerokosci.</div>
   </div>
 
-  <footer class="footer">
-    <div class="footer__left">
-      <a href="/" class="footer__brand">Formatted<em>AI</em></a>
-      <span class="footer__privacy"><span class="footer__privacy-dot"></span><span data-i18n="footerBadge">Zero uploadow</span></span>
+  <footer class="fa-footer" role="contentinfo">
+    <div class="fa-footer__cols">
+      <div>
+        <a href="/" class="fa-footer__brand">Formatted<em>AI</em></a>
+        <p class="fa-footer__byline">100% client-side · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></p>
+        <span class="fa-footer__privacy"><span class="fa-footer__privacy-dot"></span><span data-i18n="footerBadge">Zero uploadow</span></span>
+      </div>
+      <div>
+        <span class="fa-footer__col-label">Narzedzia</span>
+        <a href="/narzedzia/" class="fa-footer__link">Wszystkie</a>
+        <a href="/formatter/" class="fa-footer__link">Markdown</a>
+        <a href="/js-minifier/" class="fa-footer__link">JS Minifier</a>
+        <a href="/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+      </div>
+      <div>
+        <span class="fa-footer__col-label">Tresc</span>
+        <a href="/articles/" class="fa-footer__link" data-i18n="navArticles">Artykuly</a>
+        <a href="/about/" class="fa-footer__link" data-i18n="navAbout">O nas</a>
+        <a href="/privacy/" class="fa-footer__link" data-i18n="navPrivacy">Prywatnosc</a>
+      </div>
+      <div>
+        <span class="fa-footer__col-label">Kontakt</span>
+        <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link" data-i18n="navContact">Kontakt</a>
+        <a href="https://formattedai.pl/en/email-signature/" class="fa-footer__link" hreflang="en">English</a>
+      </div>
     </div>
-    <div class="footer__links">
-      <a href="/narzedzia/" class="footer__link" data-i18n="navTools">Narzedzia</a>
-      <a href="/articles/" class="footer__link" data-i18n="navArticles">Artykuly</a>
-      <a href="/about/" class="footer__link" data-i18n="navAbout">O nas</a>
-      <a href="/privacy/" class="footer__link" data-i18n="navPrivacy">Prywatnosc</a>
-      <a href="mailto:adam.szczotka0@gmail.com" class="footer__link" data-i18n="navContact">Kontakt</a>
-      <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="footer__link">GitHub</a>
-      <a href="https://adamszczotka.dev" target="_blank" rel="noopener" class="footer__link">adamszczotka.dev</a>
+    <div class="fa-footer__bottom">
+      <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+      <span>Kreator stopek e-mail · 100% client-side</span>
     </div>
   </footer>
 

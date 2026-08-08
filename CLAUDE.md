@@ -90,7 +90,7 @@ Skille projektowe (`.claude/skills/`) automatyzują flow - komunikaty zawsze po 
 - **`robots.txt` daje pełny dostęp wszystkim botom AI** (`Allow: /` dla GPTBot, ClaudeBot, anthropic-ai, Google-Extended, OAI-SearchBot, PerplexityBot, CCBot, Bytespider i in. — treningowym i search). To świadoma decyzja: USP projektu to GEO, chcemy być indeksowani i cytowani przez modele AI. Jeśli kiedyś trzeba ograniczyć trening — dopiero wtedy dodać `Disallow` dla konkretnego treningowego bota.
 - **Sitemap trzymamy ręcznie** — po dodaniu strony/artykułu wpis trzeba dopisać do `sitemap.xml` (PL + EN).
 - **`articles/<slug>/index.html` jest ~600+ linii** — kopiujemy z poprzedniego artykułu i podmieniamy treść.
-- **Numeracja artykułów** (`article_N_*.jpg`) — kolejna wolna liczba od ostatniego artykułu. Aktualnie #4 = `chatgpt-formatowanie-google-docs`.
+- **Numeracja artykułów** (`article_N_*.jpg`) — kolejna wolna liczba od ostatniego artykułu. Aktualnie #5 = `burstiness-perplexity-detekcja-ai`.
 - **Wspólny SCSS artykułów**: `assets/scss/articles.scss` → `assets/css/articles.css`. Nie twórz osobnego SCSS per artykuł.
 - **Emoji**: logo/UI bez emoji, SVG inline. Copy w artykułach - polska/angielska, bez emoji.
 

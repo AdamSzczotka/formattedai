@@ -28,6 +28,7 @@ Available in Polish (default at root) and English (under /en/). Theme: light + d
 
 - [PDF Tools](https://formattedai.pl/pdf/) ([EN](https://formattedai.pl/en/pdf/)): Merge, split, compress PDFs and convert images to PDF. PDF.js + pdf-lib.
 - [HTML to PDF](https://formattedai.pl/html-to-pdf/) ([EN](https://formattedai.pl/en/html-to-pdf/)): Paste HTML code or URL - download a ready PDF file. html2pdf.js.
+- [Email Signature](https://formattedai.pl/email-signature/) ([EN](https://formattedai.pl/en/email-signature/)): Form-first email signature generator - fill in your details, pick from 9 ready templates, get email-safe HTML (tables, inline CSS, MSO conditionals, VML) for Outlook, Gmail and Thunderbird. Background color, logo, adjustable padding; optional advanced block builder for manual tweaks. PL + EN. 100% client-side.
 
 ## Tools - SEO
 
