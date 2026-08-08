@@ -79,7 +79,32 @@
       dirLR: 'L-P', dirTB: 'G-D', dirDiag: 'Skos',
       confirmReset: 'Wyczyscic cala stopke? Tej akcji nie da sie cofnac.',
       confirmTemplate: 'Zastapic obecna stopke szablonem? Tej akcji nie da sie cofnac.',
-      cantNestColumns: 'Nie mozna zagnezdzac kolumn w kolumnach.'
+      cantNestColumns: 'Nie mozna zagnezdzac kolumn w kolumnach.',
+      // Form generator mode
+      modeForm: 'Formularz', modeCustomize: 'Dostosuj', modeSwitchAria: 'Tryb pracy',
+      formTitle: 'Dane', galleryTitle: 'Szablony',
+      formSecPhoto: 'Zdjecie / logo', formSecContact: 'Dane kontaktowe',
+      formSecSocial: 'Linki social', formSecStyle: 'Styl',
+      fldName: 'Imie i nazwisko', fldJobTitle: 'Stanowisko', fldCompany: 'Firma',
+      fldPhone: 'Telefon', fldEmail: 'E-mail', fldWebsite: 'Strona WWW',
+      fldAddress: 'Adres (opcjonalny)',
+      fldAccent: 'Kolor akcentu', fldLayout: 'Uklad',
+      layoutLeft: 'Do lewej', layoutCenter: 'Wysrodkowany',
+      removeSocial: 'Usun platforme', fldPlatform: 'Platforma',
+      ctaLabel: 'Umow spotkanie',
+      galleryHint: 'Wybierz szablon - dane z formularza wypelnia go automatycznie.',
+      tplClassicName: 'Klasyczny', tplClassicSub: 'Imie, stanowisko, kontakt',
+      tplLogoLeftName: 'Logo z lewej', tplLogoLeftSub: 'Avatar + dane obok',
+      tplCorporateName: 'Korporacyjny + CTA', tplCorporateSub: 'Logo, social, przycisk',
+      tplMinimalName: 'Minimalny', tplMinimalSub: 'Imie + e-mail',
+      tplModernName: 'Nowoczesny', tplModernSub: 'Pasek akcentu u gory',
+      tplCompactName: 'Kompaktowy', tplCompactSub: 'Jedna linia + social',
+      tplCardName: 'Karta', tplCardSub: 'Logo + tlo karty',
+      tplBannerName: 'Baner', tplBannerSub: 'Kolorowy pasek + logo',
+      tplBadgeName: 'Odznaka', tplBadgeSub: 'Kafel akcentu z lewej',
+      fldBgColor: 'Kolor tla', bgNone: 'Bez tla',
+      fldDensity: 'Odstepy',
+      densityCompact: 'Kompaktowy', densityStandard: 'Standardowy', densityLoose: 'Luzny'
     },
     en: {
       navTools: 'Tools', navArticles: 'Articles', navAbout: 'About',
@@ -151,7 +176,32 @@
       dirLR: 'L-R', dirTB: 'T-B', dirDiag: 'Diag',
       confirmReset: 'Clear the entire signature? This cannot be undone.',
       confirmTemplate: 'Replace current signature with template? This cannot be undone.',
-      cantNestColumns: 'Cannot nest columns inside columns.'
+      cantNestColumns: 'Cannot nest columns inside columns.',
+      // Form generator mode
+      modeForm: 'Form', modeCustomize: 'Customize', modeSwitchAria: 'Editing mode',
+      formTitle: 'Details', galleryTitle: 'Templates',
+      formSecPhoto: 'Photo / logo', formSecContact: 'Contact details',
+      formSecSocial: 'Social links', formSecStyle: 'Style',
+      fldName: 'Full name', fldJobTitle: 'Job title', fldCompany: 'Company',
+      fldPhone: 'Phone', fldEmail: 'Email', fldWebsite: 'Website',
+      fldAddress: 'Address (optional)',
+      fldAccent: 'Accent color', fldLayout: 'Layout',
+      layoutLeft: 'Left', layoutCenter: 'Centered',
+      removeSocial: 'Remove platform', fldPlatform: 'Platform',
+      ctaLabel: 'Book a meeting',
+      galleryHint: 'Pick a template - your form data fills it in automatically.',
+      tplClassicName: 'Classic', tplClassicSub: 'Name, title, contact',
+      tplLogoLeftName: 'Logo left', tplLogoLeftSub: 'Avatar + details beside',
+      tplCorporateName: 'Corporate + CTA', tplCorporateSub: 'Logo, social, button',
+      tplMinimalName: 'Minimal', tplMinimalSub: 'Name + email',
+      tplModernName: 'Modern', tplModernSub: 'Accent bar on top',
+      tplCompactName: 'Compact', tplCompactSub: 'One line + social',
+      tplCardName: 'Card', tplCardSub: 'Logo + card background',
+      tplBannerName: 'Banner', tplBannerSub: 'Color header + logo',
+      tplBadgeName: 'Badge', tplBadgeSub: 'Accent tile on the left',
+      fldBgColor: 'Background color', bgNone: 'No background',
+      fldDensity: 'Spacing',
+      densityCompact: 'Compact', densityStandard: 'Standard', densityLoose: 'Loose'
     }
   };
   const lang = (document.documentElement.lang || 'pl').toLowerCase().startsWith('en') ? 'en' : 'pl';
@@ -161,6 +211,8 @@
   // Constants
   // ----------------------------------------
   const STORAGE_KEY = 'formattedai-signature-model';
+  const FORMDATA_KEY = 'formattedai-signature-formdata';
+  const UIMODE_KEY = 'formattedai-signature-uimode';
   const HISTORY_LIMIT = 50;
   const MAX_SIG_WIDTH = 600;
   const MIN_SIG_WIDTH = 320;
@@ -198,11 +250,17 @@
     { v: 'courier',   l: 'Courier',          css: "'Courier New', Courier, monospace" }
   ];
   const fontCss = (v) => (FONT_STACKS.find((f) => f.v === v) || FONT_STACKS[0]).css;
+  // Density presets: outer padding around the whole signature + a multiplier for the
+  // vertical spacing between stacked blocks. Standard is the default.
+  const DENSITIES = ['compact', 'standard', 'loose'];
+  const OUTER_PAD = { compact: 12, standard: 18, loose: 28 };
+  const SPACING_SCALE = { compact: 0.7, standard: 1, loose: 1.55 };
+  const DEFAULT_PAD = OUTER_PAD.standard;
 
   // ----------------------------------------
   // State
   // ----------------------------------------
-  const defaultModel = () => ({ width: 600, minHeight: 0, maxHeight: 0, valign: 'top', mode: 'stack', blocks: [] });
+  const defaultModel = () => ({ width: 600, minHeight: 0, maxHeight: 0, valign: 'top', mode: 'stack', pad: DEFAULT_PAD, bgColor: '', blocks: [] });
   const VALIGN_MAP_FLEX = { top: 'flex-start', middle: 'center', bottom: 'flex-end' };
 
   let model = loadModel() || defaultModel();
@@ -218,6 +276,13 @@
     return (isNaN(v) || v < 50 || v > 150) ? 100 : v;
   })();
   let previewDevice = 'desktop';
+  // Form-generator mode state (default view). formData is the source of truth for
+  // the form; buildModelFromForm() turns it into the same block model the manual
+  // builder edits, so preview / export stay untouched.
+  let formData = loadFormData() || defaultFormData();
+  let uiMode = loadUiMode();
+  let formRebuildTimer = null;
+  let formWired = false;
 
   function loadModel() {
     try {
@@ -236,6 +301,8 @@
     if (m.maxHeight === undefined) m.maxHeight = 0;
     if (m.width === undefined)     m.width = 600;
     if (m.mode === undefined)      m.mode = 'stack';
+    if (m.pad === undefined)       m.pad = DEFAULT_PAD;
+    if (m.bgColor === undefined)   m.bgColor = '';
     function visit(blocks) {
       for (const b of blocks) {
         if (b.offsetX === undefined) b.offsetX = 0;
@@ -708,8 +775,12 @@
       ]
     }),
     withLogo: () => {
-      const left = createBlock('image');
-      Object.assign(left, { url: 'https://placehold.co/120x120/f97316/fff?text=LOGO', alt: 'logo', width: 110, align: 'left' });
+      // Neutral accent tile with initials instead of an external placeholder image -
+      // the user drops in their real logo via the image block or column background.
+      const monogram = Object.assign(createBlock('text'), {
+        text: 'AN', color: '#ffffff', fontSize: 26, fontWeight: 'bold', align: 'center',
+        paddingTop: 0, paddingBottom: 0
+      });
       const nameBlock = Object.assign(createBlock('text'), {
         text: lang === 'pl' ? 'Anna Nowak' : 'Anna Smith',
         color: '#0f172a', fontSize: 17, fontWeight: 'bold', align: 'left',
@@ -726,16 +797,21 @@
         paddingTop: 0, paddingBottom: 0
       });
       const cols = createBlock('columns2');
-      cols.cols[0].width = 25;
-      cols.cols[1].width = 75;
-      cols.cols[0].blocks.push(left);
+      cols.gap = 16;
+      cols.cols[0].width = 24;
+      cols.cols[1].width = 76;
+      cols.cols[0].bgColor = '#f97316';
+      cols.cols[0].valign = 'middle';
+      cols.cols[0].minHeight = 90;
+      cols.cols[0].innerPad = 8;
+      cols.cols[0].blocks.push(monogram);
       cols.cols[1].blocks.push(nameBlock, titleBlock, contactBlock);
       return { width: 600, blocks: [cols] };
     },
     corporate: () => {
-      const logo = Object.assign(createBlock('image'), {
-        url: 'https://placehold.co/180x40/f97316/fff?text=ACME',
-        alt: 'Acme', width: 180, align: 'left',
+      // Text wordmark instead of a hosted placeholder image - no external dependency.
+      const logo = Object.assign(createBlock('text'), {
+        text: 'ACME', color: '#f97316', fontSize: 22, fontWeight: 'bold', align: 'left',
         paddingTop: 0, paddingBottom: 12
       });
       const div1 = Object.assign(createBlock('divider'), { color: '#f97316', thickness: 2, paddingTop: 0, paddingBottom: 12 });
@@ -806,6 +882,603 @@
   }
 
   // ----------------------------------------
+  // Form generator (default mode)
+  // ----------------------------------------
+  // The form is a thin data layer on top of the existing block model. Fields feed
+  // formData; buildModelFromForm() parameterises the same block generators the
+  // manual builder uses, so preview + email export need no changes.
+  function defaultFormData() {
+    const pl = (document.documentElement.lang || 'pl').toLowerCase().startsWith('en') ? false : true;
+    return {
+      photo: '',
+      name: pl ? 'Jan Kowalski' : 'John Doe',
+      title: pl ? 'Dyrektor Sprzedazy' : 'Sales Director',
+      company: pl ? 'Acme Sp. z o.o.' : 'Acme Inc.',
+      phone: '+48 601 234 567',
+      email: pl ? 'jan@acme.com' : 'john@acme.com',
+      website: 'acme.com',
+      address: '',
+      social: [{ platform: 'linkedin', url: '' }],
+      accent: '#7c6cf0',
+      bg: '',
+      density: 'standard',
+      font: 'system',
+      layout: 'left',
+      templateId: 'classic'
+    };
+  }
+  function loadFormData() {
+    try {
+      const raw = localStorage.getItem(FORMDATA_KEY);
+      if (!raw) return null;
+      const d = JSON.parse(raw);
+      if (d && typeof d === 'object') {
+        if (!Array.isArray(d.social)) d.social = [];
+        return d;
+      }
+    } catch (_) {}
+    return null;
+  }
+  function saveFormData() {
+    try {
+      localStorage.setItem(FORMDATA_KEY, JSON.stringify(formData));
+    } catch (_) {
+      if (!storageWarned) { storageWarned = true; showToast(t('storageFullWarn')); }
+    }
+  }
+  function loadUiMode() {
+    try {
+      const v = localStorage.getItem(UIMODE_KEY);
+      if (v === 'form' || v === 'builder') return v;
+    } catch (_) {}
+    // No stored preference: a legacy non-empty model with no saved form data means
+    // the user built manually before this feature existed - keep them in the builder.
+    let hasForm = false;
+    try { hasForm = !!localStorage.getItem(FORMDATA_KEY); } catch (_) {}
+    const legacyModel = model && Array.isArray(model.blocks) && model.blocks.length > 0;
+    return (legacyModel && !hasForm) ? 'builder' : 'form';
+  }
+  // Normalise a hand-typed URL for hrefs (contact text stays verbatim).
+  function fmUrl(u) {
+    u = (u || '').trim();
+    if (!u) return '';
+    return /^https?:\/\//i.test(u) ? u : ('https://' + u);
+  }
+  function fmDarken(hex, amt) {
+    const m = /^#?([0-9a-fA-F]{6})$/.exec(hex || '');
+    if (!m) return hex;
+    const n = parseInt(m[1], 16);
+    let r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    r = Math.max(0, Math.round(r * (1 - amt)));
+    g = Math.max(0, Math.round(g * (1 - amt)));
+    b = Math.max(0, Math.round(b * (1 - amt)));
+    return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+  }
+  // Lighten a hex color toward white by amt (0..1). Used for card tints.
+  function fmTint(hex, amt) {
+    const m = /^#?([0-9a-fA-F]{6})$/.exec(hex || '');
+    if (!m) return hex;
+    const n = parseInt(m[1], 16);
+    let r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    r = Math.round(r + (255 - r) * amt);
+    g = Math.round(g + (255 - g) * amt);
+    b = Math.round(b + (255 - b) * amt);
+    return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+  }
+  // Relative luminance (WCAG) of a hex color - drives light/dark text selection.
+  function hexLum(hex) {
+    const m = /^#?([0-9a-fA-F]{6})$/.exec(hex || '');
+    if (!m) return 1;
+    const n = parseInt(m[1], 16);
+    const chan = [((n >> 16) & 255), ((n >> 8) & 255), (n & 255)].map((c) => {
+      c /= 255;
+      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * chan[0] + 0.7152 * chan[1] + 0.0722 * chan[2];
+  }
+  function isDarkHex(hex) { return hexLum(hex) < 0.4; }
+  function formStyleFrom(d) {
+    const bg = /^#[0-9a-fA-F]{6}$/.test((d && d.bg) || '') ? d.bg : '';
+    const density = DENSITIES.indexOf(d && d.density) >= 0 ? d.density : 'standard';
+    const dark = bg ? isDarkHex(bg) : false;
+    // Text palette flips when the footer sits on a dark background, so the generated
+    // signature keeps readable contrast without the user touching each color.
+    const pal = dark
+      ? { text: '#f8fafc', softText: '#e2e8f0', muted: '#cbd5e1', faint: '#94a3b8', divider: '#3a4761' }
+      : { text: '#0f172a', softText: '#1f2937', muted: '#475569', faint: '#64748b', divider: '#e2e8f0' };
+    return {
+      accent: /^#[0-9a-fA-F]{6}$/.test((d && d.accent) || '') ? d.accent : '#7c6cf0',
+      font: (d && FONT_STACKS.some((f) => f.v === d.font)) ? d.font : 'system',
+      layout: (d && d.layout === 'top') ? 'top' : 'left',
+      bg: bg,
+      density: density,
+      dark: dark,
+      pad: OUTER_PAD[density],
+      gapScale: SPACING_SCALE[density],
+      text: pal.text, softText: pal.softText, muted: pal.muted, faint: pal.faint, divider: pal.divider
+    };
+  }
+  function formStyle() { return formStyleFrom(formData); }
+  function fmContactLines(d) {
+    return [d.email, d.phone, d.website, d.address]
+      .map((s) => (s || '').trim())
+      .filter(Boolean);
+  }
+  // Block builders shared by every template.
+  function fmTextBlock(text, st, opts) {
+    return Object.assign(createBlock('text'), {
+      text: text || '',
+      color: st.text, fontSize: 14, fontWeight: 'normal',
+      fontFamily: st.font, align: st.layout === 'top' ? 'center' : 'left',
+      link: '', paddingTop: 0, paddingBottom: 4
+    }, opts || {});
+  }
+  function fmDividerBlock(color, thickness, pt, pb) {
+    return Object.assign(createBlock('divider'), {
+      color: color, thickness: thickness, paddingTop: pt, paddingBottom: pb
+    });
+  }
+  // Returns an image block only when the user actually supplied a photo/logo.
+  // With no photo we return null so nothing (no external placeholder) reaches the
+  // model / export - callers degrade the layout to a no-logo variant.
+  function fmLogoBlock(d, st, w, h) {
+    const photo = (d.photo || '').trim();
+    if (!photo) return null;
+    const img = createBlock('image');
+    return Object.assign(img, {
+      url: photo,
+      alt: (d.company || d.name || 'logo'),
+      width: w, height: h, aspectLocked: true,
+      align: 'left', paddingTop: 0, paddingBottom: 0
+    });
+  }
+  function fmSocialBlock(d, st, styleType) {
+    const links = (d.social || []).filter((x) => x && x.platform);
+    if (links.length === 0) return null;
+    return Object.assign(createBlock('social'), {
+      style: styleType === 'text' ? 'text' : 'pill',
+      align: st.layout === 'top' ? 'center' : 'left',
+      gap: 8, paddingTop: 6, paddingBottom: 0,
+      links: links.map((x) => ({ id: uid(), platform: x.platform, url: (x.url || '').trim() }))
+    });
+  }
+  // Single-purpose columns wrapper: a background panel (optionally multi-column)
+  // that renders email-safe via renderEmailColumns (bgcolor attr + inline bg + padding).
+  function fmPanel(cols, bgColor, innerPad, gap) {
+    return {
+      id: uid(), type: 'columns',
+      paddingTop: 0, paddingRight: 0, paddingBottom: 0, paddingLeft: 0, offsetX: 0,
+      gap: gap || 0, bgImage: '', bgColor: bgColor || '', innerPad: innerPad || 0, minHeight: 0,
+      cols: cols
+    };
+  }
+  // Each template: (data, style) -> { width, blocks } using the shared builders.
+  const FORM_TEMPLATES = {
+    classic(d, st) {
+      const blocks = [];
+      if (d.name) blocks.push(fmTextBlock(d.name, st, { fontSize: 17, fontWeight: 'bold', paddingBottom: 3 }));
+      if (d.title) blocks.push(fmTextBlock(d.title, st, { fontSize: 13, fontWeight: 'bold', color: st.accent, paddingBottom: d.company ? 2 : 8 }));
+      if (d.company) blocks.push(fmTextBlock(d.company, st, { fontSize: 13, color: st.muted, paddingBottom: 8 }));
+      blocks.push(fmDividerBlock(st.divider, 1, 4, 8));
+      const c = fmContactLines(d);
+      if (c.length) blocks.push(fmTextBlock(c.join('\n'), st, { fontSize: 12, color: st.faint, paddingBottom: 0 }));
+      const soc = fmSocialBlock(d, st, 'pill');
+      if (soc) blocks.push(soc);
+      return { width: 600, blocks };
+    },
+    logoLeft(d, st) {
+      const logo = fmLogoBlock(d, st, 96, 96);
+      // No photo: drop the empty logo column and fall back to the stacked layout
+      // so the signature still reads well without an avatar.
+      if (!logo) return FORM_TEMPLATES.classic(d, st);
+      const cols = createBlock('columns2');
+      cols.gap = 16;
+      cols.cols[0].width = 26; cols.cols[1].width = 74;
+      cols.cols[0].blocks.push(logo);
+      const right = cols.cols[1].blocks;
+      if (d.name) right.push(fmTextBlock(d.name, st, { align: 'left', fontSize: 17, fontWeight: 'bold', paddingBottom: 3 }));
+      if (d.title) right.push(fmTextBlock(d.title, st, { align: 'left', fontSize: 13, fontWeight: 'bold', color: st.accent, paddingBottom: d.company ? 2 : 8 }));
+      if (d.company) right.push(fmTextBlock(d.company, st, { align: 'left', fontSize: 13, color: st.muted, paddingBottom: 8 }));
+      const c = fmContactLines(d);
+      if (c.length) right.push(fmTextBlock(c.join('\n'), st, { align: 'left', fontSize: 12, color: st.faint, paddingBottom: 0 }));
+      const blocks = [cols];
+      const soc = fmSocialBlock(d, st, 'pill');
+      if (soc) { soc.align = 'left'; soc.paddingTop = 10; blocks.push(soc); }
+      return { width: 600, blocks };
+    },
+    corporateCta(d, st) {
+      const blocks = [];
+      const logo = fmLogoBlock(d, st, 160, 44);
+      // With no photo, skip the logo row entirely - the accent bar below keeps the
+      // corporate look without pulling in an external placeholder image.
+      if (logo) { logo.paddingBottom = 10; blocks.push(logo); }
+      blocks.push(fmDividerBlock(st.accent, 2, 0, 12));
+      const cols = createBlock('columns2');
+      cols.cols[0].width = 62; cols.cols[1].width = 38;
+      const left = cols.cols[0].blocks;
+      if (d.name) left.push(fmTextBlock(d.name, st, { align: 'left', fontSize: 16, fontWeight: 'bold', paddingBottom: 3 }));
+      if (d.title) left.push(fmTextBlock(d.title, st, { align: 'left', fontSize: 12, color: st.faint, paddingBottom: d.company ? 2 : 8 }));
+      if (d.company) left.push(fmTextBlock(d.company, st, { align: 'left', fontSize: 12, color: st.faint, paddingBottom: 8 }));
+      const c = fmContactLines(d);
+      if (c.length) left.push(fmTextBlock(c.join('\n'), st, { align: 'left', fontSize: 12, color: st.muted, paddingBottom: 0 }));
+      const soc = fmSocialBlock(d, st, 'pill');
+      if (soc) { soc.align = 'right'; soc.paddingTop = 0; cols.cols[1].blocks.push(soc); }
+      blocks.push(cols);
+      blocks.push(fmDividerBlock(st.divider, 1, 12, 12));
+      blocks.push(Object.assign(createBlock('button'), {
+        text: t('ctaLabel'),
+        link: fmUrl(d.website) || 'https://example.com',
+        bgColor: st.accent, textColor: '#ffffff',
+        fontFamily: st.font, fontWeight: 'bold',
+        align: 'left', paddingTop: 0, paddingBottom: 0,
+        gradient: { enabled: true, start: st.accent, end: fmDarken(st.accent, 0.18), dir: 'lr' }
+      }));
+      return { width: 600, blocks };
+    },
+    minimal(d, st) {
+      const blocks = [];
+      if (d.name) blocks.push(fmTextBlock(d.name, st, { fontSize: 14, fontWeight: 'bold', color: st.softText, paddingBottom: 2 }));
+      if (d.title) blocks.push(fmTextBlock(d.title, st, { fontSize: 13, color: st.faint, paddingBottom: 2 }));
+      if (d.email) blocks.push(fmTextBlock(d.email, st, { fontSize: 13, color: st.accent, paddingBottom: 0 }));
+      return { width: 600, blocks };
+    },
+    modernBar(d, st) {
+      const blocks = [];
+      blocks.push(fmDividerBlock(st.accent, 3, 0, 10));
+      if (d.name) blocks.push(fmTextBlock(d.name, st, { fontSize: 17, fontWeight: 'bold', paddingBottom: 3 }));
+      const tc = [d.title, d.company].filter(Boolean).join('  ·  ');
+      if (tc) blocks.push(fmTextBlock(tc, st, { fontSize: 13, fontWeight: 'bold', color: st.accent, paddingBottom: 8 }));
+      const c = fmContactLines(d);
+      if (c.length) blocks.push(fmTextBlock(c.join('\n'), st, { fontSize: 12, color: st.muted, paddingBottom: 0 }));
+      const soc = fmSocialBlock(d, st, 'pill');
+      if (soc) { soc.paddingTop = 10; blocks.push(soc); }
+      return { width: 600, blocks };
+    },
+    compact(d, st) {
+      const blocks = [];
+      const head = [d.name, d.title, d.company].filter(Boolean).join('  ·  ');
+      if (head) blocks.push(fmTextBlock(head, st, { fontSize: 13, fontWeight: 'bold', color: st.softText, paddingBottom: 3 }));
+      const c = fmContactLines(d);
+      if (c.length) blocks.push(fmTextBlock(c.join('  ·  '), st, { fontSize: 12, color: st.faint, paddingBottom: 0 }));
+      const soc = fmSocialBlock(d, st, 'text');
+      if (soc) { soc.paddingTop = 6; blocks.push(soc); }
+      return { width: 600, blocks };
+    },
+    // Showpiece: logo + tinted card background. The card sits on its own light panel
+    // (bgColor), so its inner text keeps dark-on-light colors regardless of the global
+    // footer background. No photo -> the card simply omits the logo (no placeholder).
+    card(d, st) {
+      const cardBg = fmTint(st.accent, 0.9);
+      const line = fmTint(st.accent, 0.4);
+      const logo = fmLogoBlock(d, st, 110, 110);
+      const details = [];
+      if (d.name) details.push(fmTextBlock(d.name, st, { fontSize: 17, fontWeight: 'bold', color: '#0f172a', paddingBottom: 3 }));
+      if (d.title) details.push(fmTextBlock(d.title, st, { fontSize: 13, fontWeight: 'bold', color: st.accent, paddingBottom: d.company ? 2 : 8 }));
+      if (d.company) details.push(fmTextBlock(d.company, st, { fontSize: 13, color: '#475569', paddingBottom: 8 }));
+      details.push(fmDividerBlock(line, 1, 2, 8));
+      const c = fmContactLines(d);
+      if (c.length) details.push(fmTextBlock(c.join('\n'), st, { fontSize: 12, color: '#64748b', paddingBottom: 0 }));
+      const soc = fmSocialBlock(d, st, 'pill');
+      if (soc) { soc.paddingTop = 8; details.push(soc); }
+      if (logo && st.layout !== 'top') {
+        logo.align = 'left'; logo.paddingBottom = 0;
+        const left = makeCol(26); left.blocks.push(logo);
+        const right = makeCol(74); Array.prototype.push.apply(right.blocks, details);
+        return { width: 600, blocks: [fmPanel([left, right], cardBg, 18, 16)] };
+      }
+      const col = makeCol(100);
+      if (logo) { logo.align = st.layout === 'top' ? 'center' : 'left'; logo.paddingBottom = 10; col.blocks.push(logo); }
+      Array.prototype.push.apply(col.blocks, details);
+      return { width: 600, blocks: [fmPanel([col], cardBg, 18, 0)] };
+    },
+    // Showpiece: full-width accent header bar (logo / company in high-contrast text)
+    // over a plain body. No photo -> the bar falls back to the company or name label.
+    banner(d, st) {
+      const onAccent = isDarkHex(st.accent) ? '#ffffff' : '#0f172a';
+      const blocks = [];
+      const headCol = makeCol(100); headCol.valign = 'middle';
+      const headLogo = fmLogoBlock(d, st, 130, 40);
+      if (headLogo) { headLogo.align = 'left'; headLogo.paddingBottom = 0; headCol.blocks.push(headLogo); }
+      else {
+        const label = d.company || d.name;
+        if (label) headCol.blocks.push(fmTextBlock(label, st, { color: onAccent, fontSize: 16, fontWeight: 'bold', align: 'left', paddingBottom: 0 }));
+      }
+      blocks.push(fmPanel([headCol], st.accent, 14, 0));
+      const body = [];
+      if (d.name) body.push(fmTextBlock(d.name, st, { fontSize: 16, fontWeight: 'bold', color: st.text, paddingTop: 2, paddingBottom: 3 }));
+      const tc = [d.title, d.company].filter(Boolean).join('  ·  ');
+      if (tc) body.push(fmTextBlock(tc, st, { fontSize: 13, fontWeight: 'bold', color: st.accent, paddingBottom: 8 }));
+      const c = fmContactLines(d);
+      if (c.length) body.push(fmTextBlock(c.join('\n'), st, { fontSize: 12, color: st.muted, paddingBottom: 0 }));
+      const soc = fmSocialBlock(d, st, 'pill');
+      if (soc) { soc.paddingTop = 8; body.push(soc); }
+      const bodyCol = makeCol(100); Array.prototype.push.apply(bodyCol.blocks, body);
+      blocks.push(fmPanel([bodyCol], '', 14, 0));
+      return { width: 600, blocks };
+    },
+    // Accent tile on the left (logo, or initials/name if no photo) + details on the right.
+    badge(d, st) {
+      const onAccent = isDarkHex(st.accent) ? '#ffffff' : '#0f172a';
+      const logo = fmLogoBlock(d, st, 84, 84);
+      const left = makeCol(30); left.bgColor = st.accent; left.valign = 'middle'; left.innerPad = 12; left.bgSize = 'contain';
+      if (logo) { logo.align = 'center'; logo.paddingBottom = 0; left.blocks.push(logo); }
+      else {
+        const label = (d.name || d.company || '').trim();
+        if (label) left.blocks.push(fmTextBlock(label, st, { color: onAccent, fontSize: 14, fontWeight: 'bold', align: 'center', paddingBottom: 0 }));
+      }
+      const right = makeCol(70); right.valign = 'middle'; right.innerPad = 14;
+      if (d.name) right.blocks.push(fmTextBlock(d.name, st, { align: 'left', fontSize: 16, fontWeight: 'bold', color: st.text, paddingBottom: 3 }));
+      if (d.title) right.blocks.push(fmTextBlock(d.title, st, { align: 'left', fontSize: 12, fontWeight: 'bold', color: st.accent, paddingBottom: d.company ? 2 : 8 }));
+      if (d.company) right.blocks.push(fmTextBlock(d.company, st, { align: 'left', fontSize: 12, color: st.muted, paddingBottom: 8 }));
+      const c = fmContactLines(d);
+      if (c.length) right.blocks.push(fmTextBlock(c.join('\n'), st, { align: 'left', fontSize: 12, color: st.faint, paddingBottom: 0 }));
+      const soc = fmSocialBlock(d, st, 'pill');
+      if (soc) { soc.align = 'left'; soc.paddingTop = 8; right.blocks.push(soc); }
+      // No logo and nothing to show in the tile -> drop it, run the details full width.
+      if (left.blocks.length === 0) { right.width = 100; return { width: 600, blocks: [fmPanel([right], '', 0, 0)] }; }
+      return { width: 600, blocks: [fmPanel([left, right], '', 0, 0)] };
+    }
+  };
+  // Public entry: form data -> the exact block model the builder / export consume.
+  function buildModelFromForm(data, templateId, style) {
+    const d = data || {};
+    const st = style || formStyleFrom(d);
+    const id = FORM_TEMPLATES[templateId] ? templateId
+      : (FORM_TEMPLATES[d.templateId] ? d.templateId : 'classic');
+    const built = FORM_TEMPLATES[id](d, st);
+    const m = defaultModel();
+    m.width = built.width || 600;
+    m.blocks = built.blocks || [];
+    m.pad = st.pad;          // outer padding on all four sides (density preset)
+    m.bgColor = st.bg;       // footer background ('' = none / white)
+    // Density scales the vertical rhythm between stacked blocks (standard = 1x).
+    if (st.gapScale !== 1) scaleBlockSpacing(m.blocks, st.gapScale);
+    return m;
+  }
+  // Scale the top/bottom padding of every block (recursing into columns) so the
+  // density control changes inter-block spacing without touching each template.
+  function scaleBlockSpacing(blocks, scale) {
+    for (const b of blocks) {
+      if (typeof b.paddingTop === 'number' && b.paddingTop > 0) b.paddingTop = Math.round(b.paddingTop * scale);
+      if (typeof b.paddingBottom === 'number' && b.paddingBottom > 0) b.paddingBottom = Math.round(b.paddingBottom * scale);
+      if (b.type === 'columns' && Array.isArray(b.cols)) {
+        for (const col of b.cols) scaleBlockSpacing(col.blocks, scale);
+      }
+    }
+  }
+  // Debounced live rebuild for keystrokes (canvas repaint only in form mode).
+  function scheduleFormRebuild() {
+    clearTimeout(formRebuildTimer);
+    formRebuildTimer = setTimeout(() => { formRebuildTimer = null; rebuildFromFormLive(); }, 220);
+  }
+  function rebuildFromFormLive() {
+    model = buildModelFromForm(formData, formData.templateId, formStyle());
+    selectedId = null; selectedColId = null;
+    saveModel();
+    if (uiMode === 'form') scheduleCanvasRender();
+    else renderAll();
+  }
+  // Mode switch: Form <-> Customize on the same underlying model.
+  function setUiMode(mode) {
+    if (mode !== 'form' && mode !== 'builder') return;
+    if (uiMode === mode) return;
+    commitMutation();
+    cancelPendingCommit();
+    uiMode = mode;
+    try { localStorage.setItem(UIMODE_KEY, mode); } catch (_) {}
+    document.body.classList.toggle('mode-form', mode === 'form');
+    document.body.classList.toggle('mode-builder', mode === 'builder');
+    updateModeTabs();
+    if (mode === 'form') {
+      // Form is authoritative: regenerate the model so preview matches the inputs.
+      model = buildModelFromForm(formData, formData.templateId, formStyle());
+      setupForm();
+    }
+    selectedId = null; selectedColId = null;
+    pushHistory();
+    saveModel();
+    renderAll();
+  }
+  function setupModeTabs() {
+    const tablist = document.querySelector('.mode-tabs');
+    if (tablist) tablist.setAttribute('aria-label', t('modeSwitchAria'));
+    document.querySelectorAll('.mode-tab[data-mode]').forEach((tab) => {
+      tab.addEventListener('click', () => setUiMode(tab.dataset.mode));
+    });
+    updateModeTabs();
+  }
+  function updateModeTabs() {
+    document.querySelectorAll('.mode-tab[data-mode]').forEach((tab) => {
+      const on = tab.dataset.mode === uiMode;
+      tab.classList.toggle('active', on);
+      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+  function renderFormSocial() {
+    const list = document.getElementById('fmSocialList');
+    if (!list) return;
+    list.innerHTML = '';
+    (formData.social || []).forEach((lnk, idx) => {
+      const row = document.createElement('div');
+      row.className = 'social-list__row';
+      const sel = SOCIAL_PRESETS.map((p) => `<option value="${attr(p.id)}" ${p.id === lnk.platform ? 'selected' : ''}>${esc(p.label)}</option>`).join('');
+      const preset = SOCIAL_PRESETS.find((p) => p.id === lnk.platform) || SOCIAL_PRESETS[7];
+      row.innerHTML = `
+        <select class="inspector-field__select social-list__platform" aria-label="${attr(t('fldPlatform'))}">${sel}</select>
+        <input class="inspector-field__input social-list__url" type="url" value="${attr(lnk.url || '')}" placeholder="${attr(preset.urlHint)}" aria-label="URL">
+        <button type="button" class="social-list__del" aria-label="${attr(t('removeSocial'))}">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>`;
+      const ps = row.querySelector('.social-list__platform');
+      const ur = row.querySelector('.social-list__url');
+      const del = row.querySelector('.social-list__del');
+      ps.addEventListener('change', () => {
+        formData.social[idx] = Object.assign({}, formData.social[idx], { platform: ps.value });
+        saveFormData(); scheduleFormRebuild();
+      });
+      ur.addEventListener('input', () => {
+        formData.social[idx] = Object.assign({}, formData.social[idx], { url: ur.value });
+        saveFormData(); scheduleFormRebuild();
+      });
+      del.addEventListener('click', () => {
+        formData.social.splice(idx, 1);
+        saveFormData(); renderFormSocial(); rebuildFromFormLive();
+      });
+      list.appendChild(row);
+    });
+  }
+  function updateGalleryActive() {
+    document.querySelectorAll('.tpl-card[data-tpl]').forEach((card) => {
+      const on = card.dataset.tpl === formData.templateId;
+      card.classList.toggle('is-active', on);
+      card.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function updateLayoutButtons() {
+    document.querySelectorAll('#fmLayout .toggle-group__btn').forEach((btn) => {
+      btn.classList.toggle('is-active', btn.dataset.v === (formData.layout || 'left'));
+    });
+  }
+  function updateDensityButtons() {
+    document.querySelectorAll('#fmDensity .toggle-group__btn').forEach((btn) => {
+      btn.classList.toggle('is-active', btn.dataset.v === (formData.density || 'standard'));
+    });
+  }
+  // Push formData -> inputs, then wire listeners once.
+  function setupForm() {
+    if (!document.querySelector('.builder__form')) return;
+    const fontSel = document.getElementById('fmFont');
+    if (fontSel && !fontSel.dataset.filled) {
+      fontSel.innerHTML = FONT_STACKS.map((fs) => `<option value="${attr(fs.v)}" style="font-family:${fs.css};">${esc(fs.l)}</option>`).join('');
+      fontSel.dataset.filled = '1';
+    }
+    const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+    setVal('fmPhoto', formData.photo);
+    setVal('fmName', formData.name);
+    setVal('fmTitle', formData.title);
+    setVal('fmCompany', formData.company);
+    setVal('fmPhone', formData.phone);
+    setVal('fmEmail', formData.email);
+    setVal('fmWebsite', formData.website);
+    setVal('fmAddress', formData.address);
+    const st = formStyle();
+    const accent = document.getElementById('fmAccent');
+    const accentHex = document.getElementById('fmAccentHex');
+    if (accent) accent.value = st.accent;
+    if (accentHex) accentHex.value = st.accent.toUpperCase();
+    const bgSw = document.getElementById('fmBg');
+    const bgHex = document.getElementById('fmBgHex');
+    if (bgSw) bgSw.value = st.bg || '#ffffff';
+    if (bgHex) bgHex.value = st.bg ? st.bg.toUpperCase() : '';
+    if (fontSel) { fontSel.value = st.font; fontSel.style.fontFamily = fontCss(st.font); }
+    updateLayoutButtons();
+    updateDensityButtons();
+    renderFormSocial();
+    updateGalleryActive();
+    wireForm();
+  }
+  function wireForm() {
+    if (formWired) return;
+    formWired = true;
+    const textMap = {
+      fmName: 'name', fmTitle: 'title', fmCompany: 'company',
+      fmPhone: 'phone', fmEmail: 'email', fmWebsite: 'website', fmAddress: 'address'
+    };
+    Object.keys(textMap).forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', () => {
+        formData[textMap[id]] = el.value;
+        saveFormData(); scheduleFormRebuild();
+      });
+    });
+    const ph = document.getElementById('fmPhoto');
+    if (ph) ph.addEventListener('input', () => {
+      formData.photo = ph.value; saveFormData(); scheduleFormRebuild();
+    });
+    // Reuse the existing scaled uploader - no second implementation.
+    const up = document.getElementById('fmPhotoUpload');
+    if (up) up.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      readImageFileScaled(file, (dataUrl) => {
+        formData.photo = dataUrl;
+        if (ph) ph.value = dataUrl;
+        saveFormData(); rebuildFromFormLive();
+      });
+    });
+    const accent = document.getElementById('fmAccent');
+    const accentHex = document.getElementById('fmAccentHex');
+    if (accent) accent.addEventListener('input', () => {
+      formData.accent = accent.value;
+      if (accentHex) accentHex.value = accent.value.toUpperCase();
+      saveFormData(); scheduleFormRebuild();
+    });
+    if (accentHex) accentHex.addEventListener('input', () => {
+      let v = accentHex.value.trim();
+      if (v && v[0] !== '#') v = '#' + v;
+      if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+        formData.accent = v;
+        if (accent) accent.value = v;
+        saveFormData(); scheduleFormRebuild();
+      }
+    });
+    const bgSw = document.getElementById('fmBg');
+    const bgHex = document.getElementById('fmBgHex');
+    const bgClear = document.getElementById('fmBgClear');
+    if (bgSw) bgSw.addEventListener('input', () => {
+      formData.bg = bgSw.value;
+      if (bgHex) bgHex.value = bgSw.value.toUpperCase();
+      saveFormData(); scheduleFormRebuild();
+    });
+    if (bgHex) bgHex.addEventListener('input', () => {
+      let v = bgHex.value.trim();
+      if (!v) { formData.bg = ''; saveFormData(); scheduleFormRebuild(); return; }
+      if (v[0] !== '#') v = '#' + v;
+      if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+        formData.bg = v;
+        if (bgSw) bgSw.value = v;
+        saveFormData(); scheduleFormRebuild();
+      }
+    });
+    if (bgClear) bgClear.addEventListener('click', () => {
+      formData.bg = '';
+      if (bgHex) bgHex.value = '';
+      if (bgSw) bgSw.value = '#ffffff';
+      saveFormData(); scheduleFormRebuild();
+    });
+    document.querySelectorAll('#fmDensity .toggle-group__btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        formData.density = btn.dataset.v;
+        saveFormData(); updateDensityButtons(); scheduleFormRebuild();
+      });
+    });
+    const fontSel = document.getElementById('fmFont');
+    if (fontSel) fontSel.addEventListener('change', () => {
+      fontSel.style.fontFamily = fontCss(fontSel.value);
+      formData.font = fontSel.value;
+      saveFormData(); scheduleFormRebuild();
+    });
+    document.querySelectorAll('#fmLayout .toggle-group__btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        formData.layout = btn.dataset.v;
+        saveFormData(); updateLayoutButtons(); scheduleFormRebuild();
+      });
+    });
+    const add = document.getElementById('fmSocialAdd');
+    if (add) add.addEventListener('click', () => {
+      formData.social = (formData.social || []).concat([{ platform: 'web', url: '' }]);
+      saveFormData(); renderFormSocial(); rebuildFromFormLive();
+    });
+    document.querySelectorAll('.tpl-card[data-tpl]').forEach((card) => {
+      card.addEventListener('click', () => {
+        formData.templateId = card.dataset.tpl;
+        saveFormData(); updateGalleryActive(); rebuildFromFormLive();
+      });
+    });
+  }
+
+  // ----------------------------------------
   // Canvas rendering
   // ----------------------------------------
   // renderCanvas() rebuilds the whole frame DOM. Live edits (typing, slider drag,
@@ -846,6 +1519,11 @@
     frame.style.maxHeight = model.maxHeight ? model.maxHeight + 'px' : '';
     frame.style.overflowX = 'hidden';
     frame.style.overflowY = 'hidden';
+    // Outer background parity with the exported email. Padding is applied per-branch
+    // (only the populated stack gets it; empty / free states manage their own spacing).
+    const bg = /^#[0-9a-fA-F]{6}$/.test(model.bgColor || '') ? model.bgColor : '';
+    frame.style.background = bg || '';
+    frame.style.padding = '';
 
     // Mode dispatch: stack (rows of blocks) vs free (Paint-like positioning)
     if ((model.mode || 'stack') === 'free') {
@@ -878,6 +1556,8 @@
       return;
     }
     frame.classList.remove('is-empty');
+    // Outer padding parity with the export wrap <td> (see renderEmail()).
+    frame.style.padding = Math.max(0, Math.min(48, model.pad == null ? DEFAULT_PAD : model.pad)) + 'px';
     setupContainerDrop(frame, model.blocks);
     // Skip frame blocks in stack mode - they're free-mode artefacts that stay in
     // the model so user can switch back without losing data, but shouldn't paint
@@ -2457,8 +3137,8 @@
       const sel = SOCIAL_PRESETS.map(p => `<option value="${attr(p.id)}" ${p.id === lnk.platform ? 'selected' : ''}>${esc(p.label)}</option>`).join('');
       const preset = SOCIAL_PRESETS.find(p => p.id === lnk.platform) || SOCIAL_PRESETS[7];
       row.innerHTML = `
-        <select class="inspector-field__select social-list__platform">${sel}</select>
-        <input class="inspector-field__input social-list__url" type="text" value="${attr(lnk.url || '')}" placeholder="${attr(preset.urlHint)}">
+        <select class="inspector-field__select social-list__platform" aria-label="${attr(t('fldPlatform'))}">${sel}</select>
+        <input class="inspector-field__input social-list__url" type="text" value="${attr(lnk.url || '')}" placeholder="${attr(preset.urlHint)}" aria-label="URL">
         <button type="button" class="social-list__del" aria-label="Delete">
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </button>`;
@@ -2503,6 +3183,16 @@
     const valign = model.valign || 'top';
     const heightAttr = minH ? ` height="${minH}"` : '';
     const minHeightStyle = minH ? ` min-height:${minH}px;` : '';
+    // Outer padding so the pasted signature never touches the mail body edges.
+    // Applied on the wrap <td> (email-safe: padding, not margin) - Outlook honours it.
+    const P = Math.max(0, Math.min(48, model.pad == null ? DEFAULT_PAD : model.pad));
+    const outerPadStyle = ` padding:${P}px;`;
+    // Optional background: Outlook needs the bgcolor attribute, webmail the inline
+    // style. Set on both the outer table and the padded wrap cell so the fill covers
+    // the padding area too.
+    const bg = /^#[0-9a-fA-F]{6}$/.test(model.bgColor || '') ? model.bgColor : '';
+    const bgColorAttr = bg ? ` bgcolor="${attr(bg)}"` : '';
+    const bgStyle = bg ? ` background-color:${bg};` : '';
     // Stack mode skips frame blocks (they belong to free mode); leftover frames
     // from a previous mode session stay in the model but don't pollute the email.
     const blocks = (model.mode || 'stack') === 'free'
@@ -2525,8 +3215,8 @@ table, td, div, p, a { font-family: 'Segoe UI', Arial, sans-serif !important; }
 <![endif]-->
 </head>
 <body style="margin:0; padding:0; background:#ffffff;">
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="${W}"${heightAttr} style="border-collapse:collapse; width:${W}px; max-width:${W}px;${minHeightStyle} font-family:'Segoe UI', Arial, sans-serif;">
-<tr><td valign="${valign}"${heightAttr} style="vertical-align:${valign};${minHeightStyle}">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="${W}"${heightAttr}${bgColorAttr} style="border-collapse:collapse; width:${W}px; max-width:${W}px;${minHeightStyle}${bgStyle} font-family:'Segoe UI', Arial, sans-serif;">
+<tr><td valign="${valign}"${heightAttr}${bgColorAttr} style="vertical-align:${valign};${minHeightStyle}${bgStyle}${outerPadStyle}">
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
 ${blocks}
 </table>
@@ -3029,8 +3719,20 @@ ${blocks}
       try { localStorage.setItem('formattedai-theme', theme); } catch (_) {}
     });
 
+    // Mode: form generator is the default view. Build the model from form data up
+    // front so the very first history snapshot + first paint already match the form.
+    document.body.classList.add(uiMode === 'form' ? 'mode-form' : 'mode-builder');
+    if (uiMode === 'form') {
+      model = buildModelFromForm(formData, formData.templateId, formStyle());
+      saveModel();
+    }
+
     // Initial history snapshot
     pushHistory();
+
+    // Form generator UI + mode switcher
+    setupForm();
+    setupModeTabs();
 
     // Palette: click adds to top-level, drag-drop adds at precise position
     document.querySelectorAll('.palette-item[data-block]').forEach((el) => {
@@ -3102,11 +3804,13 @@ ${blocks}
       if (e.key === 'Delete' && selectedId && !inField) {
         deleteBlock(selectedId);
       }
+      // Undo/redo only in builder mode - in form mode the model is derived from the
+      // form inputs, so rewinding history would desync the visible fields.
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.shiftKey) {
-        if (!inField) { e.preventDefault(); undo(); }
+        if (!inField && uiMode === 'builder') { e.preventDefault(); undo(); }
       }
       if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey))) {
-        if (!inField) { e.preventDefault(); redo(); }
+        if (!inField && uiMode === 'builder') { e.preventDefault(); redo(); }
       }
       // Arrow keys nudge selected block (Figma-like). 1px / Shift+10px.
       // Multi-key bursts coalesce into one history entry via debounced commit.
