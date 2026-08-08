@@ -14,6 +14,11 @@ Powiązany dokument: `docs/TEXT_HUMANIZER_PLAN.md` (research i decyzje wstępne)
 > wpięty w UI** (żyje tylko dla testów / ewentualnej przyszłej akcji „urównoważ
 > rytm"). Deep Humanizer (WebLLM) został zdemotowany do sekcji eksperymentalnej.
 > Burstiness prezentowany jako jeden sygnał („rytm zdań"), nie jako „AI score".
+>
+> **BYOK (klucz API) ODRZUCONY NA STAŁE** — wysyłanie tekstu do zewnętrznego API
+> łamie rdzeń prywatności projektu (100% client-side). Każdy przyszły tier jakości
+> musi być w pełni lokalny (jak Deep Humanizer / WebLLM).
+>
 > Sekcje poniżej opisują pierwotną strategię — czytaj je z tą poprawką w tle.
 
 ---
@@ -32,7 +37,7 @@ Powiązany dokument: `docs/TEXT_HUMANIZER_PLAN.md` (research i decyzje wstępne)
 | Faza 1 | MVP rule-based — startujemy od razu |
 | Faza 2 | **POMINIĘTA** — case study na LinkedIn wymaga widocznego Deep mode |
 | Faza 3 | WebLLM + reverse-prompting — startujemy razem z Fazą 1 |
-| BYOK | NIE w MVP. Może w fazie 4 jako mały link "dla devów". |
+| BYOK | ODRZUCONY NA STAŁE (2026-08-08) — łamie prywatność (wysyłka do zewn. API). |
 | CSP | Relaks `wasm-unsafe-eval` **tylko** dla `/text-humanizer/` (Faza 3 wymóg) |
 | Service Worker | Dopiero w Fazie 3c (po stabilizacji WebLLM) |
 | Akceptacja extract-step | NIE w UX. Zamiast: **Dev Mode** — 5× klik w nagłówek loguje bullety do `console.log` |
