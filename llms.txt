@@ -13,7 +13,7 @@ Available in Polish (default at root) and English (under /en/). Theme: light + d
 
 ## Tools — Text
 
-- [Text Humanizer](https://formattedai.pl/text-humanizer/) ([EN](https://formattedai.pl/en/text-humanizer/)): Remove AI style from text. Two modes: Quick Sanitize (pure JS rules — strips hedge openers, em-dashes, AI canary words, balances burstiness) and Deep Humanizer (local Qwen 2.5 1.5B via WebLLM, reverse-prompting Extract → Rebuild with persona). PL + EN. 100% client-side, IndexedDB cache, WebGPU.
+- [Text Humanizer](https://formattedai.pl/text-humanizer/) ([EN](https://formattedai.pl/en/text-humanizer/)): AI-tell scanner and editing assistant. Detects AI signals in text (canary buzzwords, hedge openers, resolution closers, filler, em-dash overuse, tricolons) and proposes per-issue fixes the user applies or dismisses — plus one-click "apply safe". Sentence rhythm (burstiness) shown as one signal, not a verdict. Optional experimental Deep Humanizer (local Qwen 2.5 via WebLLM, reverse-prompting) behind an opt-in. PL + EN. 100% client-side, no backend, no telemetry.
 - [Markdown Formatter](https://formattedai.pl/formatter/) ([EN](https://formattedai.pl/en/formatter/)): Convert ChatGPT/Claude markdown to formatted text for Google Docs and Microsoft Word. Export HTML/DOCX/MD.
 - [JS Minifier](https://formattedai.pl/js-minifier/) ([EN](https://formattedai.pl/en/js-minifier/)): Minify and beautify JavaScript using Esbuild + Terser + js-beautify
 - [CSS Minifier](https://formattedai.pl/css-minifier/) ([EN](https://formattedai.pl/en/css-minifier/)): Minify and beautify CSS using CSSO + js-beautify

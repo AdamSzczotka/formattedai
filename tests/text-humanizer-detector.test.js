@@ -30,6 +30,16 @@ test('detect finds a hedge opener at sentence start (PL)', () => {
   assert(/^W dzisiejszym/.test(hedge.original), 'unexpected hedge original: ' + hedge.original);
 });
 
+test('BUGFIX: EN hedge opener consumes trailing "that" (no dangling clause)', () => {
+  const text = "It's important to note that the system works well and scales nicely today.";
+  const { issues } = detect(text, { lang: 'en' });
+  const hedge = issues.find(i => i.category === 'hedge');
+  assert(hedge, 'no hedge issue');
+  const out = applyIssues(text, [hedge]);
+  assert(!/^That\b/.test(out), 'dangling "That" left behind: ' + out);
+  assert(/^The system/.test(out), 'expected "The system…", got: ' + out.slice(0, 24));
+});
+
 test('detect finds a resolution closer (PL)', () => {
   const { issues } = detect(AI_PL, { lang: 'pl' });
   assert(issues.some(i => i.category === 'closer' && /^Podsumowując/.test(i.original)), 'no closer issue');
@@ -102,6 +112,16 @@ test('filler overlapping a hedge opener is suppressed (no double-count)', () => 
   const { issues } = detect('Warto zauważyć, że system działa.', { lang: 'pl' });
   assert(issues.some(i => i.category === 'hedge'), 'expected the hedge');
   assert(!issues.some(i => i.category === 'filler'), 'filler overlapping hedge should be suppressed');
+});
+
+test('applyIssues capitalizes an adjacent replacement after a removed opener', () => {
+  // Hedge "Warto zauważyć, że " removed, canary "kompleksowy" immediately after.
+  // The capitalization must land on the canary's replacement, not vanish.
+  const text = 'Warto zauważyć, że kompleksowy raport pomaga zespołowi działać sprawnie.';
+  const all = detect(text, { lang: 'pl' }).issues;
+  const out = applyIssues(text, all);
+  assert(!/\.\s+[a-ząćęłńóśźż]/.test(out), 'lowercase after period: ' + out);
+  assert(/^[A-ZĄĆĘŁŃÓŚŹŻ]/.test(out), 'output must start capitalized: ' + out);
 });
 
 test('applyIssues capitalizes the letter after a removed opener', () => {

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Text Humanizer — Usuń AI-styl z tekstu (PL/EN, 100% lokalnie) | FormattedAI</title>
-  <meta name="description" content="Darmowy text humanizer online. Usuwa AI-styl z tekstu (ChatGPT, Claude, Gemini) i przepisuje na ludzki. Działa 100% lokalnie w przeglądarce. PL + EN. Quick Sanitize w czystym JS lub Deep Humanizer z lokalnym modelem AI.">
+  <meta name="description" content="Darmowy skaner AI-tellów online. Wykrywa i pomaga wyczyścić sygnały AI w tekście (ChatGPT, Claude, Gemini): słowa-kanarki, wstępy-klisze, nadmiar myślników, tricolony. Ty decydujesz o każdej poprawce. Działa 100% lokalnie w przeglądarce. PL + EN.">
   <meta name="keywords" content="text humanizer, AI humanizer, ChatGPT humanizer, usuń styl AI, parafraza tekstu, omiń detektor AI, GPTZero bypass, Originality.ai, ludzki tekst, lokalne AI, WebLLM, client-side">
   <meta name="author" content="Adam Szczotka">
   <meta name="robots" content="index, follow">
@@ -33,18 +33,18 @@
     "@context": "https://schema.org", "@type": "WebApplication",
     "name": "FormattedAI Text Humanizer",
     "headline": "Text Humanizer — Usuń AI-styl z tekstu (PL/EN)",
-    "description": "Narzędzie do humanizacji tekstów AI. Tryb Quick Sanitize (reguły) i Deep Humanizer (lokalny LLM, reverse-prompting). Wszystko działa w przeglądarce.",
+    "description": "Skaner AI-tellów: wykrywa sygnały AI w tekście (słowa-kanarki, wstępy-klisze, myślniki, tricolony) i proponuje poprawki, które użytkownik akceptuje pojedynczo. Opcjonalny Deep Humanizer (lokalny LLM). Wszystko działa w przeglądarce.",
     "url": "https://formattedai.pl/text-humanizer/",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "author": { "@type": "Person", "name": "Adam Szczotka", "url": "https://github.com/AdamSzczotka" },
     "featureList": [
-      "Quick Sanitize — usuwa AI-frazy, em-dashe, tricolony, hedge openery i resolution closery",
-      "Deep Humanizer — lokalny model Qwen 2.5 1.5B, reverse-prompting Extract → Rebuild",
-      "Burstiness Score — mierzy zmienność długości zdań przed i po",
-      "Diff view — kolorowy podgląd zmian",
-      "3 style: Casual, Academic, Direct (Email)",
+      "Skaner AI-tellów — podświetla słowa-kanarki, wstępy-wypełniacze, zamknięcia-klisze, filler, nadmiar myślników i tricolony",
+      "Edycja w pętli — każdą poprawkę akceptujesz lub pomijasz, plus „zastosuj bezpieczne”",
+      "Rytm zdań (burstiness) — mierzony jako jeden z sygnałów, nie wyrok detektora",
+      "Diff view — kolorowy podgląd zmian oryginał vs wynik",
+      "Deep Humanizer (beta) — opcjonalny lokalny model Qwen 2.5, reverse-prompting",
       "PL i EN, autodetekcja języka",
       "100% client-side, brak backendu, brak telemetrii"
     ],
@@ -56,12 +56,13 @@
   {
     "@context": "https://schema.org", "@type": "FAQPage",
     "mainEntity": [
-      { "@type": "Question", "name": "Czy mój tekst jest wysyłany na serwer?", "acceptedAnswer": { "@type": "Answer", "text": "Nie. Cały proces dzieje się w Twojej przeglądarce. Quick Sanitize używa reguł w czystym JavaScript. Deep Humanizer pobiera model AI raz, zapisuje go lokalnie (IndexedDB) i odpowiada offline. Twój tekst nigdy nigdzie nie wychodzi." } },
-      { "@type": "Question", "name": "Skąd pobierany jest model AI?", "acceptedAnswer": { "@type": "Answer", "text": "Przy pierwszym uruchomieniu Deep Humanizera wagi modelu (~900 MB dla Qwen 2.5 1.5B) pobierane są z publicznego CDN Hugging Face (huggingface.co/mlc-ai). To jednorazowe pobranie pliku statycznego — analogicznie jak ładowanie biblioteki JS z CDN. Twój tekst NIE jest wysyłany — pobierany jest tylko sam model. Po pobraniu wszystko działa offline z IndexedDB i model nigdy nie jest ponownie ściągany." } },
-      { "@type": "Question", "name": "Co to jest Burstiness Score?", "acceptedAnswer": { "@type": "Answer", "text": "Burstiness to zmienność długości zdań w tekście. Liczona jako odchylenie standardowe długości zdań podzielone przez średnią. Człowiek pisze z burstiness 0.65–0.85 (mieszane krótkie i długie zdania), AI 0.15–0.30. To jeden z najsilniejszych sygnałów wykrywalności AI w 2026 r." } },
-      { "@type": "Question", "name": "Czym różni się Quick Sanitize od Deep Humanizer?", "acceptedAnswer": { "@type": "Answer", "text": "Quick Sanitize to reguły w czystym JS — wymienia AI-słowa, usuwa wstępy typu 'W dzisiejszym świecie', łamie tricolony, balansuje burstiness. Działa instant. Deep Humanizer pobiera lokalny model AI (~900 MB) i używa techniki Reverse-Prompting: najpierw wyciąga z tekstu nagie fakty, potem składa je od zera w roli wybranej persony (np. 'zmęczony pracownik biura'). Daje znacznie lepszą jakość, ale wymaga jednorazowego pobrania modelu i WebGPU." } },
-      { "@type": "Question", "name": "Czy mój tekst przejdzie przez detektory AI (GPTZero, Originality.ai)?", "acceptedAnswer": { "@type": "Answer", "text": "Quick Sanitize łapie ok. 70% przypadków przy prostszych detektorach. Deep Humanizer (z reverse-promptingiem) realnie burzy fingerprint AI, bo tekst powstaje od zera z inną dystrybucją tokenów. Detektory ewoluują — żadne narzędzie nie gwarantuje 100% przejścia. Etycznie używaj humanizera do poprawy stylu, nie do oszustwa akademickiego." } },
-      { "@type": "Question", "name": "Czy działa na telefonie?", "acceptedAnswer": { "@type": "Answer", "text": "Quick Sanitize — tak, na każdej przeglądarce, łącznie z mobilną. Deep Humanizer wymaga WebGPU i ~2 GB wolnego RAM, więc realnie działa tylko na desktopach / laptopach z Chrome 113+, Edge 113+ lub Firefox 121+. Na iOS Safari częściowo (zależy od pamięci urządzenia)." } }
+      { "@type": "Question", "name": "Co dokładnie robi to narzędzie?", "acceptedAnswer": { "@type": "Answer", "text": "Skanuje tekst i pokazuje wszystkie typowe sygnały AI (telle): słowa-kanarki (np. 'zagłębić się', 'delve'), wstępy-wypełniacze ('W dzisiejszym świecie…'), zamknięcia-klisze ('Podsumowując…'), nadmiar myślników i tricolony. Do każdego proponuje poprawkę, którą Ty akceptujesz lub pomijasz. Nie przepisuje tekstu na ślepo — Ty sterujesz każdą zmianą." } },
+      { "@type": "Question", "name": "Czy mój tekst jest wysyłany na serwer?", "acceptedAnswer": { "@type": "Answer", "text": "Nie. Skaner działa w czystym JavaScript w Twojej przeglądarce. Tekst nigdy nigdzie nie wychodzi. Opcjonalny Deep Humanizer pobiera jednorazowo model AI z CDN, ale sam tekst też pozostaje lokalnie." } },
+      { "@type": "Question", "name": "Czym są bezpieczne poprawki?", "acceptedAnswer": { "@type": "Answer", "text": "To zmiany, które nie mogą zniekształcić znaczenia — przede wszystkim zamiana zbędnych myślników na przecinki. Przycisk 'Zastosuj bezpieczne' rusza tylko je. Pozostałe poprawki (wymiana słów, cięcie wstępów) akceptujesz świadomie po jednej." } },
+      { "@type": "Question", "name": "Czy tekst przejdzie przez detektory AI?", "acceptedAnswer": { "@type": "Answer", "text": "Uczciwie: żadne narzędzie działające w 100% w przeglądarce nie gwarantuje ominięcia najlepszych detektorów (Pangram, Originality) — one uczą się też na wyjściu humanizerów. To narzędzie usuwa oczywiste sygnały AI i pomaga dopracować draft, żeby brzmiał jak Ty. Traktuj je jako asystenta redakcji, nie jako sposób na oszustwo." } },
+      { "@type": "Question", "name": "Co oznacza rytm zdań?", "acceptedAnswer": { "@type": "Answer", "text": "To burstiness — zmienność długości zdań (odchylenie standardowe podzielone przez średnią). Człowiek pisze nierówno (ok. 0.65–0.85), AI bardzo równo (ok. 0.15–0.30). Pokazujemy go jako jeden z sygnałów, a nie jako wyrok — wysoki rytm nie jest gwarancją ludzkości tekstu." } },
+      { "@type": "Question", "name": "Czym jest Deep Humanizer (tryb eksperymentalny)?", "acceptedAnswer": { "@type": "Answer", "text": "To opcjonalny lokalny model AI (Qwen 2.5), który przepisuje tekst od zera techniką reverse-prompting. Daje mocniejszą zmianę, ale wymaga jednorazowego pobrania ~900 MB, WebGPU i desktopa, a jakość — zwłaszcza po polsku — bywa nierówna. Dlatego jest schowany jako beta; główną drogą jest skaner." } },
+      { "@type": "Question", "name": "Czy działa na telefonie?", "acceptedAnswer": { "@type": "Answer", "text": "Skaner — tak, na każdej przeglądarce, od razu. Deep Humanizer wymaga WebGPU i ~2 GB RAM, więc realnie działa tylko na desktopach/laptopach z Chrome 113+, Edge 113+ lub Firefox 121+." } }
     ]
   }
   </script>
@@ -129,10 +130,7 @@
         <div>
           <span class="tool-head__eyebrow">/ NARZĘDZIE · Humanizacja tekstów AI</span>
           <h1 class="tool-head__title th-title" id="th-title">Text Humanizer</h1>
-          <p class="tool-head__sub">Usuń AI-styl z tekstu. Działa 100% w Twojej przeglądarce — bez wysyłania danych na serwer.</p>
-        </div>
-        <div class="tool-head__status">
-          <span class="th-webgpu-indicator" id="th-webgpu-indicator" data-supported="checking">— WebGPU</span>
+          <p class="tool-head__sub">Wykryj i wyczyść sygnały AI w tekście. Skaner pokazuje każdy „tell", a Ty decydujesz, co poprawić. 100% w Twojej przeglądarce.</p>
         </div>
       </div>
     </section>
@@ -154,26 +152,10 @@
             <option value="direct">Direct (Email)</option>
           </select>
         </label>
-        <label>Model (Deep)
-          <select id="th-model-select">
-            <option value="qwen-1.5b">Qwen 2.5 1.5B (~900 MB)</option>
-            <option value="qwen-0.5b">Qwen 2.5 0.5B (~350 MB)</option>
-            <option value="llama-1b">Llama 3.2 1B (~700 MB, EN)</option>
-          </select>
-        </label>
-
         <span class="th-controls__spacer"></span>
 
-        <button class="th-btn th-btn--primary" id="th-quick-btn" type="button">⚡ Quick Sanitize</button>
-        <button class="th-btn" id="th-deep-btn" type="button">🧠 Deep Humanizer</button>
-        <button class="th-btn th-btn--danger" id="th-cancel-btn" type="button" hidden>Anuluj</button>
+        <button class="th-btn th-btn--primary" id="th-scan-btn" type="button">Skanuj tekst</button>
         <button class="th-btn th-btn--ghost" id="th-clear-btn" type="button">Wyczyść</button>
-      </div>
-
-      <div class="th-deep-status" id="th-deep-status">
-        <div class="th-deep-status__spinner"></div>
-        <span class="th-deep-status__stage" id="th-deep-stage">Generuję...</span>
-        <span class="th-deep-status__progress" id="th-deep-progress">0%</span>
       </div>
 
       <div class="th">
@@ -185,41 +167,50 @@
               <span><b id="th-input-chars">0</b> znaków</span>
             </span>
           </div>
-          <textarea class="th__textarea" id="th-input" placeholder="Wklej tutaj tekst wygenerowany przez ChatGPT / Claude / Gemini…" spellcheck="false"></textarea>
+          <textarea class="th__textarea" id="th-input" placeholder="Wklej tekst z ChatGPT / Claude / Gemini i kliknij „Skanuj tekst”…" spellcheck="false"></textarea>
         </div>
 
         <div class="th__pane">
           <div class="th__pane-head">
-            <span>Wynik · tekst zhumanizowany</span>
+            <span>Wynik · po Twoich poprawkach</span>
             <span class="th__counts">
               <span><b id="th-output-words">0</b> słów</span>
               <span><b id="th-output-chars">0</b> znaków</span>
             </span>
           </div>
-          <textarea class="th__textarea" id="th-output" placeholder="Wynik pojawi się tutaj…" spellcheck="false"></textarea>
+          <textarea class="th__textarea" id="th-output" placeholder="Zastosuj wybrane poprawki — wynik pojawi się tutaj…" spellcheck="false" readonly></textarea>
           <div class="th__pane-footer">
             <button class="th-btn th-btn--ghost" id="th-copy-btn" type="button">Kopiuj</button>
           </div>
         </div>
       </div>
 
-      <div class="th-burst" aria-label="Burstiness Score — zmienność długości zdań">
-        <div class="th-burst__row">
-          <span class="th-burst__label">Przed</span>
-          <div class="th-burst__bar-wrap">
-            <div class="th-burst__bar" id="th-burst-before-bar" data-tone="muted"></div>
-          </div>
-          <span class="th-burst__label" id="th-burst-before-label">— (za krótki tekst)</span>
-          <span class="th-burst__value" id="th-burst-before-value">—</span>
+      <div class="th-scan" id="th-scan" hidden>
+        <div class="th-scan__summary">
+          <span class="th-scan__count"><b id="th-tell-count">0</b> AI-telli</span>
+          <span class="th-scan__breakdown" id="th-tell-breakdown"></span>
         </div>
-        <div class="th-burst__row">
-          <span class="th-burst__label">Po</span>
-          <div class="th-burst__bar-wrap">
-            <div class="th-burst__bar" id="th-burst-after-bar" data-tone="muted"></div>
-          </div>
-          <span class="th-burst__label" id="th-burst-after-label">—</span>
-          <span class="th-burst__value" id="th-burst-after-value">—</span>
+        <div class="th-scan__rhythm" title="Rytm zdań (burstiness) — zmienność długości zdań. To jeden z sygnałów, nie wyrok detektora.">
+          <span class="th-scan__rhythm-label">Rytm zdań</span>
+          <span class="th-scan__metric" id="th-rhythm-before" data-tone="muted">—</span>
+          <span class="th-scan__metric-note" id="th-rhythm-before-note"></span>
+          <span class="th-scan__arrow">→</span>
+          <span class="th-scan__metric" id="th-rhythm-after" data-tone="muted">—</span>
+          <span class="th-scan__metric-note" id="th-rhythm-after-note"></span>
         </div>
+      </div>
+
+      <div class="th-issues" id="th-issues-block" hidden>
+        <div class="th-issues__bar">
+          <span class="th-issues__title">Znalezione telle <span class="th-issues__applied" id="th-applied-count">0/0</span></span>
+          <div class="th-issues__actions">
+            <button class="th-btn th-btn--ghost" id="th-apply-safe" type="button">Zastosuj bezpieczne</button>
+            <button class="th-btn" id="th-apply-all" type="button">Zastosuj wszystkie</button>
+            <button class="th-btn th-btn--ghost" id="th-reset-issues" type="button">Reset</button>
+          </div>
+        </div>
+        <div class="th-issues__list" id="th-issues"></div>
+        <p class="th-issues__empty" id="th-issues-empty" hidden>Nie znaleziono AI-telli — tekst wygląda naturalnie.</p>
       </div>
 
       <details class="th-diff-block" id="th-diff-block">
@@ -230,41 +221,66 @@
         <div class="th-diff-block__body" id="th-diff"></div>
       </details>
 
-      <div class="th-advanced">
-        <button class="th-advanced__toggle" id="th-advanced-toggle" type="button">+ Zaawansowane</button>
-        <div class="th-advanced__panel" id="th-advanced-panel">
-          <label>Własna persona (Deep Humanizer)
+      <details class="th-experimental" id="th-experimental">
+        <summary class="th-experimental__head">
+          <span>Tryb eksperymentalny — Deep Humanizer (lokalny model AI)</span>
+          <span class="th-experimental__badge">beta · desktop</span>
+        </summary>
+        <div class="th-experimental__body">
+          <p class="th-experimental__warn">Deep Humanizer przepisuje tekst od zera lokalnym modelem (Qwen&nbsp;2.5). Wymaga <strong>jednorazowego pobrania ~900&nbsp;MB</strong>, przeglądarki z <strong>WebGPU</strong> (Chrome/Edge/Firefox na desktopie) i ~2&nbsp;GB RAM. Jakość bywa nierówna, zwłaszcza po polsku. Do szybkiej, przewidywalnej pracy używaj skanera powyżej.</p>
+          <div class="th-controls th-controls--sub">
+            <label>Model
+              <select id="th-model-select">
+                <option value="qwen-1.5b">Qwen 2.5 1.5B (~900 MB)</option>
+                <option value="qwen-0.5b">Qwen 2.5 0.5B (~350 MB)</option>
+                <option value="llama-1b">Llama 3.2 1B (~700 MB, EN)</option>
+              </select>
+            </label>
+            <span class="th-webgpu-indicator" id="th-webgpu-indicator" data-supported="checking">— WebGPU</span>
+            <span class="th-controls__spacer"></span>
+            <button class="th-btn" id="th-deep-btn" type="button">Uruchom Deep Humanizer</button>
+            <button class="th-btn th-btn--danger" id="th-cancel-btn" type="button" hidden>Anuluj</button>
+          </div>
+          <div class="th-deep-status" id="th-deep-status">
+            <div class="th-deep-status__spinner"></div>
+            <span class="th-deep-status__stage" id="th-deep-stage">Generuję...</span>
+            <span class="th-deep-status__progress" id="th-deep-progress">0%</span>
+          </div>
+          <label class="th-experimental__persona">Własna persona (opcjonalnie)
             <input type="text" id="th-custom-persona" placeholder="np. Zmęczony developer pisze do mamy o swojej pracy…" maxlength="240">
           </label>
-          <p style="font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.5;margin:0">Persona steruje stylem rebuildu. Domyślnie używana jest persona zgodna z wybranym stylem (Casual / Academic / Direct).</p>
         </div>
-      </div>
+      </details>
 
       <section class="th-faq">
         <h2>Najczęstsze pytania</h2>
         <details>
+          <summary>Co dokładnie robi to narzędzie?</summary>
+          <p>Skanuje tekst i pokazuje wszystkie typowe sygnały AI („telle"): słowa-kanarki (np. „zagłębić się", „delve"), wstępy-wypełniacze („W dzisiejszym świecie…"), zamknięcia-klisze („Podsumowując…"), nadmiar myślników i tricolony. Do każdego proponuje poprawkę, którą <strong>Ty akceptujesz lub pomijasz</strong>. Nie przepisuje tekstu na ślepo — Ty sterujesz każdą zmianą.</p>
+        </details>
+        <details>
           <summary>Czy mój tekst jest wysyłany na serwer?</summary>
-          <p>Nie. Cały proces dzieje się w Twojej przeglądarce. Quick Sanitize używa reguł w czystym JavaScript. Deep Humanizer pobiera model AI raz, zapisuje go lokalnie (IndexedDB) i odpowiada offline. Twój tekst nigdy nigdzie nie wychodzi.</p>
+          <p>Nie. Skaner działa w czystym JavaScript w Twojej przeglądarce. Tekst nigdy nigdzie nie wychodzi. (Opcjonalny Deep Humanizer pobiera jednorazowo model AI z CDN, ale sam tekst też pozostaje lokalnie.)</p>
         </details>
         <details>
-          <summary>Skąd pobierany jest model AI?</summary>
-          <p>Przy pierwszym uruchomieniu Deep Humanizera wagi modelu (~900 MB dla Qwen 2.5 1.5B) pobierane są z publicznego CDN <strong>Hugging Face</strong> (<code>huggingface.co/mlc-ai</code>). To jednorazowe pobranie pliku statycznego — analogicznie jak ładowanie biblioteki JS z CDN. Twój tekst <strong>NIE jest wysyłany</strong> — pobierany jest tylko sam model. Po pobraniu wszystko działa offline z IndexedDB i model nigdy nie jest ponownie ściągany.</p>
+          <summary>Czym są „bezpieczne" poprawki?</summary>
+          <p>To zmiany, które nie mogą zniekształcić znaczenia — przede wszystkim zamiana zbędnych myślników na przecinki. „Zastosuj bezpieczne" rusza tylko je. Pozostałe poprawki (wymiana słów, cięcie wstępów) akceptujesz świadomie po jednej.</p>
         </details>
         <details>
-          <summary>Co to jest Burstiness Score?</summary>
-          <p>Burstiness to zmienność długości zdań w tekście — odchylenie standardowe długości zdań podzielone przez średnią. Człowiek pisze z burstiness 0.65–0.85, AI 0.15–0.30. To jeden z najsilniejszych sygnałów wykrywalności AI w 2026 r.</p>
+          <summary>Czy tekst przejdzie przez detektory AI?</summary>
+          <p>Uczciwie: żadne narzędzie działające w 100% w przeglądarce nie gwarantuje ominięcia najlepszych detektorów (Pangram, Originality) — one uczą się też na wyjściu humanizerów. To narzędzie <strong>usuwa oczywiste sygnały AI i pomaga dopracować draft, żeby brzmiał jak Ty</strong>. Traktuj je jako asystenta redakcji, nie jako sposób na oszustwo.</p>
         </details>
         <details>
-          <summary>Czym różni się Quick Sanitize od Deep Humanizer?</summary>
-          <p>Quick Sanitize to reguły w czystym JS — wymienia AI-słowa, usuwa wstępy typu "W dzisiejszym świecie", łamie tricolony, balansuje burstiness. Działa instant. Deep Humanizer pobiera lokalny model AI (~900 MB) i używa techniki Reverse-Prompting: wyciąga z tekstu nagie fakty, potem składa je od zera w roli wybranej persony. Daje znacznie lepszą jakość, ale wymaga jednorazowego pobrania modelu i WebGPU.</p>
+          <summary>Co oznacza „rytm zdań"?</summary>
+          <p>To burstiness — zmienność długości zdań (odchylenie standardowe / średnia). Człowiek pisze nierówno (≈0.65–0.85), AI bardzo równo (≈0.15–0.30). Pokazujemy go jako <strong>jeden z sygnałów</strong>, a nie jako wyrok — wysoki rytm nie jest gwarancją „ludzkości" tekstu.</p>
         </details>
         <details>
-          <summary>Czy mój tekst przejdzie przez detektory AI?</summary>
-          <p>Quick Sanitize łapie ok. 70% przypadków przy prostszych detektorach. Deep Humanizer realnie burzy fingerprint AI, bo tekst powstaje od zera z inną dystrybucją tokenów. Detektory ewoluują — żadne narzędzie nie gwarantuje 100% przejścia. Etycznie używaj humanizera do poprawy stylu, nie do oszustwa akademickiego.</p>
+          <summary>Czym jest Deep Humanizer (tryb eksperymentalny)?</summary>
+          <p>To opcjonalny lokalny model AI (Qwen 2.5), który przepisuje tekst od zera techniką reverse-prompting. Daje mocniejszą zmianę, ale wymaga jednorazowego pobrania ~900 MB, WebGPU i desktopa, a jakość — zwłaszcza po polsku — bywa nierówna. Dlatego jest schowany jako beta; główną drogą jest skaner.</p>
         </details>
         <details>
           <summary>Czy działa na telefonie?</summary>
-          <p>Quick Sanitize — tak, na każdej przeglądarce. Deep Humanizer wymaga WebGPU i ~2 GB wolnego RAM, więc realnie działa tylko na desktopach / laptopach z Chrome 113+, Edge 113+ lub Firefox 121+.</p>
+          <p>Skaner — tak, na każdej przeglądarce, od razu. Deep Humanizer wymaga WebGPU i ~2 GB RAM, więc realnie działa tylko na desktopach/laptopach z Chrome 113+, Edge 113+ lub Firefox 121+.</p>
         </details>
       </section>
 

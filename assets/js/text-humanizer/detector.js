@@ -242,8 +242,19 @@ export function applyIssues(text, issues) {
   let capNext = false;
   for (const iss of chosen) {
     let gap = text.slice(cursor, iss.start);
-    if (capNext) { gap = capFirstLetter(gap); capNext = false; }
-    out += gap + iss.replacement;
+    // Capitalize the first letter after a removed opener. When the gap has no
+    // letter (the next issue is adjacent, e.g. a canary right after a hedge),
+    // carry the flag onto that issue's replacement so it isn't left lowercase.
+    if (capNext) {
+      const capped = capFirstLetter(gap);
+      if (capped !== gap) { gap = capped; capNext = false; }
+    }
+    let repl = iss.replacement;
+    if (capNext && repl) {
+      const capped = capFirstLetter(repl);
+      if (capped !== repl) { repl = capped; capNext = false; }
+    }
+    out += gap + repl;
     if (iss.capitalizeAfter) capNext = true;
     cursor = iss.end;
   }
