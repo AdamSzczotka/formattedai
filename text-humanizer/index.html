@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Text Humanizer — Usuń AI-styl z tekstu (PL/EN, 100% lokalnie) | FormattedAI</title>
+  <meta name="description" content="Darmowy skaner AI-tellów online. Wykrywa i pomaga wyczyścić sygnały AI w tekście (ChatGPT, Claude, Gemini): słowa-kanarki, wstępy-klisze, nadmiar myślników, tricolony. Ty decydujesz o każdej poprawce. Działa 100% lokalnie w przeglądarce. PL + EN.">
+  <meta name="keywords" content="text humanizer, AI humanizer, ChatGPT humanizer, usuń styl AI, parafraza tekstu, omiń detektor AI, GPTZero bypass, Originality.ai, ludzki tekst, lokalne AI, WebLLM, client-side">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/text-humanizer/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/text-humanizer/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/text-humanizer/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/text-humanizer/">
+  <meta http-equiv="content-language" content="pl">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Text Humanizer — Usuń AI-styl z tekstu | FormattedAI">
+  <meta property="og:description" content="Przepisuje tekst AI na ludzki. 100% lokalnie w przeglądarce. PL/EN. Tryb szybki (reguły) i głęboki (lokalny LLM).">
+  <meta property="og:url" content="https://formattedai.pl/text-humanizer/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Text Humanizer | FormattedAI">
+  <meta name="twitter:description" content="Usuń AI-styl z tekstu. 100% w przeglądarce. PL/EN.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "WebApplication",
+    "name": "FormattedAI Text Humanizer",
+    "headline": "Text Humanizer — Usuń AI-styl z tekstu (PL/EN)",
+    "description": "Skaner AI-tellów: wykrywa sygnały AI w tekście (słowa-kanarki, wstępy-klisze, myślniki, tricolony) i proponuje poprawki, które użytkownik akceptuje pojedynczo. Opcjonalny Deep Humanizer (lokalny LLM). Wszystko działa w przeglądarce.",
+    "url": "https://formattedai.pl/text-humanizer/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Adam Szczotka", "url": "https://github.com/AdamSzczotka" },
+    "featureList": [
+      "Skaner AI-tellów — podświetla słowa-kanarki, wstępy-wypełniacze, zamknięcia-klisze, filler, nadmiar myślników i tricolony",
+      "Edycja w pętli — każdą poprawkę akceptujesz lub pomijasz, plus „zastosuj bezpieczne”",
+      "Rytm zdań (burstiness) — mierzony jako jeden z sygnałów, nie wyrok detektora",
+      "Diff view — kolorowy podgląd zmian oryginał vs wynik",
+      "Deep Humanizer (beta) — opcjonalny lokalny model Qwen 2.5, reverse-prompting",
+      "PL i EN, autodetekcja języka",
+      "100% client-side, brak backendu, brak telemetrii"
+    ],
+    "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Co dokładnie robi to narzędzie?", "acceptedAnswer": { "@type": "Answer", "text": "Skanuje tekst i pokazuje wszystkie typowe sygnały AI (telle): słowa-kanarki (np. 'zagłębić się', 'delve'), wstępy-wypełniacze ('W dzisiejszym świecie…'), zamknięcia-klisze ('Podsumowując…'), nadmiar myślników i tricolony. Do każdego proponuje poprawkę, którą Ty akceptujesz lub pomijasz. Nie przepisuje tekstu na ślepo — Ty sterujesz każdą zmianą." } },
+      { "@type": "Question", "name": "Czy mój tekst jest wysyłany na serwer?", "acceptedAnswer": { "@type": "Answer", "text": "Nie. Skaner działa w czystym JavaScript w Twojej przeglądarce. Tekst nigdy nigdzie nie wychodzi. Opcjonalny Deep Humanizer pobiera jednorazowo model AI z CDN, ale sam tekst też pozostaje lokalnie." } },
+      { "@type": "Question", "name": "Czym są bezpieczne poprawki?", "acceptedAnswer": { "@type": "Answer", "text": "To zmiany, które nie mogą zniekształcić znaczenia — przede wszystkim zamiana zbędnych myślników na przecinki. Przycisk 'Zastosuj bezpieczne' rusza tylko je. Pozostałe poprawki (wymiana słów, cięcie wstępów) akceptujesz świadomie po jednej." } },
+      { "@type": "Question", "name": "Czy tekst przejdzie przez detektory AI?", "acceptedAnswer": { "@type": "Answer", "text": "Uczciwie: żadne narzędzie działające w 100% w przeglądarce nie gwarantuje ominięcia najlepszych detektorów (Pangram, Originality) — one uczą się też na wyjściu humanizerów. To narzędzie usuwa oczywiste sygnały AI i pomaga dopracować draft, żeby brzmiał jak Ty. Traktuj je jako asystenta redakcji, nie jako sposób na oszustwo." } },
+      { "@type": "Question", "name": "Co oznacza rytm zdań?", "acceptedAnswer": { "@type": "Answer", "text": "To burstiness — zmienność długości zdań (odchylenie standardowe podzielone przez średnią). Człowiek pisze nierówno (ok. 0.65–0.85), AI bardzo równo (ok. 0.15–0.30). Pokazujemy go jako jeden z sygnałów, a nie jako wyrok — wysoki rytm nie jest gwarancją ludzkości tekstu." } },
+      { "@type": "Question", "name": "Czym jest Deep Humanizer (tryb eksperymentalny)?", "acceptedAnswer": { "@type": "Answer", "text": "To opcjonalny lokalny model AI (Qwen 2.5), który przepisuje tekst od zera techniką reverse-prompting. Daje mocniejszą zmianę, ale wymaga jednorazowego pobrania ~900 MB, WebGPU i desktopa, a jakość — zwłaszcza po polsku — bywa nierówna. Dlatego jest schowany jako beta; główną drogą jest skaner." } },
+      { "@type": "Question", "name": "Czy działa na telefonie?", "acceptedAnswer": { "@type": "Answer", "text": "Skaner — tak, na każdej przeglądarce, od razu. Deep Humanizer wymaga WebGPU i ~2 GB RAM, więc realnie działa tylko na desktopach/laptopach z Chrome 113+, Edge 113+ lub Firefox 121+." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "Narzędzia", "item": "https://formattedai.pl/narzedzia/" },
+      { "@type": "ListItem", "position": 3, "name": "Text Humanizer", "item": "https://formattedai.pl/text-humanizer/" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('formattedai-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/css/text-humanizer.css">
+</head>
+<body>
+
+  <div class="tool-shell">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/" class="fa-nav__brand" aria-label="FormattedAI — strona główna">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9" y="8" width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9" y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9" y="20" width="6" height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+      </a>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/narzedzia/" class="fa-nav__crumb-link">Narzędzia</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">Text Humanizer</span>
+      </nav>
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/en/text-humanizer/" class="fa-nav__lang" hreflang="en" title="English version">EN</a>
+        <a href="/narzedzia/" class="fa-nav__cta">Wszystkie narzędzia →</a>
+      </div>
+    </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ NARZĘDZIE · Humanizacja tekstów AI</span>
+          <h1 class="tool-head__title th-title" id="th-title">Text Humanizer</h1>
+          <p class="tool-head__sub">Wykryj i wyczyść sygnały AI w tekście. Skaner pokazuje każdy „tell", a Ty decydujesz, co poprawić. 100% w Twojej przeglądarce.</p>
+        </div>
+      </div>
+    </section>
+
+    <main class="th-main">
+
+      <div class="th-controls">
+        <label>Język
+          <select id="th-language">
+            <option value="auto">Auto</option>
+            <option value="pl">Polski</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <label>Styl
+          <select id="th-style">
+            <option value="casual">Casual</option>
+            <option value="academic">Academic</option>
+            <option value="direct">Direct (Email)</option>
+          </select>
+        </label>
+        <span class="th-controls__spacer"></span>
+
+        <button class="th-btn th-btn--primary" id="th-scan-btn" type="button">Skanuj tekst</button>
+        <button class="th-btn th-btn--ghost" id="th-clear-btn" type="button">Wyczyść</button>
+      </div>
+
+      <div class="th">
+        <div class="th__pane">
+          <div class="th__pane-head">
+            <span>Wejście · tekst AI</span>
+            <span class="th__counts">
+              <span><b id="th-input-words">0</b> słów</span>
+              <span><b id="th-input-chars">0</b> znaków</span>
+            </span>
+          </div>
+          <textarea class="th__textarea" id="th-input" placeholder="Wklej tekst z ChatGPT / Claude / Gemini i kliknij „Skanuj tekst”…" spellcheck="false"></textarea>
+        </div>
+
+        <div class="th__pane">
+          <div class="th__pane-head">
+            <span>Wynik · po Twoich poprawkach</span>
+            <span class="th__counts">
+              <span><b id="th-output-words">0</b> słów</span>
+              <span><b id="th-output-chars">0</b> znaków</span>
+            </span>
+          </div>
+          <textarea class="th__textarea" id="th-output" placeholder="Zastosuj wybrane poprawki — wynik pojawi się tutaj…" spellcheck="false" readonly></textarea>
+          <div class="th__pane-footer">
+            <button class="th-btn th-btn--ghost" id="th-copy-btn" type="button">Kopiuj</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="th-scan" id="th-scan" hidden>
+        <div class="th-scan__summary">
+          <span class="th-scan__count"><b id="th-tell-count">0</b> AI-telli</span>
+          <span class="th-scan__breakdown" id="th-tell-breakdown"></span>
+        </div>
+        <div class="th-scan__rhythm" title="Rytm zdań (burstiness) — zmienność długości zdań. To jeden z sygnałów, nie wyrok detektora.">
+          <span class="th-scan__rhythm-label">Rytm zdań</span>
+          <span class="th-scan__metric" id="th-rhythm-before" data-tone="muted">—</span>
+          <span class="th-scan__metric-note" id="th-rhythm-before-note"></span>
+          <span class="th-scan__arrow">→</span>
+          <span class="th-scan__metric" id="th-rhythm-after" data-tone="muted">—</span>
+          <span class="th-scan__metric-note" id="th-rhythm-after-note"></span>
+        </div>
+      </div>
+
+      <div class="th-issues" id="th-issues-block" hidden>
+        <div class="th-issues__bar">
+          <span class="th-issues__title">Znalezione telle <span class="th-issues__applied" id="th-applied-count">0/0</span></span>
+          <div class="th-issues__actions">
+            <button class="th-btn th-btn--ghost" id="th-apply-safe" type="button">Zastosuj bezpieczne</button>
+            <button class="th-btn" id="th-apply-all" type="button">Zastosuj wszystkie</button>
+            <button class="th-btn th-btn--ghost" id="th-reset-issues" type="button">Reset</button>
+          </div>
+        </div>
+        <div class="th-issues__list" id="th-issues"></div>
+        <p class="th-issues__empty" id="th-issues-empty" hidden>Nie znaleziono AI-telli — tekst wygląda naturalnie.</p>
+      </div>
+
+      <details class="th-diff-block" id="th-diff-block">
+        <summary class="th-diff-block__head">
+          <span>Diff (czerwony — usunięte, zielony — dodane)</span>
+          <span id="th-diff-stats"></span>
+        </summary>
+        <div class="th-diff-block__body" id="th-diff"></div>
+      </details>
+
+      <details class="th-experimental" id="th-experimental">
+        <summary class="th-experimental__head">
+          <span>Tryb eksperymentalny — Deep Humanizer (lokalny model AI)</span>
+          <span class="th-experimental__badge">beta · desktop</span>
+        </summary>
+        <div class="th-experimental__body">
+          <p class="th-experimental__warn">Deep Humanizer przepisuje tekst od zera lokalnym modelem (Qwen&nbsp;2.5). Wymaga <strong>jednorazowego pobrania ~900&nbsp;MB</strong>, przeglądarki z <strong>WebGPU</strong> (Chrome/Edge/Firefox na desktopie) i ~2&nbsp;GB RAM. Jakość bywa nierówna, zwłaszcza po polsku. Do szybkiej, przewidywalnej pracy używaj skanera powyżej.</p>
+          <div class="th-controls th-controls--sub">
+            <label>Model
+              <select id="th-model-select">
+                <option value="qwen-1.5b">Qwen 2.5 1.5B (~900 MB)</option>
+                <option value="qwen-0.5b">Qwen 2.5 0.5B (~350 MB)</option>
+                <option value="llama-1b">Llama 3.2 1B (~700 MB, EN)</option>
+              </select>
+            </label>
+            <span class="th-webgpu-indicator" id="th-webgpu-indicator" data-supported="checking">— WebGPU</span>
+            <span class="th-controls__spacer"></span>
+            <button class="th-btn" id="th-deep-btn" type="button">Uruchom Deep Humanizer</button>
+            <button class="th-btn th-btn--danger" id="th-cancel-btn" type="button" hidden>Anuluj</button>
+          </div>
+          <div class="th-deep-status" id="th-deep-status">
+            <div class="th-deep-status__spinner"></div>
+            <span class="th-deep-status__stage" id="th-deep-stage">Generuję...</span>
+            <span class="th-deep-status__progress" id="th-deep-progress">0%</span>
+          </div>
+          <label class="th-experimental__persona">Własna persona (opcjonalnie)
+            <input type="text" id="th-custom-persona" placeholder="np. Zmęczony developer pisze do mamy o swojej pracy…" maxlength="240">
+          </label>
+        </div>
+      </details>
+
+      <section class="th-faq">
+        <h2>Najczęstsze pytania</h2>
+        <details>
+          <summary>Co dokładnie robi to narzędzie?</summary>
+          <p>Skanuje tekst i pokazuje wszystkie typowe sygnały AI („telle"): słowa-kanarki (np. „zagłębić się", „delve"), wstępy-wypełniacze („W dzisiejszym świecie…"), zamknięcia-klisze („Podsumowując…"), nadmiar myślników i tricolony. Do każdego proponuje poprawkę, którą <strong>Ty akceptujesz lub pomijasz</strong>. Nie przepisuje tekstu na ślepo — Ty sterujesz każdą zmianą.</p>
+        </details>
+        <details>
+          <summary>Czy mój tekst jest wysyłany na serwer?</summary>
+          <p>Nie. Skaner działa w czystym JavaScript w Twojej przeglądarce. Tekst nigdy nigdzie nie wychodzi. (Opcjonalny Deep Humanizer pobiera jednorazowo model AI z CDN, ale sam tekst też pozostaje lokalnie.)</p>
+        </details>
+        <details>
+          <summary>Czym są „bezpieczne" poprawki?</summary>
+          <p>To zmiany, które nie mogą zniekształcić znaczenia — przede wszystkim zamiana zbędnych myślników na przecinki. „Zastosuj bezpieczne" rusza tylko je. Pozostałe poprawki (wymiana słów, cięcie wstępów) akceptujesz świadomie po jednej.</p>
+        </details>
+        <details>
+          <summary>Czy tekst przejdzie przez detektory AI?</summary>
+          <p>Uczciwie: żadne narzędzie działające w 100% w przeglądarce nie gwarantuje ominięcia najlepszych detektorów (Pangram, Originality) — one uczą się też na wyjściu humanizerów. To narzędzie <strong>usuwa oczywiste sygnały AI i pomaga dopracować draft, żeby brzmiał jak Ty</strong>. Traktuj je jako asystenta redakcji, nie jako sposób na oszustwo.</p>
+        </details>
+        <details>
+          <summary>Co oznacza „rytm zdań"?</summary>
+          <p>To burstiness — zmienność długości zdań (odchylenie standardowe / średnia). Człowiek pisze nierówno (≈0.65–0.85), AI bardzo równo (≈0.15–0.30). Pokazujemy go jako <strong>jeden z sygnałów</strong>, a nie jako wyrok — wysoki rytm nie jest gwarancją „ludzkości" tekstu.</p>
+        </details>
+        <details>
+          <summary>Czym jest Deep Humanizer (tryb eksperymentalny)?</summary>
+          <p>To opcjonalny lokalny model AI (Qwen 2.5), który przepisuje tekst od zera techniką reverse-prompting. Daje mocniejszą zmianę, ale wymaga jednorazowego pobrania ~900 MB, WebGPU i desktopa, a jakość — zwłaszcza po polsku — bywa nierówna. Dlatego jest schowany jako beta; główną drogą jest skaner.</p>
+        </details>
+        <details>
+          <summary>Czy działa na telefonie?</summary>
+          <p>Skaner — tak, na każdej przeglądarce, od razu. Deep Humanizer wymaga WebGPU i ~2 GB RAM, więc realnie działa tylko na desktopach/laptopach z Chrome 113+, Edge 113+ lub Firefox 121+.</p>
+        </details>
+      </section>
+
+    </main>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9" y="8" width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9" y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9" y="20" width="6" height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploadów · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Narzędzia</span>
+          <a href="/narzedzia/" class="fa-footer__link">Wszystkie</a>
+          <a href="/formatter/" class="fa-footer__link">Markdown</a>
+          <a href="/js-minifier/" class="fa-footer__link">JS Minifier</a>
+          <a href="/seo-geo/" class="fa-footer__link">SEO &amp; GEO</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Treść</span>
+          <a href="/articles/" class="fa-footer__link">Artykuły</a>
+          <a href="/about/" class="fa-footer__link">O nas</a>
+          <a href="/privacy/" class="fa-footer__link">Prywatność</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Kontakt</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+          <a href="https://formattedai.pl/en/text-humanizer/" class="fa-footer__link" hreflang="en">English</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>Text Humanizer · 100% client-side</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="th-modal" id="th-download-modal" role="dialog" aria-labelledby="th-download-title">
+    <div class="th-modal__inner">
+      <div class="th-modal__title" id="th-download-title">Pobieranie modelu AI</div>
+      <div class="th-modal__body">
+        <p>Pobieram lokalny model językowy z publicznego CDN <strong>Hugging Face</strong> (<code>huggingface.co/mlc-ai</code>). To jednorazowy proces — model zostanie zapisany w Twojej przeglądarce (IndexedDB).</p>
+        <p style="color:rgba(255,255,255,.6);font-size:13px;">Po pobraniu wszystko działa <b>offline</b>. Twój tekst nigdy nie opuszcza tej przeglądarki — pobierany jest tylko sam model.</p>
+        <div class="th-modal__progress-wrap">
+          <div class="th-modal__progress" id="th-download-progress"></div>
+        </div>
+        <div class="th-modal__progress-text" id="th-download-text">Inicjalizacja…</div>
+        <div class="th-modal__actions">
+          <button class="th-btn th-btn--ghost" id="th-download-cancel" type="button">Anuluj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="th-notify" id="th-notify" role="status" aria-live="polite"></div>
+
+  <script type="module" src="../assets/js/text-humanizer.min.js"></script>
+</body>
+</html>
