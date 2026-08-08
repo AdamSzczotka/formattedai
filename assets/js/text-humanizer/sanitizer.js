@@ -21,18 +21,12 @@ function pickDeterministic(arr, seed) {
   return arr[idx];
 }
 
+function cap(s) {
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+}
+
 function compileRegexList(patterns, flags = 'i') {
   return patterns.map(p => new RegExp(p, flags));
-}
-
-function isHedgeOpener(sentence, dict) {
-  const compiled = dict._compiled_hedge || (dict._compiled_hedge = compileRegexList(dict.hedge_openers));
-  return compiled.some(r => r.test(sentence));
-}
-
-function isResolutionCloser(sentence, dict) {
-  const compiled = dict._compiled_closer || (dict._compiled_closer = compileRegexList(dict.resolution_closers));
-  return compiled.some(r => r.test(sentence));
 }
 
 function trimHedgeOpener(sentence, dict) {
@@ -41,7 +35,20 @@ function trimHedgeOpener(sentence, dict) {
     if (r.test(sentence)) {
       const trimmed = sentence.replace(r, '').trim();
       if (trimmed.length < sentence.length * 0.5) return null;
-      return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+      return cap(trimmed);
+    }
+  }
+  return sentence;
+}
+
+function trimResolutionCloser(sentence, dict) {
+  const compiled = dict._compiled_closer || (dict._compiled_closer = compileRegexList(dict.resolution_closers));
+  for (const r of compiled) {
+    if (r.test(sentence)) {
+      const trimmed = sentence.replace(r, '').trim();
+      // Sentence was essentially nothing but the closer phrase — drop it.
+      if (trimmed.length < sentence.length * 0.4) return null;
+      return cap(trimmed);
     }
   }
   return sentence;
@@ -76,12 +83,13 @@ function replaceCanaryWords(sentence, dict, aggressiveness) {
 function simplifyEmDashes(sentence, keepRatio) {
   const seedBase = hashString(sentence);
   let dashIdx = 0;
-  return sentence.replace(/\s*[—–]\s*/g, (match) => {
+  return sentence.replace(/\s*[—–]\s*(\p{L})?/gu, (match, nextChar) => {
     const r = ((seedBase + dashIdx * 31) % 100) / 100;
     dashIdx++;
-    if (r < keepRatio) return ' — ';
-    if (r < keepRatio + 0.6) return ', ';
-    return '. ';
+    const nc = nextChar || '';
+    if (r < keepRatio) return ' — ' + nc;
+    if (r < keepRatio + 0.6) return ', ' + nc;
+    return '. ' + nc.toUpperCase();
   }).replace(/,\s+,/g, ',').replace(/\.\s*\./g, '.');
 }
 
@@ -93,14 +101,17 @@ function breakTricolon(sentence, dict) {
 
   const r = seedBase % 100;
   const [full, a, b, c] = m;
+  const isPL = dict.lang === 'pl';
+  const A = a.trim(), B = b.trim(), C = c.trim();
   let replacement;
   if (r < 50) {
-    replacement = `${a.trim()} and ${b.trim()}. Plus ${c.trim()}`.replace(' and ', dict.lang === 'pl' ? ' i ' : ' and ');
-    if (dict.lang === 'pl') replacement = `${a.trim()} i ${b.trim()}. Plus ${c.trim()}`;
+    replacement = isPL
+      ? `${A} i ${B}. Do tego ${C}`
+      : `${A} and ${B}. Plus ${C}`;
   } else if (r < 80) {
-    replacement = dict.lang === 'pl'
-      ? `${a.trim()}. ${b.trim()}. ${c.trim()} też.`
-      : `${a.trim()}. ${b.trim()}. ${c.trim()} too.`;
+    replacement = isPL
+      ? `${A}. ${cap(B)}. ${cap(C)} też.`
+      : `${A}. ${cap(B)}. ${cap(C)} too.`;
   } else {
     return sentence;
   }
@@ -154,7 +165,9 @@ function findSplitPoint(sentence) {
   const words = sentence.split(/\s+/);
   if (words.length < 14) return -1;
 
-  const splitWords = ['który', 'która', 'które', 'których', 'gdzie', 'kiedy', 'choć', 'ponieważ', 'jednak', 'natomiast', 'while', 'which', 'where', 'because', 'although', 'however'];
+  // Relative pronouns (który/which/where/that…) are intentionally excluded:
+  // splitting there produces a fragment with a dangling reference.
+  const splitWords = ['choć', 'ponieważ', 'jednak', 'natomiast', 'dlatego', 'więc', 'because', 'although', 'however', 'but', 'so', 'therefore'];
   for (let i = Math.floor(words.length * 0.4); i < Math.floor(words.length * 0.7); i++) {
     const w = words[i].toLowerCase().replace(/[.,;:]/g, '');
     if (splitWords.includes(w)) return i;
@@ -174,14 +187,8 @@ function splitLongSentence(sentence, lang) {
   const splitAt = findSplitPoint(sentence);
   if (splitAt < 5 || splitAt > words.length - 4) return [sentence];
   const first = words.slice(0, splitAt).join(' ').replace(/[,;:]\s*$/, '') + '.';
-  let secondStart = words[splitAt];
-  if (/^(?:który|która|które|których)$/i.test(secondStart)) {
-    secondStart = lang === 'pl' ? 'Ten' : 'It';
-    const second = secondStart + ' ' + words.slice(splitAt + 1).join(' ');
-    return [first, second.charAt(0).toUpperCase() + second.slice(1)];
-  }
   const second = words.slice(splitAt).join(' ');
-  return [first, second.charAt(0).toUpperCase() + second.slice(1)];
+  return [first, cap(second)];
 }
 
 function mergeShortSentences(a, b, lang) {
@@ -267,15 +274,17 @@ export function sanitize(text, options = {}) {
   let sentences = allSentences;
 
   if (preset.stripHedgeOpeners) {
+    // Trim the opener in place instead of deleting the whole sentence,
+    // so the informational tail of the sentence is preserved.
     sentences = sentences
-      .map((s, i) => i === 0 || sentences.length < 5
-        ? trimHedgeOpener(s, dict)
-        : (isHedgeOpener(s, dict) ? null : s))
+      .map(s => trimHedgeOpener(s, dict))
       .filter(s => s !== null && s !== '' && s !== undefined);
   }
 
   if (preset.stripResolutionClosers) {
-    sentences = sentences.filter(s => !isResolutionCloser(s, dict));
+    sentences = sentences
+      .map(s => trimResolutionCloser(s, dict))
+      .filter(s => s !== null && s !== '' && s !== undefined);
   }
 
   sentences = sentences.map(s => {

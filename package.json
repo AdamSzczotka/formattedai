@@ -22,6 +22,7 @@
     "build:js": "esbuild assets/js/app.js --outfile=assets/js/app.min.js --minify --target=es2020 && esbuild assets/js/avif.js --outfile=assets/js/avif.min.js --bundle --minify --target=es2020 --format=esm --external:https://* && esbuild assets/js/seogeo.js --outfile=assets/js/seogeo.min.js --minify --target=es2020 && esbuild assets/js/html2pdf.js --outfile=assets/js/html2pdf.min.js --bundle --minify --target=es2020 --format=esm && esbuild assets/js/ocr.js --outfile=assets/js/ocr.min.js --minify --target=es2020 --format=esm && esbuild assets/js/emailsignature.js --outfile=assets/js/emailsignature.min.js --minify --target=es2020 && esbuild assets/js/text-humanizer.js --outfile=assets/js/text-humanizer.min.js --bundle --minify --target=es2020 --format=esm --loader:.json=json && esbuild assets/js/text-humanizer/webllm-worker.js --outfile=assets/js/text-humanizer-worker.min.js --bundle --minify --target=es2020 --format=esm --platform=browser --external:url --external:fs --external:path --external:perf_hooks",
     "build": "npm run build:css && npm run build:js",
     "test:pdf": "node tests/pdf-tool.test.js",
+    "test:texthumanizer": "node tests/text-humanizer.test.js && node tests/text-humanizer-detector.test.js",
     "watch:home": "sass assets/scss/home.scss assets/css/home.css --watch --no-source-map",
     "watch:tools": "sass assets/scss/tools.scss assets/css/tools.css --watch --no-source-map",
     "watch:formatter": "sass assets/scss/formatter.scss assets/css/formatter.css --watch --no-source-map",
