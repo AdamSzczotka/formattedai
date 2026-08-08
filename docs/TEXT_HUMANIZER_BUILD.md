@@ -5,6 +5,17 @@ Status: Zatwierdzony — strategia hybrydowa
 Branch: `feature/text-humanizer`
 Powiązany dokument: `docs/TEXT_HUMANIZER_PLAN.md` (research i decyzje wstępne)
 
+> **AKTUALIZACJA 2026-08-08 — PRZERAMOWANIE.** Narzędzie zostało przeprojektowane
+> ze „ślepego humanizera" (Quick Sanitize + Deep Humanizer jako równorzędne tryby)
+> na **skaner AI-telli z edycją w pętli**. Rdzeń to teraz `detector.js`
+> (`detect()` → lista telli z offsetami + `applyIssues/applySafe`), a poprawki
+> użytkownik akceptuje pojedynczo zamiast dostawać ślepy auto-rewrite.
+> `sanitizer.js` (silnik „Quick Sanitize") pozostaje w repo, ale **nie jest już
+> wpięty w UI** (żyje tylko dla testów / ewentualnej przyszłej akcji „urównoważ
+> rytm"). Deep Humanizer (WebLLM) został zdemotowany do sekcji eksperymentalnej.
+> Burstiness prezentowany jako jeden sygnał („rytm zdań"), nie jako „AI score".
+> Sekcje poniżej opisują pierwotną strategię — czytaj je z tą poprawką w tle.
+
 ---
 
 ## Zatwierdzone decyzje
