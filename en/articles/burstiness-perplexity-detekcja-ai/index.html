@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>Burstiness and Perplexity - What Actually Gives Away AI Text [2026]</title>
+  <meta name="description" content="AI detectors don't count em-dashes. They measure burstiness (sentence-length variation) and perplexity (word predictability). Here's how they work and why swapping words won't fool them.">
+  <meta name="keywords" content="burstiness, perplexity, AI detector, how AI detectors work, AI text detection, GPTZero, Originality.ai, text humanizer, sentence length variation, AI-written text">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/en/articles/burstiness-perplexity-detekcja-ai/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/articles/burstiness-perplexity-detekcja-ai/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/articles/burstiness-perplexity-detekcja-ai/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/articles/burstiness-perplexity-detekcja-ai/">
+  <meta http-equiv="content-language" content="en">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Burstiness and Perplexity - What Actually Gives Away AI Text [2026]">
+  <meta property="og:description" content="AI detectors don't count em-dashes - they measure burstiness and perplexity. Here's how they work and why swapping words won't fool them.">
+  <meta property="og:url" content="https://formattedai.pl/en/articles/burstiness-perplexity-detekcja-ai/">
+  <meta property="og:image" content="https://formattedai.pl/articles/burstiness-perplexity-detekcja-ai/images/article_5_hero.jpg">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="en">
+  <meta property="article:published_time" content="2026-08-08">
+  <meta property="article:author" content="Adam Szczotka">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Burstiness and Perplexity - What Actually Gives Away AI Text [2026]">
+  <meta name="twitter:description" content="AI detectors don't count em-dashes - they measure burstiness and perplexity. Here's how they work and why swapping words won't fool them.">
+
+  <!-- Structured Data: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Burstiness and Perplexity - What Actually Gives Away AI Text",
+    "description": "AI detectors don't count em-dashes. They measure burstiness (sentence-length variation) and perplexity (word predictability). Here's how they work and why swapping words won't fool them.",
+    "url": "https://formattedai.pl/en/articles/burstiness-perplexity-detekcja-ai/",
+    "datePublished": "2026-08-08",
+    "dateModified": "2026-08-08",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Szczotka",
+      "url": "https://github.com/AdamSzczotka"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FormattedAI",
+      "url": "https://formattedai.pl/"
+    },
+    "inLanguage": "en",
+    "mainEntityOfPage": "https://formattedai.pl/en/articles/burstiness-perplexity-detekcja-ai/",
+    "wordCount": 1600,
+    "keywords": ["burstiness", "perplexity", "AI detector", "AI text detection", "GPTZero", "Originality.ai", "text humanizer", "sentence length variation", "Text Humanizer"],
+    "articleSection": "Tutorials",
+    "isAccessibleForFree": true,
+    "image": ["https://formattedai.pl/articles/burstiness-perplexity-detekcja-ai/images/article_5_hero.jpg"],
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".article-header__title", ".article-tldr"]
+    }
+  }
+  </script>
+
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://formattedai.pl/en/articles/" },
+      { "@type": "ListItem", "position": 3, "name": "Burstiness and Perplexity - What Actually Gives Away AI Text", "item": "https://formattedai.pl/en/articles/burstiness-perplexity-detekcja-ai/" }
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What's the difference between burstiness and perplexity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Burstiness measures sentence-length variation (standard deviation divided by the mean). Perplexity measures word predictability - how surprised a model is by the next word. The first is about structure, the second about vocabulary and train of thought. Detectors look at both."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does high burstiness guarantee I'll pass a detector?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Burstiness is one signal, not a verdict. You can have a human rhythm but low perplexity or plenty of cliches - and a detector will still call it AI. That's why we show it as one metric, not as an AI score."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will swapping words from a dictionary fool a detector?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Usually not, and it often hurts. Top-tier detectors are trained on humanizer output and recognize mechanical synonym swaps as a separate pattern. What actually works is rewriting sentence structure and train of thought."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my text sent to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Text Humanizer computes burstiness and detects AI signals locally, in pure JavaScript in your browser. The text never leaves it - we have no backend and no API that anything is sent to."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../../../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../../../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+
+  <!-- Theme bootstrap (no flash) -->
+  <script>
+    (function() {
+      var t = null;
+      try { t = localStorage.getItem('formattedai-theme'); } catch (_) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#f5f5f7' : '#08080c');
+    })();
+  </script>
+
+  <!-- Fonts & Styles -->
+  <link rel="stylesheet" href="../../assets/css/fonts.css">
+  <link rel="stylesheet" href="../../../assets/css/articles.css">
+
+  <!-- Hide the alternate language content -->
+  <style>.lang-pl { display: none !important; }</style>
+</head>
+<body>
+  <div class="bg-effects" aria-hidden="true">
+    <div class="bg-effects__orb bg-effects__orb--1"></div>
+    <div class="bg-effects__orb bg-effects__orb--2"></div>
+    <div class="bg-effects__orb bg-effects__orb--3"></div>
+    <div class="bg-effects__grid"></div>
+  </div>
+
+  <div class="app">
+    <nav class="navbar" role="navigation">
+      <a href="/" class="navbar__brand">
+        <div class="navbar__logo" aria-hidden="true">
+          <svg class="navbar__logo-svg" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="url(#logoFill)" />
+            <path d="M10 14L14 18L22 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="4" y1="2" x2="28" y2="30"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient>
+              <linearGradient id="logoFill" x1="4" y1="2" x2="28" y2="30"><stop stop-color="rgba(108,92,231,0.3)"/><stop offset="1" stop-color="rgba(167,139,250,0.1)"/></linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="navbar__title">Formatted<span class="navbar__title-accent">AI</span></div>
+          <p class="navbar__subtitle">Narzędzia webdev • 100% client-side</p>
+        </div>
+      </a>
+      <div class="navbar__nav">
+        <a href="/en/tools/" class="navbar__link">Tools</a>
+        <a href="/en/articles/" class="navbar__link navbar__link--active">Articles</a>
+        <a href="/en/about/" class="navbar__link">About</a>
+        <a href="https://formattedai.pl/articles/burstiness-perplexity-detekcja-ai/" class="navbar__link">PL</a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="theme-toggle__moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-toggle__sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <a href="https://github.com/AdamSzczotka/formattedai" class="navbar__link" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </nav>
+
+    <main>
+      <!-- Reading Progress -->
+      <div class="reading-progress"><div class="reading-progress__bar" id="readingProgress"></div></div>
+
+      <!-- Article Header -->
+      <header class="article-header">
+        <a href="/en/articles/" class="article-header__tag">&larr; Articles</a>
+        <h1 class="article-header__title lang-pl">Burstiness i perplexity: co naprawdę zdradza tekst napisany przez AI</h1>
+        <h1 class="article-header__title lang-en">Burstiness and Perplexity: What Actually Gives Away AI Text</h1>
+        <div class="article-header__meta">
+          <span>Adam Szczotka</span>
+          <span class="article-header__meta-divider"></span>
+          <span>2026-08-08</span>
+          <span class="article-header__meta-divider"></span>
+          <span>7 min read</span>
+        </div>
+      </header>
+
+      <!-- Article Content PL -->
+      <article class="article-body lang-pl">
+        <div class="article-body__inner">
+
+          <!-- IMAGE: hero -->
+          <picture>
+            <source srcset="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_hero.avif" type="image/avif">
+            <img src="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_hero.jpg" alt="Porównanie ludzkiego i maszynowego rytmu zdań - słupki o różnej i jednakowej długości" width="1200" height="669" loading="eager" style="width:100%;height:auto;border-radius:12px;margin-bottom:2rem;">
+          </picture>
+          <p class="article-img-note"><span class="lang-pl">Grafika wygenerowana przy użyciu sztucznej inteligencji.</span><span class="lang-en">Image generated using artificial intelligence.</span></p>
+
+          <h2>Problem, który znasz za dobrze</h2>
+          <p>Przepuszczasz tekst przez humanizer. Podmieniasz &bdquo;zagłębić się&rdquo; na &bdquo;przyjrzeć się&rdquo;, wycinasz kilka myślników, zamieniasz &bdquo;W dzisiejszym świecie&rdquo; na coś mniej oczywistego. Wklejasz do GPTZero. I dalej widzisz: <strong>98% AI</strong>.</p>
+          <p>Frustrujące? Owszem. Ale nie przypadkowe. Większość poradników o &bdquo;omijaniu detektorów&rdquo; każe ci polować na em-dashe i słowa-wytrychy. Tymczasem detektory w 2026 roku patrzą na coś zupełnie innego - na <strong>statystykę całego tekstu</strong>, nie na pojedyncze słowa.</p>
+          <p>Dwie liczby robią tu najwięcej roboty: <strong>burstiness</strong> (jak bardzo zmienia się długość twoich zdań) i <strong>perplexity</strong> (jak bardzo przewidywalne są twoje słowa). Zrozum te dwie metryki, a przestaniesz walczyć z wiatrakami.</p>
+
+          <div class="article-tip">
+            <div class="article-tip__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              Kluczowy fakt
+            </div>
+            <p>Człowiek pisze z burstiness w okolicach <strong>0.65-0.85</strong> - miesza zdania krótkie i długie. Model AI trzyma się <strong>0.15-0.30</strong> - zdanie za zdaniem po 18-24 słowa. To dziś silniejszy sygnał wykrywalności niż jakikolwiek myślnik.</p>
+          </div>
+
+          <div class="article-tldr">
+            <div class="article-tldr__label">Nie masz czasu czytać?</div>
+            <p>Detektory liczą rozkład statystyczny tekstu, nie pojedyncze słowa. Wklej swój tekst do Text Humanizera - pokaże ci burstiness i wszystkie typowe sygnały AI, żebyś wiedział, co realnie poprawić (a czego żaden trik nie naprawi).</p>
+            <a href="/text-humanizer/" class="btn btn--primary">Zmierz rytm swojego tekstu &rarr;</a>
+          </div>
+
+          <h2>Kogo to dotyczy?</h2>
+          <p>Metryki wykrywalności AI dotyczą każdego, kto oddaje tekst tam, gdzie ktoś może go sprawdzić:</p>
+          <ul>
+            <li><strong>Studenci i naukowcy</strong> - uczelnie coraz częściej puszczają prace przez Turnitin czy GPTZero</li>
+            <li><strong>Copywriterzy i redakcje</strong> - klienci i wydawcy sprawdzają teksty przez Originality.ai</li>
+            <li><strong>Specjaliści SEO</strong> - chcą wiedzieć, czy treść &bdquo;pachnie AI&rdquo; i jak brzmi bardziej naturalnie</li>
+            <li><strong>Każdy, kto pisze z AI</strong> - i chce zrozumieć, dlaczego surowy output modelu widać na kilometr</li>
+          </ul>
+          <p>Wspólny mianownik: wszyscy sądzą, że problem to słownictwo. A problem to <strong>rytm i przewidywalność</strong>.</p>
+
+          <!-- IMAGE: before/after -->
+          <picture>
+            <source srcset="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_before_after.avif" type="image/avif">
+            <img src="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_before_after.jpg" alt="AI vs człowiek: zdania o jednakowej długości kontra zdania o różnej długości" width="1200" height="805" loading="lazy" style="width:100%;height:auto;border-radius:12px;margin-bottom:2rem;">
+          </picture>
+          <p class="article-img-note"><span class="lang-pl">Grafika wygenerowana przy użyciu sztucznej inteligencji.</span><span class="lang-en">Image generated using artificial intelligence.</span></p>
+
+          <h2>Co liczą detektory AI w 2026?</h2>
+          <p>Detektor AI to klasyfikator - model uczony na milionach próbek tekstu ludzkiego i maszynowego. Nie szuka słowa &bdquo;delve&rdquo; z listy. Liczy cechy statystyczne i pyta: &bdquo;czy ten rozkład wygląda jak człowiek, czy jak model?&rdquo;. Trzy rodziny sygnałów ważą najwięcej:</p>
+
+          <table>
+            <thead>
+              <tr><th>Sygnał</th><th>Co mierzy</th><th>Tekst AI</th><th>Tekst ludzki</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Burstiness</strong></td><td>zmienność długości zdań</td><td>niska (równo)</td><td>wysoka (nierówno)</td></tr>
+              <tr><td><strong>Perplexity</strong></td><td>przewidywalność słowa</td><td>niska (oczywiste)</td><td>wyższa (zaskoczenia)</td></tr>
+              <tr><td><strong>Fingerprinty</strong></td><td>wstępy, tricolony, klisze</td><td>dużo</td><td>mało</td></tr>
+            </tbody>
+          </table>
+
+          <p>Em-dashe, &bdquo;zagłębić się&rdquo; czy &bdquo;krajobraz&rdquo; to co najwyżej trzecia kategoria - i najsłabsza. Możesz je wszystkie usunąć, a jeśli rytm i przewidywalność zostaną maszynowe, detektor dalej postawi na AI. Dlatego skupianie się na słownictwie to leczenie objawu, nie przyczyny.</p>
+
+          <h2>Burstiness - zmienność długości zdań</h2>
+          <p>Burstiness to prosta liczba: <strong>odchylenie standardowe długości zdań podzielone przez średnią</strong>. Brzmi technicznie, ale znaczy coś intuicyjnego - jak bardzo twoje zdania różnią się długością.</p>
+          <p>Człowiek pisze nierówno. Rzuci zdanie na trzy słowa. Potem rozwinie myśl w długim, wielokrotnie złożonym zdaniu, które meandruje przez kilka wątków, zanim postawi kropkę. Znowu krótko. Ta zmienność to naturalny oddech tekstu.</p>
+          <p>Model AI oddycha inaczej. Domyślnie generuje zdania o podobnej, &bdquo;wygodnej&rdquo; długości - najczęściej 18-24 słowa. Akapit za akapitem tego samego rytmu. Dla oka wygląda gładko. Dla detektora to jak metronom - zbyt równy, żeby był ludzki.</p>
+          <p>I tu jest pułapka humanizerów: możesz podmienić każde słowo na synonim, a jeśli nie ruszysz <strong>struktury zdań</strong>, burstiness się nie zmieni. Metryka liczy długości, nie słownictwo.</p>
+
+          <h2>Perplexity - przewidywalność słów</h2>
+          <p>Perplexity mierzy, jak bardzo model jest &bdquo;zaskoczony&rdquo; twoim tekstem. Niska perplexity znaczy: każde kolejne słowo jest dokładnie tym, którego model by się spodziewał. Wysoka - tekst skręca tam, gdzie model by nie postawił.</p>
+          <p>Modele językowe z natury generują tekst o niskiej perplexity, bo wybierają słowa najbardziej prawdopodobne. &bdquo;Kluczowe znaczenie ma...&rdquo; - i model niemal na pewno dopowie &bdquo;adaptacja&rdquo; albo &bdquo;elastyczność&rdquo;. Człowiek częściej wybierze słowo mniej oczywiste, wtrąci dygresję, użyje idiomu spoza schematu.</p>
+          <p>Perplexity jest trudniejsza do oszukania niż burstiness, bo wymaga prawdziwego przepisania myśli - nie tylko przetasowania zdań. Podmiana synonimu ze słownika często wręcz <strong>obniża</strong> naturalność, bo wstawia słowo z innego rejestru niż reszta zdania. Detektor to widzi jako kolejny wzorzec, nie jako &bdquo;ludzki błąd&rdquo;.</p>
+
+          <!-- IMAGE: workflow -->
+          <picture>
+            <source srcset="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_workflow.avif" type="image/avif">
+            <img src="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_workflow.jpg" alt="Trzy kroki: zmierz burstiness, zdiagnozuj sygnały AI, przepisz strukturę" width="1200" height="896" loading="lazy" style="width:100%;height:auto;border-radius:12px;margin-bottom:2rem;">
+          </picture>
+          <p class="article-img-note"><span class="lang-pl">Grafika wygenerowana przy użyciu sztucznej inteligencji.</span><span class="lang-en">Image generated using artificial intelligence.</span></p>
+
+          <h2>Dlaczego podmiana słów nie wystarcza?</h2>
+          <p>Tu jest niewygodna prawda o większości &bdquo;humanizerów&rdquo;: <strong>podmiana słów ze słownika to dziś osobny, rozpoznawalny sygnał</strong>. Detektory z górnej półki (Pangram, Originality) są trenowane także na wyjściu humanizerów. Uczą się ich manier: nierówne rejestry, dziwne synonimy, mechaniczne cięcie zdań.</p>
+
+          <div class="article-compare">
+            <div class="article-compare__card">
+              <div class="article-compare__format">Podmiana słów</div>
+              <div class="article-compare__value">Burstiness bez zmian</div>
+              <div class="article-compare__label">słownictwo &ne; struktura</div>
+            </div>
+            <div class="article-compare__card article-compare__card--winner">
+              <div class="article-compare__format">Przepisanie struktury</div>
+              <div class="article-compare__value">Metryki się ruszają</div>
+              <div class="article-compare__label">to liczy detektor</div>
+              <div class="article-compare__badge">Działa</div>
+            </div>
+          </div>
+
+          <p>Żaden działający w 100% w przeglądarce tool nie zagwarantuje ci przejścia przez najlepsze detektory - i uważaj na każdy, który to obiecuje. Realnie możesz zdiagnozować tekst, usunąć oczywiste sygnały AI i <strong>świadomie przepisać</strong> fragmenty, które brzmią maszynowo.</p>
+
+          <h2>Co realnie możesz zrobić (i czego nie obiecywać)</h2>
+          <p>Zamiast ścigać się z detektorami, potraktuj je jak lustro. Chcesz wiedzieć, gdzie tekst brzmi jak model - i to poprawić ręcznie, tam gdzie ma sens.</p>
+
+          <div class="article-steps">
+            <div class="article-steps__item">
+              <div class="article-steps__number">1</div>
+              <div class="article-steps__content">
+                <h3>Zmierz, zanim zaczniesz</h3>
+                <p>Sprawdź burstiness swojego tekstu. Jeśli jest poniżej 0.35 - masz maszynowy, równy rytm i to jest twój pierwszy problem, nie słownictwo.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">2</div>
+              <div class="article-steps__content">
+                <h3>Urozmaić rytm zdań</h3>
+                <p>Połącz dwa krótkie zdania w jedno. Potem obok postaw zdanie na cztery słowa. Celowa nierówność podnosi burstiness w stronę ludzką.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">3</div>
+              <div class="article-steps__content">
+                <h3>Usuń oczywiste klisze</h3>
+                <p>Wstępy typu &bdquo;W dzisiejszym świecie&rdquo;, zamknięcia &bdquo;Podsumowując&rdquo;, nadmiar myślników - to nie zbawi cię przed detektorem, ale poprawia czytelność i są darmowym zyskiem.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">4</div>
+              <div class="article-steps__content">
+                <h3>Przepisz, nie podmieniaj</h3>
+                <p>Tam gdzie zdanie brzmi jak model, napisz je od nowa własnymi słowami. To jedyne, co realnie rusza perplexity.</p>
+              </div>
+            </div>
+          </div>
+
+          <p>Text Humanizer robi krok pierwszy i trzeci za ciebie: skanuje tekst, pokazuje burstiness jako <strong>jeden z sygnałów</strong> (nie jako werdykt) i podświetla wszystkie typowe klisze AI, żebyś wiedział, co poprawić. Kroki drugi i czwarty - urozmaicenie rytmu i przepisanie myśli - zostają po twojej stronie. I bardzo dobrze: to właśnie one robią z tekstu twój tekst.</p>
+
+          <h2>Prywatność - Twój tekst zostaje u Ciebie</h2>
+          <p>Text Humanizer liczy burstiness i wykrywa sygnały AI <strong>w 100% w Twojej przeglądarce</strong>. To czysty JavaScript - żaden fragment tekstu nie jest wysyłany na serwer.</p>
+          <p>To nie hasło, to architektura. Nie ma backendu, nie ma bazy, nie ma logowania. Świadomie odrzuciliśmy model &bdquo;wyślij tekst do zewnętrznego API&rdquo; - bo to łamie całą ideę prywatności. Twój tekst nigdy nie opuszcza urządzenia, nawet gdy analizujesz poufny dokument.</p>
+
+          <h2>Podsumowanie</h2>
+          <p>Detektory AI nie liczą em-dashów. Liczą burstiness i perplexity - rytm i przewidywalność całego tekstu. Dlatego podmiana słownictwa to za mało: metryki, które decydują, zależą od struktury zdań i toku myśli, a nie od pojedynczych wyrazów.</p>
+          <p>Najuczciwsze podejście to nie &bdquo;omijanie&rdquo;, tylko diagnoza i świadoma redakcja. Zmierz rytm, usuń klisze, przepisz to, co brzmi jak model - i niech tekst zabrzmi jak Ty. Wypróbuj <a href="/text-humanizer/" style="color:#7c6cf0;font-weight:600;">Text Humanizer</a> i zacznij od pomiaru.</p>
+
+          <h2>FAQ</h2>
+          <details>
+            <summary>Czym różni się burstiness od perplexity?</summary>
+            <p>Burstiness mierzy zmienność długości zdań (odchylenie standardowe podzielone przez średnią). Perplexity mierzy przewidywalność słów - jak bardzo model jest zaskoczony kolejnym wyrazem. Pierwsza dotyczy struktury, druga słownictwa i toku myśli. Detektory patrzą na obie.</p>
+          </details>
+          <details>
+            <summary>Czy wysoki burstiness gwarantuje, że przejdę przez detektor?</summary>
+            <p>Nie. Burstiness to jeden z sygnałów, nie werdykt. Możesz mieć ludzki rytm, ale niską perplexity albo pełno klisz - i detektor dalej postawi na AI. Dlatego pokazujemy go jako jedną z metryk, a nie jako wynik AI.</p>
+          </details>
+          <details>
+            <summary>Czy podmiana słów ze słownika oszuka detektor?</summary>
+            <p>Zwykle nie, a często szkodzi. Detektory z górnej półki są trenowane na wyjściu humanizerów i rozpoznają mechaniczną podmianę synonimów jako osobny wzorzec. Realnie działa dopiero przepisanie struktury zdań i toku myśli.</p>
+          </details>
+          <details>
+            <summary>Czy mój tekst jest wysyłany na serwer?</summary>
+            <p>Nie. Text Humanizer liczy burstiness i wykrywa sygnały AI lokalnie, w czystym JavaScript w Twojej przeglądarce. Tekst nigdy nigdzie nie wychodzi - nie mamy backendu ani API, do którego cokolwiek trafia.</p>
+          </details>
+
+        </div>
+      </article>
+
+      <!-- Article Content EN -->
+      <article class="article-body lang-en">
+        <div class="article-body__inner">
+
+          <!-- IMAGE: hero -->
+          <picture>
+            <source srcset="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_hero.avif" type="image/avif">
+            <img src="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_hero.jpg" alt="Human vs machine sentence rhythm - bars of varying and uniform length" width="1200" height="669" loading="eager" style="width:100%;height:auto;border-radius:12px;margin-bottom:2rem;">
+          </picture>
+          <p class="article-img-note"><span class="lang-pl">Grafika wygenerowana przy użyciu sztucznej inteligencji.</span><span class="lang-en">Image generated using artificial intelligence.</span></p>
+
+          <h2>A Problem You Know Too Well</h2>
+          <p>You run your text through a humanizer. You swap &ldquo;delve&rdquo; for &ldquo;look into,&rdquo; cut a few em-dashes, replace &ldquo;In today's world&rdquo; with something less obvious. You paste it into GPTZero. And you still see: <strong>98% AI</strong>.</p>
+          <p>Frustrating? Sure. But not random. Most &ldquo;beat the detector&rdquo; guides tell you to hunt for em-dashes and buzzwords. Meanwhile, detectors in 2026 look at something else entirely - the <strong>statistics of the whole text</strong>, not individual words.</p>
+          <p>Two numbers do most of the work here: <strong>burstiness</strong> (how much your sentence lengths vary) and <strong>perplexity</strong> (how predictable your words are). Understand these two metrics and you'll stop fighting windmills.</p>
+
+          <div class="article-tip">
+            <div class="article-tip__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              Key fact
+            </div>
+            <p>Humans write with a burstiness around <strong>0.65-0.85</strong> - they mix short and long sentences. An AI model stays at <strong>0.15-0.30</strong> - sentence after sentence of 18-24 words. Today that's a stronger detection signal than any em-dash.</p>
+          </div>
+
+          <div class="article-tldr">
+            <div class="article-tldr__label">No time to read?</div>
+            <p>Detectors measure the statistical distribution of your text, not single words. Paste your text into Text Humanizer - it shows burstiness and every common AI tell, so you know what to actually fix (and what no trick will fix).</p>
+            <a href="/en/text-humanizer/" class="btn btn--primary">Measure your text's rhythm &rarr;</a>
+          </div>
+
+          <h2>Who Does This Affect?</h2>
+          <p>AI detection metrics matter for anyone who hands text somewhere it might get checked:</p>
+          <ul>
+            <li><strong>Students and researchers</strong> - universities increasingly run work through Turnitin or GPTZero</li>
+            <li><strong>Copywriters and editors</strong> - clients and publishers check text with Originality.ai</li>
+            <li><strong>SEO specialists</strong> - who want to know whether content &ldquo;smells like AI&rdquo; and how to sound more natural</li>
+            <li><strong>Anyone writing with AI</strong> - and wanting to understand why raw model output is visible a mile away</li>
+          </ul>
+          <p>The common thread: everyone assumes the problem is vocabulary. But the problem is <strong>rhythm and predictability</strong>.</p>
+
+          <!-- IMAGE: before/after -->
+          <picture>
+            <source srcset="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_before_after.avif" type="image/avif">
+            <img src="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_before_after.jpg" alt="AI vs human: sentences of uniform length versus sentences of varying length" width="1200" height="805" loading="lazy" style="width:100%;height:auto;border-radius:12px;margin-bottom:2rem;">
+          </picture>
+          <p class="article-img-note"><span class="lang-pl">Grafika wygenerowana przy użyciu sztucznej inteligencji.</span><span class="lang-en">Image generated using artificial intelligence.</span></p>
+
+          <h2>What Do AI Detectors Actually Measure in 2026?</h2>
+          <p>An AI detector is a classifier - a model trained on millions of samples of human and machine text. It isn't looking up &ldquo;delve&rdquo; on a list. It computes statistical features and asks: &ldquo;does this distribution look human, or like a model?&rdquo; Three families of signals weigh the most:</p>
+
+          <table>
+            <thead>
+              <tr><th>Signal</th><th>What it measures</th><th>AI text</th><th>Human text</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Burstiness</strong></td><td>sentence-length variation</td><td>low (even)</td><td>high (uneven)</td></tr>
+              <tr><td><strong>Perplexity</strong></td><td>next-word predictability</td><td>low (obvious)</td><td>higher (surprises)</td></tr>
+              <tr><td><strong>Fingerprints</strong></td><td>openers, tricolons, cliches</td><td>many</td><td>few</td></tr>
+            </tbody>
+          </table>
+
+          <p>Em-dashes, &ldquo;delve,&rdquo; or &ldquo;tapestry&rdquo; fall into that third category at best - and the weakest one. You can remove them all, but if rhythm and predictability stay machine-like, the detector still calls it AI. That's why obsessing over vocabulary treats the symptom, not the cause.</p>
+
+          <h2>Burstiness - Sentence-Length Variation</h2>
+          <p>Burstiness is a simple number: <strong>the standard deviation of sentence lengths divided by the mean</strong>. It sounds technical, but it means something intuitive - how much your sentences differ in length.</p>
+          <p>Humans write unevenly. They toss out a three-word sentence. Then they develop a thought in a long, multi-clause sentence that meanders through several threads before landing on a period. Then short again. That variation is the natural breathing of text.</p>
+          <p>An AI model breathes differently. By default it generates sentences of similar, &ldquo;comfortable&rdquo; length - most often 18-24 words. Paragraph after paragraph of the same rhythm. To the eye it looks smooth. To a detector it's a metronome - too even to be human.</p>
+          <p>And here's the humanizer trap: you can swap every word for a synonym, but if you don't touch <strong>sentence structure</strong>, burstiness won't move. The metric counts lengths, not vocabulary.</p>
+
+          <h2>Perplexity - Word Predictability</h2>
+          <p>Perplexity measures how &ldquo;surprised&rdquo; a model is by your text. Low perplexity means: every next word is exactly the one the model would expect. High perplexity means the text turns where the model wouldn't have gone.</p>
+          <p>Language models naturally produce low-perplexity text, because they pick the most probable words. &ldquo;The key is...&rdquo; - and the model will almost certainly add &ldquo;adaptability&rdquo; or &ldquo;flexibility.&rdquo; A human more often picks a less obvious word, throws in a digression, uses an idiom off the beaten path.</p>
+          <p>Perplexity is harder to fool than burstiness, because it requires genuinely rewriting the thought - not just reshuffling sentences. A dictionary synonym swap often actually <strong>lowers</strong> naturalness, because it drops in a word from a different register than the rest of the sentence. The detector reads that as another pattern, not as a &ldquo;human quirk.&rdquo;</p>
+
+          <!-- IMAGE: workflow -->
+          <picture>
+            <source srcset="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_workflow.avif" type="image/avif">
+            <img src="../../../articles/burstiness-perplexity-detekcja-ai/images/article_5_workflow.jpg" alt="Three steps: measure burstiness, diagnose AI signals, rewrite the structure" width="1200" height="896" loading="lazy" style="width:100%;height:auto;border-radius:12px;margin-bottom:2rem;">
+          </picture>
+          <p class="article-img-note"><span class="lang-pl">Grafika wygenerowana przy użyciu sztucznej inteligencji.</span><span class="lang-en">Image generated using artificial intelligence.</span></p>
+
+          <h2>Why Swapping Words Isn't Enough</h2>
+          <p>Here's the uncomfortable truth about most &ldquo;humanizers&rdquo;: <strong>dictionary word-swapping is itself a recognizable signal today</strong>. Top-tier detectors (Pangram, Originality) are trained on humanizer output too. They learn its tics: uneven registers, odd synonyms, mechanical sentence-chopping.</p>
+
+          <div class="article-compare">
+            <div class="article-compare__card">
+              <div class="article-compare__format">Word swapping</div>
+              <div class="article-compare__value">Burstiness unchanged</div>
+              <div class="article-compare__label">vocabulary &ne; structure</div>
+            </div>
+            <div class="article-compare__card article-compare__card--winner">
+              <div class="article-compare__format">Structural rewrite</div>
+              <div class="article-compare__value">The metrics move</div>
+              <div class="article-compare__label">what the detector measures</div>
+              <div class="article-compare__badge">Works</div>
+            </div>
+          </div>
+
+          <p>No tool that runs 100% in the browser can guarantee you'll pass the best detectors - and be wary of any that promises it. Realistically, you can diagnose the text, remove the obvious AI signals, and <strong>deliberately rewrite</strong> the parts that sound machine-made.</p>
+
+          <h2>What You Can Realistically Do (and What Not to Promise)</h2>
+          <p>Instead of racing the detectors, treat them like a mirror. You want to know where your text sounds like a model - and fix that by hand, where it makes sense.</p>
+
+          <div class="article-steps">
+            <div class="article-steps__item">
+              <div class="article-steps__number">1</div>
+              <div class="article-steps__content">
+                <h3>Measure before you start</h3>
+                <p>Check your text's burstiness. If it's below 0.35, you have a machine-even rhythm and that's your first problem, not vocabulary.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">2</div>
+              <div class="article-steps__content">
+                <h3>Vary your sentence rhythm</h3>
+                <p>Merge two short sentences into one. Then put a four-word sentence right next to it. Deliberate unevenness pushes burstiness toward human.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">3</div>
+              <div class="article-steps__content">
+                <h3>Cut the obvious cliches</h3>
+                <p>Openers like &ldquo;In today's world,&rdquo; closers like &ldquo;In conclusion,&rdquo; em-dash overuse - they won't save you from a detector, but they improve readability and are a free win.</p>
+              </div>
+            </div>
+            <div class="article-steps__item">
+              <div class="article-steps__number">4</div>
+              <div class="article-steps__content">
+                <h3>Rewrite, don't swap</h3>
+                <p>Where a sentence sounds like a model, write it again in your own words. That's the only thing that genuinely moves perplexity.</p>
+              </div>
+            </div>
+          </div>
+
+          <p>Text Humanizer does steps one and three for you: it scans the text, shows burstiness as <strong>one signal</strong> (not a verdict), and highlights every common AI cliche, so you know what to fix. Steps two and four - varying rhythm and rewriting thoughts - stay on your side. And rightly so: those are exactly what make the text yours.</p>
+
+          <h2>Privacy - Your Text Stays With You</h2>
+          <p>Text Humanizer computes burstiness and detects AI signals <strong>100% in your browser</strong>. It's pure JavaScript - no fragment of text is ever sent to a server.</p>
+          <p>This isn't a slogan, it's the architecture. No backend, no database, no login. We deliberately rejected the &ldquo;send text to an external API&rdquo; model - because it breaks the whole idea of privacy. Your text never leaves your device, even when you analyze a confidential document.</p>
+
+          <h2>Summary</h2>
+          <p>AI detectors don't count em-dashes. They measure burstiness and perplexity - the rhythm and predictability of the whole text. That's why swapping vocabulary isn't enough: the metrics that decide depend on sentence structure and train of thought, not on individual words.</p>
+          <p>The most honest approach isn't &ldquo;beating&rdquo; anything - it's diagnosis and deliberate editing. Measure the rhythm, cut the cliches, rewrite what sounds like a model - and let the text sound like you. Try <a href="/en/text-humanizer/" style="color:#7c6cf0;font-weight:600;">Text Humanizer</a> and start with a measurement.</p>
+
+          <h2>FAQ</h2>
+          <details>
+            <summary>What's the difference between burstiness and perplexity?</summary>
+            <p>Burstiness measures sentence-length variation (standard deviation divided by the mean). Perplexity measures word predictability - how surprised a model is by the next word. The first is about structure, the second about vocabulary and train of thought. Detectors look at both.</p>
+          </details>
+          <details>
+            <summary>Does high burstiness guarantee I'll pass a detector?</summary>
+            <p>No. Burstiness is one signal, not a verdict. You can have a human rhythm but low perplexity or plenty of cliches - and a detector will still call it AI. That's why we show it as one metric, not as an AI score.</p>
+          </details>
+          <details>
+            <summary>Will swapping words from a dictionary fool a detector?</summary>
+            <p>Usually not, and it often hurts. Top-tier detectors are trained on humanizer output and recognize mechanical synonym swaps as a separate pattern. What actually works is rewriting sentence structure and train of thought.</p>
+          </details>
+          <details>
+            <summary>Is my text sent to a server?</summary>
+            <p>No. Text Humanizer computes burstiness and detects AI signals locally, in pure JavaScript in your browser. The text never leaves it - we have no backend and no API that anything is sent to.</p>
+          </details>
+
+        </div>
+      </article>
+
+      <!-- Related Articles -->
+      <section class="article-related" aria-labelledby="related-heading">
+        <h2 id="related-heading" class="article-related__title">
+          <span class="lang-pl">Czytaj dalej</span>
+          <span class="lang-en">Read more</span>
+        </h2>
+        <div class="article-related__grid">
+          <a href="/articles/chatgpt-formatowanie-google-docs/" class="article-related__card lang-pl">
+            <span class="article-related__card-tag">Formatter</span>
+            <span class="article-related__card-title">Wklej ChatGPT do Google Docs bez utraty formatowania</span>
+          </a>
+          <a href="/en/articles/chatgpt-formatowanie-google-docs/" class="article-related__card lang-en">
+            <span class="article-related__card-tag">Formatter</span>
+            <span class="article-related__card-title">Pasting ChatGPT Text into Google Docs Without Losing Formatting</span>
+          </a>
+          <a href="/articles/geo-optymalizacja-pod-ai/" class="article-related__card lang-pl">
+            <span class="article-related__card-tag">GEO</span>
+            <span class="article-related__card-title">GEO - Jak zoptymalizować stronę pod wyszukiwarki AI?</span>
+          </a>
+          <a href="/en/articles/geo-optymalizacja-pod-ai/" class="article-related__card lang-en">
+            <span class="article-related__card-tag">GEO</span>
+            <span class="article-related__card-title">GEO - How to Optimize Your Website for AI Search Engines?</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="article-cta">
+        <h2 class="article-cta__title lang-pl">Zmierz rytm swojego tekstu</h2>
+        <h2 class="article-cta__title lang-en">Measure Your Text's Rhythm</h2>
+        <p class="article-cta__desc lang-pl">Text Humanizer pokaże burstiness i wszystkie typowe sygnały AI w Twoim tekście. 100% w przeglądarce, zero danych na serwerze.</p>
+        <p class="article-cta__desc lang-en">Text Humanizer shows burstiness and every common AI signal in your text. 100% in the browser, zero data on any server.</p>
+        <a href="/en/text-humanizer/" class="btn btn--primary">Open Text Humanizer &rarr;</a>
+      </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <p class="footer__text">
+        <span>Created by</span>
+        <a class="footer__link" href="https://github.com/AdamSzczotka" target="_blank" rel="noopener noreferrer">
+          <svg class="footer__github" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Adam Szczotka
+        </a>
+      </p>
+      <div class="footer__badge">
+        <span class="footer__badge__dot"></span>
+        <span>100% client-side - zero data on server</span>
+      </div>
+      <div class="footer__links">
+        <a href="/en/articles/" class="footer__link">Articles</a>
+        <a href="/en/about/" class="footer__link">About</a>
+        <a href="/en/privacy/" class="footer__link">Privacy</a>
+        <a href="mailto:adam.szczotka0@gmail.com" class="footer__link">Contact</a>
+        <a href="https://github.com/AdamSzczotka/formattedai/issues" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+  (function() {
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', next === 'light' ? '#f5f5f7' : '#08080c');
+    });
+
+    // Reading progress bar
+    var progressBar = document.getElementById('readingProgress');
+    if (progressBar) {
+      window.addEventListener('scroll', function() {
+        var h = document.documentElement;
+        var scrollTop = h.scrollTop || document.body.scrollTop;
+        var scrollHeight = h.scrollHeight - h.clientHeight;
+        var pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        progressBar.style.width = pct + '%';
+      });
+    }
+  })();
+  </script>
+</body>
+</html>
