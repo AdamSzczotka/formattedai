@@ -24,6 +24,7 @@ Available in Polish (default at root) and English (under /en/). Theme: light + d
 - [AVIF Converter](https://formattedai.pl/avif/) ([EN](https://formattedai.pl/en/avif/)): Convert PNG/JPG/WebP to modern AVIF format. Batch + ZIP. WebAssembly.
 - [HEIC Converter](https://formattedai.pl/heic/) ([EN](https://formattedai.pl/en/heic/)): Convert iPhone HEIC/HEIF photos to JPG/PNG/AVIF. WebAssembly.
 - [OCR](https://formattedai.pl/ocr/) ([EN](https://formattedai.pl/en/ocr/)): Recognize text from images. Tesseract.js, 100+ languages. Export TXT/Markdown.
+- [Color Palette](https://formattedai.pl/color-palette/) ([EN](https://formattedai.pl/en/color-palette/)): Color toolkit - generate harmonious palettes from color theory (complementary, analogous, triadic, tetradic, split-complementary, monochromatic), HEX/RGB/HSL with two-way sync, 50-900 shade scale, WCAG contrast checker with AA/AAA badges, export to CSS variables / JSON / PNG / SVG. Zero dependencies. PL + EN. 100% client-side, no backend, no telemetry.
 
 ## Tools - Documents
 
