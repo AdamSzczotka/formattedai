@@ -17,6 +17,7 @@ Available in Polish (default at root) and English (under /en/). Theme: light + d
 - [Markdown Formatter](https://formattedai.pl/formatter/) ([EN](https://formattedai.pl/en/formatter/)): Convert ChatGPT/Claude markdown to formatted text for Google Docs and Microsoft Word. Export HTML/DOCX/MD.
 - [JS Minifier](https://formattedai.pl/js-minifier/) ([EN](https://formattedai.pl/en/js-minifier/)): Minify and beautify JavaScript using Esbuild + Terser + js-beautify
 - [CSS Minifier](https://formattedai.pl/css-minifier/) ([EN](https://formattedai.pl/en/css-minifier/)): Minify and beautify CSS using CSSO + js-beautify
+- [JSON Formatter](https://formattedai.pl/json-formatter/) ([EN](https://formattedai.pl/en/json-formatter/)): JSON toolkit - format, minify and live-validate JSON, interactive tree view with search-by-key, JSONPath queries, diff of two JSON documents, and conversion JSON <-> YAML / CSV (RFC 4180). PL + EN. 100% client-side, no backend, no telemetry.
 
 ## Tools - Images
 
