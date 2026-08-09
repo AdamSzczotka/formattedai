@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Color Palette — generator harmonii, skala odcieni, kontrast WCAG | FormattedAI</title>
+  <meta name="description" content="Darmowy generator palet kolorów online: harmonie z koła barw (dopełniające, analogiczne, triada, tetrada), skala odcieni 50–900 jak tokeny designu oraz sprawdzanie kontrastu WCAG (AA/AAA). HEX, RGB, HSL, eksport CSS/JSON/PNG/SVG. 100% w przeglądarce.">
+  <meta name="keywords" content="generator palet kolorów, color palette generator, harmonie kolorów, koło barw, kontrast WCAG, HEX RGB HSL, skala odcieni, design tokens, paleta kolorów online, kontrast AA AAA, client-side">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/color-palette/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/color-palette/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/color-palette/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/color-palette/">
+  <meta http-equiv="content-language" content="pl, en">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Color Palette — harmonie, skala odcieni, kontrast WCAG | FormattedAI">
+  <meta property="og:description" content="Generuj harmonie kolorów z koła barw, buduj skalę odcieni 50–900 i sprawdzaj kontrast WCAG. HEX/RGB/HSL, eksport CSS/JSON/PNG/SVG. 100% client-side.">
+  <meta property="og:url" content="https://formattedai.pl/color-palette/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Color Palette | FormattedAI">
+  <meta name="twitter:description" content="Generator harmonii kolorów, skala odcieni i kontrast WCAG. 100% w przeglądarce.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "WebApplication",
+    "name": "FormattedAI Color Palette",
+    "headline": "Color Palette — harmonie, skala odcieni, kontrast WCAG",
+    "description": "Darmowy generator palet kolorów: harmonie z koła barw (dopełniające, analogiczne, triada, tetrada, monochromatyczne), skala odcieni 50–900 jak tokeny designu oraz sprawdzanie kontrastu WCAG (AA/AAA) z relatywną luminancją. HEX, RGB, HSL, blokowanie próbek, eksport CSS/JSON/PNG/SVG. Wszystko działa w przeglądarce.",
+    "url": "https://formattedai.pl/color-palette/",
+    "applicationCategory": "DesignApplication", "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Adam Szczotka", "url": "https://github.com/AdamSzczotka" },
+    "featureList": [
+      "Harmonie kolorów z koła barw: dopełniające, analogiczne, triada, tetrada, monochromatyczne",
+      "Synchronizacja HEX ↔ RGB ↔ HSL i próbnik kolorów (EyeDropper)",
+      "Blokowanie próbek i losowanie tylko odblokowanych (spacja)",
+      "Skala odcieni 50–900 jak tokeny designu z podglądem na jasnym i ciemnym tle",
+      "Sprawdzanie kontrastu WCAG 2.x (AA/AAA) z relatywną luminancją",
+      "Eksport palety: CSS custom properties, JSON, lista HEX, PNG i SVG",
+      "100% client-side, bez uploadu i telemetrii"
+    ],
+    "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Czy narzędzie wysyła moje kolory na serwer?", "acceptedAnswer": { "@type": "Answer", "text": "Nie. Cały generator palet działa w czystym JavaScript w Twojej przeglądarce — harmonie, skala odcieni, kontrast i eksport. Nic nie jest nigdzie wysyłane, nie ma backendu ani telemetrii, a Twoja paleta zapisuje się tylko lokalnie w localStorage." } },
+      { "@type": "Question", "name": "Jakie tryby oferuje Color Palette?", "acceptedAnswer": { "@type": "Answer", "text": "Trzy: Harmonie (generator palety 5 kolorów z koła barw ze schematami dopełniającym, analogicznym, triadą, tetradą i monochromatycznym), Skala (odcienie 50–900 jak tokeny designu) oraz Kontrast (sprawdzanie zgodności z WCAG AA/AAA)." } },
+      { "@type": "Question", "name": "Jak liczony jest kontrast WCAG?", "acceptedAnswer": { "@type": "Answer", "text": "Zgodnie z WCAG 2.x: obliczamy relatywną luminancję obu kolorów (z korekcją gamma sRGB) i wyznaczamy wskaźnik kontrastu (L1 + 0,05) / (L2 + 0,05). Wynik porównujemy z progami: AA tekst zwykły ≥ 4,5:1, AA duży ≥ 3:1, AAA zwykły ≥ 7:1, AAA duży ≥ 4,5:1." } },
+      { "@type": "Question", "name": "Czym jest tryb skali odcieni 50–900?", "acceptedAnswer": { "@type": "Answer", "text": "Skala generuje 10 stopni jasności jednego koloru (50, 100, 200 … 900) tak jak tokeny w systemach designu (np. Tailwind). Rozjaśnienia (tinty) idą w stronę 50, przyciemnienia (cienie) w stronę 900. Każdy stopień ma gotowy HEX do skopiowania, z podglądem czytelności na jasnym i ciemnym tle." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "Narzędzia", "item": "https://formattedai.pl/narzedzia/" },
+      { "@type": "ListItem", "position": 3, "name": "Color Palette", "item": "https://formattedai.pl/color-palette/" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Theme bootstrap (no flash) -->
+  <script>
+    (function() {
+      var t = null;
+      try { t = localStorage.getItem('formattedai-theme'); } catch (_) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#f8fafe' : '#08080c');
+    })();
+  </script>
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/css/colorpalette.css">
+</head>
+<body>
+
+  <div class="tool-shell">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/" class="fa-nav__brand" aria-label="FormattedAI - strona główna">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+      </a>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/narzedzia/" class="fa-nav__crumb-link">Narzędzia</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">Color Palette</span>
+      </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/en/color-palette/" class="fa-nav__lang" hreflang="en" title="English version">EN</a>
+        <button class="fa-nav__icon-btn" id="themeToggle" type="button" aria-label="Przełącz motyw">
+          <svg class="fa-theme__moon" id="iconMoon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="fa-theme__sun" id="iconSun" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <a href="/narzedzia/" class="fa-nav__cta">Wszystkie narzędzia →</a>
+      </div>
+    </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ NARZĘDZIE · Kolory</span>
+          <h1 class="tool-head__title">Color Palette</h1>
+          <p class="tool-head__sub">Generuj harmonie kolorów z koła barw, buduj skalę odcieni 50–900 jak tokeny designu i sprawdzaj kontrast WCAG. HEX, RGB, HSL, blokowanie próbek i eksport CSS / JSON / PNG / SVG — wszystko lokalnie w przeglądarce.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="cp-modebar" role="toolbar" aria-label="Tryb narzędzia">
+      <span class="cp-label">Tryb</span>
+      <div class="cp-seg" role="radiogroup" aria-label="Tryb narzędzia">
+        <button class="cp-seg__btn is-active" data-mode="harmonie" role="radio" aria-checked="true" type="button">Harmonie</button>
+        <button class="cp-seg__btn" data-mode="skala" role="radio" aria-checked="false" type="button">Skala</button>
+        <button class="cp-seg__btn" data-mode="kontrast" role="radio" aria-checked="false" type="button">Kontrast WCAG</button>
+      </div>
+    </div>
+
+    <main>
+
+      <!-- ============ MODE: HARMONIE ============ -->
+      <section class="cp-mode" id="cp-mode-harmonie" data-mode="harmonie">
+        <div class="cp-bar">
+          <label class="cp-field cp-field--color">
+            <span>Kolor bazowy</span>
+            <input type="color" class="cp-color" id="cp-base-color" value="#a78bfa" aria-label="Kolor bazowy">
+          </label>
+          <label class="cp-field"><span>HEX</span>
+            <input class="cp-input-text" id="cp-base-hex" type="text" spellcheck="false" inputmode="text" placeholder="#a78bfa" aria-label="Kolor bazowy HEX">
+          </label>
+          <label class="cp-field"><span>RGB</span>
+            <input class="cp-input-text" id="cp-base-rgb" type="text" spellcheck="false" placeholder="167, 139, 250" aria-label="Kolor bazowy RGB">
+          </label>
+          <label class="cp-field"><span>HSL</span>
+            <input class="cp-input-text" id="cp-base-hsl" type="text" spellcheck="false" placeholder="258, 78%, 68%" aria-label="Kolor bazowy HSL">
+          </label>
+          <button class="tool-act" id="cp-eyedropper" type="button" hidden aria-label="Pobierz kolor z ekranu (próbnik)">Próbnik</button>
+          <label class="cp-field"><span>Schemat</span>
+            <select class="cp-select" id="cp-scheme" aria-label="Schemat harmonii">
+              <option value="complementary">Dopełniający</option>
+              <option value="analogous">Analogiczny</option>
+              <option value="triad">Triada</option>
+              <option value="tetrad-rect">Tetrada (prostokąt)</option>
+              <option value="tetrad-square">Tetrada (kwadrat)</option>
+              <option value="split-complementary">Dopełniający rozdzielony</option>
+              <option value="monochromatic">Monochromatyczny</option>
+            </select>
+          </label>
+          <span class="cp-bar__spacer"></span>
+          <button class="tool-act tool-act--primary" id="cp-generate" type="button">Losuj <kbd>spacja</kbd></button>
+        </div>
+        <div class="cp-error" id="cp-base-err" role="alert" hidden></div>
+
+        <div class="cp-sliders" aria-label="Dostrajanie koloru bazowego">
+          <label class="cp-slider">
+            <span class="cp-slider__label">Odcień (H)</span>
+            <input type="range" id="cp-slider-h" min="0" max="360" step="1" value="258" aria-label="Odcień (Hue)">
+            <output class="cp-slider__val" id="cp-slider-h-val">258°</output>
+          </label>
+          <label class="cp-slider">
+            <span class="cp-slider__label">Nasycenie (S)</span>
+            <input type="range" id="cp-slider-s" min="0" max="100" step="1" value="78" aria-label="Nasycenie (Saturation)">
+            <output class="cp-slider__val" id="cp-slider-s-val">78%</output>
+          </label>
+          <label class="cp-slider">
+            <span class="cp-slider__label">Jasność (L)</span>
+            <input type="range" id="cp-slider-l" min="0" max="100" step="1" value="68" aria-label="Jasność (Lightness)">
+            <output class="cp-slider__val" id="cp-slider-l-val">68%</output>
+          </label>
+        </div>
+
+        <div class="cp-palette" id="cp-palette" role="list" aria-label="Paleta kolorów">
+          <div class="cp-swatch" id="cp-swatch-0" role="listitem">
+            <button class="cp-swatch__area" type="button">
+              <span class="cp-swatch__hex"></span>
+              <span class="cp-swatch__rgb"></span>
+              <span class="cp-swatch__hsl"></span>
+            </button>
+            <div class="cp-swatch__bar">
+              <button class="cp-swatch__lock" type="button" aria-pressed="false" aria-label="Zablokuj próbkę">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect class="cp-lock-body" x="3.5" y="7" width="9" height="6.5" rx="1.4" stroke="currentColor" stroke-width="1.4"/><path class="cp-lock-shackle" d="M5.2 7V5.2a2.8 2.8 0 015.6 0V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="cp-swatch" id="cp-swatch-1" role="listitem">
+            <button class="cp-swatch__area" type="button">
+              <span class="cp-swatch__hex"></span>
+              <span class="cp-swatch__rgb"></span>
+              <span class="cp-swatch__hsl"></span>
+            </button>
+            <div class="cp-swatch__bar">
+              <button class="cp-swatch__lock" type="button" aria-pressed="false" aria-label="Zablokuj próbkę">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect class="cp-lock-body" x="3.5" y="7" width="9" height="6.5" rx="1.4" stroke="currentColor" stroke-width="1.4"/><path class="cp-lock-shackle" d="M5.2 7V5.2a2.8 2.8 0 015.6 0V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="cp-swatch" id="cp-swatch-2" role="listitem">
+            <button class="cp-swatch__area" type="button">
+              <span class="cp-swatch__hex"></span>
+              <span class="cp-swatch__rgb"></span>
+              <span class="cp-swatch__hsl"></span>
+            </button>
+            <div class="cp-swatch__bar">
+              <button class="cp-swatch__lock" type="button" aria-pressed="false" aria-label="Zablokuj próbkę">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect class="cp-lock-body" x="3.5" y="7" width="9" height="6.5" rx="1.4" stroke="currentColor" stroke-width="1.4"/><path class="cp-lock-shackle" d="M5.2 7V5.2a2.8 2.8 0 015.6 0V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="cp-swatch" id="cp-swatch-3" role="listitem">
+            <button class="cp-swatch__area" type="button">
+              <span class="cp-swatch__hex"></span>
+              <span class="cp-swatch__rgb"></span>
+              <span class="cp-swatch__hsl"></span>
+            </button>
+            <div class="cp-swatch__bar">
+              <button class="cp-swatch__lock" type="button" aria-pressed="false" aria-label="Zablokuj próbkę">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect class="cp-lock-body" x="3.5" y="7" width="9" height="6.5" rx="1.4" stroke="currentColor" stroke-width="1.4"/><path class="cp-lock-shackle" d="M5.2 7V5.2a2.8 2.8 0 015.6 0V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="cp-swatch" id="cp-swatch-4" role="listitem">
+            <button class="cp-swatch__area" type="button">
+              <span class="cp-swatch__hex"></span>
+              <span class="cp-swatch__rgb"></span>
+              <span class="cp-swatch__hsl"></span>
+            </button>
+            <div class="cp-swatch__bar">
+              <button class="cp-swatch__lock" type="button" aria-pressed="false" aria-label="Zablokuj próbkę">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect class="cp-lock-body" x="3.5" y="7" width="9" height="6.5" rx="1.4" stroke="currentColor" stroke-width="1.4"/><path class="cp-lock-shackle" d="M5.2 7V5.2a2.8 2.8 0 015.6 0V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cp-io">
+          <div class="cp-io__col">
+            <div class="cp-io__head">
+              <span class="cp-pane__label">Eksport palety</span>
+              <div class="cp-seg cp-seg--sm" role="radiogroup" aria-label="Format eksportu">
+                <button class="cp-seg__btn is-active" data-export="css" role="radio" aria-checked="true" type="button">CSS</button>
+                <button class="cp-seg__btn" data-export="json" role="radio" aria-checked="false" type="button">JSON</button>
+                <button class="cp-seg__btn" data-export="list" role="radio" aria-checked="false" type="button">Lista HEX</button>
+              </div>
+            </div>
+            <textarea class="cp-io__area" id="cp-export-out" spellcheck="false" readonly aria-label="Wynik eksportu palety"></textarea>
+            <div class="cp-io__actions">
+              <button class="tool-act" id="cp-export-copy" type="button">Kopiuj</button>
+              <button class="tool-act" id="cp-export-download" type="button">Pobierz plik</button>
+              <button class="tool-act" id="cp-export-png" type="button">PNG</button>
+              <button class="tool-act" id="cp-export-svg" type="button">SVG</button>
+            </div>
+          </div>
+          <div class="cp-io__col">
+            <div class="cp-io__head">
+              <span class="cp-pane__label">Import z listy HEX</span>
+            </div>
+            <textarea class="cp-io__area" id="cp-import-in" spellcheck="false" placeholder="Wklej kolory HEX, np.&#10;#7c6cf0&#10;#a78bfa, #6c5ce7&#10;#22c55e #f0555f" aria-label="Import listy kolorów HEX"></textarea>
+            <div class="cp-io__actions">
+              <button class="tool-act tool-act--primary" id="cp-import-btn" type="button">Wczytaj do palety</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MODE: SKALA ============ -->
+      <section class="cp-mode" id="cp-mode-skala" data-mode="skala" hidden>
+        <div class="cp-bar">
+          <label class="cp-field cp-field--color">
+            <span>Kolor</span>
+            <input type="color" class="cp-color" id="cp-scale-color" value="#7c6cf0" aria-label="Kolor bazowy skali">
+          </label>
+          <label class="cp-field"><span>HEX</span>
+            <input class="cp-input-text" id="cp-scale-hex" type="text" spellcheck="false" placeholder="#7c6cf0" aria-label="Kolor skali HEX">
+          </label>
+          <span class="cp-bar__spacer"></span>
+          <span class="cp-pane__meta">Odcienie 50–900 · kliknij, aby skopiować HEX</span>
+        </div>
+        <div class="cp-error" id="cp-scale-err" role="alert" hidden></div>
+
+        <div class="cp-scale">
+          <div class="cp-scale__grid" id="cp-scale-grid" role="list" aria-label="Skala odcieni 50-900"></div>
+          <div class="cp-scale__previews">
+            <div class="cp-scale__preview cp-scale__preview--light">
+              <span class="cp-scale__preview-label">Na jasnym tle</span>
+              <span class="cp-scale__preview-text" id="cp-scale-prev-light">Przykładowy tekst Aa 123</span>
+            </div>
+            <div class="cp-scale__preview cp-scale__preview--dark">
+              <span class="cp-scale__preview-label">Na ciemnym tle</span>
+              <span class="cp-scale__preview-text" id="cp-scale-prev-dark">Przykładowy tekst Aa 123</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MODE: KONTRAST WCAG ============ -->
+      <section class="cp-mode" id="cp-mode-kontrast" data-mode="kontrast" hidden>
+        <div class="cp-bar">
+          <label class="cp-field cp-field--color">
+            <span>Tekst</span>
+            <input type="color" class="cp-color" id="cp-fg-color" value="#ffffff" aria-label="Kolor tekstu">
+          </label>
+          <label class="cp-field"><span>HEX tekstu</span>
+            <input class="cp-input-text" id="cp-fg-hex" type="text" spellcheck="false" placeholder="#ffffff" aria-label="Kolor tekstu HEX">
+          </label>
+          <div class="cp-error cp-error--inline" id="cp-fg-err" role="alert" hidden></div>
+          <button class="tool-act" id="cp-contrast-swap" type="button" aria-label="Zamień tekst i tło">⇄ Zamień</button>
+          <label class="cp-field cp-field--color">
+            <span>Tło</span>
+            <input type="color" class="cp-color" id="cp-bg-color" value="#7c6cf0" aria-label="Kolor tła">
+          </label>
+          <label class="cp-field"><span>HEX tła</span>
+            <input class="cp-input-text" id="cp-bg-hex" type="text" spellcheck="false" placeholder="#7c6cf0" aria-label="Kolor tła HEX">
+          </label>
+          <div class="cp-error cp-error--inline" id="cp-bg-err" role="alert" hidden></div>
+        </div>
+
+        <div class="cp-contrast">
+          <div class="cp-contrast__preview" id="cp-contrast-preview">
+            <span class="cp-contrast__sample cp-contrast__sample--lg">Duży tekst 24px</span>
+            <span class="cp-contrast__sample">Zwykły tekst 16px — przykładowe zdanie do oceny czytelności kolorów.</span>
+          </div>
+          <div class="cp-contrast__panel">
+            <div class="cp-contrast__ratio">
+              <span class="cp-contrast__ratio-val" id="cp-ratio">1.00:1</span>
+              <span class="cp-contrast__ratio-label">wskaźnik kontrastu</span>
+            </div>
+            <div class="cp-badges">
+              <div class="cp-badge" id="cp-badge-aa"><span class="cp-badge__name">AA · zwykły</span><span class="cp-badge__req">≥ 4,5</span><span class="cp-badge__res">—</span></div>
+              <div class="cp-badge" id="cp-badge-aa-lg"><span class="cp-badge__name">AA · duży</span><span class="cp-badge__req">≥ 3</span><span class="cp-badge__res">—</span></div>
+              <div class="cp-badge" id="cp-badge-aaa"><span class="cp-badge__name">AAA · zwykły</span><span class="cp-badge__req">≥ 7</span><span class="cp-badge__res">—</span></div>
+              <div class="cp-badge" id="cp-badge-aaa-lg"><span class="cp-badge__name">AAA · duży</span><span class="cp-badge__req">≥ 4,5</span><span class="cp-badge__res">—</span></div>
+            </div>
+            <div class="cp-tips">
+              <p class="cp-tip" id="cp-tip-best"></p>
+              <p class="cp-tip" id="cp-tip-fix"></p>
+              <button class="tool-act" id="cp-apply-best" type="button">Ustaw najlepszy tekst (czarny/biały)</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <section class="related-tools" aria-labelledby="relatedTitle">
+      <div class="related-tools__inner">
+        <div class="related-tools__label">/ POWIĄZANE NARZĘDZIA</div>
+        <h2 class="related-tools__title" id="relatedTitle">Inne narzędzia FormattedAI</h2>
+        <div class="related-tools__grid">
+          <a href="/avif/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ IMG ]</div>
+            <div class="related-tools__card-name">AVIF / HEIC Converter</div>
+            <p class="related-tools__card-desc">Konwertuj i kompresuj obrazy lokalnie w przeglądarce, bez uploadu.</p>
+          </a>
+          <a href="/css-minifier/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ CSS ]</div>
+            <div class="related-tools__card-name">CSS Minifier</div>
+            <p class="related-tools__card-desc">Skompresuj arkusze CSS z gotowymi zmiennymi kolorów z palety.</p>
+          </a>
+          <a href="/json-formatter/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ JSON ]</div>
+            <div class="related-tools__card-name">JSON Formatter</div>
+            <p class="related-tools__card-desc">Formatuj i waliduj JSON — np. wyeksportowane tokeny kolorów.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-faq" aria-labelledby="faqTitle">
+      <div class="tool-faq__label">/ FAQ</div>
+      <h2 class="tool-faq__title" id="faqTitle">Często zadawane pytania</h2>
+      <details>
+        <summary>Czy narzędzie wysyła moje kolory na serwer?</summary>
+        <p>Nie. Cały generator palet działa w czystym JavaScript w Twojej przeglądarce — harmonie, skala odcieni, kontrast i eksport. Nic nie jest nigdzie wysyłane, nie ma backendu ani telemetrii, a Twoja paleta zapisuje się tylko lokalnie w localStorage.</p>
+      </details>
+      <details>
+        <summary>Jakie tryby oferuje Color Palette?</summary>
+        <p>Trzy: Harmonie (generator palety 5 kolorów z koła barw ze schematami dopełniającym, analogicznym, triadą, tetradą i monochromatycznym), Skala (odcienie 50–900 jak tokeny designu) oraz Kontrast (sprawdzanie zgodności z WCAG AA/AAA).</p>
+      </details>
+      <details>
+        <summary>Jak liczony jest kontrast WCAG?</summary>
+        <p>Zgodnie z WCAG 2.x: obliczamy relatywną luminancję obu kolorów (z korekcją gamma sRGB) i wyznaczamy wskaźnik kontrastu (L1 + 0,05) / (L2 + 0,05). Wynik porównujemy z progami: AA tekst zwykły ≥ 4,5:1, AA duży ≥ 3:1, AAA zwykły ≥ 7:1, AAA duży ≥ 4,5:1.</p>
+      </details>
+      <details>
+        <summary>Czym jest tryb skali odcieni 50–900?</summary>
+        <p>Skala generuje 10 stopni jasności jednego koloru (50, 100, 200 … 900) tak jak tokeny w systemach designu (np. Tailwind). Rozjaśnienia (tinty) idą w stronę 50, przyciemnienia (cienie) w stronę 900. Każdy stopień ma gotowy HEX do skopiowania, z podglądem czytelności na jasnym i ciemnym tle.</p>
+      </details>
+    </section>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploadów · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Narzędzia</span>
+          <a href="/narzedzia/" class="fa-footer__link">Wszystkie</a>
+          <a href="/avif/" class="fa-footer__link">AVIF / HEIC</a>
+          <a href="/json-formatter/" class="fa-footer__link">JSON Formatter</a>
+          <a href="/css-minifier/" class="fa-footer__link">CSS Minifier</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Treść</span>
+          <a href="/articles/" class="fa-footer__link">Artykuły</a>
+          <a href="/about/" class="fa-footer__link">O nas</a>
+          <a href="/privacy/" class="fa-footer__link">Prywatność</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Kontakt</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+          <a href="https://formattedai.pl/en/color-palette/" class="fa-footer__link" hreflang="en">English</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>Color Palette · 100% client-side</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="cp-toast" id="cp-toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function() {
+    'use strict';
+    var tt = document.getElementById('themeToggle');
+    if (tt) tt.addEventListener('click', function() {
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', next === 'light' ? '#f8fafe' : '#08080c');
+    });
+    var burger = document.getElementById('navBurger');
+    var navEl = document.getElementById('faNav');
+    if (burger && navEl) {
+      burger.addEventListener('click', function() {
+        var open = navEl.classList.toggle('is-menu-open');
+        burger.classList.toggle('is-open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      navEl.querySelectorAll('.fa-nav__lang').forEach(function(a) {
+        a.addEventListener('click', function() {
+          navEl.classList.remove('is-menu-open');
+          burger.classList.remove('is-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  })();
+  </script>
+
+  <script src="../assets/js/colorpalette.min.js"></script>
+</body>
+</html>
