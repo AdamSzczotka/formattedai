@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>JSON Formatter — formatuj, drzewo, JSONPath, diff, YAML/CSV | FormattedAI</title>
+  <meta name="description" content="Darmowy JSON Formatter online: upiększaj i minifikuj JSON, przeglądaj drzewo, waliduj na żywo z numerem linii i kolumny, konwertuj JSON ↔ YAML i JSON ↔ CSV, odpytuj JSONPath oraz porównuj dwa JSON-y (diff). 100% w przeglądarce, bez uploadu.">
+  <meta name="keywords" content="JSON formatter, JSON beautifier, JSON minifier, JSON validator, JSON tree viewer, JSON to YAML, JSON to CSV, JSONPath online, JSON diff, format JSON online, walidator JSON, client-side">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/json-formatter/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/json-formatter/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/json-formatter/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/json-formatter/">
+  <meta http-equiv="content-language" content="pl, en">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JSON Formatter — formatuj, drzewo, JSONPath, diff | FormattedAI">
+  <meta property="og:description" content="Formatuj, waliduj, przeglądaj drzewo, konwertuj JSON ↔ YAML/CSV, odpytuj JSONPath i porównuj JSON-y. 100% client-side, bez uploadu.">
+  <meta property="og:url" content="https://formattedai.pl/json-formatter/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="JSON Formatter | FormattedAI">
+  <meta name="twitter:description" content="Formatuj, waliduj i konwertuj JSON. Drzewo, JSONPath i diff. 100% w przeglądarce.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "WebApplication",
+    "name": "FormattedAI JSON Formatter",
+    "headline": "JSON Formatter — formatuj, drzewo, JSONPath, diff, YAML/CSV",
+    "description": "Darmowe narzędzie do pracy z JSON: formatowanie i minifikacja, walidacja na żywo z numerem linii i kolumny, widok drzewa z kopiowaniem ścieżek, konwersja JSON ↔ YAML i JSON ↔ CSV, zapytania JSONPath oraz porównywanie dwóch JSON-ów (diff). Wszystko działa w przeglądarce.",
+    "url": "https://formattedai.pl/json-formatter/",
+    "applicationCategory": "DeveloperApplication", "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Adam Szczotka", "url": "https://github.com/AdamSzczotka" },
+    "featureList": [
+      "Formatowanie (upiększanie) i minifikacja JSON z wyborem wcięcia 2/4/tab",
+      "Walidacja na żywo z numerem linii i kolumny błędu",
+      "Widok drzewa ze zwijaniem węzłów i kopiowaniem ścieżki JSONPath",
+      "Konwersja JSON ↔ YAML oraz JSON ↔ CSV",
+      "Zapytania JSONPath z gotowymi przykładami",
+      "Porównywanie dwóch JSON-ów (diff): dodane, usunięte, zmienione",
+      "100% client-side, bez uploadu i telemetrii"
+    ],
+    "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Czy narzędzie wysyła mój JSON na serwer?", "acceptedAnswer": { "@type": "Answer", "text": "Nie. Cały JSON Formatter działa w czystym JavaScript w Twojej przeglądarce — formatowanie, walidacja, konwersja, JSONPath i diff. Twoje dane nigdy nie są nigdzie wysyłane, nie ma backendu ani telemetrii." } },
+      { "@type": "Question", "name": "Jakie tryby oferuje JSON Formatter?", "acceptedAnswer": { "@type": "Answer", "text": "Cztery: Formatuj i drzewo (upiększanie, minifikacja, walidacja na żywo, widok drzewa z kopiowaniem ścieżek), Konwersja (JSON ↔ YAML oraz JSON ↔ CSV), JSONPath (odpytywanie danych) oraz Diff (porównanie dwóch JSON-ów)." } },
+      { "@type": "Question", "name": "Jak działa walidacja i wykrywanie błędów?", "acceptedAnswer": { "@type": "Answer", "text": "Walidacja działa na żywo podczas pisania. Jeśli JSON jest nieprawidłowy, narzędzie pokazuje czytelny komunikat wraz z numerem linii i kolumny, w której wystąpił błąd, dzięki czemu szybko znajdziesz literówkę czy brakujący przecinek." } },
+      { "@type": "Question", "name": "Czym jest tryb konwersji JSON ↔ YAML / CSV?", "acceptedAnswer": { "@type": "Answer", "text": "Konwersja zamienia JSON na YAML i odwrotnie, a także tablicę obiektów JSON na CSV (z nagłówkami) i CSV z powrotem na JSON. CSV jest obsługiwany zgodnie z RFC 4180 — poprawnie traktujemy cudzysłowy, przecinki i znaki nowej linii w polach." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "Narzędzia", "item": "https://formattedai.pl/narzedzia/" },
+      { "@type": "ListItem", "position": 3, "name": "JSON Formatter", "item": "https://formattedai.pl/json-formatter/" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Theme bootstrap (no flash) -->
+  <script>
+    (function() {
+      var t = null;
+      try { t = localStorage.getItem('formattedai-theme'); } catch (_) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#f8fafe' : '#08080c');
+    })();
+  </script>
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/css/jsonformatter.css">
+</head>
+<body>
+
+  <div class="tool-shell">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/" class="fa-nav__brand" aria-label="FormattedAI - strona główna">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+      </a>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/narzedzia/" class="fa-nav__crumb-link">Narzędzia</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">JSON Formatter</span>
+      </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/en/json-formatter/" class="fa-nav__lang" hreflang="en" title="English version">EN</a>
+        <button class="fa-nav__icon-btn" id="themeToggle" type="button" aria-label="Przełącz motyw">
+          <svg class="fa-theme__moon" id="iconMoon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="fa-theme__sun" id="iconSun" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <a href="/narzedzia/" class="fa-nav__cta">Wszystkie narzędzia →</a>
+      </div>
+    </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ NARZĘDZIE · JSON toolkit</span>
+          <h1 class="tool-head__title">JSON Formatter</h1>
+          <p class="tool-head__sub">Formatuj, minifikuj i waliduj JSON, przeglądaj drzewo, konwertuj JSON ↔ YAML / CSV, odpytuj JSONPath i porównuj dwa JSON-y. Wszystko lokalnie w przeglądarce.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="jf-modebar" role="toolbar" aria-label="Tryb narzędzia">
+      <span class="jf-label">Tryb</span>
+      <div class="jf-seg" role="radiogroup" aria-label="Tryb narzędzia">
+        <button class="jf-seg__btn is-active" data-mode="format" role="radio" aria-checked="true" type="button">Formatuj &amp; drzewo</button>
+        <button class="jf-seg__btn" data-mode="convert" role="radio" aria-checked="false" type="button">Konwersja</button>
+        <button class="jf-seg__btn" data-mode="jsonpath" role="radio" aria-checked="false" type="button">JSONPath</button>
+        <button class="jf-seg__btn" data-mode="diff" role="radio" aria-checked="false" type="button">Diff</button>
+      </div>
+    </div>
+
+    <main>
+
+      <!-- ============ MODE: FORMAT & TREE ============ -->
+      <section class="jf-mode" id="jf-mode-format" data-mode="format">
+        <div class="jf-bar">
+          <label class="jf-field"><span>Wcięcie</span>
+            <select class="jf-select" id="jf-indent" aria-label="Wcięcie">
+              <option value="2">2 spacje</option>
+              <option value="4">4 spacje</option>
+              <option value="tab">Tab</option>
+            </select>
+          </label>
+          <label class="jf-check"><input type="checkbox" id="jf-sort"> Sortuj klucze A→Z</label>
+          <button class="tool-act tool-act--primary" id="jf-format-btn" type="button">Formatuj</button>
+          <button class="tool-act" id="jf-minify-btn" type="button">Minifikuj</button>
+          <span class="jf-bar__spacer"></span>
+          <span class="jf-label">Przykład:</span>
+          <button class="jf-chip" data-example="object" type="button">obiekt</button>
+          <button class="jf-chip" data-example="array" type="button">tablica</button>
+          <button class="jf-chip" data-example="messy" type="button">bałagan</button>
+        </div>
+
+        <div class="jf-panes">
+          <div class="jf-pane">
+            <div class="jf-pane__head">
+              <span class="jf-pane__label">Wejście · JSON</span>
+              <div class="jf-pane__actions">
+                <span class="jf-validation" id="jf-validation" data-state="neutral"><span id="jf-validation-text">Czeka na dane</span></span>
+                <button class="tool-act" id="jf-clear" type="button">Wyczyść</button>
+              </div>
+            </div>
+            <div class="jf-pane__body">
+              <textarea class="jf-editor" id="jf-input" spellcheck="false" placeholder='Wklej JSON, np. {"name":"FormattedAI","free":true}' aria-label="Wejście JSON"></textarea>
+            </div>
+          </div>
+
+          <div class="jf-panes__divider" aria-hidden="true"></div>
+
+          <div class="jf-pane">
+            <div class="jf-pane__head">
+              <span class="jf-pane__label">Wynik</span>
+              <div class="jf-pane__actions">
+                <div class="jf-seg" role="radiogroup" aria-label="Widok wyniku">
+                  <button class="jf-seg__btn is-active" id="jf-view-text" role="radio" aria-checked="true" type="button">Tekst</button>
+                  <button class="jf-seg__btn" id="jf-view-tree" role="radio" aria-checked="false" type="button">Drzewo</button>
+                </div>
+                <button class="tool-act" id="jf-copy" type="button">Kopiuj</button>
+                <button class="tool-act" id="jf-download" type="button">Pobierz .json</button>
+              </div>
+            </div>
+            <div class="jf-pane__body">
+              <pre class="jf-output-text" id="jf-output-text" aria-live="polite"></pre>
+              <div class="jf-treeview" id="jf-output-tree-wrap" hidden>
+                <div class="jf-tree-toolbar">
+                  <input class="jf-input-text jf-tree-search-input" id="jf-tree-search" type="text" placeholder="Szukaj po nazwie klucza…" aria-label="Szukaj klucza w drzewie">
+                  <button class="tool-act" id="jf-expand-all" type="button">Rozwiń wszystko</button>
+                  <button class="tool-act" id="jf-collapse-all" type="button">Zwiń wszystko</button>
+                  <span class="jf-pane__meta" id="jf-tree-count"></span>
+                </div>
+                <div class="jf-tree-wrap" id="jf-output-tree"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MODE: CONVERT ============ -->
+      <section class="jf-mode" id="jf-mode-convert" data-mode="convert" hidden>
+        <div class="jf-bar">
+          <span class="jf-label">Kierunek</span>
+          <div class="jf-seg" role="radiogroup" aria-label="Kierunek konwersji">
+            <button class="jf-seg__btn is-active" data-dir="json-yaml" role="radio" aria-checked="true" type="button">JSON → YAML</button>
+            <button class="jf-seg__btn" data-dir="yaml-json" role="radio" aria-checked="false" type="button">YAML → JSON</button>
+            <button class="jf-seg__btn" data-dir="json-csv" role="radio" aria-checked="false" type="button">JSON → CSV</button>
+            <button class="jf-seg__btn" data-dir="csv-json" role="radio" aria-checked="false" type="button">CSV → JSON</button>
+          </div>
+          <span class="jf-bar__spacer"></span>
+          <button class="tool-act tool-act--primary" id="jf-conv-btn" type="button">Konwertuj</button>
+          <button class="tool-act" id="jf-conv-copy" type="button">Kopiuj</button>
+          <button class="tool-act" id="jf-conv-download" type="button">Pobierz</button>
+          <button class="tool-act" id="jf-conv-clear" type="button">Wyczyść</button>
+        </div>
+        <div class="jf-error" id="jf-conv-error" role="alert" hidden></div>
+        <div class="jf-panes">
+          <div class="jf-pane">
+            <div class="jf-pane__head"><span class="jf-pane__label">Wejście</span></div>
+            <div class="jf-pane__body">
+              <textarea class="jf-editor" id="jf-conv-input" spellcheck="false" aria-label="Wejście konwersji"></textarea>
+            </div>
+          </div>
+          <div class="jf-panes__divider" aria-hidden="true"></div>
+          <div class="jf-pane">
+            <div class="jf-pane__head"><span class="jf-pane__label">Wynik</span></div>
+            <div class="jf-pane__body">
+              <textarea class="jf-editor" id="jf-conv-output" spellcheck="false" readonly placeholder="Wynik konwersji pojawi się tutaj…" aria-label="Wynik konwersji"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MODE: JSONPATH ============ -->
+      <section class="jf-mode" id="jf-mode-jsonpath" data-mode="jsonpath" hidden>
+        <div class="jf-bar">
+          <label class="jf-field" style="flex:1;min-width:200px"><span>Zapytanie JSONPath</span>
+            <input class="jf-input-text" id="jf-jp-query" type="text" placeholder="$.store.book[*].title" aria-label="Zapytanie JSONPath">
+          </label>
+          <button class="tool-act tool-act--primary" id="jf-jp-run" type="button">Wykonaj</button>
+          <button class="tool-act" id="jf-jp-copy" type="button">Kopiuj</button>
+          <button class="tool-act" id="jf-jp-clear" type="button">Wyczyść</button>
+          <span class="jf-pane__meta" id="jf-jp-count"></span>
+        </div>
+        <div class="jf-examples" aria-label="Przykładowe zapytania">
+          <span class="jf-label">Przykłady:</span>
+          <button class="jf-chip" data-path="$.store.book[*].title" type="button">$.store.book[*].title</button>
+          <button class="jf-chip" data-path="$..author" type="button">$..author</button>
+          <button class="jf-chip" data-path="$.store.book[?(@.price<10)].title" type="button">$.store.book[?(@.price&lt;10)].title</button>
+          <button class="jf-chip" data-path="$..price" type="button">$..price</button>
+        </div>
+        <div class="jf-error" id="jf-jp-error" role="alert" hidden></div>
+        <div class="jf-panes">
+          <div class="jf-pane">
+            <div class="jf-pane__head"><span class="jf-pane__label">Dane JSON</span></div>
+            <div class="jf-pane__body">
+              <textarea class="jf-editor" id="jf-jp-input" spellcheck="false" aria-label="Dane JSON dla JSONPath"></textarea>
+            </div>
+          </div>
+          <div class="jf-panes__divider" aria-hidden="true"></div>
+          <div class="jf-pane">
+            <div class="jf-pane__head"><span class="jf-pane__label">Dopasowania</span></div>
+            <div class="jf-pane__body">
+              <textarea class="jf-editor" id="jf-jp-output" spellcheck="false" readonly placeholder="Dopasowania (JSON) pojawią się tutaj…" aria-label="Dopasowania JSONPath"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MODE: DIFF ============ -->
+      <section class="jf-mode" id="jf-mode-diff" data-mode="diff" hidden>
+        <div class="jf-bar">
+          <div class="jf-diff-legend">
+            <span class="jf-leg-add"><i></i>Dodane</span>
+            <span class="jf-leg-rem"><i></i>Usunięte</span>
+            <span class="jf-leg-chg"><i></i>Zmienione</span>
+          </div>
+          <span class="jf-bar__spacer"></span>
+          <span class="jf-pane__meta" id="jf-diff-summary"></span>
+          <button class="tool-act tool-act--primary" id="jf-diff-btn" type="button">Porównaj</button>
+          <button class="tool-act" id="jf-diff-clear" type="button">Wyczyść</button>
+        </div>
+        <div class="jf-error" id="jf-diff-error" role="alert" hidden></div>
+        <div class="jf-panes">
+          <div class="jf-pane">
+            <div class="jf-pane__head"><span class="jf-pane__label">JSON A (oryginał)</span></div>
+            <div class="jf-pane__body">
+              <textarea class="jf-editor" id="jf-diff-a" spellcheck="false" placeholder='{"a":1,"b":2}' aria-label="JSON A"></textarea>
+            </div>
+          </div>
+          <div class="jf-panes__divider" aria-hidden="true"></div>
+          <div class="jf-pane">
+            <div class="jf-pane__head"><span class="jf-pane__label">JSON B (nowy)</span></div>
+            <div class="jf-pane__body">
+              <textarea class="jf-editor" id="jf-diff-b" spellcheck="false" placeholder='{"a":1,"b":3,"c":4}' aria-label="JSON B"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="jf-pane">
+          <div class="jf-pane__head"><span class="jf-pane__label">Różnice</span></div>
+          <div class="jf-diff-output" id="jf-diff-output" aria-live="polite"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <section class="related-tools" aria-labelledby="relatedTitle">
+      <div class="related-tools__inner">
+        <div class="related-tools__label">/ POWIĄZANE NARZĘDZIA</div>
+        <h2 class="related-tools__title" id="relatedTitle">Inne narzędzia FormattedAI</h2>
+        <div class="related-tools__grid">
+          <a href="/formatter/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ MD ]</div>
+            <div class="related-tools__card-name">Markdown Formatter</div>
+            <p class="related-tools__card-desc">Zamień markdown z ChatGPT na sformatowany dokument do Google Docs i Word.</p>
+          </a>
+          <a href="/js-minifier/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ JS ]</div>
+            <div class="related-tools__card-name">JS Minifier</div>
+            <p class="related-tools__card-desc">Zminifikuj lub sformatuj JavaScript w jednym kliknięciu, lokalnie w przeglądarce.</p>
+          </a>
+          <a href="/css-minifier/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ CSS ]</div>
+            <div class="related-tools__card-name">CSS Minifier</div>
+            <p class="related-tools__card-desc">Skompresuj arkusze CSS - idealne uzupełnienie pracy z danymi i kodem.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-faq" aria-labelledby="faqTitle">
+      <div class="tool-faq__label">/ FAQ</div>
+      <h2 class="tool-faq__title" id="faqTitle">Często zadawane pytania</h2>
+      <details>
+        <summary>Czy narzędzie wysyła mój JSON na serwer?</summary>
+        <p>Nie. Cały JSON Formatter działa w czystym JavaScript w Twojej przeglądarce — formatowanie, walidacja, konwersja, JSONPath i diff. Twoje dane nigdy nie są nigdzie wysyłane, nie ma backendu ani telemetrii.</p>
+      </details>
+      <details>
+        <summary>Jakie tryby oferuje JSON Formatter?</summary>
+        <p>Cztery: Formatuj i drzewo (upiększanie, minifikacja, walidacja na żywo, widok drzewa z kopiowaniem ścieżek), Konwersja (JSON ↔ YAML oraz JSON ↔ CSV), JSONPath (odpytywanie danych) oraz Diff (porównanie dwóch JSON-ów).</p>
+      </details>
+      <details>
+        <summary>Jak działa walidacja i wykrywanie błędów?</summary>
+        <p>Walidacja działa na żywo podczas pisania. Jeśli JSON jest nieprawidłowy, narzędzie pokazuje czytelny komunikat wraz z numerem linii i kolumny, w której wystąpił błąd, dzięki czemu szybko znajdziesz literówkę czy brakujący przecinek.</p>
+      </details>
+      <details>
+        <summary>Czym jest tryb konwersji JSON ↔ YAML / CSV?</summary>
+        <p>Konwersja zamienia JSON na YAML i odwrotnie, a także tablicę obiektów JSON na CSV (z nagłówkami) i CSV z powrotem na JSON. CSV jest obsługiwany zgodnie z RFC 4180 — poprawnie traktujemy cudzysłowy, przecinki i znaki nowej linii w polach.</p>
+      </details>
+    </section>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploadów · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Narzędzia</span>
+          <a href="/narzedzia/" class="fa-footer__link">Wszystkie</a>
+          <a href="/formatter/" class="fa-footer__link">Markdown</a>
+          <a href="/js-minifier/" class="fa-footer__link">JS Minifier</a>
+          <a href="/css-minifier/" class="fa-footer__link">CSS Minifier</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Treść</span>
+          <a href="/articles/" class="fa-footer__link">Artykuły</a>
+          <a href="/about/" class="fa-footer__link">O nas</a>
+          <a href="/privacy/" class="fa-footer__link">Prywatność</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Kontakt</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+          <a href="https://formattedai.pl/en/json-formatter/" class="fa-footer__link" hreflang="en">English</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>JSON Formatter · 100% client-side</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="jf-toast" id="jf-toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function() {
+    'use strict';
+    // Theme toggle
+    var tt = document.getElementById('themeToggle');
+    if (tt) tt.addEventListener('click', function() {
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', next === 'light' ? '#f8fafe' : '#08080c');
+    });
+    // Mobile hamburger toggle
+    var burger = document.getElementById('navBurger');
+    var navEl = document.getElementById('faNav');
+    if (burger && navEl) {
+      burger.addEventListener('click', function() {
+        var open = navEl.classList.toggle('is-menu-open');
+        burger.classList.toggle('is-open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      navEl.querySelectorAll('.fa-nav__lang').forEach(function(a) {
+        a.addEventListener('click', function() {
+          navEl.classList.remove('is-menu-open');
+          burger.classList.remove('is-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  })();
+  </script>
+
+  <script type="module" src="../assets/js/jsonformatter.min.js"></script>
+</body>
+</html>

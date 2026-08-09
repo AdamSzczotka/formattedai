@@ -17,7 +17,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Narzędzia - FormattedAI">
-  <meta property="og:description" content="Pełen katalog narzędzi FormattedAI: 11 aktywnych narzędzi działających 100% w przeglądarce.">
+  <meta property="og:description" content="Pełen katalog narzędzi FormattedAI: 12 aktywnych narzędzi działających 100% w przeglądarce.">
   <meta property="og:url" content="https://formattedai.pl/narzedzia/">
   <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
   <meta property="og:site_name" content="FormattedAI">
@@ -26,7 +26,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Narzędzia - FormattedAI">
-  <meta name="twitter:description" content="Pełen katalog 11 darmowych narzędzi webowych. 100% client-side.">
+  <meta name="twitter:description" content="Pełen katalog 12 darmowych narzędzi webowych. 100% client-side.">
 
   <script type="application/ld+json">
   {
@@ -114,7 +114,7 @@
         <div class="t-hero__grid"></div>
       </div>
       <div class="t-hero__inner">
-        <div class="t-hero__label">/ KATALOG NARZĘDZI · 11 / 13 AKTYWNYCH</div>
+        <div class="t-hero__label">/ KATALOG NARZĘDZI · 12 / 13 AKTYWNYCH</div>
         <h1 class="t-hero__title">
           Wszystko, czego potrzebujesz<br>
           do <span class="t-hero__title-hl">codziennej pracy</span><br>
@@ -167,11 +167,12 @@
             <p class="t-tile__desc">CSSO + js-beautify. Zachowuje source map, sprawdza składnię.</p>
             <div class="t-tile__arrow" aria-hidden="true">→</div>
           </a>
-          <div class="t-tile t-tile--soon">
-            <div class="t-tile__top"><span class="t-tile__icon">[ ]</span><span class="t-tile__soon">WKRÓTCE</span></div>
+          <a href="/json-formatter/" class="t-tile t-tile--live">
+            <div class="t-tile__top"><span class="t-tile__icon">[ ]</span></div>
             <div class="t-tile__name">JSON Formatter</div>
-            <p class="t-tile__desc">Walidacja, drzewo, wyszukiwanie po kluczu.</p>
-          </div>
+            <p class="t-tile__desc">Walidacja, drzewo, JSONPath, diff, konwersja YAML/CSV.</p>
+            <div class="t-tile__arrow" aria-hidden="true">→</div>
+          </a>
         </div>
       </div>
 
@@ -298,15 +299,15 @@
           </div>
           <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
         </a>
-        <div class="t-list__row t-list__row--soon" data-cat="text" data-name="json validate tree">
+        <a href="/json-formatter/" class="t-list__row t-list__row--live" data-cat="text" data-name="json validate tree jsonpath diff yaml csv convert">
           <div class="t-list__row-n">01</div>
           <div class="t-list__row-icon">[ ]</div>
           <div class="t-list__row-main">
             <div class="t-list__row-head"><span class="t-list__row-name">JSON Formatter</span><span class="t-list__row-cat">Tekst</span></div>
-            <p class="t-list__row-desc">Walidacja, drzewo, wyszukiwanie po kluczu. W przygotowaniu.</p>
+            <p class="t-list__row-desc">Walidacja, drzewo, JSONPath, diff, konwersja YAML/CSV.</p>
           </div>
-          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--soon">○ wkrótce</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
-        </div>
+          <div class="t-list__row-side"><span class="t-list__row-status t-list__row-status--live">● dostępne</span><span class="t-list__row-arrow" aria-hidden="true">→</span></div>
+        </a>
         <a href="/avif/" class="t-list__row t-list__row--live" data-cat="img" data-name="avif png jpg webp convert image batch wasm">
           <div class="t-list__row-n">02</div>
           <div class="t-list__row-icon">◧</div>
@@ -488,7 +489,7 @@
       var listLabel = document.querySelector('.t-list__label');
       var listTitle = document.getElementById('listTitle');
       var labels = { all: '/ PEŁNA LISTA', text: '/ TEKST', img: '/ OBRAZY', doc: '/ DOKUMENTY', seo: '/ SEO' };
-      var titles = { all: '12 narzędzi w katalogu', text: '4 narzędzia · Tekst', img: '4 narzędzia · Obrazy', doc: '3 narzędzia · Dokumenty', seo: '1 narzędzie · SEO' };
+      var titles = { all: '12 narzędzi w katalogu', text: '5 narzędzi · Tekst', img: '3 narzędzia · Obrazy', doc: '3 narzędzia · Dokumenty', seo: '1 narzędzie · SEO' };
       filterBtns.forEach(function(b) {
         b.addEventListener('click', function() {
           var f = b.getAttribute('data-filter');
