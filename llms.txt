@@ -18,6 +18,7 @@ Available in Polish (default at root) and English (under /en/). Theme: light + d
 - [JS Minifier](https://formattedai.pl/js-minifier/) ([EN](https://formattedai.pl/en/js-minifier/)): Minify and beautify JavaScript using Esbuild + Terser + js-beautify
 - [CSS Minifier](https://formattedai.pl/css-minifier/) ([EN](https://formattedai.pl/en/css-minifier/)): Minify and beautify CSS using CSSO + js-beautify
 - [JSON Formatter](https://formattedai.pl/json-formatter/) ([EN](https://formattedai.pl/en/json-formatter/)): JSON toolkit - format, minify and live-validate JSON, interactive tree view with search-by-key, JSONPath queries, diff of two JSON documents, and conversion JSON <-> YAML / CSV (RFC 4180). PL + EN. 100% client-side, no backend, no telemetry.
+- [Regex Tester](https://formattedai.pl/regex-tester/) ([EN](https://formattedai.pl/en/regex-tester/)): Test regular expressions (JS RegExp flavor) with live match highlighting, numbered and named capture groups with positions, replace preview ($1/$<name>/$&), and a token-by-token explanation of the pattern. Flag toggles (g i m s u y d), syntax cheatsheet, ready examples (email, URL, IPv4, date, HEX, slug). Matching runs in a Web Worker with a watchdog that guards against catastrophic backtracking (ReDoS). Zero dependencies. PL + EN. 100% client-side, no backend, no telemetry.
 
 ## Tools - Images
 
