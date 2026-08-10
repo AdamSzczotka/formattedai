@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Regex Tester — testuj wyrażenia regularne online, podświetlanie, grupy, zamiana | FormattedAI</title>
+  <meta name="description" content="Darmowy tester wyrażeń regularnych online: żywe podświetlanie wszystkich dopasowań, grupy numerowane i nazwane z pozycjami, tryb zamiany ($1, $<name>, $&), panel wyjaśnień token po tokenie, ściąga składni i przykłady. Silnik JS (RegExp), ochrona przed ReDoS. 100% w przeglądarce.">
+  <meta name="keywords" content="regex tester, tester wyrażeń regularnych, regexp online, podświetlanie dopasowań, grupy przechwytujące, grupy nazwane, zamiana regex, wyjaśnienie regex, ReDoS, JavaScript regex, client-side">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/regex-tester/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/regex-tester/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/regex-tester/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/regex-tester/">
+  <meta http-equiv="content-language" content="pl, en">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Regex Tester — podświetlanie, grupy, zamiana, wyjaśnienia | FormattedAI">
+  <meta property="og:description" content="Testuj wyrażenia regularne: żywe podświetlanie dopasowań, grupy nazwane z pozycjami, tryb zamiany i wyjaśnienia token po tokenie. Silnik JS, ochrona przed ReDoS. 100% client-side.">
+  <meta property="og:url" content="https://formattedai.pl/regex-tester/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Regex Tester | FormattedAI">
+  <meta name="twitter:description" content="Tester wyrażeń regularnych z podświetlaniem, grupami, zamianą i wyjaśnieniami. 100% w przeglądarce.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "WebApplication",
+    "name": "FormattedAI Regex Tester",
+    "headline": "Regex Tester — podświetlanie, grupy, zamiana, wyjaśnienia",
+    "description": "Darmowy tester wyrażeń regularnych: żywe podświetlanie wszystkich dopasowań (w tym zerowej długości), grupy numerowane i nazwane z pozycjami, tryb zamiany z $1/$<name>/$&, panel wyjaśnień token po tokenie, ściąga składni oraz biblioteka przykładów. Silnik JavaScript (RegExp) uruchamiany w Web Workerze z ochroną przed ReDoS. Wszystko działa w przeglądarce.",
+    "url": "https://formattedai.pl/regex-tester/",
+    "applicationCategory": "DeveloperApplication", "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Adam Szczotka", "url": "https://github.com/AdamSzczotka" },
+    "featureList": [
+      "Żywe podświetlanie wszystkich dopasowań w tekście, w tym dopasowań zerowej długości",
+      "Chipy flag g i m s u y d z opisem każdej",
+      "Grupy przechwytujące numerowane i nazwane (?<name>) z pozycjami start/koniec",
+      "Tryb zamiany z obsługą $1, $<name> i $& oraz podglądem wyniku",
+      "Panel wyjaśnień: własny tokenizer wzorca token po tokenie",
+      "Ściąga składni i biblioteka gotowych przykładów (e-mail, URL, IPv4, telefon, data, HEX, slug)",
+      "Eksport: snippet JS oraz dopasowania jako JSON",
+      "Silnik JS w Web Workerze z watchdogiem chroniącym przed ReDoS",
+      "100% client-side, bez uploadu i telemetrii"
+    ],
+    "inLanguage": ["pl", "en"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Czy narzędzie wysyła mój tekst na serwer?", "acceptedAnswer": { "@type": "Answer", "text": "Nie. Cały tester wyrażeń regularnych działa w czystym JavaScript w Twojej przeglądarce — dopasowanie liczy się w Web Workerze na Twoim urządzeniu. Nic nie jest nigdzie wysyłane, nie ma backendu ani telemetrii, a ostatni wzorzec, flagi i tekst zapisują się tylko lokalnie w localStorage." } },
+      { "@type": "Question", "name": "Jaki silnik wyrażeń regularnych jest używany?", "acceptedAnswer": { "@type": "Answer", "text": "Natywny silnik JavaScript (RegExp) Twojej przeglądarki. To flavor ECMAScript, który różni się od PCRE: nie ma rekurencji ((?R)), atomic groups ani warunków ((?(1)...)), lookbehind ma stałą lub zmienną długość zależnie od silnika, a nazwane grupy zapisujemy jako (?<name>...) i (?<name>) w odwołaniach \\k<name>. Flaga d (hasIndices) dodaje pozycje grup." } },
+      { "@type": "Question", "name": "Jak narzędzie chroni przed zawieszeniem (ReDoS)?", "acceptedAnswer": { "@type": "Answer", "text": "Dopasowanie uruchamiamy w osobnym Web Workerze, a wątek główny pilnuje go watchdogiem. Gdy patologiczny wzorzec (np. (a+)+$ na długim wejściu) nie zwróci wyniku w budżecie czasu, robimy worker.terminate(), pokazujemy ostrzeżenie o możliwym ReDoS i przy kolejnym uruchomieniu tworzymy nowego workera. Karta pozostaje responsywna." } },
+      { "@type": "Question", "name": "Czy obsługiwane są grupy nazwane i pozycje dopasowań?", "acceptedAnswer": { "@type": "Answer", "text": "Tak. Lista dopasowań pokazuje pełne trafienie oraz pozycje start/koniec, a dla każdej grupy — numerowanej i nazwanej (?<name>...) — jej wartość. Gdy przeglądarka wspiera flagę d (hasIndices), pokazujemy też pozycje poszczególnych grup; bez niej działa fallback bez pozycji grup." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/" },
+      { "@type": "ListItem", "position": 2, "name": "Narzędzia", "item": "https://formattedai.pl/narzedzia/" },
+      { "@type": "ListItem", "position": 3, "name": "Regex Tester", "item": "https://formattedai.pl/regex-tester/" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Theme bootstrap (no flash) -->
+  <script>
+    (function() {
+      var t = null;
+      try { t = localStorage.getItem('formattedai-theme'); } catch (_) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#f8fafe' : '#08080c');
+    })();
+  </script>
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/css/regextester.css">
+</head>
+<body>
+
+  <div class="tool-shell">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/" class="fa-nav__brand" aria-label="FormattedAI - strona główna">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+      </a>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/narzedzia/" class="fa-nav__crumb-link">Narzędzia</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">Regex Tester</span>
+      </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/en/regex-tester/" class="fa-nav__lang" hreflang="en" title="English version">EN</a>
+        <button class="fa-nav__icon-btn" id="themeToggle" type="button" aria-label="Przełącz motyw">
+          <svg class="fa-theme__moon" id="iconMoon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="fa-theme__sun" id="iconSun" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <a href="/narzedzia/" class="fa-nav__cta">Wszystkie narzędzia →</a>
+      </div>
+    </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ NARZĘDZIE · Regex</span>
+          <h1 class="tool-head__title">Regex Tester</h1>
+          <p class="tool-head__sub">Testuj wyrażenia regularne z żywym podświetlaniem wszystkich dopasowań, grupami numerowanymi i nazwanymi, trybem zamiany oraz panelem wyjaśnień token po tokenie. Silnik JavaScript (RegExp) w Web Workerze z ochroną przed ReDoS — wszystko lokalnie w przeglądarce.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="rx-toolbar">
+      <div class="rx-pattern-row">
+        <div class="rx-pattern-wrap">
+          <span class="rx-pattern-wrap__delim" aria-hidden="true">/</span>
+          <input class="rx-pattern" id="rx-pattern" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="wpisz wzorzec, np. \b\w+@\w+\.\w+\b" aria-label="Wzorzec wyrażenia regularnego" aria-invalid="false">
+          <span class="rx-pattern-wrap__delim" aria-hidden="true">/</span>
+        </div>
+        <div class="rx-flags" role="group" aria-label="Flagi wyrażenia regularnego">
+          <button class="rx-flag" data-flag="g" data-tip="globalne — wszystkie dopasowania" type="button" aria-pressed="false" aria-label="Flaga g: globalne">g</button>
+          <button class="rx-flag" data-flag="i" data-tip="ignoruj wielkość liter" type="button" aria-pressed="false" aria-label="Flaga i: ignoruj wielkość liter">i</button>
+          <button class="rx-flag" data-flag="m" data-tip="wielolinijkowo — ^ i $ per linia" type="button" aria-pressed="false" aria-label="Flaga m: wielolinijkowo">m</button>
+          <button class="rx-flag" data-flag="s" data-tip="dotAll — . dopasowuje też nową linię" type="button" aria-pressed="false" aria-label="Flaga s: dotAll">s</button>
+          <button class="rx-flag" data-flag="u" data-tip="unicode — pełne wsparcie punktów kodowych" type="button" aria-pressed="false" aria-label="Flaga u: unicode">u</button>
+          <button class="rx-flag" data-flag="y" data-tip="sticky — dopasuj od lastIndex" type="button" aria-pressed="false" aria-label="Flaga y: sticky">y</button>
+          <button class="rx-flag" data-flag="d" data-tip="indeksy grup (hasIndices)" type="button" aria-pressed="false" aria-label="Flaga d: indeksy grup">d</button>
+        </div>
+        <div class="rx-tool-actions">
+          <button class="tool-act" id="rx-copy-pattern" type="button">Kopiuj regex</button>
+          <button class="tool-act" id="rx-copy-snippet" type="button">Snippet JS</button>
+          <button class="tool-act" id="rx-clear" type="button">Wyczyść</button>
+        </div>
+      </div>
+      <div class="rx-pattern-err" id="rx-pattern-err" role="alert" hidden></div>
+    </div>
+
+    <div class="rx-examples" aria-label="Biblioteka przykładów">
+      <span class="rx-examples__label">Przykłady</span>
+      <button class="rx-examples__btn" data-example="email" type="button">E-mail</button>
+      <button class="rx-examples__btn" data-example="url" type="button">URL</button>
+      <button class="rx-examples__btn" data-example="ipv4" type="button">IPv4</button>
+      <button class="rx-examples__btn" data-example="phone" type="button">Telefon PL</button>
+      <button class="rx-examples__btn" data-example="date" type="button">Data</button>
+      <button class="rx-examples__btn" data-example="hex" type="button">Kolor HEX</button>
+      <button class="rx-examples__btn" data-example="slug" type="button">Slug</button>
+    </div>
+
+    <div class="rx-notice" id="rx-notice" role="status" aria-live="polite" hidden></div>
+
+    <main>
+      <div class="rx-main">
+        <!-- LEFT: test text + highlight overlay -->
+        <div class="rx-col">
+          <div class="rx-pane__head">
+            <span class="rx-pane__label">Tekst testowy</span>
+            <span class="rx-count" id="rx-count" aria-live="polite">0 dopasowań</span>
+          </div>
+          <div class="rx-editor">
+            <pre class="rx-editor__hl" id="rx-highlight" aria-hidden="true"></pre>
+            <textarea class="rx-editor__input" id="rx-test-text" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Wklej tutaj tekst, w którym chcesz szukać dopasowań…" aria-label="Tekst testowy"></textarea>
+          </div>
+        </div>
+
+        <!-- RIGHT: match list + groups -->
+        <div class="rx-col">
+          <div class="rx-pane__head">
+            <span class="rx-pane__label">Dopasowania i grupy</span>
+            <button class="tool-act" id="rx-copy-json" type="button">Kopiuj JSON</button>
+          </div>
+          <div class="rx-match-list" id="rx-match-list" role="list" aria-label="Lista dopasowań"></div>
+        </div>
+      </div>
+
+      <div class="rx-row2">
+        <!-- Replace -->
+        <div class="rx-block">
+          <div class="rx-pane__head">
+            <span class="rx-pane__label">Zamiana</span>
+            <button class="rx-replace-toggle" id="rx-replace-toggle" type="button" aria-expanded="false" aria-controls="rx-replace-panel">Włącz tryb zamiany</button>
+          </div>
+          <div class="rx-block__body">
+            <div class="rx-replace-panel" id="rx-replace-panel" hidden>
+              <label class="rx-field">
+                <span>Wzorzec zamiany ($1, $&lt;name&gt;, $&amp;)</span>
+                <input class="rx-input" id="rx-replace" type="text" spellcheck="false" placeholder="np. [$1] albo $&lt;year&gt;" aria-label="Wzorzec zamiany">
+              </label>
+              <label class="rx-field">
+                <span>Podgląd wyniku</span>
+                <textarea class="rx-textarea" id="rx-replace-preview" spellcheck="false" readonly aria-label="Podgląd wyniku zamiany"></textarea>
+              </label>
+              <div class="rx-actions">
+                <button class="tool-act" id="rx-copy-replace" type="button">Kopiuj wynik</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explain -->
+        <div class="rx-block">
+          <div class="rx-pane__head">
+            <span class="rx-pane__label">Wyjaśnienie wzorca</span>
+          </div>
+          <div class="rx-block__body">
+            <div class="rx-explain" id="rx-explain" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rx-info">
+        <div class="rx-engine">
+          <h3>Silnik: JavaScript RegExp (flavor ECMAScript)</h3>
+          <p>Dopasowania liczy natywny silnik <code>RegExp</code> Twojej przeglądarki, uruchamiany w Web Workerze. To ten sam flavor, którego użyjesz w kodzie JS — ale różni się od PCRE (PHP, Perl, Python <code>re</code>):</p>
+          <ul>
+            <li>Brak rekurencji <code>(?R)</code>, atomic groups <code>(?&gt;…)</code> i warunków <code>(?(1)…)</code>.</li>
+            <li>Grupy nazwane zapisujemy jako <code>(?&lt;name&gt;…)</code>, a odwołania jako <code>\k&lt;name&gt;</code> (nie <code>(?P&lt;name&gt;)</code>).</li>
+            <li>Kotwice <code>\A \Z \z</code> nie istnieją — użyj <code>^ $</code> (z flagą <code>m</code> działają per linia).</li>
+            <li>Flaga <code>d</code> (hasIndices) dodaje pozycje grup; <code>u</code> włącza pełny tryb Unicode i <code>\u{…}</code>.</li>
+          </ul>
+        </div>
+
+        <details class="rx-cheat">
+          <summary>Ściąga składni</summary>
+          <div class="rx-cheat__grid">
+            <div class="rx-cheat__group">
+              <h3>Kotwice</h3>
+              <dl>
+                <div><dt>^</dt><dd>początek tekstu / linii (m)</dd></div>
+                <div><dt>$</dt><dd>koniec tekstu / linii (m)</dd></div>
+                <div><dt>\b</dt><dd>granica słowa</dd></div>
+                <div><dt>\B</dt><dd>brak granicy słowa</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Klasy znaków</h3>
+              <dl>
+                <div><dt>.</dt><dd>dowolny znak (bez \n)</dd></div>
+                <div><dt>\d \D</dt><dd>cyfra / nie-cyfra</dd></div>
+                <div><dt>\w \W</dt><dd>znak słowa / nie-słowa</dd></div>
+                <div><dt>\s \S</dt><dd>biały / nie-biały znak</dd></div>
+                <div><dt>[a-z]</dt><dd>zakres; [^…] negacja</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Kwantyfikatory</h3>
+              <dl>
+                <div><dt>*</dt><dd>0 lub więcej</dd></div>
+                <div><dt>+</dt><dd>1 lub więcej</dd></div>
+                <div><dt>?</dt><dd>0 lub 1 (opcjonalnie)</dd></div>
+                <div><dt>{n,m}</dt><dd>od n do m razy</dd></div>
+                <div><dt>*?</dt><dd>leniwie (jak najmniej)</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Grupy</h3>
+              <dl>
+                <div><dt>(…)</dt><dd>grupa przechwytująca</dd></div>
+                <div><dt>(?:…)</dt><dd>nieprzechwytująca</dd></div>
+                <div><dt>(?&lt;n&gt;…)</dt><dd>nazwana</dd></div>
+                <div><dt>\1 \k&lt;n&gt;</dt><dd>odwołanie wstecz</dd></div>
+                <div><dt>a|b</dt><dd>alternacja</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Lookaround</h3>
+              <dl>
+                <div><dt>(?=…)</dt><dd>lookahead dodatni</dd></div>
+                <div><dt>(?!…)</dt><dd>lookahead ujemny</dd></div>
+                <div><dt>(?&lt;=…)</dt><dd>lookbehind dodatni</dd></div>
+                <div><dt>(?&lt;!…)</dt><dd>lookbehind ujemny</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Flagi</h3>
+              <dl>
+                <div><dt>g</dt><dd>wszystkie dopasowania</dd></div>
+                <div><dt>i</dt><dd>ignoruj wielkość liter</dd></div>
+                <div><dt>m</dt><dd>^ $ per linia</dd></div>
+                <div><dt>s</dt><dd>. łapie nową linię</dd></div>
+                <div><dt>u y d</dt><dd>unicode / sticky / indeksy</dd></div>
+              </dl>
+            </div>
+          </div>
+        </details>
+      </div>
+    </main>
+
+    <section class="related-tools" aria-labelledby="relatedTitle">
+      <div class="related-tools__inner">
+        <div class="related-tools__label">/ POWIĄZANE NARZĘDZIA</div>
+        <h2 class="related-tools__title" id="relatedTitle">Inne narzędzia FormattedAI</h2>
+        <div class="related-tools__grid">
+          <a href="/js-minifier/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ JS ]</div>
+            <div class="related-tools__card-name">JS Minifier</div>
+            <p class="related-tools__card-desc">Minifikuj i formatuj JavaScript lokalnie, bez uploadu — jak Twoje regexy.</p>
+          </a>
+          <a href="/json-formatter/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ JSON ]</div>
+            <div class="related-tools__card-name">JSON Formatter</div>
+            <p class="related-tools__card-desc">Formatuj i waliduj JSON — np. wyeksportowane dopasowania regex.</p>
+          </a>
+          <a href="/formatter/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ MD ]</div>
+            <div class="related-tools__card-name">Markdown Formatter</div>
+            <p class="related-tools__card-desc">Konwertuj i formatuj Markdown w przeglądarce, bez wysyłania danych.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-faq" aria-labelledby="faqTitle">
+      <div class="tool-faq__label">/ FAQ</div>
+      <h2 class="tool-faq__title" id="faqTitle">Często zadawane pytania</h2>
+      <details>
+        <summary>Czy narzędzie wysyła mój tekst na serwer?</summary>
+        <p>Nie. Cały tester wyrażeń regularnych działa w czystym JavaScript w Twojej przeglądarce — dopasowanie liczy się w Web Workerze na Twoim urządzeniu. Nic nie jest nigdzie wysyłane, nie ma backendu ani telemetrii, a ostatni wzorzec, flagi i tekst zapisują się tylko lokalnie w localStorage.</p>
+      </details>
+      <details>
+        <summary>Jaki silnik wyrażeń regularnych jest używany?</summary>
+        <p>Natywny silnik JavaScript (RegExp) Twojej przeglądarki. To flavor ECMAScript, który różni się od PCRE: nie ma rekurencji (<code>(?R)</code>), atomic groups ani warunków (<code>(?(1)…)</code>), a nazwane grupy zapisujemy jako <code>(?&lt;name&gt;…)</code> z odwołaniami <code>\k&lt;name&gt;</code>. Flaga <code>d</code> (hasIndices) dodaje pozycje grup.</p>
+      </details>
+      <details>
+        <summary>Jak narzędzie chroni przed zawieszeniem (ReDoS)?</summary>
+        <p>Dopasowanie uruchamiamy w osobnym Web Workerze, a wątek główny pilnuje go watchdogiem. Gdy patologiczny wzorzec (np. <code>(a+)+$</code> na długim wejściu) nie zwróci wyniku w budżecie czasu, robimy <code>worker.terminate()</code>, pokazujemy ostrzeżenie o możliwym ReDoS i przy kolejnym uruchomieniu tworzymy nowego workera. Karta pozostaje responsywna.</p>
+      </details>
+      <details>
+        <summary>Czy obsługiwane są grupy nazwane i pozycje dopasowań?</summary>
+        <p>Tak. Lista dopasowań pokazuje pełne trafienie oraz pozycje start/koniec, a dla każdej grupy — numerowanej i nazwanej <code>(?&lt;name&gt;…)</code> — jej wartość. Gdy przeglądarka wspiera flagę <code>d</code> (hasIndices), pokazujemy też pozycje poszczególnych grup; bez niej działa fallback bez pozycji grup.</p>
+      </details>
+    </section>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · zero uploadów · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Narzędzia</span>
+          <a href="/narzedzia/" class="fa-footer__link">Wszystkie</a>
+          <a href="/js-minifier/" class="fa-footer__link">JS Minifier</a>
+          <a href="/json-formatter/" class="fa-footer__link">JSON Formatter</a>
+          <a href="/formatter/" class="fa-footer__link">Markdown Formatter</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Treść</span>
+          <a href="/articles/" class="fa-footer__link">Artykuły</a>
+          <a href="/about/" class="fa-footer__link">O nas</a>
+          <a href="/privacy/" class="fa-footer__link">Prywatność</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Kontakt</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+          <a href="https://formattedai.pl/en/regex-tester/" class="fa-footer__link" hreflang="en">English</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>Regex Tester · 100% client-side</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="rx-toast" id="rx-toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function() {
+    'use strict';
+    var tt = document.getElementById('themeToggle');
+    if (tt) tt.addEventListener('click', function() {
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', next === 'light' ? '#f8fafe' : '#08080c');
+    });
+    var burger = document.getElementById('navBurger');
+    var navEl = document.getElementById('faNav');
+    if (burger && navEl) {
+      burger.addEventListener('click', function() {
+        var open = navEl.classList.toggle('is-menu-open');
+        burger.classList.toggle('is-open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      navEl.querySelectorAll('.fa-nav__lang').forEach(function(a) {
+        a.addEventListener('click', function() {
+          navEl.classList.remove('is-menu-open');
+          burger.classList.remove('is-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  })();
+  </script>
+
+  <script src="../assets/js/regextester.min.js"></script>
+</body>
+</html>
