@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Regex Tester — test regular expressions online, highlighting, groups, replace | FormattedAI</title>
+  <meta name="description" content="Free online regular expression tester: live highlighting of all matches, numbered and named capture groups with positions, replace mode ($1, $<name>, $&), token-by-token explanation panel, syntax cheat sheet and examples. JS (RegExp) flavor with ReDoS protection. 100% in your browser.">
+  <meta name="keywords" content="regex tester, regular expression tester, regexp online, match highlighting, capture groups, named groups, regex replace, regex explain, ReDoS, JavaScript regex, client-side">
+  <meta name="author" content="Adam Szczotka">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://formattedai.pl/en/regex-tester/">
+  <link rel="alternate" hreflang="pl" href="https://formattedai.pl/regex-tester/">
+  <link rel="alternate" hreflang="en" href="https://formattedai.pl/en/regex-tester/">
+  <link rel="alternate" hreflang="x-default" href="https://formattedai.pl/regex-tester/">
+  <meta http-equiv="content-language" content="en, pl">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Regex Tester — highlighting, groups, replace, explanations | FormattedAI">
+  <meta property="og:description" content="Test regular expressions: live match highlighting, named groups with positions, replace mode and token-by-token explanations. JS flavor, ReDoS protection. 100% client-side.">
+  <meta property="og:url" content="https://formattedai.pl/en/regex-tester/">
+  <meta property="og:image" content="https://formattedai.pl/assets/screenshots/screen_web.png">
+  <meta property="og:site_name" content="FormattedAI">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="pl_PL">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Regex Tester | FormattedAI">
+  <meta name="twitter:description" content="Regular expression tester with highlighting, groups, replace and explanations. 100% in your browser.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "WebApplication",
+    "name": "FormattedAI Regex Tester",
+    "headline": "Regex Tester — highlighting, groups, replace, explanations",
+    "description": "Free regular expression tester: live highlighting of all matches (including zero-length), numbered and named capture groups with positions, replace mode with $1/$<name>/$&, a token-by-token explanation panel, a syntax cheat sheet and an examples library. JavaScript (RegExp) engine run in a Web Worker with ReDoS protection. Everything runs in the browser.",
+    "url": "https://formattedai.pl/en/regex-tester/",
+    "applicationCategory": "DeveloperApplication", "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Adam Szczotka", "url": "https://github.com/AdamSzczotka" },
+    "featureList": [
+      "Live highlighting of all matches in the text, including zero-length matches",
+      "Flag chips g i m s u y d with a description for each",
+      "Numbered and named (?<name>) capture groups with start/end positions",
+      "Replace mode supporting $1, $<name> and $& with a live result preview",
+      "Explanation panel: a custom pattern tokenizer, token by token",
+      "Syntax cheat sheet and a library of ready examples (email, URL, IPv4, phone, date, HEX, slug)",
+      "Export: JS snippet and matches as JSON",
+      "JS engine in a Web Worker with a watchdog protecting against ReDoS",
+      "100% client-side, no upload and no telemetry"
+    ],
+    "inLanguage": ["en", "pl"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Does this tool send my text to a server?", "acceptedAnswer": { "@type": "Answer", "text": "No. The entire regular expression tester runs in pure JavaScript in your browser — matching is computed in a Web Worker on your device. Nothing is sent anywhere, there is no backend and no telemetry, and your last pattern, flags and text are saved only locally in localStorage." } },
+      { "@type": "Question", "name": "Which regular expression engine is used?", "acceptedAnswer": { "@type": "Answer", "text": "Your browser's native JavaScript (RegExp) engine. It is the ECMAScript flavor, which differs from PCRE: there is no recursion ((?R)), no atomic groups and no conditionals ((?(1)...)), lookbehind support varies by engine, and named groups are written as (?<name>...) with \\k<name> backreferences. The d flag (hasIndices) adds group positions." } },
+      { "@type": "Question", "name": "How does the tool protect against hangs (ReDoS)?", "acceptedAnswer": { "@type": "Answer", "text": "Matching runs in a separate Web Worker, and the main thread guards it with a watchdog. When a pathological pattern (e.g. (a+)+$ on a long input) does not return within the time budget, we call worker.terminate(), show a possible-ReDoS warning and spin up a fresh worker on the next run. The tab stays responsive." } },
+      { "@type": "Question", "name": "Are named groups and match positions supported?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The match list shows the full match and start/end positions, and for every group — numbered and named (?<name>...) — its value. When the browser supports the d flag (hasIndices) we also show the positions of individual groups; without it a fallback works without group positions." } }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "FormattedAI", "item": "https://formattedai.pl/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://formattedai.pl/en/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "Regex Tester", "item": "https://formattedai.pl/en/regex-tester/" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/favicon.svg">
+  <meta name="theme-color" content="#08080c">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Theme bootstrap (no flash) -->
+  <script>
+    (function() {
+      var t = null;
+      try { t = localStorage.getItem('formattedai-theme'); } catch (_) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#f8fafe' : '#08080c');
+    })();
+  </script>
+  <link rel="stylesheet" href="../../assets/css/fonts.css">
+  <link rel="stylesheet" href="../../assets/css/regextester.css">
+</head>
+<body>
+
+  <div class="tool-shell">
+
+    <header class="fa-nav" id="faNav" role="banner">
+      <a href="/en/" class="fa-nav__brand" aria-label="FormattedAI - home">
+        <svg class="fa-nav__logo" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="faLogoGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#a78bfa"/>
+              <stop offset="1" stop-color="#5b4bd4"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+          <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+          <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+          <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+        </svg>
+        <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+      </a>
+
+      <nav class="fa-nav__crumbs" aria-label="breadcrumb">
+        <a href="/en/tools/" class="fa-nav__crumb-link">Tools</a>
+        <span class="fa-nav__crumb-sep" aria-hidden="true">/</span>
+        <span class="fa-nav__crumb-cur">Regex Tester</span>
+      </nav>
+      <button class="fa-nav__burger" id="navBurger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+
+      <div class="fa-nav__right">
+        <a href="https://formattedai.pl/regex-tester/" class="fa-nav__lang" hreflang="pl" title="Wersja polska">PL</a>
+        <button class="fa-nav__icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <svg class="fa-theme__moon" id="iconMoon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 8.5A6 6 0 117.5 2a4.5 4.5 0 006.5 6.5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="fa-theme__sun" id="iconSun" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <a href="/en/tools/" class="fa-nav__cta">All tools →</a>
+      </div>
+    </header>
+
+    <section class="tool-head">
+      <div class="tool-head__inner">
+        <div>
+          <span class="tool-head__eyebrow">/ TOOL · Regex</span>
+          <h1 class="tool-head__title">Regex Tester</h1>
+          <p class="tool-head__sub">Test regular expressions with live highlighting of all matches, numbered and named groups, a replace mode and a token-by-token explanation panel. JavaScript (RegExp) engine in a Web Worker with ReDoS protection — all locally in your browser.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="rx-toolbar">
+      <div class="rx-pattern-row">
+        <div class="rx-pattern-wrap">
+          <span class="rx-pattern-wrap__delim" aria-hidden="true">/</span>
+          <input class="rx-pattern" id="rx-pattern" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="type a pattern, e.g. \b\w+@\w+\.\w+\b" aria-label="Regular expression pattern" aria-invalid="false">
+          <span class="rx-pattern-wrap__delim" aria-hidden="true">/</span>
+        </div>
+        <div class="rx-flags" role="group" aria-label="Regular expression flags">
+          <button class="rx-flag" data-flag="g" data-tip="global — all matches" type="button" aria-pressed="false" aria-label="Flag g: global">g</button>
+          <button class="rx-flag" data-flag="i" data-tip="ignore case" type="button" aria-pressed="false" aria-label="Flag i: ignore case">i</button>
+          <button class="rx-flag" data-flag="m" data-tip="multiline — ^ and $ per line" type="button" aria-pressed="false" aria-label="Flag m: multiline">m</button>
+          <button class="rx-flag" data-flag="s" data-tip="dotAll — . matches newline too" type="button" aria-pressed="false" aria-label="Flag s: dotAll">s</button>
+          <button class="rx-flag" data-flag="u" data-tip="unicode — full code point support" type="button" aria-pressed="false" aria-label="Flag u: unicode">u</button>
+          <button class="rx-flag" data-flag="y" data-tip="sticky — match from lastIndex" type="button" aria-pressed="false" aria-label="Flag y: sticky">y</button>
+          <button class="rx-flag" data-flag="d" data-tip="group indices (hasIndices)" type="button" aria-pressed="false" aria-label="Flag d: group indices">d</button>
+        </div>
+        <div class="rx-tool-actions">
+          <button class="tool-act" id="rx-copy-pattern" type="button">Copy regex</button>
+          <button class="tool-act" id="rx-copy-snippet" type="button">JS snippet</button>
+          <button class="tool-act" id="rx-clear" type="button">Clear</button>
+        </div>
+      </div>
+      <div class="rx-pattern-err" id="rx-pattern-err" role="alert" hidden></div>
+    </div>
+
+    <div class="rx-examples" aria-label="Examples library">
+      <span class="rx-examples__label">Examples</span>
+      <button class="rx-examples__btn" data-example="email" type="button">Email</button>
+      <button class="rx-examples__btn" data-example="url" type="button">URL</button>
+      <button class="rx-examples__btn" data-example="ipv4" type="button">IPv4</button>
+      <button class="rx-examples__btn" data-example="phone" type="button">Phone PL</button>
+      <button class="rx-examples__btn" data-example="date" type="button">Date</button>
+      <button class="rx-examples__btn" data-example="hex" type="button">HEX color</button>
+      <button class="rx-examples__btn" data-example="slug" type="button">Slug</button>
+    </div>
+
+    <div class="rx-notice" id="rx-notice" role="status" aria-live="polite" hidden></div>
+
+    <main>
+      <div class="rx-main">
+        <!-- LEFT: test text + highlight overlay -->
+        <div class="rx-col">
+          <div class="rx-pane__head">
+            <span class="rx-pane__label">Test text</span>
+            <span class="rx-count" id="rx-count" aria-live="polite">0 matches</span>
+          </div>
+          <div class="rx-editor">
+            <pre class="rx-editor__hl" id="rx-highlight" aria-hidden="true"></pre>
+            <textarea class="rx-editor__input" id="rx-test-text" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Paste the text you want to search for matches…" aria-label="Test text"></textarea>
+          </div>
+        </div>
+
+        <!-- RIGHT: match list + groups -->
+        <div class="rx-col">
+          <div class="rx-pane__head">
+            <span class="rx-pane__label">Matches and groups</span>
+            <button class="tool-act" id="rx-copy-json" type="button">Copy JSON</button>
+          </div>
+          <div class="rx-match-list" id="rx-match-list" role="list" aria-label="Match list"></div>
+        </div>
+      </div>
+
+      <div class="rx-row2">
+        <!-- Replace -->
+        <div class="rx-block">
+          <div class="rx-pane__head">
+            <span class="rx-pane__label">Replace</span>
+            <button class="rx-replace-toggle" id="rx-replace-toggle" type="button" aria-expanded="false" aria-controls="rx-replace-panel">Enable replace mode</button>
+          </div>
+          <div class="rx-block__body">
+            <div class="rx-replace-panel" id="rx-replace-panel" hidden>
+              <label class="rx-field">
+                <span>Replacement ($1, $&lt;name&gt;, $&amp;)</span>
+                <input class="rx-input" id="rx-replace" type="text" spellcheck="false" placeholder="e.g. [$1] or $&lt;year&gt;" aria-label="Replacement string">
+              </label>
+              <label class="rx-field">
+                <span>Result preview</span>
+                <textarea class="rx-textarea" id="rx-replace-preview" spellcheck="false" readonly aria-label="Replacement result preview"></textarea>
+              </label>
+              <div class="rx-actions">
+                <button class="tool-act" id="rx-copy-replace" type="button">Copy result</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explain -->
+        <div class="rx-block">
+          <div class="rx-pane__head">
+            <span class="rx-pane__label">Pattern explanation</span>
+          </div>
+          <div class="rx-block__body">
+            <div class="rx-explain" id="rx-explain" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rx-info">
+        <div class="rx-engine">
+          <h3>Engine: JavaScript RegExp (ECMAScript flavor)</h3>
+          <p>Matches are computed by your browser's native <code>RegExp</code> engine, run in a Web Worker. It is the same flavor you use in JS code — but it differs from PCRE (PHP, Perl, Python <code>re</code>):</p>
+          <ul>
+            <li>No recursion <code>(?R)</code>, atomic groups <code>(?&gt;…)</code> or conditionals <code>(?(1)…)</code>.</li>
+            <li>Named groups are written as <code>(?&lt;name&gt;…)</code> and backreferences as <code>\k&lt;name&gt;</code> (not <code>(?P&lt;name&gt;)</code>).</li>
+            <li>Anchors <code>\A \Z \z</code> do not exist — use <code>^ $</code> (per line with the <code>m</code> flag).</li>
+            <li>The <code>d</code> flag (hasIndices) adds group positions; <code>u</code> enables full Unicode mode and <code>\u{…}</code>.</li>
+          </ul>
+        </div>
+
+        <details class="rx-cheat">
+          <summary>Syntax cheat sheet</summary>
+          <div class="rx-cheat__grid">
+            <div class="rx-cheat__group">
+              <h3>Anchors</h3>
+              <dl>
+                <div><dt>^</dt><dd>start of input / line (m)</dd></div>
+                <div><dt>$</dt><dd>end of input / line (m)</dd></div>
+                <div><dt>\b</dt><dd>word boundary</dd></div>
+                <div><dt>\B</dt><dd>non-word-boundary</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Character classes</h3>
+              <dl>
+                <div><dt>.</dt><dd>any character (no \n)</dd></div>
+                <div><dt>\d \D</dt><dd>digit / non-digit</dd></div>
+                <div><dt>\w \W</dt><dd>word / non-word char</dd></div>
+                <div><dt>\s \S</dt><dd>whitespace / non-ws</dd></div>
+                <div><dt>[a-z]</dt><dd>range; [^…] negation</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Quantifiers</h3>
+              <dl>
+                <div><dt>*</dt><dd>0 or more</dd></div>
+                <div><dt>+</dt><dd>1 or more</dd></div>
+                <div><dt>?</dt><dd>0 or 1 (optional)</dd></div>
+                <div><dt>{n,m}</dt><dd>from n to m times</dd></div>
+                <div><dt>*?</dt><dd>lazy (as few as possible)</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Groups</h3>
+              <dl>
+                <div><dt>(…)</dt><dd>capturing group</dd></div>
+                <div><dt>(?:…)</dt><dd>non-capturing</dd></div>
+                <div><dt>(?&lt;n&gt;…)</dt><dd>named</dd></div>
+                <div><dt>\1 \k&lt;n&gt;</dt><dd>backreference</dd></div>
+                <div><dt>a|b</dt><dd>alternation</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Lookaround</h3>
+              <dl>
+                <div><dt>(?=…)</dt><dd>positive lookahead</dd></div>
+                <div><dt>(?!…)</dt><dd>negative lookahead</dd></div>
+                <div><dt>(?&lt;=…)</dt><dd>positive lookbehind</dd></div>
+                <div><dt>(?&lt;!…)</dt><dd>negative lookbehind</dd></div>
+              </dl>
+            </div>
+            <div class="rx-cheat__group">
+              <h3>Flags</h3>
+              <dl>
+                <div><dt>g</dt><dd>all matches</dd></div>
+                <div><dt>i</dt><dd>ignore case</dd></div>
+                <div><dt>m</dt><dd>^ $ per line</dd></div>
+                <div><dt>s</dt><dd>. matches newline</dd></div>
+                <div><dt>u y d</dt><dd>unicode / sticky / indices</dd></div>
+              </dl>
+            </div>
+          </div>
+        </details>
+      </div>
+    </main>
+
+    <section class="related-tools" aria-labelledby="relatedTitle">
+      <div class="related-tools__inner">
+        <div class="related-tools__label">/ RELATED TOOLS</div>
+        <h2 class="related-tools__title" id="relatedTitle">Other FormattedAI tools</h2>
+        <div class="related-tools__grid">
+          <a href="/en/js-minifier/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ JS ]</div>
+            <div class="related-tools__card-name">JS Minifier</div>
+            <p class="related-tools__card-desc">Minify and format JavaScript locally, no upload — just like your regexes.</p>
+          </a>
+          <a href="/en/json-formatter/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ JSON ]</div>
+            <div class="related-tools__card-name">JSON Formatter</div>
+            <p class="related-tools__card-desc">Format and validate JSON — e.g. your exported regex matches.</p>
+          </a>
+          <a href="/en/formatter/" class="related-tools__card">
+            <div class="related-tools__card-icon">[ MD ]</div>
+            <div class="related-tools__card-name">Markdown Formatter</div>
+            <p class="related-tools__card-desc">Convert and format Markdown in the browser, no data leaves your device.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-faq" aria-labelledby="faqTitle">
+      <div class="tool-faq__label">/ FAQ</div>
+      <h2 class="tool-faq__title" id="faqTitle">Frequently asked questions</h2>
+      <details>
+        <summary>Does this tool send my text to a server?</summary>
+        <p>No. The entire regular expression tester runs in pure JavaScript in your browser — matching is computed in a Web Worker on your device. Nothing is sent anywhere, there is no backend and no telemetry, and your last pattern, flags and text are saved only locally in localStorage.</p>
+      </details>
+      <details>
+        <summary>Which regular expression engine is used?</summary>
+        <p>Your browser's native JavaScript (RegExp) engine. It is the ECMAScript flavor, which differs from PCRE: there is no recursion (<code>(?R)</code>), no atomic groups and no conditionals (<code>(?(1)…)</code>), and named groups are written as <code>(?&lt;name&gt;…)</code> with <code>\k&lt;name&gt;</code> backreferences. The <code>d</code> flag (hasIndices) adds group positions.</p>
+      </details>
+      <details>
+        <summary>How does the tool protect against hangs (ReDoS)?</summary>
+        <p>Matching runs in a separate Web Worker, and the main thread guards it with a watchdog. When a pathological pattern (e.g. <code>(a+)+$</code> on a long input) does not return within the time budget, we call <code>worker.terminate()</code>, show a possible-ReDoS warning and spin up a fresh worker on the next run. The tab stays responsive.</p>
+      </details>
+      <details>
+        <summary>Are named groups and match positions supported?</summary>
+        <p>Yes. The match list shows the full match and start/end positions, and for every group — numbered and named <code>(?&lt;name&gt;…)</code> — its value. When the browser supports the <code>d</code> flag (hasIndices) we also show the positions of individual groups; without it a fallback works without group positions.</p>
+      </details>
+    </section>
+
+    <footer class="fa-footer" role="contentinfo">
+      <div class="fa-footer__cols">
+        <div>
+          <a href="/en/" class="fa-footer__brand">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#faLogoGrad)" stroke-width="1.6" fill="rgba(124,108,240,.06)"/>
+              <rect x="9"  y="8"  width="14" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="14" width="10" height="2.4" rx="1.2" fill="url(#faLogoGrad)"/>
+              <rect x="9"  y="20" width="6"  height="2.4" rx="1.2" fill="#a78bfa"/>
+              <circle cx="22.5" cy="21.2" r="1.8" fill="#a78bfa"/>
+            </svg>
+            <span class="fa-wordmark">formatted<span class="fa-wordmark__ai">ai</span></span>
+          </a>
+          <p class="fa-footer__byline">100% client-side · no uploads · MIT</p>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Tools</span>
+          <a href="/en/tools/" class="fa-footer__link">All</a>
+          <a href="/en/js-minifier/" class="fa-footer__link">JS Minifier</a>
+          <a href="/en/json-formatter/" class="fa-footer__link">JSON Formatter</a>
+          <a href="/en/formatter/" class="fa-footer__link">Markdown Formatter</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Content</span>
+          <a href="/en/articles/" class="fa-footer__link">Articles</a>
+          <a href="/en/about/" class="fa-footer__link">About</a>
+          <a href="/en/privacy/" class="fa-footer__link">Privacy</a>
+        </div>
+        <div>
+          <span class="fa-footer__col-label">Contact</span>
+          <a href="https://github.com/AdamSzczotka/formattedai" target="_blank" rel="noopener" class="fa-footer__link">GitHub ↗</a>
+          <a href="mailto:adam.szczotka0@gmail.com" class="fa-footer__link">Email</a>
+          <a href="https://formattedai.pl/regex-tester/" class="fa-footer__link" hreflang="pl">Polski</a>
+        </div>
+      </div>
+      <div class="fa-footer__bottom">
+        <span>© 2026 Adam Szczotka · <a href="https://adamszczotka.dev" target="_blank" rel="noopener">adamszczotka.dev</a></span>
+        <span>Regex Tester · 100% client-side</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="rx-toast" id="rx-toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function() {
+    'use strict';
+    var tt = document.getElementById('themeToggle');
+    if (tt) tt.addEventListener('click', function() {
+      var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('formattedai-theme', next); } catch (_) {}
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', next === 'light' ? '#f8fafe' : '#08080c');
+    });
+    var burger = document.getElementById('navBurger');
+    var navEl = document.getElementById('faNav');
+    if (burger && navEl) {
+      burger.addEventListener('click', function() {
+        var open = navEl.classList.toggle('is-menu-open');
+        burger.classList.toggle('is-open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      navEl.querySelectorAll('.fa-nav__lang').forEach(function(a) {
+        a.addEventListener('click', function() {
+          navEl.classList.remove('is-menu-open');
+          burger.classList.remove('is-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  })();
+  </script>
+
+  <script src="../../assets/js/regextester.min.js"></script>
+</body>
+</html>
